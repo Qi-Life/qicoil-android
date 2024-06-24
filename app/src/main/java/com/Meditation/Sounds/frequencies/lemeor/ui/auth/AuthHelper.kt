@@ -3,7 +3,8 @@ package com.Meditation.Sounds.frequencies.lemeor.ui.auth
 import android.content.Context
 import com.Meditation.Sounds.frequencies.lemeor.data.database.DataBase
 import com.Meditation.Sounds.frequencies.lemeor.data.model.User
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 fun updateUnlocked(context: Context, user: User, isUnlocked: Boolean) {
@@ -13,25 +14,29 @@ fun updateUnlocked(context: Context, user: User, isUnlocked: Boolean) {
 
     val db = DataBase.getInstance(context)
 
-    GlobalScope.launch {
+    CoroutineScope(Dispatchers.IO).launch {
         tiers.forEach { tier->
             if (tier >= 3) { db.tierDao().updateShowStatus(isUnlocked, tier) }
 
             db.albumDao().setNewUnlockedByTierId(isUnlocked, tier)
         }
 
-        categories.forEach { category-> db.albumDao().setNewUnlockedByCategoryId(isUnlocked, category) }
+        categories.forEach {
+                category-> db.albumDao().setNewUnlockedByCategoryId(isUnlocked, category)
+        }
 
-        albums.forEach { album-> db.albumDao().setNewUnlockedById(isUnlocked, album) }
+        albums.forEach { album->
+            db.albumDao().syncAlbums(isUnlocked = isUnlocked, id = album)
+        }
     }
 }
 
 fun updateTier(context: Context, user: User) {
-    GlobalScope.launch {
+    CoroutineScope(Dispatchers.IO).launch {
         val db = DataBase.getInstance(context)
         val tierDao = db.tierDao()
 
-        tierDao.getData()?.forEach { tier ->
+        tierDao.getData().forEach { tier ->
             if (tier.id >= 3) {
 
                 var isExist = false

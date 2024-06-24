@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.database.ContentObserver
 import android.media.AudioManager
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -209,7 +210,7 @@ class PlaylistDetailFragment : BaseFragment(), Observer<Playlist?> , MusicServic
             Log.e("LOG", "RESULT => $result")
         }
 
-        mAdapter = PlaylistDetailAdapter(context!!, ArrayList(), mPlaylistObject?.fromUsers == 1, object : PlaylistDetailAdapter.IOnItemClickListener {
+        mAdapter = PlaylistDetailAdapter(requireContext(), ArrayList(), mPlaylistObject?.fromUsers == 1, object : PlaylistDetailAdapter.IOnItemClickListener {
             override fun onMoveFavorite(playlistItem: PlaylistItem, song: PlaylistItemSongAndSong) {
             }
 
@@ -414,7 +415,7 @@ class PlaylistDetailFragment : BaseFragment(), Observer<Playlist?> , MusicServic
     private fun updatePlaylist() {
         val listPlaylist = mViewModel.getPlaylistItems(mPlaylistObject!!.id).blockingGet()
 
-        val albumDao = QFDatabase.getDatabase(context!!).albumDAO()
+        val albumDao = QFDatabase.getDatabase(requireContext()).albumDAO()
         val albums = albumDao.getAll() as ArrayList<Album>
         listAlbums.clear()
 //        var playlist = Playlist()
@@ -516,7 +517,7 @@ class PlaylistDetailFragment : BaseFragment(), Observer<Playlist?> , MusicServic
     }
 
     private fun getAndShowPlayList() {
-        val albumDao = QFDatabase.getDatabase(context!!).albumDAO()
+        val albumDao = QFDatabase.getDatabase(requireContext()).albumDAO()
         val albums = albumDao.getAll() as ArrayList<Album>
         if (isSongFavorite) {
             getAndShowSongFavorite()
@@ -561,7 +562,7 @@ class PlaylistDetailFragment : BaseFragment(), Observer<Playlist?> , MusicServic
     }
 
     fun getAndShowSongFavorite(){
-        val albumDao = QFDatabase.getDatabase(context!!).albumDAO()
+        val albumDao = QFDatabase.getDatabase(requireContext()).albumDAO()
         val albums = albumDao.getAll() as ArrayList<Album>
         var totalTime = 0L
 
@@ -620,11 +621,45 @@ class PlaylistDetailFragment : BaseFragment(), Observer<Playlist?> , MusicServic
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         mAudioManager = mContext!!.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        mContext?.registerReceiver(broadCastReceiverAddSong, IntentFilter(Constants.BROADCAST_ADD_SONG))
-        mContext!!.registerReceiver(broadCastReceiverPlaylist, IntentFilter(Constants.BROADCAST_PLAY_PLAYLIST))
-        mContext!!.contentResolver.registerContentObserver(android.provider.Settings.System.CONTENT_URI, true, mSettingsContentObserver)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            mContext?.registerReceiver(
+                broadCastReceiverAddSong,
+                IntentFilter(Constants.BROADCAST_ADD_SONG),
+                Context.RECEIVER_EXPORTED
+            )
+            mContext!!.registerReceiver(
+                broadCastReceiverPlaylist,
+                IntentFilter(Constants.BROADCAST_PLAY_PLAYLIST),
+                Context.RECEIVER_EXPORTED
+            )
+        } else {
+            mContext?.registerReceiver(
+                broadCastReceiverAddSong,
+                IntentFilter(Constants.BROADCAST_ADD_SONG)
+            )
+            mContext!!.registerReceiver(
+                broadCastReceiverPlaylist,
+                IntentFilter(Constants.BROADCAST_PLAY_PLAYLIST)
+            )
+        }
+        mContext!!.contentResolver.registerContentObserver(
+            android.provider.Settings.System.CONTENT_URI,
+            true,
+            mSettingsContentObserver
+        )
 
-        mContext!!.registerReceiver(broadCastBackAlbumFromPhone, IntentFilter(Constants.BROADCAST_BACK_ALBUM_FROM_PHONE))
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            mContext!!.registerReceiver(
+                broadCastBackAlbumFromPhone,
+                IntentFilter(Constants.BROADCAST_BACK_ALBUM_FROM_PHONE),
+                Context.RECEIVER_EXPORTED
+            )
+        } else {
+            mContext!!.registerReceiver(
+                broadCastBackAlbumFromPhone,
+                IntentFilter(Constants.BROADCAST_BACK_ALBUM_FROM_PHONE)
+            )
+        }
     }
 
     override fun onDestroyView() {
@@ -659,11 +694,11 @@ class PlaylistDetailFragment : BaseFragment(), Observer<Playlist?> , MusicServic
         }
         btnSave.setOnClickListener {
             if (btnSave.text.toString() == getString(R.string.txt_add)) {
-                for (i in parentFragment!!.childFragmentManager.backStackEntryCount - 1 downTo 0 step 1) {
-                    if (parentFragment!!.childFragmentManager.getBackStackEntryAt(i).name == PlaylistDetailFragment::class.java.name) {
+                for (i in requireParentFragment().childFragmentManager.backStackEntryCount - 1 downTo 0 step 1) {
+                    if (requireParentFragment().childFragmentManager.getBackStackEntryAt(i).name == PlaylistDetailFragment::class.java.name) {
                         break
                     } else {
-                        parentFragment!!.childFragmentManager.popBackStackImmediate()
+                        requireParentFragment().childFragmentManager.popBackStackImmediate()
                     }
                 }
                 val parent = parentFragment as BaseFragment
@@ -763,13 +798,13 @@ class PlaylistDetailFragment : BaseFragment(), Observer<Playlist?> , MusicServic
         btnSave.text = getString(R.string.txt_add)
         if (!autoSave) {
             Toast.makeText(mContext, "Saved!", Toast.LENGTH_SHORT).show()
-            if (parentFragment!!::class != AlbumDetailGroupFragment::class) {
-                if (parentFragment!!.childFragmentManager.backStackEntryCount > 0) {
-                    for (i in parentFragment!!.childFragmentManager.backStackEntryCount - 1 downTo 0 step 1) {
-                        if (parentFragment!!.childFragmentManager.getBackStackEntryAt(i).name == PlaylistDetailFragment::class.java.name) {
+            if (requireParentFragment()::class != AlbumDetailGroupFragment::class) {
+                if (requireParentFragment().childFragmentManager.backStackEntryCount > 0) {
+                    for (i in requireParentFragment().childFragmentManager.backStackEntryCount - 1 downTo 0 step 1) {
+                        if (requireParentFragment().childFragmentManager.getBackStackEntryAt(i).name == PlaylistDetailFragment::class.java.name) {
                             break
                         } else {
-                            parentFragment!!.childFragmentManager.popBackStackImmediate()
+                            requireParentFragment().childFragmentManager.popBackStackImmediate()
                         }
                     }
                 }

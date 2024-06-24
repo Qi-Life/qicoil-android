@@ -1,10 +1,12 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowNoTitle">true</item>
-        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:statusBarColor" >@color/color_main_activity_navigation</item>
     </style>
 
     <style name="MySeekBarTheme" parent="Widget.AppCompat.SeekBar">
@@ -43,4 +45,15 @@
         <item name="android:backgroundDimEnabled">false</item>
     </style>
 
+    <style name="menu_labels_style">
+        <item name="android:background">@drawable/fab_label_background</item>
+        <item name="android:textColor">@color/color_text_fab</item>
+    </style>
+    <style name="AppBottomSheetDialogTheme"
+        parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+    <style name="AppModalStyle"
+        parent="Widget.Design.BottomSheet.Modal">
+    </style>
 </resources>

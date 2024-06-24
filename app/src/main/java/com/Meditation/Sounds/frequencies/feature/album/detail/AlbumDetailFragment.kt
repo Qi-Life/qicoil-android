@@ -6,6 +6,7 @@ import android.widget.LinearLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.Meditation.Sounds.frequencies.FileEncyptUtil
 import com.Meditation.Sounds.frequencies.MusicService
 import com.Meditation.Sounds.frequencies.R
@@ -25,6 +26,7 @@ import com.Meditation.Sounds.frequencies.utils.Utils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.fragment_album_detail.*
+import kotlin.math.max
 
 class AlbumDetailFragment : BaseFragment(), MusicService.IGetSongPlaying {
 
@@ -48,13 +50,12 @@ class AlbumDetailFragment : BaseFragment(), MusicService.IGetSongPlaying {
         tvDescription.text = mAlbum.artist
         if (!TextUtils.isEmpty(mAlbum.albumArt)) {
             if (mAlbum.albumArt!!.startsWith("http")) {
-                Glide.with(activity!!)
+                Glide.with(requireActivity())
                         .applyDefaultRequestOptions(RequestOptions().placeholder(R.drawable.ic_album_placeholder))
                         .load(mAlbum.albumArt)
                         .into(imvAlbumArt2!!)
             } else {
-
-                Glide.with(activity!!)
+                Glide.with(requireActivity())
                         .applyDefaultRequestOptions(RequestOptions().placeholder(R.drawable.ic_album_placeholder))
                         .load(mAlbum.albumArt)
                         .into(imvAlbumArt2!!)
@@ -134,11 +135,11 @@ class AlbumDetailFragment : BaseFragment(), MusicService.IGetSongPlaying {
             }
         })
 
-        rcAlbum.layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
+        rcAlbum.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         rcAlbum.adapter = mAdapter
 
         mDescriptionAdapter = DescriptionAdapter(mContext!!, ArrayList())
-        rcDescription.layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
+        rcDescription.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         rcDescription.adapter = mDescriptionAdapter
 
         mViewModel = ViewModelProviders.of(this).get(AlbumsDetailViewModel::class.java)
@@ -258,7 +259,7 @@ class AlbumDetailFragment : BaseFragment(), MusicService.IGetSongPlaying {
                         var mediaType = Constants.MEDIA_TYPE_BASIC_FREE
                         var totalTime = 0L
                         var max = 0L
-                        max = Math.max(max, itemSong.item.endOffset - itemSong.item.startOffset)
+                        max = max(max, itemSong.item.endOffset - itemSong.item.startOffset)
                         totalTime += max
                         if (mediaType < itemSong.song.mediaType!!) {
                             mediaType = itemSong.song.mediaType!!

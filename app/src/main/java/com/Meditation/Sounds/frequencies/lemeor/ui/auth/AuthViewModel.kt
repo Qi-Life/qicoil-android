@@ -19,7 +19,7 @@ class AuthViewModel (private val repository: AuthRepository) : ViewModel() {
         } catch (exception: HttpException) {
             emit(Resource.error(data = null, message = getErrorMsg(exception)))
         } catch (exception: Exception) {
-            emit(Resource.error(data = null, message = exception.message ?: "Error Occurred!"))
+            emit(Resource.error(data = null, message = exception.message))
         }
     }
 
@@ -36,7 +36,7 @@ class AuthViewModel (private val repository: AuthRepository) : ViewModel() {
         } catch (exception: HttpException) {
             emit(Resource.error(data = null, message = getErrorMsg(exception)))
         } catch (exception: Exception) {
-            emit(Resource.error(data = null, message = exception.message ?: "Error Occurred!"))
+            emit(Resource.error(data = null, message = exception.message))
         }
     }
 
@@ -51,7 +51,7 @@ class AuthViewModel (private val repository: AuthRepository) : ViewModel() {
         } catch (exception: HttpException) {
             emit(Resource.error(data = null, message = getErrorMsg(exception)))
         } catch (exception: Exception) {
-            emit(Resource.error(data = null, message = exception.message ?: "Error Occurred!"))
+            emit(Resource.error(data = null, message = exception.message))
         }
     }
 
@@ -66,7 +66,7 @@ class AuthViewModel (private val repository: AuthRepository) : ViewModel() {
         } catch (exception: HttpException) {
             emit(Resource.error(data = null, message = getErrorMsg(exception)))
         } catch (exception: Exception) {
-            emit(Resource.error(data = null, message = exception.message ?: "Error Occurred!"))
+            emit(Resource.error(data = null, message = exception.message))
         }
     }
 }

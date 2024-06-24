@@ -2,41 +2,41 @@ package com.Meditation.Sounds.frequencies.lemeor.tools.downloader
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.app.Service
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
+import android.content.pm.ServiceInfo
+import android.net.ConnectivityManager
+import android.os.Binder
 import android.os.Build
 import android.os.IBinder
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.LifecycleService
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkInfo
+import androidx.work.WorkManager
 import com.Meditation.Sounds.frequencies.R
 import com.Meditation.Sounds.frequencies.lemeor.data.database.DataBase
 import com.Meditation.Sounds.frequencies.lemeor.data.database.dao.TrackDao
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Track
-import com.Meditation.Sounds.frequencies.lemeor.downloadedTracks
 import com.Meditation.Sounds.frequencies.lemeor.getSaveDir
 import com.Meditation.Sounds.frequencies.lemeor.getTrackUrl
-import com.tonyodev.fetch2.*
-import com.tonyodev.fetch2.Fetch.Impl.setDefaultInstanceConfiguration
-import com.tonyodev.fetch2core.Downloader
-import com.tonyodev.fetch2core.Downloader.FileDownloaderType
-import com.tonyodev.fetch2core.isNetworkAvailable
-import com.tonyodev.fetch2okhttp.OkHttpDownloader
+import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper
+import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper.codeLanguage
+import com.Meditation.Sounds.frequencies.utils.Utils
+import com.Meditation.Sounds.frequencies.work.DownLoadCourseAudioWorkManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import okhttp3.OkHttpClient
 import org.greenrobot.eventbus.EventBus
-import java.util.*
-import java.util.concurrent.TimeUnit
-import kotlin.collections.HashMap
+import java.io.File
 import kotlin.collections.set
 
 
-class DownloadService : Service() {
+class DownloadService : LifecycleService() {
 
     companion object {
         private const val CHANNEL_ID = "DownloadService"
@@ -55,178 +55,265 @@ class DownloadService : Service() {
         }
     }
 
-    private var rxFetch: Fetch? = null
+    var tracks = mutableListOf<Track>()
+        private set
 
-    private var tracks = ArrayList<Track>()
+    var downloadErrorTracks = HashSet<Int>()
+        private set
 
-    private val fileProgressMap: HashMap<Int, Int> = HashMap()
+    val fileProgressMap: HashMap<Int, Int> = HashMap()
     private var trackDao: TrackDao? = null
+
+    // Binder given to clients.
+    private val binder = DownloadServiceBinder()
+
+    private var hasNetwork = true
+    private var isDownloading = false
+
+    private val networkChangeReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent?) {
+            val isNetworkAvailable = Utils.isConnectedToNetwork(context)
+            if (hasNetwork != isNetworkAvailable) {
+                hasNetwork = isNetworkAvailable
+                if (hasNetwork) {
+                    downloadErrorTracks.clear()
+                    downloadNext(true)
+                }
+            }
+        }
+
+    }
 
     override fun onCreate() {
         super.onCreate()
+        WorkManager.getInstance(application).cancelAllWorkByTag(DownLoadCourseAudioWorkManager.TAG)
         trackDao = DataBase.getInstance(applicationContext).trackDao()
+        hasNetwork = Utils.isConnectedToNetwork(this)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            registerReceiver(
+                networkChangeReceiver,
+                IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION),
+                Context.RECEIVER_EXPORTED
+            )
+        } else {
+            registerReceiver(
+                networkChangeReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
+            )
+        }
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        super.onStartCommand(intent, flags, startId)
         createNotificationChannel()
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle("Downloading files...")
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setNotificationSilent()
-                .build()
-        startForeground(1, notification)
-
-        tracks = intent?.getParcelableArrayListExtra(EXTRA_TRACKS)!!
-
-        init()
-
-        val dao = DataBase.getInstance(applicationContext).albumDao()
-        GlobalScope.launch {
-            tracks.forEach { t->
-                val album = dao.getAlbumById(t.albumId)
-                t.album = album
-            }
-
-            CoroutineScope(Dispatchers.Main).launch { enqueueFiles() }
+            .setContentTitle(getString(R.string.tv_downloading_file))
+            .setSmallIcon(R.mipmap.ic_launcher).build()
+        if (Build.VERSION.SDK_INT >= 29) {
+            startForeground(1, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC)
+        } else {
+            startForeground(1, notification)
         }
 
+        val tracks: List<Track> = intent?.getParcelableArrayListExtra(EXTRA_TRACKS)!!
+        val needToDownloadTrack =
+            this.tracks.filter { downloadErrorTracks.contains(it.id) }.toMutableList()
+        this.tracks = this.tracks.filter { !downloadErrorTracks.contains(it.id) }.toMutableList()
+        tracks.forEach {
+            if (!this.tracks.any { track -> track.id == it.id } && !downloadErrorTracks.contains(it.id)) {
+                needToDownloadTrack.add(it)
+            }
+        }
+        downloadErrorTracks.clear()
+        if (getCompletedFileCount() == this.tracks.size) {
+            this.tracks.clear()
+            fileProgressMap.clear()
+        }
+        this.tracks.addAll(needToDownloadTrack)
+        val dao = DataBase.getInstance(applicationContext).albumDao()
+        CoroutineScope(Dispatchers.IO).launch {
+            needToDownloadTrack.forEach { t ->
+                if (t.album == null) {
+                    val album = dao.getAlbumById(t.albumId, t.category_id)
+                    t.album = album
+                }
+            }
+
+            CoroutineScope(Dispatchers.Main).launch {
+                enqueueFiles(needToDownloadTrack)
+
+                EventBus.getDefault().post(
+                    DownloadInfo(
+                        "", 0, getCompletedFileCount(), this@DownloadService.tracks.size
+                    )
+                )
+                if (this@DownloadService.tracks.isEmpty()) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        stopForeground(STOP_FOREGROUND_REMOVE)
+                    } else {
+                        stopForeground(true)
+                    }
+                }
+            }
+        }
         return START_NOT_STICKY
     }
 
-    override fun onBind(intent: Intent): IBinder? { return null }
-
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val serviceChannel = NotificationChannel(CHANNEL_ID, "Download Service Channel",
-                    NotificationManager.IMPORTANCE_DEFAULT)
+            val serviceChannel = NotificationChannel(
+                CHANNEL_ID, "Download Service Channel", NotificationManager.IMPORTANCE_LOW
+            ).apply {
+                setSound(null, null)
+            }
             val manager = getSystemService(NotificationManager::class.java)
             manager.createNotificationChannel(serviceChannel)
         }
     }
 
-    private fun init() {
-        val fetchConfiguration: FetchConfiguration = FetchConfiguration.Builder(this)
-                .enableRetryOnNetworkGain(true)
-                .setProgressReportingInterval(300)
-                .setHttpDownloader(getOkHttpDownloader())
-                .build()
-        setDefaultInstanceConfiguration(fetchConfiguration)
-
-        rxFetch = Fetch.getDefaultInstance()
-        rxFetch?.addListener(fetchListener)
-
-        rxFetch!!.removeAll()
-        rxFetch!!.cancelAll()
-        fileProgressMap.clear()
-    }
-
-    private fun getOkHttpDownloader(): Downloader<*, *> {
-        val okHttpClient: OkHttpClient = OkHttpClient.Builder()
-                .readTimeout(20000L, TimeUnit.MILLISECONDS) //increase read timeout as needed
-                .connectTimeout(20000L, TimeUnit.MILLISECONDS) //increase connection timeout as needed
-                .build()
-        return OkHttpDownloader(okHttpClient,
-                Downloader.FileDownloaderType.PARALLEL)
-    }
 
     override fun onDestroy() {
+        downloadErrorTracks.clear()
+        WorkManager.getInstance(application).cancelAllWorkByTag(DownLoadCourseAudioWorkManager.TAG)
+        unregisterReceiver(networkChangeReceiver)
         super.onDestroy()
-
-        downloadedTracks = null
-
-        rxFetch?.deleteAllInGroupWithStatus(tracks[0].name.hashCode(), listOf(
-                Status.NONE, Status.QUEUED, Status.DOWNLOADING, Status.PAUSED, Status.CANCELLED,
-                Status.FAILED, Status.REMOVED, Status.DELETED, Status.ADDED
-        ))
-        rxFetch?.removeListener(fetchListener)
-        rxFetch?.close()
     }
 
     private fun updateUIWithProgress() {
-        val totalFiles: Int = fileProgressMap.size
+        val totalFiles: Int = tracks.size
         val completedFiles: Int = getCompletedFileCount()
 
         if (completedFiles == totalFiles) {
-            Toast.makeText(applicationContext, getString(R.string.tst_download_successful), Toast.LENGTH_SHORT).show()
+            val message = when (PreferenceHelper.preference(applicationContext).codeLanguage) {
+                "es" -> getString(R.string.tst_download_successful_es)
+                "fr" -> getString(R.string.tst_download_successful_fr)
+                "zh" -> getString(R.string.tst_download_successful_zh)
+                else -> getString(R.string.tst_download_successful_en)
+            }
+
+            Toast.makeText(
+                applicationContext, message, Toast.LENGTH_SHORT
+            ).show()
 
             EventBus.getDefault().post(DOWNLOAD_FINISH)
 
-            stopSelf()
-        }
-    }
-
-    private fun getCompletedFileCount(): Int {
-        var count = 0
-        val ids: Set<Int> = fileProgressMap.keys
-        for (id in ids) {
-            val progress = fileProgressMap[id]!!
-            if (progress == 100) { count++ }
-        }
-        return count
-    }
-
-    @RequiresApi(Build.VERSION_CODES.KITKAT)
-    private fun enqueueFiles() {
-        if(isNetworkAvailable()) {
-            val requestList: List<Request> = getRequests()
-
-            requestList.forEach { it.groupId = tracks[0].name.hashCode() }
-
-            rxFetch?.enqueue(requestList) { updatedRequests: List<Pair<Request, Error?>> ->
-                for ((first) in updatedRequests) {
-                    fileProgressMap[first.id] = 0
-                    updateUIWithProgress()
-                }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                stopForeground(STOP_FOREGROUND_REMOVE)
+            } else {
+                stopForeground(true)
             }
         }
     }
 
-    private val fetchListener: FetchListener = object : AbstractFetchListener() {
-        override fun onCompleted(download: Download) {
-            fileProgressMap[download.id] = download.progress
-            updateUIWithProgress()
-        }
-
-        override fun onError(download: Download, error: Error, throwable: Throwable?) {
-            super.onError(download, error, throwable)
-
-            Toast.makeText(applicationContext, "Download error: " + error.throwable?.message, Toast.LENGTH_LONG).show()
-        }
-
-        override fun onProgress(download: Download, etaInMilliSeconds: Long, downloadedBytesPerSecond: Long) {
-            super.onProgress(download, etaInMilliSeconds, downloadedBytesPerSecond)
-
-            EventBus.getDefault().post(DownloadInfo(download.tag!!, download.progress, getCompletedFileCount(), fileProgressMap.size))
-
-            if (download.progress == 100) {
-                var position = -1
-                downloadedTracks?.forEachIndexed { i, t ->
-                    if (t.id == Integer.valueOf(download.tag!!)) { position = i }
-                }
-                if (position != -1) { downloadedTracks?.removeAt(position) }
-
-                GlobalScope.launch { trackDao?.isTrackDownloaded(true, Integer.valueOf(download.tag!!)) }
-            }
-
-            fileProgressMap[download.id] = download.progress
-            updateUIWithProgress()
+    private fun checkDoneDownloaded() {
+        val totalFiles: Int = tracks.size
+        val completedFiles: Int = getCompletedFileCount()
+        if ((completedFiles + downloadErrorTracks.size) == totalFiles && downloadErrorTracks.size > 0) {
+            EventBus.getDefault().post(DownloadErrorEvent(downloadErrorTracks.size))
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.KITKAT)
-    private fun getRequests(): List<Request> {
-        val requests: MutableList<Request> = ArrayList()
+    fun getCompletedFileCount(): Int {
+        return tracks.filter {
+            File(getSaveDir(applicationContext, it.filename, it.album?.audio_folder ?: "")).exists()
+        }.size
+    }
 
-        tracks.forEach { track->
-            val url: String = getTrackUrl(track.album, track)
-            val filePath: String = getSaveDir(applicationContext, track, track.album!!)
-            val request = Request(url, filePath)
-            request.priority = Priority.HIGH
-            request.networkType = NetworkType.ALL
-            request.autoRetryMaxAttempts = 5
-            request.tag = track.id.toString()
-            requests.add(request)
+    private fun enqueueFiles(tracks: List<Track>) {
+        tracks.forEach {
+            if (File(
+                    getSaveDir(
+                        applicationContext, it.filename, it.album?.audio_folder ?: ""
+                    )
+                ).exists()
+            ) {
+                fileProgressMap[it.id] = 100
+            }
         }
-        return requests
+        if (!isDownloading) {
+            downloadNext()
+        }
+    }
+
+    private fun downloadNext(redownload: Boolean = false) {
+        WorkManager.getInstance(application).cancelAllWorkByTag(DownLoadCourseAudioWorkManager.TAG)
+        tracks.firstOrNull {
+            (fileProgressMap[it.id] ?: 0) < 100 && (redownload || !downloadErrorTracks.contains(
+                it.id
+            ))
+        }?.let {
+            isDownloading = true
+            downloadErrorTracks.remove(it.id)
+            fileProgressMap[it.id] = 0
+            val request = DownLoadCourseAudioWorkManager.start(applicationContext, it, it.album)
+            observeWorker(request)
+        } ?: run {
+            isDownloading = false
+        }
+
+    }
+
+    private fun observeWorker(request: OneTimeWorkRequest) {
+        WorkManager.getInstance(applicationContext).getWorkInfoByIdLiveData(request.id)
+            .observe(this) { workInfo ->
+                CoroutineScope(Dispatchers.Main).launch {
+                    val wasSuccess = workInfo.state == WorkInfo.State.SUCCEEDED
+                    if (wasSuccess) {
+                        val trackId =
+                            workInfo.outputData.getInt(DownLoadCourseAudioWorkManager.TRACK_ID, 0)
+                        fileProgressMap[trackId] = 100
+                        downloadErrorTracks.remove(trackId)
+                        checkDoneDownloaded()
+                        updateUIWithProgress()
+                        EventBus.getDefault().post(
+                            DownloadInfo(
+                                "$trackId", 100, getCompletedFileCount(), tracks.size
+                            )
+                        )
+                        downloadNext(false)
+                    } else if (workInfo.state == WorkInfo.State.FAILED) {
+                        workInfo.tags.firstOrNull { it.startsWith("track") }?.let { tag ->
+                            val trackId = tag.replace("track_", "").toInt()
+//                            if (!downloadErrorTracks.any { trackId == it }) {
+                            tracks.firstOrNull { trackId == it.id }?.let {
+                                downloadErrorTracks.add(it.id)
+                                EventBus.getDefault().post(
+                                    DownloadTrackErrorEvent(
+                                        trackId, getTrackUrl(it.album, it.filename)
+                                    )
+                                )
+//                                }
+                            }
+                            checkDoneDownloaded()
+                        }
+                        downloadNext()
+                    } else if (workInfo != null) {
+                        val total =
+                            workInfo.progress.getLong(DownLoadCourseAudioWorkManager.TOTAL, 0L)
+                        val downloaded =
+                            workInfo.progress.getLong(DownLoadCourseAudioWorkManager.DOWNLOADED, 0L)
+                        if (total > 0) {
+                            val trackId =
+                                workInfo.progress.getInt(DownLoadCourseAudioWorkManager.TRACK_ID, 0)
+                            val progress = (downloaded * 100 / total).toInt();
+                            fileProgressMap[trackId] = progress
+                            EventBus.getDefault().post(
+                                DownloadInfo(
+                                    "$trackId", progress, getCompletedFileCount(), tracks.size
+                                )
+                            )
+                        }
+                    }
+                }
+            }
+    }
+
+    inner class DownloadServiceBinder : Binder() {
+        // Return this instance of LocalService so clients can call public methods.
+        fun getService(): DownloadService = this@DownloadService
+    }
+
+    override fun onBind(intent: Intent): IBinder {
+        super.onBind(intent)
+        return binder
     }
 }

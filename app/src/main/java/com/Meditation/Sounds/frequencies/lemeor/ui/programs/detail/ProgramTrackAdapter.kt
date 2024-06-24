@@ -1,93 +1,133 @@
 package com.Meditation.Sounds.frequencies.lemeor.ui.programs.detail
 
-import android.content.Context
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.Meditation.Sounds.frequencies.R
-import com.Meditation.Sounds.frequencies.lemeor.convertedTrackName
-import com.Meditation.Sounds.frequencies.lemeor.data.database.DataBase
+import com.Meditation.Sounds.frequencies.lemeor.data.model.Search
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Track
 import com.Meditation.Sounds.frequencies.lemeor.loadImage
-import kotlinx.android.synthetic.main.item_program_track.view.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import com.Meditation.Sounds.frequencies.lemeor.tools.player.MusicRepository
+import kotlinx.android.synthetic.main.item_program_track.view.divider
+import kotlinx.android.synthetic.main.item_program_track.view.item_album_name
+import kotlinx.android.synthetic.main.item_program_track.view.item_track_image
+import kotlinx.android.synthetic.main.item_program_track.view.item_track_name
+import kotlinx.android.synthetic.main.item_program_track.view.item_track_options
 
 class ProgramTrackAdapter(
-        private val mContext: Context,
-        private var mData: List<Track>,
-        private var isMy: Boolean
-) : RecyclerView.Adapter<ProgramTrackAdapter.ViewHolder>() {
-
-    interface Listener {
-        fun onTrackClick(track: Track, i: Int)
-        fun onTrackOptions(track: Track, i: Int)
-    }
-
-    private var mListener: Listener? = null
-
-    fun setOnClickListener(listener: Listener) {
-        mListener = listener
-    }
-
+    private val onClickItem: (item: Search) -> Unit,
+    private val onClickOptions: (item: Search) -> Unit
+) : ListAdapter<Search, ProgramTrackAdapter.ViewHolder>(SearchDiffCallback()) {
+    private var selectedItem: Search? = null
+    var isMy = false
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_program_track, parent, false))
+        return ViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.item_program_track, parent, false)
+        )
     }
 
-    override fun getItemCount(): Int {
-        return mData.size
+    override fun onBindViewHolder(holder: ProgramTrackAdapter.ViewHolder, position: Int) {
+        holder.bind(getItem(position), position)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val track = mData[position]
-
-        if (isMy) {
-            holder.itemView.item_track_options.visibility = View.VISIBLE
-        } else {
-            holder.itemView.item_track_options.visibility = View.GONE
-        }
-
-        if (track.isSelected) {
-            holder.itemView.item_track_name.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary))
-            holder.itemView.item_album_name.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary))
-        } else {
-            holder.itemView.item_track_name.setTextColor(ContextCompat.getColor(mContext, android.R.color.white))
-            holder.itemView.item_album_name.setTextColor(ContextCompat.getColor(mContext, android.R.color.white))
-        }
-
-        GlobalScope.launch {
-            val album = DataBase.getInstance(mContext).albumDao().getAlbumById(track.albumId)
-
-            CoroutineScope(Dispatchers.Main).launch {
-                loadImage(mContext, holder.itemView.item_track_image, album!!)
-                holder.itemView.item_track_name.text = convertedTrackName(album, track)
-                holder.itemView.item_album_name.text = album.name
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        @SuppressLint("SetTextI18n", "UseCompatLoadingForDrawables")
+        fun bind(item: Search, position: Int) {
+            if (isMy) {
+                itemView.item_track_options.visibility = View.VISIBLE
+            } else {
+                itemView.item_track_options.visibility = View.GONE
+            }
+            if (position == itemCount - 1) {
+                itemView.divider.visibility = View.INVISIBLE
+            } else {
+                itemView.divider.visibility = View.VISIBLE
+            }
+            itemView.updateView(item, position)
+            itemView.item_track_options.setOnClickListener {
+                onClickOptions.invoke(item)
+            }
+            itemView.setOnClickListener {
+                setSelectedItem(item)
+                onClickItem.invoke(item)
             }
         }
-
-        holder.itemView.item_track_options.setOnClickListener { mListener?.onTrackOptions(track, position) }
-        holder.itemView.setOnClickListener { mListener?.onTrackClick(track, position) }
-
-        if (position == mData.size - 1) { holder.itemView.divider.visibility = View.INVISIBLE }
-        else { holder.itemView.divider.visibility = View.VISIBLE }
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    private fun View.updateView(item: Search, position: Int) {
+        when (item.obj) {
+            is Track -> {
+                val t = item.obj as Track
+                t.isSelected = position == selectedItem?.id
+                updateUIForTrack(t)
+            }
 
-    fun setData(trackList: List<Track>?) {
-        mData = trackList as ArrayList<Track>
+            is MusicRepository.Frequency -> {
+                val f = item.obj as MusicRepository.Frequency
+                f.isSelected = position == selectedItem?.id
+                updateUIForFrequency(f)
+            }
+        }
+    }
+
+    private fun View.updateUIForTrack(track: Track) {
+        item_track_name.setTextColor(
+            ContextCompat.getColor(
+                context, if (track.isSelected) R.color.colorPrimary else android.R.color.white
+            )
+        )
+        item_album_name.setTextColor(
+            ContextCompat.getColor(
+                context, if (track.isSelected) R.color.colorPrimary else android.R.color.white
+            )
+        )
+        item_track_name.text = track.name
+        track.album?.let { album ->
+            loadImage(context, item_track_image, album)
+            item_album_name.text = album.name
+        }
+    }
+
+    private fun View.updateUIForFrequency(frequency: MusicRepository.Frequency) {
+        item_track_name.setTextColor(
+            ContextCompat.getColor(
+                context, if (frequency.isSelected) R.color.colorPrimary else android.R.color.white
+            )
+        )
+        item_album_name.setTextColor(
+            ContextCompat.getColor(
+                context, if (frequency.isSelected) R.color.colorPrimary else android.R.color.white
+            )
+        )
+        item_track_image.setImageResource(R.drawable.frequency)
+        item_track_name.text = context.getString(R.string.navigation_lbl_rife)
+        item_album_name.text = frequency.frequency.toString()
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun setSelectedItem(item: Search?) {
+        selectedItem = item
         notifyDataSetChanged()
     }
 
-    fun setSelected(selectedPosition: Int) {
-        if (selectedPosition > mData.size - 1) { return }
-
-        mData.forEach { it.isSelected = false }
-        mData[selectedPosition].isSelected = true
+    @SuppressLint("NotifyDataSetChanged")
+    fun submitData(list: List<Search>) {
+        submitList(list)
         notifyDataSetChanged()
+    }
+
+    private class SearchDiffCallback : DiffUtil.ItemCallback<Search>() {
+        override fun areItemsTheSame(oldItem: Search, newItem: Search): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: Search, newItem: Search): Boolean {
+            return oldItem == newItem
+        }
     }
 }

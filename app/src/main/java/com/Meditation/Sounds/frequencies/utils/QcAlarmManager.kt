@@ -1,10 +1,10 @@
 package com.Meditation.Sounds.frequencies.utils
 
+import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.util.Log
 import com.Meditation.Sounds.frequencies.api.models.GetFlashSaleOutput
 import com.Meditation.Sounds.frequencies.services.AlarmReceiver
@@ -91,20 +91,15 @@ class QcAlarmManager{
 
             var dateFormat = SimpleDateFormat("hh::mm:ss")
             Log.d("MENDATE", ""  + flashSaleType + "-" + dateFormat.format(alarmCal.time))
-            val pendingIntent = PendingIntent.getBroadcast(context, countAlarm, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                alarmManager.setExact(AlarmManager.RTC_WAKEUP, alarmCal.timeInMillis, pendingIntent)
-            } else {
-                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alarmCal.timeInMillis, (interval!! * 24 * 60 * 60 * 1000).toLong(), pendingIntent)
-                //        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alarmCal.timeInMillis, (5 * 60 * 1000).toLong(), pendingIntent)
-            }
+            val pendingIntent = PendingIntent.getBroadcast(context, countAlarm, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+            alarmManager.set(AlarmManager.RTC_WAKEUP, alarmCal.timeInMillis, pendingIntent)
         }
 
         @JvmStatic
         fun clearAlarms(context: Context) {
             for (i in 0..21) {
                 val intent = Intent(context, AlarmReceiver::class.java)
-                val pendingIntent = PendingIntent.getBroadcast(context, i, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+                val pendingIntent = PendingIntent.getBroadcast(context, i, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
                 val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
                 alarmManager.cancel(pendingIntent)
             }
@@ -115,27 +110,28 @@ class QcAlarmManager{
 
         }
 
+        @SuppressLint("UnspecifiedImmutableFlag")
         @JvmStatic
         fun createReminderAlarm(context: Context){
             //Remove
             val intent = Intent(context, AlarmReceiver::class.java)
             intent.putExtra(Constants.ETRAX_FLASH_SALE_TYPE, Constants.ETRAX_REMINDER_NOTIFICATION)
-            val pendingIntent = PendingIntent.getBroadcast(context, Constants.REMINDER_NOTIFICATION_ID, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+            val pendingIntent = PendingIntent.getBroadcast(context, Constants.REMINDER_NOTIFICATION_ID, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
             val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             alarmManager.cancel(pendingIntent)
             //Re-create reminder
-            var jsonFlashSale = SharedPreferenceHelper.getInstance().get(Constants.PREF_FLASH_SALE)
+            val jsonFlashSale = SharedPreferenceHelper.getInstance().get(Constants.PREF_FLASH_SALE)
             if(jsonFlashSale != null) {
                 var flashsale = Gson().fromJson(jsonFlashSale, GetFlashSaleOutput::class.java)
-                if (flashsale != null && flashsale.reminder != null && flashsale.reminder.messages != null && flashsale.reminder.messages!!.size > 0){
-                    var hourFormat = SimpleDateFormat("HH:mm")
-                    var date = hourFormat.parse(flashsale.reminder.launchTime)
+                if (flashsale?.reminder != null && flashsale.reminder.messages != null && flashsale.reminder.messages!!.size > 0){
+                    val hourFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+                    val date = hourFormat.parse(flashsale.reminder.launchTime)
 
-                    var calendar = Calendar.getInstance()
+                    val calendar = Calendar.getInstance()
                     calendar.set(Calendar.HOUR_OF_DAY, date.hours)
                     calendar.set(Calendar.MINUTE, date.minutes)
                     calendar.set(Calendar.SECOND, 0)
-                    var currentCalender = Calendar.getInstance()
+                    val currentCalender = Calendar.getInstance()
                     if(calendar.timeInMillis < currentCalender.timeInMillis){
                         calendar.add(Calendar.DATE, 1)
                         calendar.set(Calendar.HOUR_OF_DAY, date.hours)
@@ -144,7 +140,7 @@ class QcAlarmManager{
                     }
 //                    intent.putExtra(Constants.ETRAX_FLASH_SALE_TYPE, Constants.ETRAX_REMINDER_NOTIFICATION)
 
-                    var dateFormat = SimpleDateFormat("dd:MM:yyyy HH:mm:ss")
+                    val dateFormat = SimpleDateFormat("dd:MM:yyyy HH:mm:ss")
                     Log.d("MENDATE", "Reminder-" + dateFormat.format(calendar.time))
 
                     alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, (flashsale.reminder.interval!! * 60 * 60 * 1000).toLong(), pendingIntent)

@@ -31,7 +31,7 @@ class AlbumsViewModel(private val repository: AlbumsRepository) : ViewModel() {
         } catch (exception: HttpException) {
             emit(Resource.error(data = null, message = getErrorMsg(exception)))
         } catch (exception: Exception) {
-            emit(Resource.error(data = null, message = exception.message ?: "Error Occurred!"))
+            emit(Resource.error(data = null, message = exception.message))
         }
     }
 
@@ -45,7 +45,7 @@ class AlbumsViewModel(private val repository: AlbumsRepository) : ViewModel() {
         } catch (exception: HttpException) {
             emit(Resource.error(data = null, message = getErrorMsg(exception)))
         } catch (exception: Exception) {
-            emit(Resource.error(data = null, message = exception.message ?: "Error Occurred!"))
+            emit(Resource.error(data = null, message = exception.message))
         }
     }
 }

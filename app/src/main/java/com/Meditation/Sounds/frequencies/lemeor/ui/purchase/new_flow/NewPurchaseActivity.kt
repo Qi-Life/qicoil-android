@@ -17,21 +17,57 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.Meditation.Sounds.frequencies.BuildConfig
 import com.Meditation.Sounds.frequencies.R
 import com.Meditation.Sounds.frequencies.lemeor.InappPurchase
-import com.Meditation.Sounds.frequencies.lemeor.InappPurchase.*
+import com.Meditation.Sounds.frequencies.lemeor.InappPurchase.HIGHER_QUANTUM_TIER_INAPP_ABUNDANCE_HAPPINESS
+import com.Meditation.Sounds.frequencies.lemeor.InappPurchase.HIGHER_QUANTUM_TIER_INAPP_ABUNDANCE_LOVE
+import com.Meditation.Sounds.frequencies.lemeor.InappPurchase.HIGHER_QUANTUM_TIER_INAPP_ABUNDANCE_LUCK
+import com.Meditation.Sounds.frequencies.lemeor.InappPurchase.HIGHER_QUANTUM_TIER_INAPP_ABUNDANCE_SUCCESS
+import com.Meditation.Sounds.frequencies.lemeor.InappPurchase.HIGHER_QUANTUM_TIER_INAPP_AYAHUASCA
+import com.Meditation.Sounds.frequencies.lemeor.InappPurchase.HIGHER_QUANTUM_TIER_INAPP_BEAUTY_I
+import com.Meditation.Sounds.frequencies.lemeor.InappPurchase.HIGHER_QUANTUM_TIER_INAPP_BEAUTY_II
+import com.Meditation.Sounds.frequencies.lemeor.InappPurchase.HIGHER_QUANTUM_TIER_INAPP_BRAIN
+import com.Meditation.Sounds.frequencies.lemeor.InappPurchase.HIGHER_QUANTUM_TIER_INAPP_DIGITAL_IVM
+import com.Meditation.Sounds.frequencies.lemeor.InappPurchase.HIGHER_QUANTUM_TIER_INAPP_DMT
+import com.Meditation.Sounds.frequencies.lemeor.InappPurchase.HIGHER_QUANTUM_TIER_INAPP_FITNESS
+import com.Meditation.Sounds.frequencies.lemeor.InappPurchase.HIGHER_QUANTUM_TIER_INAPP_LIFE_FORCE
+import com.Meditation.Sounds.frequencies.lemeor.InappPurchase.HIGHER_QUANTUM_TIER_INAPP_MANIFESTING
+import com.Meditation.Sounds.frequencies.lemeor.InappPurchase.HIGHER_QUANTUM_TIER_INAPP_NAD
+import com.Meditation.Sounds.frequencies.lemeor.InappPurchase.HIGHER_QUANTUM_TIER_INAPP_NMN
+import com.Meditation.Sounds.frequencies.lemeor.InappPurchase.HIGHER_QUANTUM_TIER_INAPP_PROTECTION
+import com.Meditation.Sounds.frequencies.lemeor.InappPurchase.HIGHER_QUANTUM_TIER_INAPP_SKIN_CARE
+import com.Meditation.Sounds.frequencies.lemeor.InappPurchase.HIGHER_QUANTUM_TIER_INAPP_TRANSFORMATION_MEDITATION
+import com.Meditation.Sounds.frequencies.lemeor.InappPurchase.HIGHER_QUANTUM_TIER_INAPP_WELLNESS_I
+import com.Meditation.Sounds.frequencies.lemeor.InappPurchase.HIGHER_QUANTUM_TIER_INAPP_WELLNESS_II
+import com.Meditation.Sounds.frequencies.lemeor.InappPurchase.HIGHER_QUANTUM_TIER_INAPP_WELLNESS_III
+import com.Meditation.Sounds.frequencies.lemeor.InappPurchase.HIGHER_QUANTUM_TIER_INAPP_WISDOM
 import com.Meditation.Sounds.frequencies.lemeor.QUANTUM_TIER_SUBS_ANNUAL
 import com.Meditation.Sounds.frequencies.lemeor.QUANTUM_TIER_SUBS_ANNUAL_7_DAY_TRIAL
 import com.Meditation.Sounds.frequencies.lemeor.QUANTUM_TIER_SUBS_MONTH
 import com.Meditation.Sounds.frequencies.lemeor.data.database.DataBase
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Album
-import com.android.billingclient.api.*
+import com.Meditation.Sounds.frequencies.views.BottomSheetWebView
+import com.android.billingclient.api.BillingClient
+import com.android.billingclient.api.BillingClientStateListener
+import com.android.billingclient.api.BillingFlowParams
+import com.android.billingclient.api.BillingResult
+import com.android.billingclient.api.ConsumeParams
+import com.android.billingclient.api.Purchase
+import com.android.billingclient.api.PurchasesUpdatedListener
+import com.android.billingclient.api.SkuDetails
+import com.android.billingclient.api.SkuDetailsParams
 import com.appsflyer.AFInAppEventParameterName
 import com.appsflyer.AppsFlyerLib
-import kotlinx.android.synthetic.main.activity_new_purchase.*
+import kotlinx.android.synthetic.main.activity_new_purchase.purchase_back
+import kotlinx.android.synthetic.main.activity_new_purchase.purchase_container
+import kotlinx.android.synthetic.main.activity_new_purchase.purchase_continue
+import kotlinx.android.synthetic.main.activity_new_purchase.purchase_info
+import kotlinx.android.synthetic.main.activity_new_purchase.purchase_price
+import kotlinx.android.synthetic.main.activity_new_purchase.purchase_screen_name
+import kotlinx.android.synthetic.main.activity_new_purchase.purchase_terms
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
@@ -73,30 +109,54 @@ class NewPurchaseActivity : AppCompatActivity() {
         val tierDao = DataBase.getInstance(applicationContext).tierDao()
         val categoryDao = DataBase.getInstance(applicationContext).categoryDao()
 
-        GlobalScope.launch {
+        CoroutineScope(Dispatchers.IO).launch {
 
             var screenName = ""
             val albumList = ArrayList<Album>()
+            // 1 quantum, 2 rife, higher 3, inner 4
+            if (BuildConfig.IS_FREE) {
+                when (tierId) {
+                    4 -> {
+                        purchase_continue.text = getText(R.string.tv_apply_now)
+                    }
 
-            if (tierId == QUANTUM_TIER_ID) {
-                albumDao.getAlbumsByTierId(tierId)?.let { albumList.addAll(it) }
-                tierDao.getTierNameById(tierId)?.let { screenName = it }
-            }
-            else if(tierId == INNER_CIRCLE_TIER_ID)
-            {
-                purchase_continue.setText("APPLY NOW")
-                albumDao.getAlbumsByTierId(tierId)?.let { albumList.addAll(it) }
-                tierDao.getTierNameById(tierId)?.let { screenName = it }
-            }
-            else {
-                albumDao.getAlbumsByCategory(categoryId)?.let { albumList.addAll(it) }
-               /* if (Id == 219 || Id == 220) {
-                    albumDao.getAlbumById(Id)?.let { albumList.add(it) }
-                } else {
-                    albumDao.getAlbumsByCategory(categoryId)?.let { albumList.addAll(it) }
-                }*/
+                    else -> {
+                        purchase_continue.text = getText(R.string.tv_unlock_now)
+                    }
+                }
+                albumDao.getAlbumsByTierId(tierId).let {
+                    if (tierId == 8) {
+                        albumList.addAll(it.filter { it.category_id == categoryId })
+                    } else {
+                        albumList.addAll(it)
+                    }
 
-                categoryDao.getCategoryNameById(categoryId)?.let { screenName = it }
+                }
+                tierDao.getTierNameById(tierId)?.let { screenName = it }
+            } else {
+                when (tierId) {
+                    QUANTUM_TIER_ID -> {
+                        albumDao.getAlbumsByTierId(tierId).let { albumList.addAll(it) }
+                        tierDao.getTierNameById(tierId)?.let { screenName = it }
+                    }
+
+                    INNER_CIRCLE_TIER_ID -> {
+                        purchase_continue.text = "APPLY NOW"
+                        albumDao.getAlbumsByTierId(tierId).let { albumList.addAll(it) }
+                        tierDao.getTierNameById(tierId)?.let { screenName = it }
+                    }
+
+                    else -> {
+                        albumDao.getAlbumsByCategory(categoryId).let { albumList.addAll(it) }
+                        /* if (Id == 219 || Id == 220) {
+                                     albumDao.getAlbumById(Id)?.let { albumList.add(it) }
+                                 } else {
+                                     albumDao.getAlbumsByCategory(categoryId)?.let { albumList.addAll(it) }
+                                 }*/
+
+                        categoryDao.getCategoryNameById(categoryId)?.let { screenName = it }
+                    }
+                }
             }
 
             CoroutineScope(Dispatchers.Main).launch {
@@ -104,11 +164,10 @@ class NewPurchaseActivity : AppCompatActivity() {
 
                 val albumsPagerAdapter = AlbumsPagerAdapter(supportFragmentManager, albumList)
                 purchase_container.adapter = albumsPagerAdapter
-                val index = albumList.indexOfFirst{
+                val index = albumList.indexOfFirst {
                     it.id == Id
                 }
-                purchase_container.setCurrentItem(index)
-
+                purchase_container.currentItem = index
 
 
             }
@@ -118,12 +177,48 @@ class NewPurchaseActivity : AppCompatActivity() {
         orientationChangesUI(resources.configuration.orientation)
 
         purchase_continue.setOnClickListener {
-            if(tierId == INNER_CIRCLE_TIER_ID)
-            {
-                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://qilifestore.com/products/david-wong-inner-circle-transformation"))
-                startActivity(browserIntent)
-            }
-            else {
+            if (BuildConfig.IS_FREE) {
+                val bottomSheetWebView = BottomSheetWebView(this@NewPurchaseActivity)
+                // 1 quantum, 2 rife, higher 3, inner 4, special 8
+                when (tierId) {
+                    4 -> {
+                        bottomSheetWebView.showWithUrl("https://qilifestore.com/collections/inner-circle-members-area")
+                    }
+
+                    1 -> {
+                        bottomSheetWebView.showWithUrl("https://qilifestore.com/products/ultimate-quantum-frequency-bundle")
+                    }
+
+                    3 -> {
+                        bottomSheetWebView.showWithUrl("https://qilifestore.com/products/ultimate-higher-quantum-frequencies-collection")
+                    }
+
+                    8 -> {
+                        when (categoryId) {
+                            //Genesis
+                            48 -> {
+                                bottomSheetWebView.showWithUrl("https://qilifestore.com/products/genesis-frequency-pack")
+                            }
+                            //Parasite
+                            53 -> {
+                                bottomSheetWebView.showWithUrl("https://qilifestore.com/products/parasite-detox-frequency-pack")
+                            }
+                            //Brain Biohacking
+                            54 -> {
+                                bottomSheetWebView.showWithUrl("https://qilifestore.com/collections/braintap-brain-training-for-sleep-focus-peak-performance/products/braintap-frequency-collection")
+                            }
+                            //Lyme Remission
+                            56 -> {
+                                bottomSheetWebView.showWithUrl("https://qilifestore.com/collections/lyme-remission-with-qi-coil-rife-machine/products/lyme-remission-frequency-pack")
+                            }
+                        }
+                    }
+
+                    else -> {
+                        bottomSheetWebView.showWithUrl("https://qilifestore.com/products/professional-rife-frequency-collection-mp3-466-audio-files")
+                    }
+                }
+            } else {
                 pay()
             }
         }
@@ -149,97 +244,122 @@ class NewPurchaseActivity : AppCompatActivity() {
     }
 
     private fun setTermsSpan() {
-        val text = "Terms and Privacy Policy"
-        val mSpannableText = SpannableString(text)
-        val clickPrivacy = object : ClickableSpan() {
-            override fun onClick(widget: View) {
-                val url = "http://www.tattoobookapp.com/quantumwavebiotechnology/privacy"
-                val i = Intent(Intent.ACTION_VIEW)
-                i.data = Uri.parse(url)
-                startActivity(i)
+        try {
+            val text = getString(R.string.tv_term_and_privacy)
+            val list = text.split("|")
+            if (list.size == 3) {
+                val listLength = list.map { it.length }
+                val mSpannableText = SpannableString(text.replace("|", ""))
+                val clickPrivacy = object : ClickableSpan() {
+                    override fun onClick(widget: View) {
+                        val url = "http://www.tattoobookapp.com/quantumwavebiotechnology/privacy"
+                        val i = Intent(Intent.ACTION_VIEW)
+                        i.data = Uri.parse(url)
+                        startActivity(i)
+                    }
+
+                    override fun updateDrawState(ds: TextPaint) {
+                        super.updateDrawState(ds)
+                        ds.color = Color.WHITE
+                        ds.typeface = Typeface.DEFAULT_BOLD
+                    }
+                }
+                val clickTerms = object : ClickableSpan() {
+                    override fun onClick(widget: View) {
+                        val url = "http://www.tattoobookapp.com/quantumwavebiotechnology/terms"
+                        val i = Intent(Intent.ACTION_VIEW)
+                        i.data = Uri.parse(url)
+                        startActivity(i)
+                    }
+
+                    override fun updateDrawState(ds: TextPaint) {
+                        super.updateDrawState(ds)
+                        ds.color = Color.WHITE
+                        ds.typeface = Typeface.DEFAULT_BOLD
+                    }
+                }
+                mSpannableText.setSpan(
+                    clickTerms,
+                    0,
+                    listLength[0],
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+                mSpannableText.setSpan(
+                    clickPrivacy,
+                    listLength[0] + listLength[1],
+                    mSpannableText.length,
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+
+                if (tierId == QUANTUM_TIER_ID || tierId == HIGHER_QUANTUM_TIER_ID) {
+                    purchase_info.text = getString(R.string.tv_title_subscription_new)
+                } else {
+                    purchase_info.visibility = View.GONE
+                }
+                purchase_terms.text = mSpannableText
+                purchase_terms.movementMethod = LinkMovementMethod.getInstance()
             }
 
-            override fun updateDrawState(ds: TextPaint) {
-                super.updateDrawState(ds)
-                ds.color = Color.WHITE
-                ds.typeface = Typeface.DEFAULT_BOLD
-            }
+        } catch (_: Exception) {
         }
-        val clickTerms = object : ClickableSpan() {
-            override fun onClick(widget: View) {
-                val url = "http://www.tattoobookapp.com/quantumwavebiotechnology/terms"
-                val i = Intent(Intent.ACTION_VIEW)
-                i.data = Uri.parse(url)
-                startActivity(i)
-            }
-
-            override fun updateDrawState(ds: TextPaint) {
-                super.updateDrawState(ds)
-                ds.color = Color.WHITE
-                ds.typeface = Typeface.DEFAULT_BOLD
-            }
-        }
-        mSpannableText.setSpan(clickTerms, 0, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-        mSpannableText.setSpan(clickPrivacy, 10, mSpannableText.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-
-        if (tierId == QUANTUM_TIER_ID || tierId == HIGHER_QUANTUM_TIER_ID) {
-            purchase_info.text = getString(R.string.tv_title_subscription_new)
-        } else {
-            purchase_info.visibility = View.GONE
-        }
-        purchase_terms.text = mSpannableText
-        purchase_terms.movementMethod = LinkMovementMethod.getInstance()
     }
 
     private fun setUpBillingClient() {
         billingClient = BillingClient.newBuilder(applicationContext)
-                .setListener(purchaseUpdateListener)
-                .enablePendingPurchases()
-                .build()
+            .setListener(purchaseUpdateListener)
+            .enablePendingPurchases()
+            .build()
         startConnection()
     }
 
     private val purchaseUpdateListener =
-            PurchasesUpdatedListener { billingResult, purchases ->
-                Log.d("TAG_INAPP", "billingResult responseCode : ${billingResult.responseCode}")
+        PurchasesUpdatedListener { billingResult, purchases ->
+            Log.d("TAG_INAPP", "billingResult responseCode : ${billingResult.responseCode}")
 
-                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && purchases != null) {
+            if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && purchases != null) {
 
-                    val eventValues = HashMap<String, Any>()
-                    eventValues.put(AFInAppEventParameterName.REVENUE, 0)
-                    AppsFlyerLib.getInstance().logEvent(getApplicationContext(),
-                            "purchase",
-                            eventValues)
+                val eventValues = HashMap<String, Any>()
+                eventValues.put(AFInAppEventParameterName.REVENUE, 0)
+                AppsFlyerLib.getInstance().logEvent(
+                    applicationContext,
+                    "purchase",
+                    eventValues
+                )
 
-                    for (purchase in purchases) {
-                        handleConsumedPurchases(purchase)
-                    }
-                }else if (billingResult.responseCode == BillingClient.BillingResponseCode.USER_CANCELED) {
-                    val eventValues = HashMap<String, Any>()
-                    eventValues.put(AFInAppEventParameterName.REVENUE, 0)
-                    AppsFlyerLib.getInstance().logEvent(getApplicationContext(),
-                            "cancel_purchase",
-                            eventValues)
-                // Handle an error caused by a user cancelling the purchase flow.
+                for (purchase in purchases) {
+                    handleConsumedPurchases(purchase)
                 }
+            } else if (billingResult.responseCode == BillingClient.BillingResponseCode.USER_CANCELED) {
+                val eventValues = HashMap<String, Any>()
+                eventValues.put(AFInAppEventParameterName.REVENUE, 0)
+                AppsFlyerLib.getInstance().logEvent(
+                    applicationContext,
+                    "cancel_purchase",
+                    eventValues
+                )
+                // Handle an error caused by a user cancelling the purchase flow.
             }
+        }
 
     private fun startConnection() {
-        billingClient?.startConnection(object : BillingClientStateListener {
-            override fun onBillingSetupFinished(billingResult: BillingResult) {
-                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
-                    Log.d("TAG_INAPP", "Setup Billing Done")
-                    // The BillingClient is ready. You can query purchases here.
-                    queryAvailableProducts()
+        try {
+            billingClient?.startConnection(object : BillingClientStateListener {
+                override fun onBillingSetupFinished(billingResult: BillingResult) {
+                    if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                        Log.d("TAG_INAPP", "Setup Billing Done")
+                        // The BillingClient is ready. You can query purchases here.
+                        queryAvailableProducts()
+                    }
                 }
-            }
 
-            override fun onBillingServiceDisconnected() {
-                Log.e("TAG_INAPP", "Billing client Disconnected")
-                // Try to restart the connection on the next request to
-                // Google Play by calling the startConnection() method.
-            }
-        })
+                override fun onBillingServiceDisconnected() {
+                    Log.e("TAG_INAPP", "Billing client Disconnected")
+                    // Try to restart the connection on the next request to
+                    // Google Play by calling the startConnection() method.
+                }
+            })
+        } catch (_: Exception) {
+        }
     }
 
     private fun queryAvailableProducts() {
@@ -264,7 +384,11 @@ class NewPurchaseActivity : AppCompatActivity() {
                 }
 
                 if (tierId == QUANTUM_TIER_ID) {
-                    purchase_price.text = getString(R.string.subs_purchase_info, mSubsMonth?.price, mSubsAnnual?.price)
+                    purchase_price.text = getString(
+                        R.string.subs_purchase_info,
+                        mSubsMonth?.price,
+                        mSubsAnnual?.price
+                    )
                 }
             }
         }
@@ -308,8 +432,7 @@ class NewPurchaseActivity : AppCompatActivity() {
 
                 if (tierId != QUANTUM_TIER_ID && tierId != INNER_CIRCLE_TIER_ID) {
                     purchase_price.text = getString(R.string.inapp_purchase_info, mInapp?.price)
-                }
-                else
+                } else
                     purchase_price.text = ""
             }
         }
@@ -317,17 +440,21 @@ class NewPurchaseActivity : AppCompatActivity() {
 
     private fun handleConsumedPurchases(purchase: Purchase) {
         Log.d("TAG_INAPP", "handleConsumablePurchasesAsync foreach it is $purchase")
-        val consumeParams = ConsumeParams.newBuilder().setPurchaseToken(purchase.purchaseToken).build()
+        val consumeParams =
+            ConsumeParams.newBuilder().setPurchaseToken(purchase.purchaseToken).build()
         billingClient?.consumeAsync(consumeParams) { billingResult, _ ->
             when (billingResult.responseCode) {
                 BillingClient.BillingResponseCode.OK -> {
                     // Handle the success of the consume operation.
-                    Log.d("TAG_INAPP", "Update the appropriate tables/databases to grant user the items")
+                    Log.d(
+                        "TAG_INAPP",
+                        "Update the appropriate tables/databases to grant user the items"
+                    )
 
                     val albumDao = DataBase.getInstance(applicationContext).albumDao()
 
 
-                    GlobalScope.launch {
+                    CoroutineScope(Dispatchers.IO).launch {
                         when (mSkuDetails?.sku) {
 
                             QUANTUM_TIER_SUBS_MONTH,
@@ -336,98 +463,165 @@ class NewPurchaseActivity : AppCompatActivity() {
                             }
 
                             HIGHER_QUANTUM_TIER_INAPP_WELLNESS_I.sku -> {
-                                albumDao.setNewUnlockedByCategoryId(true, HIGHER_QUANTUM_TIER_INAPP_WELLNESS_I.categoryId)
+                                albumDao.setNewUnlockedByCategoryId(
+                                    true,
+                                    HIGHER_QUANTUM_TIER_INAPP_WELLNESS_I.categoryId
+                                )
                             }
 
                             HIGHER_QUANTUM_TIER_INAPP_WELLNESS_II.sku -> {
-                                albumDao.setNewUnlockedByCategoryId(true, HIGHER_QUANTUM_TIER_INAPP_WELLNESS_II.categoryId)
+                                albumDao.setNewUnlockedByCategoryId(
+                                    true,
+                                    HIGHER_QUANTUM_TIER_INAPP_WELLNESS_II.categoryId
+                                )
                             }
 
                             HIGHER_QUANTUM_TIER_INAPP_WELLNESS_III.sku -> {
-                                albumDao.setNewUnlockedByCategoryId(true, HIGHER_QUANTUM_TIER_INAPP_WELLNESS_III.categoryId)
+                                albumDao.setNewUnlockedByCategoryId(
+                                    true,
+                                    HIGHER_QUANTUM_TIER_INAPP_WELLNESS_III.categoryId
+                                )
                             }
 
                             HIGHER_QUANTUM_TIER_INAPP_LIFE_FORCE.sku -> {
-                                albumDao.setNewUnlockedByCategoryId(true, HIGHER_QUANTUM_TIER_INAPP_LIFE_FORCE.categoryId)
+                                albumDao.setNewUnlockedByCategoryId(
+                                    true,
+                                    HIGHER_QUANTUM_TIER_INAPP_LIFE_FORCE.categoryId
+                                )
                             }
 
                             HIGHER_QUANTUM_TIER_INAPP_ABUNDANCE_LUCK.sku -> {
-                                albumDao.setNewUnlockedByCategoryId(true, HIGHER_QUANTUM_TIER_INAPP_ABUNDANCE_LUCK.categoryId)
+                                albumDao.setNewUnlockedByCategoryId(
+                                    true,
+                                    HIGHER_QUANTUM_TIER_INAPP_ABUNDANCE_LUCK.categoryId
+                                )
                             }
 
                             HIGHER_QUANTUM_TIER_INAPP_ABUNDANCE_SUCCESS.sku -> {
-                                albumDao.setNewUnlockedByCategoryId(true, HIGHER_QUANTUM_TIER_INAPP_ABUNDANCE_SUCCESS.categoryId)
+                                albumDao.setNewUnlockedByCategoryId(
+                                    true,
+                                    HIGHER_QUANTUM_TIER_INAPP_ABUNDANCE_SUCCESS.categoryId
+                                )
                             }
 
                             HIGHER_QUANTUM_TIER_INAPP_ABUNDANCE_HAPPINESS.sku -> {
-                                albumDao.setNewUnlockedByCategoryId(true, HIGHER_QUANTUM_TIER_INAPP_ABUNDANCE_HAPPINESS.categoryId)
+                                albumDao.setNewUnlockedByCategoryId(
+                                    true,
+                                    HIGHER_QUANTUM_TIER_INAPP_ABUNDANCE_HAPPINESS.categoryId
+                                )
                             }
 
                             HIGHER_QUANTUM_TIER_INAPP_ABUNDANCE_LOVE.sku -> {
-                                albumDao.setNewUnlockedByCategoryId(true, HIGHER_QUANTUM_TIER_INAPP_ABUNDANCE_LOVE.categoryId)
+                                albumDao.setNewUnlockedByCategoryId(
+                                    true,
+                                    HIGHER_QUANTUM_TIER_INAPP_ABUNDANCE_LOVE.categoryId
+                                )
                             }
 
                             HIGHER_QUANTUM_TIER_INAPP_BRAIN.sku -> {
-                                albumDao.setNewUnlockedByCategoryId(true, HIGHER_QUANTUM_TIER_INAPP_BRAIN.categoryId)
+                                albumDao.setNewUnlockedByCategoryId(
+                                    true,
+                                    HIGHER_QUANTUM_TIER_INAPP_BRAIN.categoryId
+                                )
                             }
 
                             HIGHER_QUANTUM_TIER_INAPP_WISDOM.sku -> {
-                                albumDao.setNewUnlockedByCategoryId(true, HIGHER_QUANTUM_TIER_INAPP_WISDOM.categoryId)
+                                albumDao.setNewUnlockedByCategoryId(
+                                    true,
+                                    HIGHER_QUANTUM_TIER_INAPP_WISDOM.categoryId
+                                )
                             }
 
                             HIGHER_QUANTUM_TIER_INAPP_MANIFESTING.sku -> {
-                                albumDao.setNewUnlockedByCategoryId(true, HIGHER_QUANTUM_TIER_INAPP_MANIFESTING.categoryId)
+                                albumDao.setNewUnlockedByCategoryId(
+                                    true,
+                                    HIGHER_QUANTUM_TIER_INAPP_MANIFESTING.categoryId
+                                )
                             }
 
                             HIGHER_QUANTUM_TIER_INAPP_TRANSFORMATION_MEDITATION.sku -> {
-                                albumDao.setNewUnlockedByCategoryId(true, HIGHER_QUANTUM_TIER_INAPP_TRANSFORMATION_MEDITATION.categoryId)
+                                albumDao.setNewUnlockedByCategoryId(
+                                    true,
+                                    HIGHER_QUANTUM_TIER_INAPP_TRANSFORMATION_MEDITATION.categoryId
+                                )
                             }
 
                             HIGHER_QUANTUM_TIER_INAPP_PROTECTION.sku -> {
-                                albumDao.setNewUnlockedByCategoryId(true, HIGHER_QUANTUM_TIER_INAPP_PROTECTION.categoryId)
+                                albumDao.setNewUnlockedByCategoryId(
+                                    true,
+                                    HIGHER_QUANTUM_TIER_INAPP_PROTECTION.categoryId
+                                )
                             }
 
                             HIGHER_QUANTUM_TIER_INAPP_BEAUTY_I.sku -> {
-                                albumDao.setNewUnlockedByCategoryId(true, HIGHER_QUANTUM_TIER_INAPP_BEAUTY_I.categoryId)
+                                albumDao.setNewUnlockedByCategoryId(
+                                    true,
+                                    HIGHER_QUANTUM_TIER_INAPP_BEAUTY_I.categoryId
+                                )
                             }
 
                             HIGHER_QUANTUM_TIER_INAPP_BEAUTY_II.sku -> {
-                                albumDao.setNewUnlockedByCategoryId(true, HIGHER_QUANTUM_TIER_INAPP_BEAUTY_II.categoryId)
+                                albumDao.setNewUnlockedByCategoryId(
+                                    true,
+                                    HIGHER_QUANTUM_TIER_INAPP_BEAUTY_II.categoryId
+                                )
                             }
 
                             HIGHER_QUANTUM_TIER_INAPP_SKIN_CARE.sku -> {
-                                albumDao.setNewUnlockedByCategoryId(true, HIGHER_QUANTUM_TIER_INAPP_SKIN_CARE.categoryId)
+                                albumDao.setNewUnlockedByCategoryId(
+                                    true,
+                                    HIGHER_QUANTUM_TIER_INAPP_SKIN_CARE.categoryId
+                                )
                             }
 
                             HIGHER_QUANTUM_TIER_INAPP_FITNESS.sku -> {
-                                albumDao.setNewUnlockedByCategoryId(true, HIGHER_QUANTUM_TIER_INAPP_FITNESS.categoryId)
+                                albumDao.setNewUnlockedByCategoryId(
+                                    true,
+                                    HIGHER_QUANTUM_TIER_INAPP_FITNESS.categoryId
+                                )
                             }
 
                             HIGHER_QUANTUM_TIER_INAPP_DMT.sku -> {
                                 //albumDao.setNewUnlockedById(true, Id)
-                                albumDao.setNewUnlockedByCategoryId(true, HIGHER_QUANTUM_TIER_INAPP_DMT.categoryId)
+                                albumDao.setNewUnlockedByCategoryId(
+                                    true,
+                                    HIGHER_QUANTUM_TIER_INAPP_DMT.categoryId
+                                )
                             }
 
                             HIGHER_QUANTUM_TIER_INAPP_AYAHUASCA.sku -> {
-                                albumDao.setNewUnlockedByCategoryId(true, HIGHER_QUANTUM_TIER_INAPP_AYAHUASCA.categoryId)
+                                albumDao.setNewUnlockedByCategoryId(
+                                    true,
+                                    HIGHER_QUANTUM_TIER_INAPP_AYAHUASCA.categoryId
+                                )
                             }
 
                             HIGHER_QUANTUM_TIER_INAPP_NAD.sku -> {
-                                albumDao.setNewUnlockedByCategoryId(true, HIGHER_QUANTUM_TIER_INAPP_NAD.categoryId)
+                                albumDao.setNewUnlockedByCategoryId(
+                                    true,
+                                    HIGHER_QUANTUM_TIER_INAPP_NAD.categoryId
+                                )
                             }
 
                             HIGHER_QUANTUM_TIER_INAPP_NMN.sku -> {
-                                albumDao.setNewUnlockedByCategoryId(true, HIGHER_QUANTUM_TIER_INAPP_NMN.categoryId)
+                                albumDao.setNewUnlockedByCategoryId(
+                                    true,
+                                    HIGHER_QUANTUM_TIER_INAPP_NMN.categoryId
+                                )
                             }
 
                             HIGHER_QUANTUM_TIER_INAPP_DIGITAL_IVM.sku -> {
-                                albumDao.setNewUnlockedByCategoryId(true, HIGHER_QUANTUM_TIER_INAPP_DIGITAL_IVM.categoryId)
+                                albumDao.setNewUnlockedByCategoryId(
+                                    true,
+                                    HIGHER_QUANTUM_TIER_INAPP_DIGITAL_IVM.categoryId
+                                )
                             }
                         }
                     }
 
                     finish()
                 }
+
                 else -> {
                     Log.e("TAG_INAPP", billingResult.debugMessage)
                 }
@@ -438,15 +632,15 @@ class NewPurchaseActivity : AppCompatActivity() {
     private fun pay() {
         if (tierId == QUANTUM_TIER_ID) {
             AlertDialog.Builder(this).setTitle("Subscribe for")
-                    .setCancelable(true)
-                    .setNegativeButton(getString(R.string.purchase_dialog_btn_month)) { dialog, _ ->
-                        mSubsMonth?.let { openPurchaseDialog(it) }
-                        dialog.dismiss()
-                    }
-                    .setPositiveButton(getString(R.string.purchase_dialog_btn_annual)) { dialog, _ ->
-                        mSubsAnnual?.let { openPurchaseDialog(it) }
-                        dialog.dismiss()
-                    }.show()
+                .setCancelable(true)
+                .setNegativeButton(getString(R.string.purchase_dialog_btn_month)) { dialog, _ ->
+                    mSubsMonth?.let { openPurchaseDialog(it) }
+                    dialog.dismiss()
+                }
+                .setPositiveButton(getString(R.string.purchase_dialog_btn_annual)) { dialog, _ ->
+                    mSubsAnnual?.let { openPurchaseDialog(it) }
+                    dialog.dismiss()
+                }.show()
         } else {
             mInapp?.let { openPurchaseDialog(it) }
         }
@@ -456,8 +650,8 @@ class NewPurchaseActivity : AppCompatActivity() {
         mSkuDetails = skuDetails
 
         val flowParams = BillingFlowParams.newBuilder()
-                .setSkuDetails(skuDetails)
-                .build()
+            .setSkuDetails(skuDetails)
+            .build()
         billingClient?.launchBillingFlow(this, flowParams)?.responseCode
     }
 

@@ -1,6 +1,6 @@
 package com.Meditation.Sounds.frequencies.lemeor.ui.programs
 
-import android.content.Context
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,11 +10,9 @@ import com.Meditation.Sounds.frequencies.lemeor.FAVORITES
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Program
 import com.Meditation.Sounds.frequencies.lemeor.getConvertedTime
 import kotlinx.android.synthetic.main.item_program.view.*
-import java.util.*
 
 class ProgramAdapter(
-        private val mContext: Context,
-        private var mData: List<Program>
+    private var mData: List<Program> = listOf()
 ) : RecyclerView.Adapter<ProgramAdapter.ViewHolder>() {
 
     interface Listener {
@@ -29,7 +27,9 @@ class ProgramAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_program, parent, false))
+        return ViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.item_program, parent, false)
+        )
     }
 
     override fun getItemCount(): Int {
@@ -40,36 +40,62 @@ class ProgramAdapter(
         val program = mData[position]
 
         holder.itemView.item_program_name.text = program.name
-        holder.itemView.item_program_duration.text = mContext.getString(R.string.total_time, getConvertedTime((program.records.size * 300000).toLong()))
-
-        if (program.isMy) {
-            if (program.name == FAVORITES) {
-                holder.itemView.item_program_delete.visibility = View.INVISIBLE
-                holder.itemView.item_program_lock.visibility = View.INVISIBLE
-            } else {
-                holder.itemView.item_program_delete.visibility = View.VISIBLE
-                holder.itemView.item_program_lock.visibility = View.INVISIBLE
-            }
-        } else {
+        holder.itemView.item_program_duration.text = holder.itemView.context.getString(
+            R.string.total_time,
+            getConvertedTime((program.records.size * 300000).toLong())
+        )
+        if (program.name.uppercase() == FAVORITES.uppercase() && program.favorited) {
             holder.itemView.item_program_delete.visibility = View.INVISIBLE
-            if (program.isUnlocked) {
-                holder.itemView.item_program_lock.visibility = View.INVISIBLE
-            } else {
+            holder.itemView.item_program_lock.visibility = View.INVISIBLE
+            if (!program.isUnlocked){
                 holder.itemView.item_program_lock.visibility = View.VISIBLE
             }
+        } else if (program.isUnlocked) {
+            holder.itemView.item_program_lock.visibility = View.INVISIBLE
+            holder.itemView.item_program_delete.visibility = View.VISIBLE
+        } else {
+            holder.itemView.item_program_delete.visibility = View.INVISIBLE
+            holder.itemView.item_program_lock.visibility = View.VISIBLE
         }
+//        if (program.isMy) {
+//            if (program.name == FAVORITES) {
+//                holder.itemView.item_program_delete.visibility = View.INVISIBLE
+//                holder.itemView.item_program_lock.visibility = View.INVISIBLE
+//            } else {
+//                holder.itemView.item_program_delete.visibility = View.VISIBLE
+//                holder.itemView.item_program_lock.visibility = View.INVISIBLE
+//            }
+//        } else {
+//            holder.itemView.item_program_delete.visibility = View.INVISIBLE
+//            if (program.isUnlocked) {
+//                holder.itemView.item_program_lock.visibility = View.INVISIBLE
+//            } else {
+//                holder.itemView.item_program_lock.visibility = View.VISIBLE
+//            }
+//        }
 
-        holder.itemView.item_program_delete.setOnClickListener { mListener?.onDeleteItem(program, position) }
+        holder.itemView.item_program_delete.setOnClickListener {
+            mListener?.onDeleteItem(
+                program,
+                position
+            )
+        }
         holder.itemView.setOnClickListener { mListener?.onClickItem(program, position) }
 
-        if (position == mData.size - 1) { holder.itemView.program_divider_favorites.visibility = View.INVISIBLE }
-        else { holder.itemView.program_divider_favorites.visibility = View.VISIBLE }
+        if (position == mData.size - 1) {
+            holder.itemView.program_divider_favorites.visibility = View.INVISIBLE
+        } else {
+            holder.itemView.program_divider_favorites.visibility = View.VISIBLE
+        }
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setData(programList: List<Program>?) {
-        mData = ArrayList(programList as MutableList).sortedWith(compareByDescending { it.isMy })
+        mData =
+            ArrayList(programList as MutableList).reversed()
+                .sortedWith(compareByDescending { it.name.uppercase() == FAVORITES.uppercase() })
         notifyDataSetChanged()
     }
 }

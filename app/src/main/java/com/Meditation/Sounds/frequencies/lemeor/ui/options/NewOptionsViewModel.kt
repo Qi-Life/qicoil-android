@@ -15,7 +15,7 @@ class NewOptionsViewModel(private val repository: NewOptionsRepository) : ViewMo
         } catch (exception: HttpException) {
             emit(Resource.error(data = null, message = getErrorMsg(exception)))
         } catch (exception: Exception) {
-            emit(Resource.error(data = null, message = exception.message ?: "Error Occurred!"))
+            emit(Resource.error(data = null, message = exception.message))
         }
     }
 
@@ -26,7 +26,7 @@ class NewOptionsViewModel(private val repository: NewOptionsRepository) : ViewMo
         } catch (exception: HttpException) {
             emit(Resource.error(data = null, message = getErrorMsg(exception)))
         } catch (exception: Exception) {
-            emit(Resource.error(data = null, message = exception.message ?: "Error Occurred!"))
+            emit(Resource.error(data = null, message = exception.message))
         }
     }
 }

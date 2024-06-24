@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.os.Build
 import android.os.Handler
 import android.view.View
 import android.widget.Toast
@@ -55,8 +56,13 @@ class PlaylistFragment : BaseFragment() {
     override fun initLayout(): Int { return R.layout.fragment_playlist }
 
     override fun initComponents() {
-        mContext?.registerReceiver(broadcastReceiverPurchased, IntentFilter(Constants.BROADCAST_ACTION_PURCHASED))
-        mContext?.registerReceiver(broadcastReceiver, IntentFilter(Constants.BROADCAST_ADD_SONG_TO_ALBUM))
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            mContext?.registerReceiver(broadcastReceiverPurchased, IntentFilter(Constants.BROADCAST_ACTION_PURCHASED),Context.RECEIVER_EXPORTED)
+            mContext?.registerReceiver(broadcastReceiver, IntentFilter(Constants.BROADCAST_ADD_SONG_TO_ALBUM),Context.RECEIVER_EXPORTED)
+        }else{
+            mContext?.registerReceiver(broadcastReceiverPurchased, IntentFilter(Constants.BROADCAST_ACTION_PURCHASED))
+            mContext?.registerReceiver(broadcastReceiver, IntentFilter(Constants.BROADCAST_ADD_SONG_TO_ALBUM))
+        }
         mViewModelPD = ViewModelProviders.of(this).get(PlaylistDetailViewModel::class.java)
 
         if (fromAlbumDetail) {
@@ -80,12 +86,12 @@ class PlaylistFragment : BaseFragment() {
                     parent.addFragment(PlaylistDetailFragment.newInstance(playlist, PlaylistItem(), false, false), R.id.frame1)
                 } else {
                     val baseActivity = mContext as BaseActivity
-                    baseActivity?.showDialogSubscriptionFS(0)
+                    baseActivity.showDialogSubscriptionFS(0)
                 }
             }
 
             override fun onDeleteItem(playlist: Playlist) {
-                var alertDialog = AlertMessageDialog(mContext, object : AlertMessageDialog.IOnSubmitListener {
+                val alertDialog = AlertMessageDialog(mContext, object : AlertMessageDialog.IOnSubmitListener {
 
                     override fun submit() {
                         mViewModel.delete(playlist.id)
@@ -199,8 +205,8 @@ class PlaylistFragment : BaseFragment() {
     }
 
     fun loadPlaylist() {
-        mViewModel = ViewModelProviders.of(this).get(PlaylistViewModel::class.java)
-        mViewModel.getAllPlayList().observe(this, {
+        mViewModel = ViewModelProviders.of(this)[PlaylistViewModel::class.java]
+        mViewModel.getAllPlayList().observe(this) {
             if (it != null) {
                 mDataAdded.clear()
                 mData.clear()
@@ -225,7 +231,7 @@ class PlaylistFragment : BaseFragment() {
             mAdapter.setListData(mData)
             mAdapterAdd.setListData(mDataAdded)
             mAdapter.initPurchaseRequest()
-        })
+        }
     }
 
     override fun onDestroy() {

@@ -14,6 +14,38 @@
       },
       "oauth_client": [
         {
+          "client_id": "942446389344-ajurdl7gggn5ggabtsk06aqerclcnra1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.Meditation.Sounds.frequencies",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "942446389344-h1jqf0cjkc5ljbj9jimsm7iptfvva0md.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.Meditation.Sounds.frequencies",
+            "certificate_hash": "a92efede46d064af7a29e4ffb594ca8eda9d1acc"
+          }
+        },
+        {
+          "client_id": "942446389344-lj2p1akkvv6er67huqu136lt75cbciso.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.Meditation.Sounds.frequencies",
+            "certificate_hash": "eb116f7390f1800fcbd23784c21d1ba2bc3e41bc"
+          }
+        },
+        {
+          "client_id": "942446389344-u9dqu75be58a5v16jce2h7jn9ks7e40b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.Meditation.Sounds.frequencies",
+            "certificate_hash": "0f72854a5d627e0be9ad85d1e205041b59c2e8cf"
+          }
+        },
+        {
           "client_id": "942446389344-enu5kv3t8gr36r4hfqcr577r67ohak6j.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,6 +61,14 @@
             {
               "client_id": "942446389344-enu5kv3t8gr36r4hfqcr577r67ohak6j.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "942446389344-dk3c00dq5fo6hlgqq0m8tg2o6etg4fq0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Meditation.Sounds.frequencies",
+                "app_store_id": "1456729917"
+              }
             }
           ]
         }
@@ -58,6 +98,215 @@
             {
               "client_id": "942446389344-enu5kv3t8gr36r4hfqcr577r67ohak6j.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "942446389344-dk3c00dq5fo6hlgqq0m8tg2o6etg4fq0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Meditation.Sounds.frequencies",
+                "app_store_id": "1456729917"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:942446389344:android:1416b0125dec21dae5bb05",
+        "android_client_info": {
+          "package_name": "com.quantumfrequencies.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "942446389344-enu5kv3t8gr36r4hfqcr577r67ohak6j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBo43_aCIlzk2mIpX4FD--CP23PzdTmisc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "942446389344-enu5kv3t8gr36r4hfqcr577r67ohak6j.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "942446389344-dk3c00dq5fo6hlgqq0m8tg2o6etg4fq0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Meditation.Sounds.frequencies",
+                "app_store_id": "1456729917"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:942446389344:android:d9ab0febd88cd164e5bb05",
+        "android_client_info": {
+          "package_name": "com.rifeapp.rifeapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "942446389344-s585rk566kmn227m9c23e04hmm1vj3vv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rifeapp.rifeapp",
+            "certificate_hash": "b6cd69998db65afa0ff0fb47ee2ead91303978b5"
+          }
+        },
+        {
+          "client_id": "942446389344-enu5kv3t8gr36r4hfqcr577r67ohak6j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBo43_aCIlzk2mIpX4FD--CP23PzdTmisc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "942446389344-enu5kv3t8gr36r4hfqcr577r67ohak6j.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "942446389344-dk3c00dq5fo6hlgqq0m8tg2o6etg4fq0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Meditation.Sounds.frequencies",
+                "app_store_id": "1456729917"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:942446389344:android:9de537f7cea98982e5bb05",
+        "android_client_info": {
+          "package_name": "com.scalar.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "942446389344-enu5kv3t8gr36r4hfqcr577r67ohak6j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBo43_aCIlzk2mIpX4FD--CP23PzdTmisc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "942446389344-enu5kv3t8gr36r4hfqcr577r67ohak6j.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "942446389344-dk3c00dq5fo6hlgqq0m8tg2o6etg4fq0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Meditation.Sounds.frequencies",
+                "app_store_id": "1456729917"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:942446389344:android:afa319aed03de509e5bb05",
+        "android_client_info": {
+          "package_name": "com.zappkit.zappid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "942446389344-enu5kv3t8gr36r4hfqcr577r67ohak6j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBo43_aCIlzk2mIpX4FD--CP23PzdTmisc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "942446389344-enu5kv3t8gr36r4hfqcr577r67ohak6j.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "942446389344-dk3c00dq5fo6hlgqq0m8tg2o6etg4fq0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Meditation.Sounds.frequencies",
+                "app_store_id": "1456729917"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:942446389344:android:5752b39c29015ee6e5bb05",
+        "android_client_info": {
+          "package_name": "dr.royal.rife.machine.frequency.app.zapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "942446389344-h4hru4qdbceqb3u7v1jvb39pcahrcsk5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "dr.royal.rife.machine.frequency.app.zapp",
+            "certificate_hash": "ede5935ffb1d358dea8c7e8e48d23bbb918d150e"
+          }
+        },
+        {
+          "client_id": "942446389344-enu5kv3t8gr36r4hfqcr577r67ohak6j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBo43_aCIlzk2mIpX4FD--CP23PzdTmisc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "942446389344-enu5kv3t8gr36r4hfqcr577r67ohak6j.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "942446389344-dk3c00dq5fo6hlgqq0m8tg2o6etg4fq0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Meditation.Sounds.frequencies",
+                "app_store_id": "1456729917"
+              }
             }
           ]
         }

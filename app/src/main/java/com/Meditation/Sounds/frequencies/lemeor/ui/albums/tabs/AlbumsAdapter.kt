@@ -19,6 +19,7 @@ class AlbumsAdapter(
 
     interface Listener {
         fun onClickItem(album: Album)
+        fun onLongClickItem(album: Album)
     }
 
     private var mListener: Listener? = null
@@ -52,6 +53,10 @@ class AlbumsAdapter(
         loadImage(mContext, holder.itemView.image, album)
 
         holder.itemView.setOnClickListener { mListener?.onClickItem(album) }
+        holder.itemView.setOnLongClickListener {
+            mListener?.onLongClickItem(album)
+            true
+        }
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -66,8 +71,8 @@ class AlbumsAdapter(
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
-    fun setData(categoryList: List<Album>?) {
-        mData = categoryList as ArrayList<Album>
+    fun setData(categoryList: ArrayList<Album>) {
+        mData = categoryList
         notifyDataSetChanged()
     }
 }

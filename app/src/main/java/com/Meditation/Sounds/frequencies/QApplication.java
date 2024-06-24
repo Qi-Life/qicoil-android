@@ -1,17 +1,15 @@
 package com.Meditation.Sounds.frequencies;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.AsyncTask;
-import android.os.Build;
-import android.os.CountDownTimer;
-import android.os.StrictMode;
-import android.view.WindowManager;
+import android.os.LocaleList;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.os.LocaleListCompat;
 import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
+import androidx.work.Configuration;
 
 import com.Meditation.Sounds.frequencies.api.ApiListener;
 import com.Meditation.Sounds.frequencies.db.QFDatabase;
@@ -23,28 +21,28 @@ import com.Meditation.Sounds.frequencies.tasks.UpdateDurationOfAllPlaylistTask;
 import com.Meditation.Sounds.frequencies.tasks.UpdatePlaylistInforVer10Task;
 import com.Meditation.Sounds.frequencies.utils.Constants;
 import com.Meditation.Sounds.frequencies.utils.FilesUtils;
+import com.Meditation.Sounds.frequencies.utils.LanguageUtils;
 import com.Meditation.Sounds.frequencies.utils.SharedPreferenceHelper;
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
 import com.appsflyer.AppsFlyerLib;
 
 import java.io.File;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.Locale;
+import java.util.concurrent.Executors;
 
-public class QApplication extends MultiDexApplication implements ApiListener {
+public class QApplication extends MultiDexApplication implements ApiListener, Configuration.Provider {
     private static QApplication INSTANCE;
-    private int APP_VERSION = 12;
+    static int APP_VERSION = 12;
     private ArrayList<BaseActivity> mStacksActivity;
+
+    public static boolean isActivityDownloadStarted = false;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        AppEventsLogger.activateApp(this);
         MultiDex.install(this);
+//        AppCompatDelegate.setApplicationLocales(LanguageUtils.Companion.getLocaleList(this));
+
         INSTANCE = this;
         AppsFlyerLib.getInstance().init("aNPCN6auSrzidSGCeMrg9R", null, this);
         AppsFlyerLib.getInstance().start(this);
@@ -53,56 +51,27 @@ public class QApplication extends MultiDexApplication implements ApiListener {
             onUpgradeVersion(version, APP_VERSION);
             SharedPreferenceHelper.getInstance().setInt(SharedPreferenceHelper.SHARED_PREF_APP_VERSION, APP_VERSION);
         }
-        if (Build.VERSION.SDK_INT >= 24) {
-            try {
-                Method m = StrictMode.class.getMethod("disableDeathOnFileUriExposure");
-                m.invoke(null);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
         mStacksActivity = new ArrayList<>();
-
-
-//        new CountDownTimer(30000, 1000) {
-//
-//            public void onTick(long millisUntilFinished) {
-//              //  mTextField.setText("seconds remaining: " + millisUntilFinished / 1000);
-//                //here you can have your logic to set text to edittext
-//            }
-//
-//            public void onFinish() {
-//                showAlertDialog(INSTANCE);
-//            }
-//
-//        }.start();
-       // showAlertDialog(INSTANCE);
-//        new Timer().schedule(new TimerTask() {
-//            @Override
-//            public void run() {
-//               showAlertDialog(INSTANCE);
-//            }
-//        }, 30000);
     }
 
-    public void addActivityToStack(BaseActivity activity){
-        if(mStacksActivity.size() > 0 && mStacksActivity.get(mStacksActivity.size() - 1).getClass() == activity.getClass()){
+    public void addActivityToStack(BaseActivity activity) {
+        if (mStacksActivity.size() > 0 && mStacksActivity.get(mStacksActivity.size() - 1).getClass() == activity.getClass()) {
             return;
         }
         mStacksActivity.add(activity);
     }
 
-    public void removeActivityToStack(BaseActivity activity){
-        if(mStacksActivity.size() > 0 && mStacksActivity.get(mStacksActivity.size() - 1).getClass() == activity.getClass()){
+    public void removeActivityToStack(BaseActivity activity) {
+        if (mStacksActivity.size() > 0 && mStacksActivity.get(mStacksActivity.size() - 1).getClass() == activity.getClass()) {
             mStacksActivity.remove(mStacksActivity.size() - 1);
         }
     }
 
-    public BaseActivity getTopActivity(){
+    public BaseActivity getTopActivity() {
         return mStacksActivity.size() > 0 ? mStacksActivity.get(mStacksActivity.size() - 1) : null;
     }
 
-    public static QApplication getInstance(){
+    public static QApplication getInstance() {
         return INSTANCE;
     }
 
@@ -119,17 +88,20 @@ public class QApplication extends MultiDexApplication implements ApiListener {
             database.playlistItemDAO().clear();
             database.playlistItemSongDAO().clear();
         }
-        if(oldVersion < 10){
+        if (oldVersion < 10) {
             new UpdatePlaylistInforVer10Task(this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
-        if(oldVersion < 11){
+        if (oldVersion < 11) {
             new UpdateDurationOfAllPlaylistTask(this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
-        if(oldVersion < 12){
+        if (oldVersion < 12) {
             PlaylistDAO playlistDao = QFDatabase.getDatabase(this).playlistDAO();
             Playlist playlist = playlistDao.getFirstModifiedPlaylist();
-            if(playlist != null && playlist.getTitle() != null && playlist.getTitle().equalsIgnoreCase("Playlist 1")){
-                playlistDao.updateFromUserFromId(playlist.getId(), 1);
+            if (playlist != null) {
+                playlist.getTitle();
+                if (playlist.getTitle().equalsIgnoreCase("Playlist 1")) {
+                    playlistDao.updateFromUserFromId(playlist.getId(), 1);
+                }
             }
         }
     }
@@ -149,28 +121,31 @@ public class QApplication extends MultiDexApplication implements ApiListener {
 
     }
 
-    //Dialoge
-    public void showAlertDialog(Context context) {
-        /** define onClickListener for dialog */
-        DialogInterface.OnClickListener listener
-                = new   DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // do some stuff eg: context.onCreate(super)
-            }
-        };
+    @Override
+    public void onConfigurationChanged(@NonNull android.content.res.Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+    }
+    
+    @NonNull
+    @Override
+    public Configuration getWorkManagerConfiguration() {
+        if (BuildConfig.DEBUG) {
+            return new Configuration.Builder()
+                    .setMinimumLoggingLevel(android.util.Log.DEBUG)
+                    .setExecutor(Executors.newSingleThreadExecutor())
+                    .setTaskExecutor(Executors.newSingleThreadExecutor())
+                    .build();
+        } else {
+            return new Configuration.Builder()
+                    .setMinimumLoggingLevel(android.util.Log.ERROR)
+                    .setExecutor(Executors.newSingleThreadExecutor())
+                    .setTaskExecutor(Executors.newSingleThreadExecutor())
+                    .build();
+        }
+    }
 
-        /** create builder for dialog */
-        AlertDialog.Builder builder = new AlertDialog.Builder(context)
-                .setCancelable(false)
-                .setMessage("Messag...")
-                .setTitle("Title")
-                .setPositiveButton("OK", listener);
-        /** create dialog & set builder on it */
-        Dialog dialog = builder.create();
-        /** this required special permission but u can use aplication context */
-        dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
-        /** show dialog */
-        dialog.show();
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
     }
 }

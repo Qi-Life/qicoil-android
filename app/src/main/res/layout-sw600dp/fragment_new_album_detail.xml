@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:font="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -47,14 +48,38 @@
                     tools:src="@drawable/ic_album_1"
                     tools:ignore="ContentDescription"/>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/album_description_recycler"
+                <com.Meditation.Sounds.frequencies.views.CustomFontTextView
+                    android:id="@+id/programName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:overScrollMode="never"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/item_description">
-                </androidx.recyclerview.widget.RecyclerView>
+                    android:textAllCaps="true"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_size_25"
+                    font:fontText="fonts/BebasNeue_Bold.otf"
+                    android:includeFontPadding="false"
+                    tools:text="Title Program" />
+
+                <com.Meditation.Sounds.frequencies.views.CustomFontTextView
+                    android:id="@+id/program_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/image_size_10"
+                    android:textAllCaps="true"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_size_nomarl"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    font:fontText="fonts/BebasNeue_Book.otf"
+                    tools:text="total time" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_size_small_11"
+                    android:textStyle="bold"
+                    tools:text="Description" />
             </LinearLayout>
 
             <LinearLayout
@@ -63,19 +88,48 @@
                 android:layout_weight="1.2"
                 android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/album_play"
-                    android:layout_width="wrap_content"
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/indent_16"
-                    android:paddingLeft="@dimen/image_size_40"
-                    android:paddingRight="@dimen/image_size_40"
-                    android:minHeight="35dp"
-                    android:background="@drawable/rounded_btn_play"
-                    android:layout_gravity="center"
-                    android:textColor="@android:color/white"
-                    android:text="@string/btn_play">
-                </Button>
+                    android:layout_gravity="center">
+
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <Button
+                        android:id="@+id/album_play"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/indent_16"
+                        android:background="@drawable/rounded_btn_play"
+                        android:minHeight="35dp"
+                        android:paddingLeft="@dimen/image_size_40"
+                        android:paddingRight="@dimen/image_size_40"
+                        android:text="@string/btn_play"
+                        android:textColor="@android:color/white" />
+
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <ImageView
+                        android:id="@+id/track_options"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:paddingStart="@dimen/indent_8"
+                        android:paddingEnd="@dimen/indent_16"
+                        android:src="@drawable/ic_menu_detail"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.258"
+                        tools:ignore="ContentDescription" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/album_tracks_recycler"
@@ -83,8 +137,7 @@
                     android:layout_height="wrap_content"
                     android:overScrollMode="never"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/item_album_track">
-                </androidx.recyclerview.widget.RecyclerView>
+                    tools:listitem="@layout/item_album_track"/>
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

@@ -1,8 +1,12 @@
 package com.Meditation.Sounds.frequencies.lemeor.ui.auth
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -12,7 +16,6 @@ import com.Meditation.Sounds.frequencies.R
 import com.Meditation.Sounds.frequencies.lemeor.data.api.ApiConfig.getPassResetUrl
 import com.Meditation.Sounds.frequencies.lemeor.data.api.RetrofitBuilder
 import com.Meditation.Sounds.frequencies.lemeor.data.database.DataBase
-import com.Meditation.Sounds.frequencies.lemeor.data.model.Album
 import com.Meditation.Sounds.frequencies.lemeor.data.model.AuthResponse
 import com.Meditation.Sounds.frequencies.lemeor.data.remote.ApiHelper
 import com.Meditation.Sounds.frequencies.lemeor.data.utils.Resource
@@ -25,16 +28,23 @@ import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper.token
 import com.Meditation.Sounds.frequencies.lemeor.ui.TrialActivity
 import com.Meditation.Sounds.frequencies.lemeor.ui.auth.LoginFragment.OnLoginListener
 import com.Meditation.Sounds.frequencies.lemeor.ui.auth.RegistrationFragment.OnRegistrationListener
+import com.Meditation.Sounds.frequencies.models.event.SyncDataEvent
+import com.Meditation.Sounds.frequencies.utils.Constants
 import com.appsflyer.AFInAppEventParameterName
 import com.appsflyer.AppsFlyerLib
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.greenrobot.eventbus.EventBus
 
 class AuthActivity : AppCompatActivity(), OnLoginListener, OnRegistrationListener {
 
     private lateinit var mViewModel: AuthViewModel
 
-    override fun onBackPressed() {}
+    @SuppressLint("MissingSuperCall")
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,8 +56,7 @@ class AuthActivity : AppCompatActivity(), OnLoginListener, OnRegistrationListene
                 ApiHelper(RetrofitBuilder(applicationContext).apiService),
                 DataBase.getInstance(applicationContext)
             )
-        ).get(AuthViewModel::class.java)
-
+        )[AuthViewModel::class.java]
         replaceFragment(LoginFragment())
     }
 
@@ -67,39 +76,29 @@ class AuthActivity : AppCompatActivity(), OnLoginListener, OnRegistrationListene
         preference(applicationContext).isLogged = true
         preference(applicationContext).token = resource.data?.token
         saveUser(applicationContext, resource.data?.user)
-
         resource.data?.user?.let { user -> updateUnlocked(applicationContext, user, true) }
+        EventBus.getDefault().post("showDisclaimer")
+        Handler(Looper.getMainLooper()).postDelayed({ EventBus.getDefault().post(SyncDataEvent)}, 2000)
+    }
+
+    private fun sendDataWithDelay() {
+        Handler(Looper.getMainLooper()).postDelayed({sendData()}, 3000)
     }
 
     private fun sendData() {
+        HudHelper.hide()
         val intent = Intent()
         setResult(RESULT_OK, intent)
         if (!BuildConfig.IS_FREE) {
-            var isAllPurchase = true
-            GlobalScope.launch {
-                val albumList = ArrayList<Album>()
+            CoroutineScope(Dispatchers.IO).launch {
                 val albumDao = DataBase.getInstance(applicationContext).albumDao()
-                albumDao.getAllAlbums()?.let { albumList.addAll(it) }
-                for (album in albumList) {
-                    if (!album.isUnlocked) {
-                        isAllPurchase = false
-                        break
-                    }
+
+                albumDao.getAllAlbums().find { !it.isUnlocked }?.let {
+                    runOnUiThread { openAd() }
                 }
-
-                runOnUiThread(Runnable { callHadler(isAllPurchase) })
-
-
             }
-
         }
         finish()
-    }
-
-    private fun callHadler(isAllPurchase: Boolean) {
-        if(!isAllPurchase) {
-            openAd()
-        }
     }
 
     private fun openAd() {
@@ -108,43 +107,45 @@ class AuthActivity : AppCompatActivity(), OnLoginListener, OnRegistrationListene
     }
 
     override fun onLoginInteraction(email: String, password: String) {
-        if (email.toString().equals("guest")) {
-            sendData()
+        if (email == "guest") {
+            sendDataWithDelay()
             val eventValues = HashMap<String, Any>()
-            eventValues.put(AFInAppEventParameterName.REVENUE, 0)
+            eventValues[AFInAppEventParameterName.REVENUE] = 0
             AppsFlyerLib.getInstance().logEvent(
-                getApplicationContext(),
+                applicationContext,
                 "guest_login",
                 eventValues
             )
         } else {
-            mViewModel.login(email, password).observe(this, {
+            mViewModel.login(email, password).observe(this) {
                 it?.let { resource ->
                     when (resource.status) {
                         Resource.Status.SUCCESS -> {
-                            HudHelper.hide()
-
                             saveAuthData(resource)
-
-                            sendData()
+                            Constants.isGuestLogin = false
+                            sendDataWithDelay()
                             val eventValues = HashMap<String, Any>()
-                            eventValues.put(AFInAppEventParameterName.REVENUE, 0)
+                            eventValues[AFInAppEventParameterName.REVENUE] = 0
                             AppsFlyerLib.getInstance().logEvent(
-                                getApplicationContext(),
+                                applicationContext,
                                 "login",
                                 eventValues
                             )
                         }
                         Resource.Status.ERROR -> {
                             HudHelper.hide()
-                            Toast.makeText(applicationContext, it.message, Toast.LENGTH_LONG).show()
+                            Toast.makeText(
+                                applicationContext,
+                                it.message ?: getString(R.string.msg_error_occurred),
+                                Toast.LENGTH_LONG
+                            ).show()
                         }
                         Resource.Status.LOADING -> {
                             HudHelper.show(this)
                         }
                     }
                 }
-            })
+            }
         }
     }
 
@@ -159,33 +160,35 @@ class AuthActivity : AppCompatActivity(), OnLoginListener, OnRegistrationListene
         confirm: String,
         uuid: String
     ) {
-        mViewModel.register(email, pass, confirm, name, uuid).observe(this, {
+        mViewModel.register(email, pass, confirm, name, uuid).observe(this) {
             it?.let { resource ->
                 when (resource.status) {
                     Resource.Status.SUCCESS -> {
-                        HudHelper.hide()
-
                         saveAuthData(resource)
-
-                        sendData()
+                        Constants.isGuestLogin = false
+                        sendDataWithDelay()
                         val eventValues = HashMap<String, Any>()
-                        eventValues.put(AFInAppEventParameterName.REVENUE, 0)
+                        eventValues[AFInAppEventParameterName.REVENUE] = 0
                         AppsFlyerLib.getInstance().logEvent(
-                            getApplicationContext(),
+                            applicationContext,
                             "register",
                             eventValues
                         )
                     }
                     Resource.Status.ERROR -> {
                         HudHelper.hide()
-                        Toast.makeText(applicationContext, it.message, Toast.LENGTH_LONG).show()
+                        Toast.makeText(
+                            applicationContext,
+                            it.message ?: getString(R.string.msg_error_occurred),
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
                     Resource.Status.LOADING -> {
                         HudHelper.show(this)
                     }
                 }
             }
-        })
+        }
     }
 
     override fun onOpenLogin() {
@@ -197,49 +200,57 @@ class AuthActivity : AppCompatActivity(), OnLoginListener, OnRegistrationListene
     }
 
     override fun onGoogleLogin(email: String, name: String, google_id: String) {
-        mViewModel.googleLogin(email, name, google_id).observe(this, {
+        mViewModel.googleLogin(email, name, google_id).observe(this) {
             it?.let { resource ->
                 when (resource.status) {
                     Resource.Status.SUCCESS -> {
-                        HudHelper.hide()
-
                         saveAuthData(resource)
-
-                        sendData()
+                        Constants.isGuestLogin = false
+                        sendDataWithDelay()
                     }
                     Resource.Status.ERROR -> {
                         HudHelper.hide()
-                        Toast.makeText(applicationContext, it.message, Toast.LENGTH_LONG).show()
+                        Toast.makeText(
+                            applicationContext,
+                            it.message ?: getString(R.string.msg_error_occurred),
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
                     Resource.Status.LOADING -> {
                         HudHelper.show(this)
                     }
                 }
             }
-        })
+        }
     }
 
 
     override fun onFbLogin(email: String, name: String, fb_id: String) {
-        mViewModel.fbLogin(email, name, fb_id).observe(this, {
+        mViewModel.fbLogin(email, name, fb_id).observe(this) {
             it?.let { resource ->
                 when (resource.status) {
                     Resource.Status.SUCCESS -> {
-                        HudHelper.hide()
-
                         saveAuthData(resource)
-
-                        sendData()
+                        Constants.isGuestLogin = false
+                        sendDataWithDelay()
                     }
                     Resource.Status.ERROR -> {
                         HudHelper.hide()
-                        Toast.makeText(applicationContext, it.message, Toast.LENGTH_LONG).show()
+                        Toast.makeText(
+                            applicationContext,
+                            it.message ?: getString(R.string.msg_error_occurred),
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
                     Resource.Status.LOADING -> {
                         HudHelper.show(this)
                     }
                 }
             }
-        })
+        }
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
     }
 }

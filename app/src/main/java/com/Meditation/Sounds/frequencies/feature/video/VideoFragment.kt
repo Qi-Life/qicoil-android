@@ -15,8 +15,6 @@ import com.Meditation.Sounds.frequencies.utils.Utils
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
-import com.google.android.youtube.player.YouTubeInitializationResult
-import com.google.android.youtube.player.YouTubePlayer
 import android.net.Uri
 import android.net.Uri.*
 import android.util.Log
@@ -25,9 +23,8 @@ import com.Meditation.Sounds.frequencies.utils.Constants
 import kotlinx.android.synthetic.main.fragment_video.*
 import org.json.JSONException
 
-class VideoFragment : BaseFragment(), YouTubePlayer.OnInitializedListener {
+class VideoFragment : BaseFragment(){
 
-    private var mYouTubePlayer: YouTubePlayer? = null
     private var mVideoAdapter: VideoAdapter? = null
     private var mListVideo = ArrayList<Video>()
     private var mPlaylistAdapter: PlaylistAdapter? = null
@@ -47,14 +44,20 @@ class VideoFragment : BaseFragment(), YouTubePlayer.OnInitializedListener {
 
         val dao = DataBase.getInstance(requireContext()).homeDao()
 
-        dao.getHome().observe(viewLifecycleOwner, {
+        dao.getHome().observe(viewLifecycleOwner) {
             mPlaylistAdapter?.setData(it.playlists)
-            getJsonPlaylist(getString(R.string.video_url, it.playlists[0].youtube_id, API_KEY +Constants.API_KEY))
-        })
+            getJsonPlaylist(
+                getString(
+                    R.string.video_url,
+                    it.playlists[0].youtube_id,
+                    API_KEY + Constants.API_KEY
+                )
+            )
+        }
 
         val mediaController = MediaController(mContext)
         mediaController.setAnchorView(mvideoView)
-        mvideoView.setMediaController(mediaController)
+        mvideoView?.setMediaController(mediaController)
 
         if (Utils.isConnectedToNetwork(mContext)){
            // yt_pv.initialize(API_KEY, this)
@@ -63,9 +66,9 @@ class VideoFragment : BaseFragment(), YouTubePlayer.OnInitializedListener {
             if (mListVideo.isNotEmpty()) {
                 val uri:Uri = parse(mListVideo[0].videoId)
                 //Setting MediaController and URI, then starting the videoView
-                mvideoView.setVideoURI(uri)
-                mvideoView.requestFocus()
-                mvideoView.start()
+                mvideoView?.setVideoURI(uri)
+                mvideoView?.requestFocus()
+                mvideoView?.start()
             }
 
         }
@@ -76,9 +79,9 @@ class VideoFragment : BaseFragment(), YouTubePlayer.OnInitializedListener {
                 //mYouTubePlayer?.loadVideo(video.videoId)
                 //mYouTubePlayer?.play()
                 val uri:Uri = parse(video.videoId)
-                mvideoView.setVideoURI(uri)
-                mvideoView.requestFocus()
-                mvideoView.start()
+                mvideoView?.setVideoURI(uri)
+                mvideoView?.requestFocus()
+                mvideoView?.start()
             }
         })
         rv_video.adapter = mVideoAdapter
@@ -90,32 +93,7 @@ class VideoFragment : BaseFragment(), YouTubePlayer.OnInitializedListener {
             }
     }
 
-    override fun onInitializationSuccess(p0: YouTubePlayer.Provider, player: YouTubePlayer, wasRestored: Boolean) {
-        if (!wasRestored) {
-            mYouTubePlayer = player
-            if (Utils.isTablet(mContext)) {
-                player.setShowFullscreenButton(true)
-            } else {
-                player.setShowFullscreenButton(false)
-            }
-            if (mListVideo.isNotEmpty()) {
-                player.setPlayerStyle(YouTubePlayer.PlayerStyle.DEFAULT)
-                player.cueVideo(mListVideo[0].videoId)
-                if (!Utils.isTablet(mContext)) {
-                    player.addFullscreenControlFlag(YouTubePlayer.FULLSCREEN_FLAG_CUSTOM_LAYOUT)
-                }
-            }
-        }
-    }
 
-    override fun onInitializationFailure(p0: YouTubePlayer.Provider, errorReason: YouTubeInitializationResult) {
-        if (errorReason.isUserRecoverableError) {
-            errorReason.getErrorDialog(mContext as Activity, RECOVERY_DIALOG_REQUEST).show()
-        } else {
-            val error = getString(R.string.player_error, errorReason.toString())
-            Toast.makeText(mContext, error, Toast.LENGTH_LONG).show()
-        }
-    }
 
     private fun getJsonPlaylist(url: String) {
         if (!Utils.isConnectedToNetwork(mContext)) { return }
@@ -149,9 +127,9 @@ class VideoFragment : BaseFragment(), YouTubePlayer.OnInitializedListener {
                        // mYouTubePlayer?.cueVideo(mListVideo[0].videoId)
                         val uri:Uri = parse(mListVideo[0].videoId)
                         //Setting MediaController and URI, then starting the videoView
-                        mvideoView.setVideoURI(uri)
-                        mvideoView.requestFocus()
-                        mvideoView.start()
+                        mvideoView?.setVideoURI(uri)
+                        mvideoView?.requestFocus()
+                        mvideoView?.start()
                     }
                 }
             } catch (e: JSONException) {

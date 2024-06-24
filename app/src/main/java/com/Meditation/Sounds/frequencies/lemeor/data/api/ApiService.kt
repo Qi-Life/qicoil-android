@@ -1,12 +1,14 @@
 package com.Meditation.Sounds.frequencies.lemeor.data.api
 
 import com.Meditation.Sounds.frequencies.lemeor.data.model.*
+import com.Meditation.Sounds.frequencies.lemeor.ui.main.Update
+import com.Meditation.Sounds.frequencies.lemeor.ui.main.UpdateTrack
 import retrofit2.Response
 import retrofit2.http.*
 
 interface ApiService {
     @GET(ApiConfig.API_HOME)
-    suspend fun getHome(): Response<HomeResponse>
+    suspend fun getHome(@Query("userid") userid: String): Response<HomeResponse>
 
     @GET(ApiConfig.API_USER_LOGIN)
     suspend fun login(
@@ -76,5 +78,37 @@ interface ApiService {
 
     @GET(ApiConfig.API_USER_DELETE)
     suspend fun deleteuser(@Query("password") password: String): Status
+
+    @GET(ApiConfig.API_SUBMIT_TRACK_ERROR)
+    suspend fun reportTrack(
+        @Query("track_id") track_id: Int,
+        @Query("track_url") track_url: String
+    ): Status
+
+    @GET(ApiConfig.API_SUBMIT_PROGRAM)
+    suspend fun submitProgram(
+        @Query("track_id") track_id: Int,
+        @Query("track_url") track_url: String
+    ): Status
+
+    @GET(ApiConfig.API_RIFE)
+    suspend fun getRife(): Response<RifeResponse>
+
+
+    @GET(ApiConfig.API_PROGRAMS)
+    suspend fun getPrograms(): Response<ProgramsResponse>
+
+    @POST(ApiConfig.API_PROGRAMS)
+    suspend fun createPrograms(@Body map: Map<String, String>): ProgramCreateResponse
+
+    @DELETE(ApiConfig.API_PROGRAMS + "/{program_id}")
+    suspend fun deleteProgram(@Path("program_id") program_id: String): Status
+
+    @POST(ApiConfig.API_PROGRAMS_SYNC)
+    suspend fun syncProgramsToServer(@Body map: List<Update>): Status
+
+    @POST(ApiConfig.API_PROGRAMS_UPDATE)
+    suspend fun updateTrackToServer(@Body map: UpdateTrack): Status
+
 }
 

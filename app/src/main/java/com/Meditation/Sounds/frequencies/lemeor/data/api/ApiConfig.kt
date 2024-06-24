@@ -6,7 +6,7 @@ object ApiConfig {
     private const val https = "https://"
     private const val qi_coil_api = "www.combined.ingeniusstudios.com"
     private const val qi_coil_storage = "www.qicoilapi.ingeniusstudios.com"
-    private const val quantum_api = "www.combined-quantum.ingeniusstudios.com"
+    private const val quantum_api = "combined-quantum.ingeniusstudios.com"
     private const val quantum_storage = "quantumapi.ingeniusstudios.com"
     private const val api = "api/"
     private const val public = "/public/"
@@ -24,6 +24,12 @@ object ApiConfig {
     const val API_USER_LOGOUT = "user/logout"
     const val API_USER_DELETE = "user/profile/delete"
     const val API_APK = "apk"
+    const val API_SUBMIT_TRACK_ERROR = "reportTrack"
+    const val API_SUBMIT_PROGRAM = "submitProgram"
+    const val API_RIFE = "rifes"
+    const val API_PROGRAMS_UPDATE = "programs/updateTrack"
+    const val API_PROGRAMS = "programs"
+    const val API_PROGRAMS_SYNC = "programs/sync"
 
     private const val API_RESET_PASS = "password/reset"
 
