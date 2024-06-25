@@ -16,6 +16,7 @@
     <color name="color_main_activity_navigation">#3A426C</color>
 
     <color name="dark_blue_background">#1C1E31</color>
+    <color name="dark_blue_background_v2">#363959</color>
     <color name="rounded_album_category_color">#F5AF43</color>
     <color name="track_name_background">#202F4E</color>
     <color name="subs_buy_now_color">#2C3070</color>

@@ -53,6 +53,7 @@ import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper.preferenc
 import com.Meditation.Sounds.frequencies.lemeor.tools.downloader.*
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.PlayerRepeat
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.PlayerService
+import com.Meditation.Sounds.frequencies.lemeor.tools.player.PlayerShuffle
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.PlayerUIFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.albums.detail.NewAlbumDetailFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.albums.search.SearchAdapter
@@ -234,6 +235,14 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                     Player.REPEAT_MODE_ALL -> showMode("Repeat All")
                     Player.REPEAT_MODE_OFF -> showMode("Repeat Off")
                     Player.REPEAT_MODE_ONE -> showMode("Repeat One")
+                }
+            }
+            if (event?.javaClass == PlayerShuffle::class.java) {
+                val shuffle = event as PlayerShuffle
+                if(shuffle.it){
+                    showMode("Shuffle On")
+                }else{
+                    showMode("Shuffle Off")
                 }
             }
         }

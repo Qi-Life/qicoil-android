@@ -312,6 +312,7 @@ class ProgramDetailFragment : BaseFragment() {
                     }
                 }
             }
+            resetDataMyService(tracks.map { t -> t.obj } as ArrayList<Any>)
         }
     }
 
@@ -403,6 +404,46 @@ class ProgramDetailFragment : BaseFragment() {
             }
             CoroutineScope(Dispatchers.Main).launch {
                 activity.showPlayerUI()
+            }
+        }
+    }
+
+    private fun resetDataMyService(tracks: ArrayList<Any>) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val data = tracks.mapNotNull { t ->
+                when (t) {
+                    is Track -> {
+                        MusicRepository.Track(
+                            t.id,
+                            t.name,
+                            t.album?.name ?: "",
+                            t.albumId,
+                            t.album!!,
+                            R.drawable.launcher,
+                            t.duration,
+                            0,
+                            t.filename
+                        )
+                    }
+
+                    is MusicRepository.Frequency -> {
+                        t
+                    }
+
+                    else -> null
+                }
+            } as ArrayList<MusicRepository.Music>
+            trackList?.clear()
+            trackList = data
+            val mIntent = Intent(requireContext(), PlayerService::class.java).apply {
+                putParcelableArrayListExtra("playlist", arrayListOf<MusicRepository.Music>())
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                requireActivity().stopService(mIntent)
+                requireActivity().startForegroundService(mIntent)
+            } else {
+                requireActivity().stopService(mIntent)
+                requireActivity().startService(mIntent)
             }
         }
     }
