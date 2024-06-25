@@ -447,14 +447,17 @@ class NewAlbumDetailFragment : BaseFragment() {
                 val mIntent = Intent(requireContext(), PlayerService::class.java).apply {
                     putParcelableArrayListExtra("playlist", arrayListOf<MusicRepository.Music>())
                 }
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    requireActivity().stopService(mIntent)
-                    requireActivity().startForegroundService(mIntent)
-                } else {
-                    requireActivity().stopService(mIntent)
-                    requireActivity().startService(mIntent)
+                try {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        requireActivity().stopService(mIntent)
+                        requireActivity().startForegroundService(mIntent)
+                    } else {
+                        requireActivity().stopService(mIntent)
+                        requireActivity().startService(mIntent)
+                    }
+                    isFirst = false
+                } catch (_: Exception) {
                 }
-                isFirst = false
             }
             CoroutineScope(Dispatchers.Main).launch { activity.showPlayerUI() }
         }
@@ -503,14 +506,17 @@ class NewAlbumDetailFragment : BaseFragment() {
                 val mIntent = Intent(requireContext(), PlayerService::class.java).apply {
                     putParcelableArrayListExtra("playlist", arrayListOf<MusicRepository.Music>())
                 }
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    requireActivity().stopService(mIntent)
-                    requireActivity().startForegroundService(mIntent)
-                } else {
-                    requireActivity().stopService(mIntent)
-                    requireActivity().startService(mIntent)
-                }
-                isFirst = false
+                try {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        requireActivity().stopService(mIntent)
+                        requireActivity().startForegroundService(mIntent)
+                    } else {
+                        requireActivity().stopService(mIntent)
+                        requireActivity().startService(mIntent)
+                    }
+                    isFirst = false
+                }catch (_:Exception){}
+
             }
             withContext(Dispatchers.Main) {
                 activity.showPlayerUI()
