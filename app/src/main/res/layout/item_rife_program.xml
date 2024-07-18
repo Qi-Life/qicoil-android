@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent">
         <androidx.appcompat.widget.AppCompatImageView
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/frequency"
+            app:srcCompat="@drawable/frequency_v2"
             android:layout_width="50dp"
             android:layout_height="50dp"/>
 

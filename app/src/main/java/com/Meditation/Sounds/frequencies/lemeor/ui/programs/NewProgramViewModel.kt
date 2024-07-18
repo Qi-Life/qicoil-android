@@ -127,14 +127,28 @@ class NewProgramViewModel(private val repository: ProgramRepository) : ViewModel
         CombinedLiveData(repository.getListProgram(),
             repository.getListTrack(),
             combine = { listA, listT ->
-                return@CombinedLiveData listA?.isNotEmpty() ?: false && listT?.isNotEmpty() ?: false
-            }).observe(owner) { isCompletedData ->
-            if (isCompletedData) {
+                val listAb = listA ?: arrayListOf()
+                val listTr = listT ?: arrayListOf()
+                if (listAb.isNotEmpty() && listTr.isNotEmpty()) {
+                    return@CombinedLiveData listTr
+                } else {
+                    return@CombinedLiveData arrayListOf()
+                }
+            }).observe(owner) { listT ->
+            if (listT.isNotEmpty()) {
                 repository.getListProgram().observe(owner) { list ->
                     viewModelScope.launch(Dispatchers.IO) {
                         val programs = async { checkUnlocked(list) }
+                        val listProgram = programs.await()
+
+                        val validIds = listT.map { it.id.toString() }.toSet()
+
+                        listProgram.forEach { item ->
+                            item.records =
+                                item.records.filter { record -> validIds.contains(record) } as ArrayList<String>
+                        }
                         withContext(Dispatchers.Main) {
-                            onChange.invoke(programs.await())
+                            onChange.invoke(listProgram)
                         }
                     }
                 }

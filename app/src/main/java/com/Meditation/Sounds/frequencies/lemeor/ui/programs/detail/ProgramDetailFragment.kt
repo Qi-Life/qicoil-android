@@ -89,6 +89,7 @@ class ProgramDetailFragment : BaseFragment() {
     private var mTracks: ArrayList<Any>? = null
     private var program: Program? = null
     private var isFirst = true
+    private var isReload = false
     private var timeDelay = 500L
     private val tracks: ArrayList<Search> = ArrayList()
 
@@ -280,6 +281,10 @@ class ProgramDetailFragment : BaseFragment() {
         programName = program.name
 
         mViewModel.convertData(program) { list ->
+            if (tracks.size != list.size && isPlayProgram && playProgramId == program.id) {
+                isFirst = false
+                resetDataMyService(list.map { t -> t.obj } as ArrayList<Any>)
+            }
             tracks.clear()
             tracks.addAll(list)
             programTrackAdapter.submitData(tracks)
@@ -312,7 +317,6 @@ class ProgramDetailFragment : BaseFragment() {
                     }
                 }
             }
-            resetDataMyService(tracks.map { t -> t.obj } as ArrayList<Any>)
         }
     }
 
@@ -450,8 +454,8 @@ class ProgramDetailFragment : BaseFragment() {
                     requireActivity().stopService(mIntent)
                     requireActivity().startService(mIntent)
                 }
-            }catch (_:Exception){}
-
+            } catch (_: Exception) {
+            }
         }
     }
 

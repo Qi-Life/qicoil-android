@@ -331,7 +331,7 @@ class NewAlbumDetailFragment : BaseFragment() {
         rifeAdapter.submitList(local)
         album_back.setOnClickListener { onBackPressed() }
         album_image.radius = resources.getDimensionPixelOffset(R.dimen.corner_radius_album)
-        album_image.setImageResource(R.drawable.frequency)
+        album_image.setImageResource(R.drawable.frequency_v2)
         tvDescription.text = description
         album_play.setOnClickListener {
             if (getFrequency().isNotEmpty()) {
