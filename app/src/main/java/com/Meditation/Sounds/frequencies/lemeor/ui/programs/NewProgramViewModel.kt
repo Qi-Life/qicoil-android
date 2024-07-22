@@ -139,16 +139,16 @@ class NewProgramViewModel(private val repository: ProgramRepository) : ViewModel
                 repository.getListProgram().observe(owner) { list ->
                     viewModelScope.launch(Dispatchers.IO) {
                         val programs = async { checkUnlocked(list) }
-                        val listProgram = programs.await()
+                        val listProgramHandled = programs.await()
 
                         val validIds = listT.map { it.id.toString() }.toSet()
 
-                        listProgram.forEach { item ->
+                        listProgramHandled.forEach { item ->
                             item.records =
                                 item.records.filter { record -> validIds.contains(record) } as ArrayList<String>
                         }
                         withContext(Dispatchers.Main) {
-                            onChange.invoke(listProgram)
+                            onChange.invoke(listProgramHandled)
                         }
                     }
                 }
