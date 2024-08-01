@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/viewLeftChat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="80dp"
+        android:layout_marginBottom="5dp"
+        app:cardBackgroundColor="#EFEFEF"
+        app:cardCornerRadius="8dp"
+        app:cardUseCompatPadding="false"
+        app:cardElevation="0dp">
+
+        <TextView
+            android:id="@+id/tvLeftChat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:textSize="@dimen/text_size_large_14"
+            android:textColor="#0E1A40" />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/viewRightChat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        app:cardBackgroundColor="#0E74CC"
+        app:cardCornerRadius="8dp"
+        app:cardUseCompatPadding="false"
+        app:cardElevation="0dp">
+
+        <TextView
+            android:id="@+id/tvRightChat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:padding="10dp"
+            android:textSize="@dimen/text_size_large_14"
+            android:textColor="@android:color/white" />
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

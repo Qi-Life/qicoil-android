@@ -520,4 +520,13 @@
         </androidx.cardview.widget.CardView>
 
     </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/btnStartChatBot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="@dimen/margin_item_dialog_20"
+        app:srcCompat="@drawable/ic_chatbot" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,12 +16,20 @@ import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Environment
+import android.os.Handler
 import android.provider.Settings
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
+import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.PopupWindow
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatEditText
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -30,11 +38,15 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.Meditation.Sounds.frequencies.BuildConfig
 import com.Meditation.Sounds.frequencies.QApplication
 import com.Meditation.Sounds.frequencies.R
 import com.Meditation.Sounds.frequencies.api.ApiListener
 import com.Meditation.Sounds.frequencies.api.models.GetFlashSaleOutput
+import com.Meditation.Sounds.frequencies.feature.chat.MessageAdapter
+import com.Meditation.Sounds.frequencies.feature.chat.MessageChat
 import com.Meditation.Sounds.frequencies.feature.discover.DiscoverFragment
 import com.Meditation.Sounds.frequencies.lemeor.*
 import com.Meditation.Sounds.frequencies.lemeor.data.api.RetrofitBuilder
@@ -80,6 +92,7 @@ import com.Meditation.Sounds.frequencies.views.DisclaimerDialog
 import com.google.android.exoplayer2.Player
 import com.google.gson.Gson
 import com.tonyodev.fetch2core.isNetworkAvailable
+import java.io.File
 import kotlinx.android.synthetic.main.activity_navigation.*
 import kotlinx.android.synthetic.main.activity_navigation.view.txt_mode
 import kotlinx.coroutines.*
@@ -90,7 +103,6 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import retrofit2.HttpException
-import java.io.File
 
 
 const val REQUEST_CODE_PERMISSION = 1111
@@ -105,6 +117,10 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
 
     private var mLocalApkPath: String? = null
     private var refId: Long = 0
+
+    private var messageAdapter: MessageAdapter? = null
+    private var listMessageChat = arrayListOf<MessageChat>()
+    private var rvChatBot: RecyclerView? = null
 
     //search
     private val searchAdapter by lazy {
@@ -364,7 +380,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
     }
 
     override fun onRequestPermissionsResult(
-        requestCode: Int, permissions: Array<out String>, grantResults: IntArray
+            requestCode: Int, permissions: Array<out String>, grantResults: IntArray,
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == REQUEST_CODE_PERMISSION) {
@@ -433,6 +449,10 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
 
         getAllCategories()
 
+        initChatAdapter()
+
+        observeChatViewModel()
+
         if (BuildConfig.IS_FREE) {
             copyAssetsFiles()
         }
@@ -471,8 +491,17 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
 
         album_search_clear.setOnClickListener { closeSearch() }
 
+        btnStartChatBot.setOnClickListener {
+            showPopup()
+        }
+
         orientationChangesUI(resources.configuration.orientation)
 
+    }
+
+    private fun initChatAdapter(){
+        listMessageChat.clear()
+        messageAdapter = MessageAdapter(listMessageChat)
     }
 
     private fun copyAssetsFiles() {
@@ -549,6 +578,8 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
 
     private fun syncData() {
         if (isNetworkAvailable()) {
+            mViewModel.createThreadChatBot()
+
             try {
                 val user = PreferenceHelper.getUser(this)
                 if (user?.id != null) {
@@ -1184,6 +1215,96 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
             }
         }
         mCountDownTimer!!.start()
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private fun showPopup() {
+        val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val popupView: View = inflater.inflate(R.layout.popup_chat_bot, null)
+
+        val popupWindow = PopupWindow(
+            popupView,
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        ).apply {
+            isFocusable = true
+            setBackgroundDrawable(getDrawable(R.drawable.transparent_background))
+        }
+
+        popupWindow.showAtLocation(btnStartChatBot, Gravity.BOTTOM, 0 , 0)
+
+        popupView.findViewById<View>(R.id.btnCloseChatBot).setOnClickListener {
+            popupWindow.dismiss()
+        }
+        val rvChatBot = popupView.findViewById<RecyclerView>(R.id.rvChatBot)
+        val edtMessageChat = popupView.findViewById<AppCompatEditText>(R.id.edtMessageChat)
+        val btnSendMessageChat = popupView.findViewById<AppCompatImageView>(R.id.btnSendMessageChat)
+
+        val linearLayoutManager = LinearLayoutManager(this)
+        linearLayoutManager.stackFromEnd = true
+        rvChatBot.setLayoutManager(linearLayoutManager)
+        rvChatBot.adapter = messageAdapter
+        this.rvChatBot = rvChatBot
+        scrollToBottomChatBot()
+
+        edtMessageChat.addTextChangedListener(object : TextWatcher {
+            @SuppressLint("SetTextI18n")
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                if (s.toString().trim { it <= ' ' }.isEmpty()) {
+                    btnSendMessageChat.isEnabled = false
+                } else {
+                    btnSendMessageChat.isEnabled = true
+                    btnSendMessageChat.setOnClickListener {
+                        val question: String = edtMessageChat.getText().toString().trim { it <= ' ' }
+                        addToChat(question, MessageChat.SEND_BY_ME)
+                        edtMessageChat.setText("")
+                        mViewModel.addMessageToThread(question)
+                    }
+                }
+            }
+
+            override fun beforeTextChanged(
+                    s: CharSequence, start: Int, count: Int,
+                    after: Int,
+            ) {
+
+            }
+
+            override fun afterTextChanged(s: Editable) {
+
+            }
+        })
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun observeChatViewModel(){
+        mViewModel.apply {
+            typingMessage.observe(this@NavigationActivity) {
+                listMessageChat.add(it)
+                messageAdapter?.notifyDataSetChanged()
+                rvChatBot?.scrollToPosition((messageAdapter?.itemCount ?: 0) - 1)
+            }
+            bodyMessage.observe(this@NavigationActivity) {
+                listMessageChat.removeAt(listMessageChat.size - 1)
+                addToChat(it, MessageChat.SEND_BY_BOT)
+            }
+        }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun addToChat(message: String, sendBy: String) {
+        runOnUiThread {
+            listMessageChat.add(MessageChat(message, sendBy))
+            messageAdapter?.notifyDataSetChanged()
+            rvChatBot?.scrollToPosition((messageAdapter?.itemCount ?: 0) - 1)
+        }
+    }
+
+    @Suppress("DEPRECATION")
+    private fun scrollToBottomChatBot(){
+        Handler().postDelayed({
+            rvChatBot?.scrollToPosition((messageAdapter?.itemCount ?: 0) - 1)
+        }, 100)
     }
 
 

@@ -15,10 +15,10 @@
         android:background="@color/color_main_activity_navigation"
         android:baselineAligned="false"
         android:orientation="horizontal"
+        android:paddingBottom="4sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:paddingBottom="4sp">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/navigation_albums"
@@ -46,9 +46,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/navigation_lbl_quantum"
-                    android:maxLines="1"
                     android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@string/navigation_lbl_quantum"
                     android:textColor="@color/color_gray_white_selected"
                     android:textSize="@dimen/text_size_small"
                     android:visibility="visible" />
@@ -228,6 +228,7 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/search_layout"
         android:layout_width="match_parent"
@@ -435,14 +436,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/indent_16"
-            android:layout_marginRight="@dimen/indent_16"
             android:layout_marginTop="@dimen/indent_4"
+            android:layout_marginRight="@dimen/indent_16"
             android:layout_marginBottom="@dimen/indent_8"
             android:background="@drawable/bg_search_home"
             android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:paddingHorizontal="@dimen/margin_left_top_icon"
             android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/search_layout">
 
             <com.Meditation.Sounds.frequencies.views.CustomFontTextView
@@ -450,8 +451,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="@string/txt_no_result"
                 android:layout_marginVertical="@dimen/indent_35"
+                android:text="@string/txt_no_result"
                 android:textColor="#000000"
                 android:textSize="@dimen/text_size_nomarl"
                 android:visibility="gone"
@@ -477,15 +478,15 @@
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <LinearLayout
-        android:visibility="gone"
         android:id="@+id/bg_mode"
-        android:focusable="true"
-        android:clickable="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/gray_50"
+        android:clickable="true"
+        android:focusable="true"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
@@ -507,4 +508,13 @@
         </androidx.cardview.widget.CardView>
 
     </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/btnStartChatBot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="@dimen/margin_item_dialog_20"
+        app:srcCompat="@drawable/ic_chatbot" />
 </androidx.constraintlayout.widget.ConstraintLayout>
