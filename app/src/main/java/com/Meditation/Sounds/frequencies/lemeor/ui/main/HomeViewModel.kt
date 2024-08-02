@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import com.Meditation.Sounds.frequencies.R
-import com.Meditation.Sounds.frequencies.feature.chat.MessageChat
 import com.Meditation.Sounds.frequencies.lemeor.FAVORITES
 import com.Meditation.Sounds.frequencies.lemeor.data.database.DataBase
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Album
@@ -22,33 +21,14 @@ import com.Meditation.Sounds.frequencies.lemeor.data.utils.Resource
 import com.Meditation.Sounds.frequencies.lemeor.data.utils.getErrorMsg
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper
 import com.google.gson.Gson
-import java.io.IOException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.Call
-import okhttp3.Callback
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.RequestBody
-import okhttp3.Response
-import org.json.JSONException
-import org.json.JSONObject
 import retrofit2.HttpException
 
-class HomeViewModel(private val repository: HomeRepository, private val db: DataBase) :
-    ViewModel() {
+class HomeViewModel(private val repository: HomeRepository, private val db: DataBase) : ViewModel() {
     //val home = repository.getHome(user_id)
-    private var threadId = ""
-    private var client: OkHttpClient = OkHttpClient()
-    private var _typingMessage = MutableLiveData<MessageChat>()
-    val typingMessage: LiveData<MessageChat> get() = _typingMessage
-
-    private var _bodyMessage = MutableLiveData<String>()
-    val bodyMessage: LiveData<String> get() = _bodyMessage
-
     private var _pairData = MutableLiveData<List<Triple<String, List<Search>, Boolean>>>()
     val pairData: LiveData<List<Triple<String, List<Search>, Boolean>>> get() = _pairData
 
@@ -84,16 +64,8 @@ class HomeViewModel(private val repository: HomeRepository, private val db: Data
                         } else false
                     }
                     val list = arrayListOf<Triple<String, List<Search>, Boolean>>()
-                    list.add(
-                        Triple(context.getString(R.string.tv_track), s, it.first().third)
-                    )
-                    list.add(
-                        Triple(
-                            context.getString(R.string.navigation_lbl_rife),
-                            it.last().second,
-                            it.last().third
-                        )
-                    )
+                    list.add(Triple(context.getString(R.string.tv_track), s, it.first().third))
+                    list.add(Triple(context.getString(R.string.navigation_lbl_rife), it.last().second, it.last().third))
                     onSearch.invoke(list)
                 }
             } else if (idPager == 1) {
@@ -105,20 +77,8 @@ class HomeViewModel(private val repository: HomeRepository, private val db: Data
                         } else false
                     }
                     val list = arrayListOf<Triple<String, List<Search>, Boolean>>()
-                    list.add(
-                        Triple(
-                            context.getString(R.string.tv_track),
-                            it.first().second,
-                            it.first().third
-                        )
-                    )
-                    list.add(
-                        Triple(
-                            context.getString(R.string.navigation_lbl_rife),
-                            s,
-                            it.last().third
-                        )
-                    )
+                    list.add(Triple(context.getString(R.string.tv_track), it.first().second, it.first().third))
+                    list.add(Triple(context.getString(R.string.navigation_lbl_rife), s, it.last().third))
                     onSearch.invoke(list)
                 }
             }
@@ -136,15 +96,11 @@ class HomeViewModel(private val repository: HomeRepository, private val db: Data
                 val listIT = listT.mapNotNull { parcelable ->
                     val track = parcelable as? Track
                     if (track != null) {
-                        val album = getAlbumById(
-                            track.albumId, track.category_id
-                        )
-                        Search(
-                            ++index,
-                            track.apply {
-                                this.isUnlocked = album?.isUnlocked ?: false
-                                this.album = album
-                            })
+                        val album = getAlbumById(track.albumId, track.category_id)
+                        Search(++index, track.apply {
+                            this.isUnlocked = album?.isUnlocked ?: false
+                            this.album = album
+                        })
                     } else {
                         null
                     }
@@ -198,6 +154,10 @@ class HomeViewModel(private val repository: HomeRepository, private val db: Data
         return repository.getAlbumById(id, category_id)
     }
 
+    suspend fun getAlbumNameOne(albumName: String): Album? {
+        return repository.getAlbumsByNameOnce(albumName)
+    }
+
     suspend fun searchAlbum(searchString: String): List<Album> {
         return repository.searchAlbum(searchString)
     }
@@ -211,11 +171,9 @@ class HomeViewModel(private val repository: HomeRepository, private val db: Data
     }
 
     fun loadFromCache(context: Context) {
-        val cache: HomeResponse = Gson().fromJson(
-            context.assets.open("db_caсhe.json").bufferedReader().use { reader ->
-                reader.readText()
-            }, HomeResponse::class.java
-        )
+        val cache: HomeResponse = Gson().fromJson(context.assets.open("db_caсhe.json").bufferedReader().use { reader ->
+            reader.readText()
+        }, HomeResponse::class.java)
 
         CoroutineScope(Dispatchers.IO).launch { repository.localSave(cache) }
     }
@@ -227,7 +185,7 @@ class HomeViewModel(private val repository: HomeRepository, private val db: Data
         }
     }
 
-    fun syncProgramsToServer(onDone :(()->Unit)? = null) = viewModelScope.launch {
+    fun syncProgramsToServer(onDone: (() -> Unit)? = null) = viewModelScope.launch {
         try {
 //            val localData = db.programDao().getData(true).toMutableList()
             val localAllData = db.programDao().getAllData().toMutableList()
@@ -249,12 +207,7 @@ class HomeViewModel(private val repository: HomeRepository, private val db: Data
                     withContext(Dispatchers.IO) {
                         try {
                             val dataToSend = syncData.map {
-                                Update(
-                                    id = if (it.user_id.isEmpty()) -1 else it.id,
-                                    name = it.name,
-                                    favorited = (it.name.lowercase() == FAVORITES.lowercase() && it.favorited),
-                                    tracks = it.records.toList()
-                                )
+                                Update(id = if (it.user_id.isEmpty()) -1 else it.id, name = it.name, favorited = (it.name.lowercase() == FAVORITES.lowercase() && it.favorited), tracks = it.records.toList())
                             }
                             repository.syncProgramsApi(dataToSend)
                         } catch (_: Throwable) {
@@ -266,168 +219,6 @@ class HomeViewModel(private val repository: HomeRepository, private val db: Data
         } catch (_: Exception) {
         }
     }
-
-    fun createThreadChatBot() {
-        val requestBody: RequestBody = RequestBody.create("application/json; charset=utf-8".toMediaType() , "")
-        val request: Request = Request.Builder()
-            .url("https://api.openai.com/v1/threads")
-            .header("Authorization", "Bearer " + "sk-proj-yVqZ9CNC2bkMpkKyOCKfT3BlbkFJNeIW9gfDPWEuDsxbRAX9")
-            .header("OpenAI-Beta", "assistants=v2")
-            .post(requestBody)
-            .build()
-
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-
-            }
-            @Throws(IOException::class)
-            override fun onResponse(call: Call, response: Response) {
-                if (response.isSuccessful) {
-                    var jsonObject: JSONObject? = null
-                    try {
-                        if (response.body != null) {
-                            jsonObject = JSONObject(response.body!!.string())
-                            threadId = jsonObject.getString("id")
-                        }
-                    } catch (e: JSONException) {
-                        throw RuntimeException(e)
-                    }
-                }
-            }
-        })
-    }
-
-
-    fun addMessageToThread(question: String?) {
-        _typingMessage.value =  MessageChat("Typing...", MessageChat.SEND_BY_BOT)
-        val jsonBody = JSONObject()
-        try {
-            jsonBody.put("role", "user")
-            jsonBody.put("content", question)
-        } catch (e: JSONException) {
-            throw RuntimeException(e)
-        }
-
-        val requestBody: RequestBody = RequestBody.create("application/json; charset=utf-8".toMediaType() , jsonBody.toString())
-        val request: Request = Request.Builder()
-            .url("https://api.openai.com/v1/threads/$threadId/messages")
-            .header("Authorization", "Bearer " + "sk-proj-yVqZ9CNC2bkMpkKyOCKfT3BlbkFJNeIW9gfDPWEuDsxbRAX9")
-            .header("OpenAI-Beta", "assistants=v2")
-            .post(requestBody)
-            .build()
-
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-            }
-
-            @Throws(IOException::class)
-            override fun onResponse(call: Call, response: Response) {
-                if (response.isSuccessful) {
-                    runMessageThread()
-                }
-            }
-        })
-    }
-
-
-    fun runMessageThread() {
-        val jsonBody = JSONObject()
-        try {
-            jsonBody.put("assistant_id", "asst_WCn2gkamQDyisW4FzJEsFbqI")
-        } catch (e: JSONException) {
-            throw RuntimeException(e)
-        }
-
-        val requestBody: RequestBody = RequestBody.create("application/json; charset=utf-8".toMediaType() , jsonBody.toString())
-        val request: Request = Request.Builder()
-            .url("https://api.openai.com/v1/threads/$threadId/runs")
-            .header("Authorization", "Bearer " + "sk-proj-yVqZ9CNC2bkMpkKyOCKfT3BlbkFJNeIW9gfDPWEuDsxbRAX9")
-            .header("OpenAI-Beta", "assistants=v2")
-            .post(requestBody)
-            .build()
-
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-
-            }
-
-            @Throws(IOException::class)
-            override fun onResponse(call: Call, response: Response) {
-                if (response.isSuccessful) {
-                    if (response.isSuccessful) {
-                        var jsonObject: JSONObject? = null
-                        try {
-                            if (response.body != null) {
-                                jsonObject = JSONObject(response.body!!.string())
-                                retrieveMessageThread(jsonObject.getString("id"))
-                            }
-                        } catch (e: JSONException) {
-                            throw RuntimeException(e)
-                        }
-                    }
-
-                }
-            }
-        })
-    }
-
-    fun retrieveMessageThread(runId: String) {
-        val request: Request = Request.Builder()
-            .url("https://api.openai.com/v1/threads/$threadId/runs/$runId")
-            .header("Authorization", "Bearer " + "sk-proj-yVqZ9CNC2bkMpkKyOCKfT3BlbkFJNeIW9gfDPWEuDsxbRAX9")
-            .header("OpenAI-Beta", "assistants=v2")
-            .get()
-            .build()
-
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-
-            }
-
-            @Throws(IOException::class)
-            override fun onResponse(call: Call, response: Response) {
-                if (response.isSuccessful) {
-                    getMessageChatBot()
-                }
-            }
-        })
-    }
-
-    fun getMessageChatBot() {
-        val request: Request = Request.Builder()
-            .url("https://api.openai.com/v1/threads/$threadId/messages")
-            .header("Authorization", "Bearer " + "sk-proj-yVqZ9CNC2bkMpkKyOCKfT3BlbkFJNeIW9gfDPWEuDsxbRAX9")
-            .header("OpenAI-Beta", "assistants=v2")
-            .get()
-            .build()
-
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                _bodyMessage.postValue("Failed to load response due to" + e.message)
-            }
-
-            @Throws(IOException::class)
-            override fun onResponse(call: Call, response: Response) {
-                if (response.isSuccessful) {
-                    var jsonObject: JSONObject? = null
-                    try {
-                        if (response.body != null) {
-                            jsonObject = JSONObject(response.body!!.string())
-                            val jsonData = jsonObject.getJSONArray("data")
-                            val result = jsonData.getJSONObject(0).getJSONArray("content").getJSONObject(0).getJSONObject("text").getString("value")
-                            _bodyMessage.postValue(result.trim { it <= ' ' })
-                        }
-                    } catch (e: JSONException) {
-                        throw RuntimeException(e)
-                    }
-                } else {
-                    if (response.body != null) {
-                        _bodyMessage.postValue("Failed to load response due to" + response.body.toString())
-                    }
-                }
-            }
-        })
-    }
 }
 
 data class Update(
@@ -438,9 +229,9 @@ data class Update(
 )
 
 data class UpdateTrack(
-    var track_id: List<String> = listOf(),
-    var id: Int = 0,
-    var track_type: String = "mp3",
-    var request_type: String = "add",
-    var is_favorite: Boolean = false,
+        var track_id: List<String> = listOf(),
+        var id: Int = 0,
+        var track_type: String = "mp3",
+        var request_type: String = "add",
+        var is_favorite: Boolean = false,
 )

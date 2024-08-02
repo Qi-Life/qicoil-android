@@ -55,6 +55,10 @@ class HomeRepository(private val apiHelper: ApiHelper, private val localData: Da
         return localData.albumDao().getAlbumById(id, category_id)
     }
 
+    suspend fun getAlbumsByNameOnce(albumName: String): Album? {
+        return localData.albumDao().getAlbumsByNameOnce(albumName)
+    }
+
     suspend fun searchAlbum(searchString: String): List<Album> {
         return localData.albumDao().searchAlbum(searchString)
     }

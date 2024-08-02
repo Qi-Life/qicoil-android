@@ -2,6 +2,7 @@ package com.Meditation.Sounds.frequencies.lemeor.data.utils
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.Meditation.Sounds.frequencies.feature.chatbot.ChatBotViewModel
 import com.Meditation.Sounds.frequencies.lemeor.data.database.DataBase
 import com.Meditation.Sounds.frequencies.lemeor.data.remote.ApiHelper
 import com.Meditation.Sounds.frequencies.lemeor.tools.downloader.DownloaderRepository
@@ -81,6 +82,9 @@ class ViewModelFactory(private val apiHelper: ApiHelper, private val localData: 
         }
         if (modelClass.isAssignableFrom(FrequencyViewModel::class.java)) {
             return FrequencyViewModel() as T
+        }
+        if (modelClass.isAssignableFrom(ChatBotViewModel::class.java)) {
+            return ChatBotViewModel() as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

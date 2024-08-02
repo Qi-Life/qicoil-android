@@ -296,6 +296,8 @@ class Constants {
         @JvmStatic
         var CURRENT_VOLUME = -1
 
+        @JvmField
+        val PREF_CHATBOT_THREAD_ID = "PREF_CHATBOT_THREAD_ID"
 //        var tracks = ArrayList<Track>()
 
         var isGuestLogin = false

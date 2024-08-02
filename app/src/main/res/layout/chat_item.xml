@@ -15,16 +15,31 @@
         android:layout_marginBottom="5dp"
         app:cardBackgroundColor="#EFEFEF"
         app:cardCornerRadius="8dp"
-        app:cardUseCompatPadding="false"
-        app:cardElevation="0dp">
+        app:cardElevation="0dp"
+        app:cardUseCompatPadding="false">
 
-        <TextView
-            android:id="@+id/tvLeftChat"
+        <FrameLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:textSize="@dimen/text_size_large_14"
-            android:textColor="#0E1A40" />
+            android:layout_height="wrap_content">
+
+            <com.Meditation.Sounds.frequencies.views.TextViewTypeWriter
+                android:id="@+id/tvLeftChat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:autoLink="web"
+                android:padding="10dp"
+                android:textColor="#0E1A40"
+                android:textColorLink="#3F51B5"
+                android:textSize="@dimen/text_size_large_14" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imvTyping"
+                android:layout_width="50dp"
+                android:layout_height="40dp"
+                android:background="@android:color/white"
+                android:visibility="gone"
+                android:layout_gravity="center"/>
+        </FrameLayout>
 
     </androidx.cardview.widget.CardView>
 
@@ -38,17 +53,19 @@
         android:layout_marginBottom="5dp"
         app:cardBackgroundColor="#0E74CC"
         app:cardCornerRadius="8dp"
-        app:cardUseCompatPadding="false"
-        app:cardElevation="0dp">
+        app:cardElevation="0dp"
+        app:cardUseCompatPadding="false">
 
-        <TextView
+        <com.Meditation.Sounds.frequencies.views.TextViewTypeWriter
             android:id="@+id/tvRightChat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="5dp"
+            android:autoLink="web"
             android:padding="10dp"
-            android:textSize="@dimen/text_size_large_14"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:textColorLink="#3F51B5"
+            android:textSize="@dimen/text_size_large_14" />
 
     </androidx.cardview.widget.CardView>
 

@@ -1,7 +1,10 @@
 package com.Meditation.Sounds.frequencies.lemeor.ui.main
 
 
-import android.Manifest.permission.*
+import android.Manifest.permission.READ_MEDIA_AUDIO
+import android.Manifest.permission.READ_MEDIA_IMAGES
+import android.Manifest.permission.READ_MEDIA_VIDEO
+import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.DownloadManager
@@ -16,7 +19,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Environment
-import android.os.Handler
 import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
@@ -24,6 +26,7 @@ import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.Toast
@@ -45,16 +48,24 @@ import com.Meditation.Sounds.frequencies.QApplication
 import com.Meditation.Sounds.frequencies.R
 import com.Meditation.Sounds.frequencies.api.ApiListener
 import com.Meditation.Sounds.frequencies.api.models.GetFlashSaleOutput
-import com.Meditation.Sounds.frequencies.feature.chat.MessageAdapter
-import com.Meditation.Sounds.frequencies.feature.chat.MessageChat
+import com.Meditation.Sounds.frequencies.feature.chatbot.ChatBotViewModel
+import com.Meditation.Sounds.frequencies.feature.chatbot.MessageChatBot
+import com.Meditation.Sounds.frequencies.feature.chatbot.MessageChatBotAdapter
 import com.Meditation.Sounds.frequencies.feature.discover.DiscoverFragment
-import com.Meditation.Sounds.frequencies.lemeor.*
 import com.Meditation.Sounds.frequencies.lemeor.data.api.RetrofitBuilder
 import com.Meditation.Sounds.frequencies.lemeor.data.database.DataBase
-import com.Meditation.Sounds.frequencies.lemeor.data.model.*
+import com.Meditation.Sounds.frequencies.lemeor.data.model.Album
+import com.Meditation.Sounds.frequencies.lemeor.data.model.Program
+import com.Meditation.Sounds.frequencies.lemeor.data.model.Rife
+import com.Meditation.Sounds.frequencies.lemeor.data.model.Search
+import com.Meditation.Sounds.frequencies.lemeor.data.model.Track
 import com.Meditation.Sounds.frequencies.lemeor.data.remote.ApiHelper
 import com.Meditation.Sounds.frequencies.lemeor.data.utils.Resource
 import com.Meditation.Sounds.frequencies.lemeor.data.utils.ViewModelFactory
+import com.Meditation.Sounds.frequencies.lemeor.getSaveDir
+import com.Meditation.Sounds.frequencies.lemeor.hideKeyboard
+import com.Meditation.Sounds.frequencies.lemeor.isTrackAdd
+import com.Meditation.Sounds.frequencies.lemeor.selectedNaviFragment
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper.isFirstSync
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper.isHighQuantum
@@ -62,7 +73,11 @@ import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper.isInnerCi
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper.isLogged
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper.isShowDisclaimer
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper.preference
-import com.Meditation.Sounds.frequencies.lemeor.tools.downloader.*
+import com.Meditation.Sounds.frequencies.lemeor.tools.downloader.DownloadErrorEvent
+import com.Meditation.Sounds.frequencies.lemeor.tools.downloader.DownloadInfo
+import com.Meditation.Sounds.frequencies.lemeor.tools.downloader.DownloadService
+import com.Meditation.Sounds.frequencies.lemeor.tools.downloader.DownloadTrackErrorEvent
+import com.Meditation.Sounds.frequencies.lemeor.tools.downloader.DownloaderActivity
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.PlayerRepeat
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.PlayerService
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.PlayerShuffle
@@ -86,19 +101,50 @@ import com.Meditation.Sounds.frequencies.lemeor.ui.videos.NewVideosFragment
 import com.Meditation.Sounds.frequencies.models.event.SyncDataEvent
 import com.Meditation.Sounds.frequencies.tasks.BaseTask
 import com.Meditation.Sounds.frequencies.tasks.GetFlashSaleTask
-import com.Meditation.Sounds.frequencies.utils.*
+import com.Meditation.Sounds.frequencies.utils.Combined4LiveData
+import com.Meditation.Sounds.frequencies.utils.Constants
 import com.Meditation.Sounds.frequencies.utils.CopyAssets.copyAssetFolder
+import com.Meditation.Sounds.frequencies.utils.FlowSearch
+import com.Meditation.Sounds.frequencies.utils.QcAlarmManager
+import com.Meditation.Sounds.frequencies.utils.SharedPreferenceHelper
+import com.Meditation.Sounds.frequencies.utils.Utils
+import com.Meditation.Sounds.frequencies.utils.extensions.showViewWithFadeIn
 import com.Meditation.Sounds.frequencies.views.DisclaimerDialog
 import com.google.android.exoplayer2.Player
 import com.google.gson.Gson
 import com.tonyodev.fetch2core.isNetworkAvailable
 import java.io.File
-import kotlinx.android.synthetic.main.activity_navigation.*
+import kotlinx.android.synthetic.main.activity_navigation.album_search
+import kotlinx.android.synthetic.main.activity_navigation.album_search_clear
+import kotlinx.android.synthetic.main.activity_navigation.bg_mode
+import kotlinx.android.synthetic.main.activity_navigation.btnStartChatBot
+import kotlinx.android.synthetic.main.activity_navigation.flash_sale
+import kotlinx.android.synthetic.main.activity_navigation.flash_sale_hours
+import kotlinx.android.synthetic.main.activity_navigation.flash_sale_minutes
+import kotlinx.android.synthetic.main.activity_navigation.flash_sale_seconds
+import kotlinx.android.synthetic.main.activity_navigation.lblnoresult
+import kotlinx.android.synthetic.main.activity_navigation.mTvDownloadPercent
+import kotlinx.android.synthetic.main.activity_navigation.navigation_albums
+import kotlinx.android.synthetic.main.activity_navigation.navigation_discover
+import kotlinx.android.synthetic.main.activity_navigation.navigation_options
+import kotlinx.android.synthetic.main.activity_navigation.navigation_programs
+import kotlinx.android.synthetic.main.activity_navigation.navigation_rife
+import kotlinx.android.synthetic.main.activity_navigation.navigation_videos
+import kotlinx.android.synthetic.main.activity_navigation.search_categories_recycler
+import kotlinx.android.synthetic.main.activity_navigation.search_divider
+import kotlinx.android.synthetic.main.activity_navigation.search_layout
 import kotlinx.android.synthetic.main.activity_navigation.view.txt_mode
-import kotlinx.coroutines.*
+import kotlinx.android.synthetic.main.activity_navigation.viewGroupDownload
+import kotlinx.android.synthetic.main.activity_navigation.viewIntroChatBot
+import kotlinx.android.synthetic.main.activity_navigation.view_data
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -108,18 +154,19 @@ import retrofit2.HttpException
 const val REQUEST_CODE_PERMISSION = 1111
 
 class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiersFragmentListener,
-    ApiListener<Any> {
+        ApiListener<Any> {
     private var mViewGroupCurrent: View? = null
     private lateinit var mViewModel: HomeViewModel
     private lateinit var mNewProgramViewModel: NewProgramViewModel
     private lateinit var mNewRifeViewModel: NewRifeViewModel
+    private lateinit var mChatBotViewModel: ChatBotViewModel
     private var playerUI: PlayerUIFragment? = null
 
     private var mLocalApkPath: String? = null
     private var refId: Long = 0
 
-    private var messageAdapter: MessageAdapter? = null
-    private var listMessageChat = arrayListOf<MessageChat>()
+    private var msgChatBotAdapter: MessageChatBotAdapter? = null
+    private var chatMessages = arrayListOf<MessageChatBot>()
     private var rvChatBot: RecyclerView? = null
 
     //search
@@ -255,9 +302,9 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
             }
             if (event?.javaClass == PlayerShuffle::class.java) {
                 val shuffle = event as PlayerShuffle
-                if(shuffle.it){
+                if (shuffle.it) {
                     showMode("Shuffle On")
-                }else{
+                } else {
                     showMode("Shuffle Off")
                 }
             }
@@ -301,7 +348,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                         if (pathSplit.isNotEmpty()) {
                             val fileName = pathSplit[pathSplit.size - 1]
                             val newVersion =
-                                fileName.replace("Resonant_Console_", "").replace(".apk", "")
+                                    fileName.replace("Resonant_Console_", "").replace(".apk", "")
                             val newVs = newVersion.split(".")
                             val currentVs = currentVer.split(".")
 
@@ -320,7 +367,8 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                         }
                     }
                 }
-            } catch (_: Exception) {}
+            } catch (_: Exception) {
+            }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 registerReceiver(
                     downloadNewApkReceiver,
@@ -339,12 +387,12 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
     private fun checkPermissions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(
-                    this, READ_MEDIA_IMAGES
-                ) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(
-                    this, READ_MEDIA_AUDIO
-                ) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(
-                    this, READ_MEDIA_VIDEO
-                ) != PackageManager.PERMISSION_GRANTED
+                        this, READ_MEDIA_IMAGES
+                    ) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(
+                        this, READ_MEDIA_AUDIO
+                    ) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(
+                        this, READ_MEDIA_VIDEO
+                    ) != PackageManager.PERMISSION_GRANTED
             ) {
                 ActivityCompat.requestPermissions(
                     this,
@@ -356,8 +404,8 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
             }
         } else {
             if (ContextCompat.checkSelfPermission(
-                    this, WRITE_EXTERNAL_STORAGE
-                ) != PackageManager.PERMISSION_GRANTED
+                        this, WRITE_EXTERNAL_STORAGE
+                    ) != PackageManager.PERMISSION_GRANTED
             ) {
                 ActivityCompat.requestPermissions(
                     this, arrayOf(WRITE_EXTERNAL_STORAGE), REQUEST_CODE_PERMISSION
@@ -492,6 +540,8 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         album_search_clear.setOnClickListener { closeSearch() }
 
         btnStartChatBot.setOnClickListener {
+            viewIntroChatBot.clearAnimation()
+            viewIntroChatBot.visibility = View.GONE
             showPopup()
         }
 
@@ -499,9 +549,38 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
 
     }
 
-    private fun initChatAdapter(){
-        listMessageChat.clear()
-        messageAdapter = MessageAdapter(listMessageChat)
+    private fun initChatAdapter() {
+        chatMessages.clear()
+        chatMessages.add(MessageChatBot("Hi, my name is Dr.Qi, I'm an AI assistant. How can I help you today? How have you been feeling lately?", MessageChatBot.SEND_BY_BOT))
+        msgChatBotAdapter = MessageChatBotAdapter(chatMessages, onAlbumClick = { albumName ->
+            CoroutineScope(Dispatchers.IO).launch {
+                val album = mViewModel.getAlbumNameOne(albumName)
+                withContext(Dispatchers.Main) {
+                    album?.let {
+                        if (!album.isUnlocked && album.unlock_url != null && album.unlock_url!!.isNotEmpty()) {
+                            startActivity(
+                                PurchaseItemAlbumWebView.newIntent(this@NavigationActivity, album.unlock_url!!)
+                            )
+                        } else if (album.isUnlocked) {
+                            startAlbumDetails(album)
+                        } else {
+                            startActivity(
+                                NewPurchaseActivity.newIntent(
+                                    this@NavigationActivity,
+                                    album.category_id,
+                                    album.tier_id,
+                                    album.id
+                                )
+                            )
+                        }
+                    }
+                }
+            }
+        }, onUpdateTextTyping = {
+            scrollToBottomTyping()
+        })
+
+        viewIntroChatBot.showViewWithFadeIn()
     }
 
     private fun copyAssetsFiles() {
@@ -556,6 +635,8 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
             )
         )[NewRifeViewModel::class.java]
 
+        mChatBotViewModel = ViewModelProvider(this)[ChatBotViewModel::class.java]
+
         navigation_albums.onSelected {
             closeSearch()
             search_layout.visibility = View.VISIBLE
@@ -578,7 +659,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
 
     private fun syncData() {
         if (isNetworkAvailable()) {
-            mViewModel.createThreadChatBot()
+            mChatBotViewModel.createThreadChatBot()
 
             try {
                 val user = PreferenceHelper.getUser(this)
@@ -1049,11 +1130,11 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                     val install = Intent(Intent.ACTION_INSTALL_PACKAGE)
                     install.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
                     val apkUri =
-                        FileProvider.getUriForFile(
-                            this,
-                            BuildConfig.APPLICATION_ID + ".provider",
-                            File(path)
-                        )
+                            FileProvider.getUriForFile(
+                                this,
+                                BuildConfig.APPLICATION_ID + ".provider",
+                                File(path)
+                            )
                     install.data = apkUri
                     startActivityForResult(install, REQUEST_CODE_AFTER_INSTALL)
                 } else {
@@ -1127,11 +1208,11 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                     flashsaleCurrentString = Gson().toJson(jsonCurrent.flashSale)
                 }
                 val jsonOrgrialString =
-                    SharedPreferenceHelper.getInstance().get(Constants.PREF_FLASH_SALE)
+                        SharedPreferenceHelper.getInstance().get(Constants.PREF_FLASH_SALE)
                 var flashsaleOrgrialString = ""
                 if (jsonOrgrialString != null) {
                     val jsonOrgrial =
-                        Gson().fromJson(jsonOrgrialString, GetFlashSaleOutput::class.java)
+                            Gson().fromJson(jsonOrgrialString, GetFlashSaleOutput::class.java)
                     if (jsonOrgrial?.flashSale != null) {
                         flashsaleOrgrialString = Gson().toJson(jsonOrgrial.flashSale)
                     }
@@ -1145,7 +1226,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                 }
 
                 if (SharedPreferenceHelper.getInstance()
-                        .getInt(Constants.PREF_FLASH_SALE_COUNTERED) <= jsonCurrent.flashSale.proposalsCount!!
+                            .getInt(Constants.PREF_FLASH_SALE_COUNTERED) <= jsonCurrent.flashSale.proposalsCount!!
                 ) {
                     QcAlarmManager.createAlarms(this)
                 } else {
@@ -1195,10 +1276,10 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                 val min: String = if (mins > 9) "" + mins else "0$mins"
                 val second: String = if (secs > 9) "" + secs else "0$secs"
                 if (SharedPreferenceHelper.getInstance()
-                        .getBool(Constants.KEY_PURCHASED) && SharedPreferenceHelper.getInstance()
-                        .getBool(Constants.KEY_PURCHASED_ADVANCED) && SharedPreferenceHelper.getInstance()
-                        .getBool(Constants.KEY_PURCHASED_HIGH_ABUNDANCE) && SharedPreferenceHelper.getInstance()
-                        .getBool(Constants.KEY_PURCHASED_HIGH_QUANTUM)
+                            .getBool(Constants.KEY_PURCHASED) && SharedPreferenceHelper.getInstance()
+                            .getBool(Constants.KEY_PURCHASED_ADVANCED) && SharedPreferenceHelper.getInstance()
+                            .getBool(Constants.KEY_PURCHASED_HIGH_ABUNDANCE) && SharedPreferenceHelper.getInstance()
+                            .getBool(Constants.KEY_PURCHASED_HIGH_QUANTUM)
                 ) {
                     flash_sale.visibility = View.GONE
                 } else {
@@ -1217,7 +1298,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         mCountDownTimer!!.start()
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
+    @SuppressLint("UseCompatLoadingForDrawables", "SetTextI18n")
     private fun showPopup() {
         val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val popupView: View = inflater.inflate(R.layout.popup_chat_bot, null)
@@ -1225,13 +1306,15 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         val popupWindow = PopupWindow(
             popupView,
             LinearLayout.LayoutParams.MATCH_PARENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT
+            LinearLayout.LayoutParams.MATCH_PARENT
         ).apply {
             isFocusable = true
+            isTouchable = true
+            isOutsideTouchable = true
             setBackgroundDrawable(getDrawable(R.drawable.transparent_background))
         }
 
-        popupWindow.showAtLocation(btnStartChatBot, Gravity.BOTTOM, 0 , 0)
+        popupWindow.showAtLocation(btnStartChatBot, Gravity.BOTTOM, 0, 0)
 
         popupView.findViewById<View>(R.id.btnCloseChatBot).setOnClickListener {
             popupWindow.dismiss()
@@ -1241,26 +1324,22 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         val btnSendMessageChat = popupView.findViewById<AppCompatImageView>(R.id.btnSendMessageChat)
 
         val linearLayoutManager = LinearLayoutManager(this)
-        linearLayoutManager.stackFromEnd = true
         rvChatBot.setLayoutManager(linearLayoutManager)
-        rvChatBot.adapter = messageAdapter
+        msgChatBotAdapter?.isTextAnimation = true
+        rvChatBot.adapter = msgChatBotAdapter
+        rvChatBot.viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                rvChatBot.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                rvChatBot.scrollToPosition(chatMessages.size - 1)
+            }
+        })
         this.rvChatBot = rvChatBot
-        scrollToBottomChatBot()
+
+        scrollToBottomWithOffset()
 
         edtMessageChat.addTextChangedListener(object : TextWatcher {
-            @SuppressLint("SetTextI18n")
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                if (s.toString().trim { it <= ' ' }.isEmpty()) {
-                    btnSendMessageChat.isEnabled = false
-                } else {
-                    btnSendMessageChat.isEnabled = true
-                    btnSendMessageChat.setOnClickListener {
-                        val question: String = edtMessageChat.getText().toString().trim { it <= ' ' }
-                        addToChat(question, MessageChat.SEND_BY_ME)
-                        edtMessageChat.setText("")
-                        mViewModel.addMessageToThread(question)
-                    }
-                }
+                btnSendMessageChat.isEnabled = s.toString().trim { it <= ' ' }.isNotEmpty()
             }
 
             override fun beforeTextChanged(
@@ -1274,19 +1353,27 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
 
             }
         })
+
+        btnSendMessageChat.setOnClickListener {
+            val question: String = edtMessageChat.getText().toString().trim { it <= ' ' }
+            addToChat(question, MessageChatBot.SEND_BY_ME)
+            edtMessageChat.setText("")
+            mChatBotViewModel.addMessageToThread(question)
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private fun observeChatViewModel(){
-        mViewModel.apply {
+    private fun observeChatViewModel() {
+        mChatBotViewModel.apply {
             typingMessage.observe(this@NavigationActivity) {
-                listMessageChat.add(it)
-                messageAdapter?.notifyDataSetChanged()
-                rvChatBot?.scrollToPosition((messageAdapter?.itemCount ?: 0) - 1)
+                chatMessages.add(it)
+                msgChatBotAdapter?.notifyDataSetChanged()
+                scrollToBottomWithOffset()
             }
             bodyMessage.observe(this@NavigationActivity) {
-                listMessageChat.removeAt(listMessageChat.size - 1)
-                addToChat(it, MessageChat.SEND_BY_BOT)
+                chatMessages.removeAt(chatMessages.size - 1)
+                msgChatBotAdapter?.isTextAnimation = false
+                addToChat(it, MessageChatBot.SEND_BY_BOT)
             }
         }
     }
@@ -1294,17 +1381,30 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
     @SuppressLint("NotifyDataSetChanged")
     private fun addToChat(message: String, sendBy: String) {
         runOnUiThread {
-            listMessageChat.add(MessageChat(message, sendBy))
-            messageAdapter?.notifyDataSetChanged()
-            rvChatBot?.scrollToPosition((messageAdapter?.itemCount ?: 0) - 1)
+            chatMessages.add(MessageChatBot(message, sendBy))
+            msgChatBotAdapter?.notifyDataSetChanged()
+            scrollToBottomWithOffset()
         }
     }
 
-    @Suppress("DEPRECATION")
-    private fun scrollToBottomChatBot(){
-        Handler().postDelayed({
-            rvChatBot?.scrollToPosition((messageAdapter?.itemCount ?: 0) - 1)
-        }, 100)
+
+    private fun scrollToBottomWithOffset() {
+        rvChatBot?.post {
+            val totalItemCount = rvChatBot?.adapter?.itemCount ?: 0
+            if (totalItemCount > 0) {
+                val positionToScroll = totalItemCount - 1
+                rvChatBot?.scrollToPosition(positionToScroll)
+                rvChatBot?.postDelayed({
+                    rvChatBot?.scrollBy(0, 1000)
+                }, 10)
+            }
+        }
+    }
+
+    private fun scrollToBottomTyping() {
+        rvChatBot?.post {
+            rvChatBot?.scrollBy(0, 1000)
+        }
     }
 
 
