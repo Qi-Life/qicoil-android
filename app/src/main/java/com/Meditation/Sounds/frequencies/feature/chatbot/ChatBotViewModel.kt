@@ -3,6 +3,7 @@ package com.Meditation.Sounds.frequencies.feature.chatbot
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.Meditation.Sounds.frequencies.feature.chatbot.ChatApi.Companion
 import com.Meditation.Sounds.frequencies.utils.Constants
 import com.Meditation.Sounds.frequencies.utils.SharedPreferenceHelper
 import java.io.IOException
@@ -27,7 +28,7 @@ class ChatBotViewModel() : ViewModel() {
     fun createThreadChatBot() {
         if (SharedPreferenceHelper.getInstance().get(Constants.PREF_CHATBOT_THREAD_ID).isNullOrEmpty()) {
             val requestBody: RequestBody = RequestBody.create("application/json; charset=utf-8".toMediaType(), "")
-            val request: Request = Request.Builder().url("https://api.openai.com/v1/threads").header("Authorization", "Bearer " + "sk-proj-yVqZ9CNC2bkMpkKyOCKfT3BlbkFJNeIW9gfDPWEuDsxbRAX9").header("OpenAI-Beta", "assistants=v2").post(requestBody).build()
+            val request: Request = Request.Builder().url(ChatApi.chatUrl).header("Authorization", "Bearer " + Companion.chatApiKey).header("OpenAI-Beta", "assistants=v2").post(requestBody).build()
 
             client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
@@ -51,98 +52,18 @@ class ChatBotViewModel() : ViewModel() {
         }
     }
 
-
-    fun addMessageToThread(question: String?) {
+    fun sendMessageChat(question: String) {
         _typingMessage.value = MessageChatBot("Typing", MessageChatBot.SEND_BY_BOT)
+        val threadId = SharedPreferenceHelper.getInstance().get(Constants.PREF_CHATBOT_THREAD_ID)
         val jsonBody = JSONObject()
         try {
-            jsonBody.put("role", "user")
-            jsonBody.put("content", question)
+            jsonBody.put("thread_id", threadId)
+            jsonBody.put("message", question)
         } catch (e: JSONException) {
             throw RuntimeException(e)
         }
-        val threadId = SharedPreferenceHelper.getInstance().get(Constants.PREF_CHATBOT_THREAD_ID)
         val requestBody: RequestBody = RequestBody.create("application/json; charset=utf-8".toMediaType(), jsonBody.toString())
-        val request: Request = Request.Builder().url("https://api.openai.com/v1/threads/$threadId/messages").header("Authorization", "Bearer " + "sk-proj-yVqZ9CNC2bkMpkKyOCKfT3BlbkFJNeIW9gfDPWEuDsxbRAX9").header("OpenAI-Beta", "assistants=v2").post(requestBody).build()
-
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-            }
-
-            @Throws(IOException::class)
-            override fun onResponse(call: Call, response: Response) {
-                if (response.isSuccessful) {
-                    runMessageThread()
-                }
-            }
-        })
-    }
-
-
-    fun runMessageThread() {
-        val jsonBody = JSONObject()
-        try {
-            jsonBody.put("assistant_id", "asst_WCn2gkamQDyisW4FzJEsFbqI")
-        } catch (e: JSONException) {
-            throw RuntimeException(e)
-        }
-        val threadId = SharedPreferenceHelper.getInstance().get(Constants.PREF_CHATBOT_THREAD_ID)
-        val requestBody: RequestBody = RequestBody.create("application/json; charset=utf-8".toMediaType(), jsonBody.toString())
-        val request: Request = Request.Builder().url("https://api.openai.com/v1/threads/$threadId/runs").header("Authorization", "Bearer " + "sk-proj-yVqZ9CNC2bkMpkKyOCKfT3BlbkFJNeIW9gfDPWEuDsxbRAX9").header("OpenAI-Beta", "assistants=v2").post(requestBody).build()
-
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-
-            }
-
-            @Throws(IOException::class)
-            override fun onResponse(call: Call, response: Response) {
-                if (response.isSuccessful) {
-                    try {
-                        if (response.body != null) {
-                            val jsonObject = JSONObject(response.body!!.string())
-                            retrieveMessageThread(jsonObject.getString("id"))
-                        }
-                    } catch (e: JSONException) {
-                        throw RuntimeException(e)
-                    }
-                }
-            }
-        })
-    }
-
-    fun retrieveMessageThread(runId: String) {
-        val threadId = SharedPreferenceHelper.getInstance().get(Constants.PREF_CHATBOT_THREAD_ID)
-        val request: Request = Request.Builder().url("https://api.openai.com/v1/threads/$threadId/runs/$runId").header("Authorization", "Bearer " + "sk-proj-yVqZ9CNC2bkMpkKyOCKfT3BlbkFJNeIW9gfDPWEuDsxbRAX9").header("OpenAI-Beta", "assistants=v2").get().build()
-
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-
-            }
-
-            @Throws(IOException::class)
-            override fun onResponse(call: Call, response: Response) {
-                if (response.isSuccessful) {
-                    try {
-                        if (response.body != null) {
-                           val jsonObject = JSONObject(response.body!!.string())
-                           if (jsonObject.getString("status") == "completed") {
-                               getMessageChatBot()
-                           } else {
-                               retrieveMessageThread(runId)
-                           }
-                        }
-                    } catch (e: JSONException) {
-                        throw RuntimeException(e)
-                    }
-                }
-            }
-        })
-    }
-
-    fun getMessageChatBot() {
-        val threadId = SharedPreferenceHelper.getInstance().get(Constants.PREF_CHATBOT_THREAD_ID)
-        val request: Request = Request.Builder().url("https://api.openai.com/v1/threads/$threadId/messages").header("Authorization", "Bearer " + "sk-proj-yVqZ9CNC2bkMpkKyOCKfT3BlbkFJNeIW9gfDPWEuDsxbRAX9").header("OpenAI-Beta", "assistants=v2").get().build()
+        val request: Request = Request.Builder().url("https://combined-quantum.ingeniusstudios.com/public/api/openai/runThread").post(requestBody).build()
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
@@ -154,16 +75,11 @@ class ChatBotViewModel() : ViewModel() {
                 if (response.isSuccessful) {
                     try {
                         if (response.body != null) {
-                            val jsonObject = JSONObject(response.body!!.string())
-                            val jsonData = jsonObject.getJSONArray("data")
-                            if (jsonData.length() > 0 && jsonData.getJSONObject(0).getJSONArray("content").length() > 0) {
-                                val result = jsonData.getJSONObject(0).getJSONArray("content").getJSONObject(0).getJSONObject("text").getString("value")
-                                _bodyMessage.postValue(result.trim { it <= ' ' })
-                            } else {
-                                _bodyMessage.postValue("")
-                            }
+                            val jsonObject = response.body?.string()?.let { JSONObject(it) }
+                            _bodyMessage.postValue(jsonObject?.getString("message"))
                         }
                     } catch (e: JSONException) {
+                        _bodyMessage.postValue("")
                         throw RuntimeException(e)
                     }
                 } else {

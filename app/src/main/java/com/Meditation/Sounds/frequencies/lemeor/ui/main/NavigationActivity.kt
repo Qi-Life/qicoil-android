@@ -14,6 +14,8 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.content.res.Configuration
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -165,9 +167,12 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
     private var mLocalApkPath: String? = null
     private var refId: Long = 0
 
-    private var msgChatBotAdapter: MessageChatBotAdapter? = null
+    //chat bot
+    private var msgChatAdapter: MessageChatBotAdapter? = null
     private var chatMessages = arrayListOf<MessageChatBot>()
     private var rvChatBot: RecyclerView? = null
+    private var chatPopupWindow: PopupWindow? = null
+    private var btnSendChat: View? = null
 
     //search
     private val searchAdapter by lazy {
@@ -542,45 +547,11 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         btnStartChatBot.setOnClickListener {
             viewIntroChatBot.clearAnimation()
             viewIntroChatBot.visibility = View.GONE
-            showPopup()
+            showChatPopup()
         }
 
         orientationChangesUI(resources.configuration.orientation)
 
-    }
-
-    private fun initChatAdapter() {
-        chatMessages.clear()
-        chatMessages.add(MessageChatBot("Hi, my name is Dr.Qi, I'm an AI assistant. How can I help you today? How have you been feeling lately?", MessageChatBot.SEND_BY_BOT))
-        msgChatBotAdapter = MessageChatBotAdapter(chatMessages, onAlbumClick = { albumName ->
-            CoroutineScope(Dispatchers.IO).launch {
-                val album = mViewModel.getAlbumNameOne(albumName)
-                withContext(Dispatchers.Main) {
-                    album?.let {
-                        if (!album.isUnlocked && album.unlock_url != null && album.unlock_url!!.isNotEmpty()) {
-                            startActivity(
-                                PurchaseItemAlbumWebView.newIntent(this@NavigationActivity, album.unlock_url!!)
-                            )
-                        } else if (album.isUnlocked) {
-                            startAlbumDetails(album)
-                        } else {
-                            startActivity(
-                                NewPurchaseActivity.newIntent(
-                                    this@NavigationActivity,
-                                    album.category_id,
-                                    album.tier_id,
-                                    album.id
-                                )
-                            )
-                        }
-                    }
-                }
-            }
-        }, onUpdateTextTyping = {
-            scrollToBottomTyping()
-        })
-
-        viewIntroChatBot.showViewWithFadeIn()
     }
 
     private fun copyAssetsFiles() {
@@ -1298,12 +1269,49 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         mCountDownTimer!!.start()
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables", "SetTextI18n")
-    private fun showPopup() {
+    private fun initChatAdapter() {
+        chatMessages = SharedPreferenceHelper.getInstance().chatMessages
+        if (chatMessages.isEmpty()) {
+            chatMessages.add(MessageChatBot("Hi, my name is Dr.Qi, I'm an AI assistant. How can I help you today? How have you been feeling lately?", MessageChatBot.SEND_BY_BOT))
+        }
+        msgChatAdapter = MessageChatBotAdapter(chatMessages, onAlbumClick = { albumName ->
+            CoroutineScope(Dispatchers.IO).launch {
+                val album = mViewModel.getAlbumNameOne(albumName)
+                withContext(Dispatchers.Main) {
+                    album?.let {
+                        chatPopupWindow?.dismiss()
+                        if (!album.isUnlocked && album.unlock_url != null && album.unlock_url!!.isNotEmpty()) {
+                            startActivity(
+                                PurchaseItemAlbumWebView.newIntent(this@NavigationActivity, album.unlock_url!!)
+                            )
+                        } else if (album.isUnlocked) {
+                            startAlbumDetails(album)
+                        } else {
+                            startActivity(
+                                NewPurchaseActivity.newIntent(
+                                    this@NavigationActivity,
+                                    album.category_id,
+                                    album.tier_id,
+                                    album.id
+                                )
+                            )
+                        }
+                    }
+                }
+            }
+        }, onUpdateTextTyping = {
+            scrollToBottomTyping()
+        }, onUpdateTextTypingComplete = {
+            btnSendChat?.isEnabled = true
+        })
+        viewIntroChatBot.showViewWithFadeIn()
+    }
+
+    @SuppressLint("SetTextI18n", "NotifyDataSetChanged")
+    private fun showChatPopup() {
         val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val popupView: View = inflater.inflate(R.layout.popup_chat_bot, null)
-
-        val popupWindow = PopupWindow(
+        chatPopupWindow = PopupWindow(
             popupView,
             LinearLayout.LayoutParams.MATCH_PARENT,
             LinearLayout.LayoutParams.MATCH_PARENT
@@ -1311,22 +1319,24 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
             isFocusable = true
             isTouchable = true
             isOutsideTouchable = true
-            setBackgroundDrawable(getDrawable(R.drawable.transparent_background))
+            setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         }
 
-        popupWindow.showAtLocation(btnStartChatBot, Gravity.BOTTOM, 0, 0)
-
+        chatPopupWindow?.showAtLocation(btnStartChatBot, Gravity.BOTTOM, 0, 0)
         popupView.findViewById<View>(R.id.btnCloseChatBot).setOnClickListener {
-            popupWindow.dismiss()
+            msgChatAdapter?.isCancelWrite = true
+            msgChatAdapter?.notifyDataSetChanged()
+            chatPopupWindow?.dismiss()
         }
         val rvChatBot = popupView.findViewById<RecyclerView>(R.id.rvChatBot)
         val edtMessageChat = popupView.findViewById<AppCompatEditText>(R.id.edtMessageChat)
-        val btnSendMessageChat = popupView.findViewById<AppCompatImageView>(R.id.btnSendMessageChat)
+        btnSendChat = popupView.findViewById<AppCompatImageView>(R.id.btnSendMessageChat)
 
         val linearLayoutManager = LinearLayoutManager(this)
         rvChatBot.setLayoutManager(linearLayoutManager)
-        msgChatBotAdapter?.isTextAnimation = true
-        rvChatBot.adapter = msgChatBotAdapter
+        msgChatAdapter?.isCancelWrite = false
+        msgChatAdapter?.isTextAnimation = true
+        rvChatBot.adapter = msgChatAdapter
         rvChatBot.viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 rvChatBot.viewTreeObserver.removeOnGlobalLayoutListener(this)
@@ -1339,7 +1349,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
 
         edtMessageChat.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                btnSendMessageChat.isEnabled = s.toString().trim { it <= ' ' }.isNotEmpty()
+                btnSendChat?.isEnabled = s.toString().trim { it <= ' ' }.isNotEmpty() && chatMessages.last().message != "Typing" && chatMessages.last().statusTyping == false
             }
 
             override fun beforeTextChanged(
@@ -1353,12 +1363,11 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
 
             }
         })
-
-        btnSendMessageChat.setOnClickListener {
+        btnSendChat?.setOnClickListener {
             val question: String = edtMessageChat.getText().toString().trim { it <= ' ' }
             addToChat(question, MessageChatBot.SEND_BY_ME)
             edtMessageChat.setText("")
-            mChatBotViewModel.addMessageToThread(question)
+            mChatBotViewModel.sendMessageChat(question)
         }
     }
 
@@ -1367,12 +1376,12 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         mChatBotViewModel.apply {
             typingMessage.observe(this@NavigationActivity) {
                 chatMessages.add(it)
-                msgChatBotAdapter?.notifyDataSetChanged()
+                msgChatAdapter?.notifyDataSetChanged()
                 scrollToBottomWithOffset()
             }
             bodyMessage.observe(this@NavigationActivity) {
                 chatMessages.removeAt(chatMessages.size - 1)
-                msgChatBotAdapter?.isTextAnimation = false
+                msgChatAdapter?.isTextAnimation = false
                 addToChat(it, MessageChatBot.SEND_BY_BOT)
             }
         }
@@ -1382,7 +1391,8 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
     private fun addToChat(message: String, sendBy: String) {
         runOnUiThread {
             chatMessages.add(MessageChatBot(message, sendBy))
-            msgChatBotAdapter?.notifyDataSetChanged()
+            msgChatAdapter?.notifyDataSetChanged()
+            SharedPreferenceHelper.getInstance().saveChatMessages(chatMessages)
             scrollToBottomWithOffset()
         }
     }

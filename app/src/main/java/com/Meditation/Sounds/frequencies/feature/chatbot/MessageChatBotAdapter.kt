@@ -1,5 +1,6 @@
 package com.Meditation.Sounds.frequencies.feature.chatbot
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.Typeface
 import android.text.Spannable
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.Meditation.Sounds.frequencies.R
 import com.Meditation.Sounds.frequencies.feature.chatbot.MessageChatBotAdapter.MyViewHolder
+import com.Meditation.Sounds.frequencies.views.TextViewTypeWriter
 import com.bumptech.glide.Glide
 import java.util.regex.Pattern
 import kotlinx.android.synthetic.main.chat_item.view.imvTyping
@@ -25,9 +27,13 @@ import kotlinx.android.synthetic.main.chat_item.view.viewLeftChat
 import kotlinx.android.synthetic.main.chat_item.view.viewRightChat
 
 
-class MessageChatBotAdapter(private var messageList: List<MessageChatBot>,
-                            private val onAlbumClick:(String) -> Unit,
-                            private val onUpdateTextTyping:() -> Unit) : Adapter<MyViewHolder>() {
+class MessageChatBotAdapter(
+        private var messageList: List<MessageChatBot>,
+        private val onAlbumClick: (String) -> Unit,
+        private val onUpdateTextTyping: () -> Unit,
+        private val onUpdateTextTypingComplete: () -> Unit,
+) : Adapter<MyViewHolder>() {
+    var isCancelWrite = false
     var isTextAnimation = true
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -35,13 +41,17 @@ class MessageChatBotAdapter(private var messageList: List<MessageChatBot>,
         return MyViewHolder(chatView)
     }
 
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MyViewHolder, @SuppressLint("RecyclerView") position: Int) {
         val message = messageList[position]
 
         Glide.with(holder.itemView.context)
             .asGif()
             .load(R.drawable.ic_typing_texting)
             .into(holder.itemView.imvTyping)
+
+        if (isCancelWrite) {
+            holder.itemView.tvLeftChat.cancelWriter()
+        }
 
         if (message.sentBy == MessageChatBot.SEND_BY_ME) {
             holder.itemView.viewLeftChat.visibility = View.GONE
@@ -56,9 +66,17 @@ class MessageChatBotAdapter(private var messageList: List<MessageChatBot>,
                 holder.itemView.imvTyping.visibility = View.GONE
                 holder.itemView.tvLeftChat.visibility = View.VISIBLE
                 holder.itemView.tvLeftChat.animateText(getSpanText(message.message))
-                holder.itemView.tvLeftChat.setOnTypeWriterCompleteListener {
-                    onUpdateTextTyping.invoke()
-                }
+                holder.itemView.tvLeftChat.setOnTypeWriterCompleteListener(object : TextViewTypeWriter.OnTypeWriterCompleteListener {
+                    override fun setOnTypingListener() {
+                        messageList[position].statusTyping = true
+                        onUpdateTextTyping.invoke()
+                    }
+
+                    override fun setOnCompleteListener() {
+                        messageList[position].statusTyping = false
+                        onUpdateTextTypingComplete.invoke()
+                    }
+                })
             } else {
                 holder.itemView.imvTyping.visibility = View.GONE
                 holder.itemView.tvLeftChat.visibility = View.GONE
@@ -80,7 +98,7 @@ class MessageChatBotAdapter(private var messageList: List<MessageChatBot>,
     }
 
     private fun getSpanText(msg: String): SpannableStringBuilder {
-        val pattern = "##\\w+\\s*\\w*\\s*\\w*\\s*\\w*"
+        val pattern = "##\\w+\\s*\\w*\\s*\\w*\\s*\\w*\\s*\\w*\\s*\\w*"
         val regex = Pattern.compile(pattern)
         val matcher = regex.matcher(msg)
         val listAlbum = arrayListOf<String>()

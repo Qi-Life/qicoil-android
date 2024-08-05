@@ -4,6 +4,13 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.Meditation.Sounds.frequencies.QApplication;
+import com.Meditation.Sounds.frequencies.feature.chatbot.MessageChatBot;
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by dcmen on 08/31/16.
@@ -42,12 +49,12 @@ public class SharedPreferenceHelper {
         mSharedPreferences.edit().clear().apply();
     }
 
-    public void setKeyboardHeight(int keyboardHeight) {
-        mSharedPreferences.edit().putInt(SHARED_PREF_KEYBOARD_HEIGH, keyboardHeight).apply();
-    }
-
     public int getKeyboardHeight() {
         return mSharedPreferences.getInt(SHARED_PREF_KEYBOARD_HEIGH, 150);
+    }
+
+    public void setKeyboardHeight(int keyboardHeight) {
+        mSharedPreferences.edit().putInt(SHARED_PREF_KEYBOARD_HEIGH, keyboardHeight).apply();
     }
 
     public void setInt(String key, int value) {
@@ -151,7 +158,7 @@ public class SharedPreferenceHelper {
                 return "$99.99";
             } else if (priceKey.equalsIgnoreCase(Constants.PRICE_ADVANCED_LIFETIME)) {
                 return "$379.99";
-            }  else if (priceKey.equalsIgnoreCase(Constants.PRICE_ADVANCED_LIFETIME_FLASH_SALE)) {
+            } else if (priceKey.equalsIgnoreCase(Constants.PRICE_ADVANCED_LIFETIME_FLASH_SALE)) {
                 return "$199.99";
             } else if (priceKey.equalsIgnoreCase(Constants.PRICE_HIGHER_MONTHLY)) {
                 return "$29.99";
@@ -166,5 +173,19 @@ public class SharedPreferenceHelper {
             }
         }
         return price;
+    }
+
+    public void saveChatMessages(ArrayList<MessageChatBot> value) {
+        String json = new Gson().toJson(value);
+        mSharedPreferences.edit().putString("messages_chat", json).apply();
+    }
+
+    public ArrayList<MessageChatBot> getChatMessages() {
+        String json = mSharedPreferences.getString("messages_chat", null);
+        if (json == null) {
+            return new ArrayList<>();
+        }
+        Type type = new TypeToken<List<MessageChatBot>>() {}.getType();
+        return new Gson().fromJson(json, type);
     }
 }
