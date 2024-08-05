@@ -67,7 +67,7 @@ class ChatBotViewModel() : ViewModel() {
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                _bodyMessage.postValue("Failed to load response due to" + e.message)
+                _bodyMessage.postValue("Failed!")
             }
 
             @Throws(IOException::class)
@@ -83,9 +83,7 @@ class ChatBotViewModel() : ViewModel() {
                         throw RuntimeException(e)
                     }
                 } else {
-                    if (response.body != null) {
-                        _bodyMessage.postValue("Failed to load response due to" + response.body.toString())
-                    }
+                    _bodyMessage.postValue("Failed!")
                 }
             }
         })

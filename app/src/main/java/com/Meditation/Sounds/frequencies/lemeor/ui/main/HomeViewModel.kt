@@ -155,7 +155,16 @@ class HomeViewModel(private val repository: HomeRepository, private val db: Data
     }
 
     suspend fun getAlbumNameOne(albumName: String): Album? {
-        return repository.getAlbumsByNameOnce(albumName)
+        var albumResult = repository.getAlbumsByNameOnce(albumName)
+        if (albumResult == null) {
+            albumName.split(" ").forEach { s->
+                val album = repository.getAlbumsByNameOnce("%$s%")
+                if (album != null && albumResult == null) {
+                    albumResult = album
+                }
+            }
+        }
+        return albumResult
     }
 
     suspend fun searchAlbum(searchString: String): List<Album> {

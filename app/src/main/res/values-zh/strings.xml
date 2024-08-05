@@ -338,5 +338,9 @@
     <string name="tv_no_purchases_available">没有可用的购买</string>
     <string name="tv_purchases_have_been_restored">购买已恢复</string>
     <string name="msg_error_occurred">发生了错误！</string>
+    <string name="msg_chatting_bot_cookie_policies">通过与我聊天，您同意我们的隐私和 Cookie 政策。</string>
+    <string name="tv_message">信息:</string>
+    <string name="tv_master_wong_ai">Dr. Qi Ai assistant</string>
+    <string name="tv_chat_bot_first_message">Hi, my name is Dr.Qi, I\'m an AI assistant. How can I help you today? How have you been feeling lately?</string>
 
 </resources>

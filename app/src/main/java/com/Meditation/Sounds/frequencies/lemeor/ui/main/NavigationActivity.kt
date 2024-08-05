@@ -29,6 +29,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
+import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.Toast
@@ -168,11 +169,12 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
     private var refId: Long = 0
 
     //chat bot
+    private var chatPopupWindow: PopupWindow? = null
     private var msgChatAdapter: MessageChatBotAdapter? = null
     private var chatMessages = arrayListOf<MessageChatBot>()
     private var rvChatBot: RecyclerView? = null
-    private var chatPopupWindow: PopupWindow? = null
-    private var btnSendChat: View? = null
+    private var edtMessageChat: AppCompatEditText? = null
+    private var btnSendChat: AppCompatImageView? = null
 
     //search
     private val searchAdapter by lazy {
@@ -1272,7 +1274,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
     private fun initChatAdapter() {
         chatMessages = SharedPreferenceHelper.getInstance().chatMessages
         if (chatMessages.isEmpty()) {
-            chatMessages.add(MessageChatBot("Hi, my name is Dr.Qi, I'm an AI assistant. How can I help you today? How have you been feeling lately?", MessageChatBot.SEND_BY_BOT))
+            chatMessages.add(MessageChatBot(getString(R.string.tv_chat_bot_first_message), MessageChatBot.SEND_BY_BOT))
         }
         msgChatAdapter = MessageChatBotAdapter(chatMessages, onAlbumClick = { albumName ->
             CoroutineScope(Dispatchers.IO).launch {
@@ -1302,7 +1304,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         }, onUpdateTextTyping = {
             scrollToBottomTyping()
         }, onUpdateTextTypingComplete = {
-            btnSendChat?.isEnabled = true
+            btnSendChat?.isEnabled = edtMessageChat?.text.toString().trim { it <= ' ' }.isNotEmpty()
         })
         viewIntroChatBot.showViewWithFadeIn()
     }
@@ -1328,26 +1330,26 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
             msgChatAdapter?.notifyDataSetChanged()
             chatPopupWindow?.dismiss()
         }
-        val rvChatBot = popupView.findViewById<RecyclerView>(R.id.rvChatBot)
-        val edtMessageChat = popupView.findViewById<AppCompatEditText>(R.id.edtMessageChat)
-        btnSendChat = popupView.findViewById<AppCompatImageView>(R.id.btnSendMessageChat)
+        rvChatBot = popupView.findViewById(R.id.rvChatBot)
+        edtMessageChat = popupView.findViewById(R.id.edtMessageChat)
+        btnSendChat = popupView.findViewById(R.id.btnSendMessageChat)
+        btnSendChat?.isEnabled = false
 
         val linearLayoutManager = LinearLayoutManager(this)
-        rvChatBot.setLayoutManager(linearLayoutManager)
+        rvChatBot?.setLayoutManager(linearLayoutManager)
         msgChatAdapter?.isCancelWrite = false
         msgChatAdapter?.isTextAnimation = true
-        rvChatBot.adapter = msgChatAdapter
-        rvChatBot.viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
+        rvChatBot?.adapter = msgChatAdapter
+        rvChatBot?.viewTreeObserver?.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
             override fun onGlobalLayout() {
-                rvChatBot.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                rvChatBot.scrollToPosition(chatMessages.size - 1)
+                rvChatBot?.viewTreeObserver?.removeOnGlobalLayoutListener(this)
+                rvChatBot?.scrollToPosition(chatMessages.size - 1)
             }
         })
-        this.rvChatBot = rvChatBot
 
         scrollToBottomWithOffset()
 
-        edtMessageChat.addTextChangedListener(object : TextWatcher {
+        edtMessageChat?.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 btnSendChat?.isEnabled = s.toString().trim { it <= ' ' }.isNotEmpty() && chatMessages.last().message != "Typing" && chatMessages.last().statusTyping == false
             }
@@ -1364,10 +1366,12 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
             }
         })
         btnSendChat?.setOnClickListener {
-            val question: String = edtMessageChat.getText().toString().trim { it <= ' ' }
-            addToChat(question, MessageChatBot.SEND_BY_ME)
-            edtMessageChat.setText("")
-            mChatBotViewModel.sendMessageChat(question)
+            val question: String = edtMessageChat?.getText().toString().trim { it <= ' ' }
+            if (question.isNotEmpty()) {
+                addToChat(question, MessageChatBot.SEND_BY_ME)
+                edtMessageChat?.setText("")
+                mChatBotViewModel.sendMessageChat(question)
+            }
         }
     }
 

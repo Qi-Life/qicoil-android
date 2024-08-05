@@ -89,6 +89,6 @@ interface AlbumDao {
     @Query("DELETE FROM album")
     suspend fun clear()
 
-    @Query("SELECT * FROM album WHERE name=:albumName ORDER BY `order` ASC")
+    @Query("SELECT * FROM album WHERE name LIKE :albumName ORDER BY `order` ASC")
     suspend fun getAlbumsByNameOnce(albumName: String): Album?
 }

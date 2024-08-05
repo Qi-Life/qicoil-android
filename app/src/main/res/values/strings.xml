@@ -411,6 +411,10 @@
     <string name="tv_no_purchases_available">No purchases available</string>
     <string name="tv_purchases_have_been_restored">Purchases have been restored</string>
     <string name="msg_error_occurred">Error Occurred!</string>
+    <string name="msg_chatting_bot_cookie_policies">By chatting with me, you agree to our Privacy and Cookie Policies.</string>
+    <string name="tv_message">Message:</string>
+    <string name="tv_master_wong_ai">Dr. Qi Ai assistant</string>
+    <string name="tv_chat_bot_first_message">Hi, my name is Dr.Qi, I\'m an AI assistant. How can I help you today? How have you been feeling lately?</string>
 
     <string name="lang_en" translatable="false">English</string>
     <string name="lang_fr" translatable="false">French</string>

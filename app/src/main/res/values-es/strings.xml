@@ -338,5 +338,9 @@
     <string name="tv_no_purchases_available">No hay compras disponibles</string>
     <string name="tv_purchases_have_been_restored">Se han restaurado las compras</string>
     <string name="msg_error_occurred">¡Se produjo un error!</string>
+    <string name="msg_chatting_bot_cookie_policies">Al chatear conmigo, aceptas nuestras Políticas de privacidad y cookies.</string>
+    <string name="tv_message">Mensaje:</string>
+    <string name="tv_master_wong_ai">Dr. Qi Ai assistant</string>
+    <string name="tv_chat_bot_first_message">Hi, my name is Dr.Qi, I\'m an AI assistant. How can I help you today? How have you been feeling lately?</string>
 
 </resources>
