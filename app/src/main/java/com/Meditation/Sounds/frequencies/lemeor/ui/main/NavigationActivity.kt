@@ -504,9 +504,9 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
 
         getAllCategories()
 
-        initChatAdapter()
-
         observeChatViewModel()
+
+        initChatAdapter()
 
         if (BuildConfig.IS_FREE) {
             copyAssetsFiles()
@@ -1273,9 +1273,6 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
 
     private fun initChatAdapter() {
         chatMessages = SharedPreferenceHelper.getInstance().chatMessages
-        if (chatMessages.isEmpty()) {
-            chatMessages.add(MessageChatBot(getString(R.string.tv_chat_bot_first_message), MessageChatBot.SEND_BY_BOT))
-        }
         msgChatAdapter = MessageChatBotAdapter(chatMessages, onAlbumClick = { albumName ->
             CoroutineScope(Dispatchers.IO).launch {
                 val album = mViewModel.getAlbumNameOne(albumName)
@@ -1384,7 +1381,9 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                 scrollToBottomWithOffset()
             }
             bodyMessage.observe(this@NavigationActivity) {
-                chatMessages.removeAt(chatMessages.size - 1)
+                if (chatMessages.isNotEmpty()) {
+                    chatMessages.removeAt(chatMessages.size - 1)
+                }
                 msgChatAdapter?.isTextAnimation = false
                 addToChat(it, MessageChatBot.SEND_BY_BOT)
             }
