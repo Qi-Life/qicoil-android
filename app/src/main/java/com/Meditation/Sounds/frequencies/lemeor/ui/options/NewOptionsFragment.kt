@@ -72,6 +72,7 @@ import com.Meditation.Sounds.frequencies.utils.Constants.Companion.SKU_RIFE_HIGH
 import com.Meditation.Sounds.frequencies.utils.Constants.Companion.SKU_RIFE_MONTHLY
 import com.Meditation.Sounds.frequencies.utils.Constants.Companion.SKU_RIFE_YEARLY_FLASHSALE
 import com.Meditation.Sounds.frequencies.utils.LanguageUtils
+import com.Meditation.Sounds.frequencies.utils.SharedPreferenceHelper
 import com.Meditation.Sounds.frequencies.utils.Utils
 import com.Meditation.Sounds.frequencies.views.DeleteUserDialog
 import com.Meditation.Sounds.frequencies.views.DisclaimerDialog
@@ -529,7 +530,10 @@ class NewOptionsFragment : Fragment() {
 
         user?.let { updateUnlocked(requireContext(), it, false) }
         saveUser(requireContext(), null)
+
         initUI()
+
+        activity.resetChatBot()
 
         startActivityForResult(
             Intent(requireContext(), AuthActivity::class.java), REQUEST_CODE_AUTH

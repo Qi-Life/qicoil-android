@@ -177,11 +177,11 @@ public class SharedPreferenceHelper {
 
     public void saveChatMessages(ArrayList<MessageChatBot> value) {
         String json = new Gson().toJson(value);
-        mSharedPreferences.edit().putString("messages_chat", json).apply();
+        mSharedPreferences.edit().putString(Constants.PREF_CHAT_MESSAGES, json).apply();
     }
 
     public ArrayList<MessageChatBot> getChatMessages() {
-        String json = mSharedPreferences.getString("messages_chat", null);
+        String json = mSharedPreferences.getString(Constants.PREF_CHAT_MESSAGES, null);
         if (json == null) {
             return new ArrayList<>();
         }

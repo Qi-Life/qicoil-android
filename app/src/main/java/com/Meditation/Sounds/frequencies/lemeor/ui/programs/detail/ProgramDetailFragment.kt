@@ -147,6 +147,7 @@ class ProgramDetailFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        (activity as NavigationActivity).updateViewChatBot(isShow = false)
         EventBus.getDefault().register(this)
     }
 
@@ -239,7 +240,6 @@ class ProgramDetailFragment : BaseFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-
         EventBus.getDefault().unregister(this)
         isTrackAdd = false
         albumIdBackProgram = -1
@@ -273,6 +273,8 @@ class ProgramDetailFragment : BaseFragment() {
         parentFragmentManager.beginTransaction()
             .setCustomAnimations(R.anim.trans_left_to_right_in, R.anim.trans_left_to_right_out)
             .replace(R.id.nav_host_fragment, fragment!!, fragment.javaClass.simpleName).commit()
+
+        (activity as NavigationActivity).updateViewChatBot(isShow = true)
     }
 
     private fun initView(program: Program) {

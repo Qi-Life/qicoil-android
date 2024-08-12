@@ -3,6 +3,8 @@ package com.Meditation.Sounds.frequencies.feature.chatbot
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.Meditation.Sounds.frequencies.QApplication
+import com.Meditation.Sounds.frequencies.R
 import com.Meditation.Sounds.frequencies.feature.chatbot.ChatApi.Companion
 import com.Meditation.Sounds.frequencies.utils.Constants
 import com.Meditation.Sounds.frequencies.utils.SharedPreferenceHelper
@@ -68,7 +70,7 @@ class ChatBotViewModel() : ViewModel() {
         val request: Request = Request.Builder().url(Companion.quantumChatUrl).post(requestBody).build()
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-
+                    _bodyMessage.postValue(QApplication.getInstance().getString(R.string.msg_say_hi_chat))
             }
             @Throws(IOException::class)
             override fun onResponse(call: Call, response: Response) {
@@ -79,8 +81,11 @@ class ChatBotViewModel() : ViewModel() {
                             _bodyMessage.postValue(jsonObject?.getString("message"))
                         }
                     } catch (e: JSONException) {
+                        _bodyMessage.postValue(QApplication.getInstance().getString(R.string.msg_say_hi_chat))
                         throw RuntimeException(e)
                     }
+                } else {
+                    _bodyMessage.postValue(QApplication.getInstance().getString(R.string.msg_say_hi_chat))
                 }
             }
         })
@@ -101,7 +106,7 @@ class ChatBotViewModel() : ViewModel() {
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                _bodyMessage.postValue("Failed!")
+                _bodyMessage.postValue(QApplication.getInstance().getString(R.string.msg_error_network_chat))
             }
 
             @Throws(IOException::class)

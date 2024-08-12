@@ -21,6 +21,8 @@ import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Environment
+import android.os.Handler
+import android.os.Looper
 import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
@@ -29,7 +31,6 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
-import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.Toast
@@ -116,7 +117,6 @@ import com.Meditation.Sounds.frequencies.views.DisclaimerDialog
 import com.google.android.exoplayer2.Player
 import com.google.gson.Gson
 import com.tonyodev.fetch2core.isNetworkAvailable
-import java.io.File
 import kotlinx.android.synthetic.main.activity_navigation.album_search
 import kotlinx.android.synthetic.main.activity_navigation.album_search_clear
 import kotlinx.android.synthetic.main.activity_navigation.bg_mode
@@ -152,12 +152,13 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import retrofit2.HttpException
+import java.io.File
 
 
 const val REQUEST_CODE_PERMISSION = 1111
 
 class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiersFragmentListener,
-        ApiListener<Any> {
+    ApiListener<Any> {
     private var mViewGroupCurrent: View? = null
     private lateinit var mViewModel: HomeViewModel
     private lateinit var mNewProgramViewModel: NewProgramViewModel
@@ -175,6 +176,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
     private var rvChatBot: RecyclerView? = null
     private var edtMessageChat: AppCompatEditText? = null
     private var btnSendChat: AppCompatImageView? = null
+    private var isStartedChat = false
 
     //search
     private val searchAdapter by lazy {
@@ -355,7 +357,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                         if (pathSplit.isNotEmpty()) {
                             val fileName = pathSplit[pathSplit.size - 1]
                             val newVersion =
-                                    fileName.replace("Resonant_Console_", "").replace(".apk", "")
+                                fileName.replace("Resonant_Console_", "").replace(".apk", "")
                             val newVs = newVersion.split(".")
                             val currentVs = currentVer.split(".")
 
@@ -394,12 +396,12 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
     private fun checkPermissions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(
-                        this, READ_MEDIA_IMAGES
-                    ) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(
-                        this, READ_MEDIA_AUDIO
-                    ) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(
-                        this, READ_MEDIA_VIDEO
-                    ) != PackageManager.PERMISSION_GRANTED
+                    this, READ_MEDIA_IMAGES
+                ) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(
+                    this, READ_MEDIA_AUDIO
+                ) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(
+                    this, READ_MEDIA_VIDEO
+                ) != PackageManager.PERMISSION_GRANTED
             ) {
                 ActivityCompat.requestPermissions(
                     this,
@@ -411,8 +413,8 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
             }
         } else {
             if (ContextCompat.checkSelfPermission(
-                        this, WRITE_EXTERNAL_STORAGE
-                    ) != PackageManager.PERMISSION_GRANTED
+                    this, WRITE_EXTERNAL_STORAGE
+                ) != PackageManager.PERMISSION_GRANTED
             ) {
                 ActivityCompat.requestPermissions(
                     this, arrayOf(WRITE_EXTERNAL_STORAGE), REQUEST_CODE_PERMISSION
@@ -435,7 +437,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
     }
 
     override fun onRequestPermissionsResult(
-            requestCode: Int, permissions: Array<out String>, grantResults: IntArray,
+        requestCode: Int, permissions: Array<out String>, grantResults: IntArray,
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == REQUEST_CODE_PERMISSION) {
@@ -547,8 +549,10 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         album_search_clear.setOnClickListener { closeSearch() }
 
         btnStartChatBot.setOnClickListener {
+            isStartedChat = true
             viewIntroChatBot.clearAnimation()
             viewIntroChatBot.visibility = View.GONE
+            btnStartChatBot.setImageResource(R.drawable.ic_avatar_chatboting)
             showChatPopup()
         }
 
@@ -568,6 +572,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         orientationChangesUI(newConfig.orientation)
+        chatPopupWindow?.dismiss()
     }
 
     private fun orientationChangesUI(orientation: Int) {
@@ -694,6 +699,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
 //        askRating()
 //        hideKeyboard(applicationContext, album_search)
         navigation_albums.setOnClickListener {
+            updateViewChatBot(true)
             navigation_albums.onSelected {
                 closeSearch()
                 search_layout.visibility = View.VISIBLE
@@ -701,6 +707,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
             }
         }
         navigation_rife.setOnClickListener {
+            updateViewChatBot(true)
             navigation_rife.onSelected {
                 closeSearch()
                 isTrackAdd = false
@@ -713,6 +720,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
             }
         }
         navigation_programs.setOnClickListener {
+            updateViewChatBot(true)
             navigation_programs.onSelected {
                 closeSearch()
                 isTrackAdd = false
@@ -721,6 +729,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
             }
         }
         navigation_videos.setOnClickListener {
+            updateViewChatBot(true)
             navigation_videos.onSelected {
                 closeSearch()
                 search_layout.visibility = View.VISIBLE
@@ -728,6 +737,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
             }
         }
         navigation_discover.setOnClickListener {
+            updateViewChatBot(true)
             navigation_discover.onSelected {
                 closeSearch()
                 search_layout.visibility = View.VISIBLE
@@ -735,6 +745,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
             }
         }
         navigation_options.setOnClickListener {
+            updateViewChatBot(false)
             navigation_options.onSelected {
                 closeSearch()
                 search_layout.visibility = View.VISIBLE
@@ -1103,11 +1114,11 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                     val install = Intent(Intent.ACTION_INSTALL_PACKAGE)
                     install.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
                     val apkUri =
-                            FileProvider.getUriForFile(
-                                this,
-                                BuildConfig.APPLICATION_ID + ".provider",
-                                File(path)
-                            )
+                        FileProvider.getUriForFile(
+                            this,
+                            BuildConfig.APPLICATION_ID + ".provider",
+                            File(path)
+                        )
                     install.data = apkUri
                     startActivityForResult(install, REQUEST_CODE_AFTER_INSTALL)
                 } else {
@@ -1181,11 +1192,11 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                     flashsaleCurrentString = Gson().toJson(jsonCurrent.flashSale)
                 }
                 val jsonOrgrialString =
-                        SharedPreferenceHelper.getInstance().get(Constants.PREF_FLASH_SALE)
+                    SharedPreferenceHelper.getInstance().get(Constants.PREF_FLASH_SALE)
                 var flashsaleOrgrialString = ""
                 if (jsonOrgrialString != null) {
                     val jsonOrgrial =
-                            Gson().fromJson(jsonOrgrialString, GetFlashSaleOutput::class.java)
+                        Gson().fromJson(jsonOrgrialString, GetFlashSaleOutput::class.java)
                     if (jsonOrgrial?.flashSale != null) {
                         flashsaleOrgrialString = Gson().toJson(jsonOrgrial.flashSale)
                     }
@@ -1199,7 +1210,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                 }
 
                 if (SharedPreferenceHelper.getInstance()
-                            .getInt(Constants.PREF_FLASH_SALE_COUNTERED) <= jsonCurrent.flashSale.proposalsCount!!
+                        .getInt(Constants.PREF_FLASH_SALE_COUNTERED) <= jsonCurrent.flashSale.proposalsCount!!
                 ) {
                     QcAlarmManager.createAlarms(this)
                 } else {
@@ -1249,10 +1260,10 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                 val min: String = if (mins > 9) "" + mins else "0$mins"
                 val second: String = if (secs > 9) "" + secs else "0$secs"
                 if (SharedPreferenceHelper.getInstance()
-                            .getBool(Constants.KEY_PURCHASED) && SharedPreferenceHelper.getInstance()
-                            .getBool(Constants.KEY_PURCHASED_ADVANCED) && SharedPreferenceHelper.getInstance()
-                            .getBool(Constants.KEY_PURCHASED_HIGH_ABUNDANCE) && SharedPreferenceHelper.getInstance()
-                            .getBool(Constants.KEY_PURCHASED_HIGH_QUANTUM)
+                        .getBool(Constants.KEY_PURCHASED) && SharedPreferenceHelper.getInstance()
+                        .getBool(Constants.KEY_PURCHASED_ADVANCED) && SharedPreferenceHelper.getInstance()
+                        .getBool(Constants.KEY_PURCHASED_HIGH_ABUNDANCE) && SharedPreferenceHelper.getInstance()
+                        .getBool(Constants.KEY_PURCHASED_HIGH_QUANTUM)
                 ) {
                     flash_sale.visibility = View.GONE
                 } else {
@@ -1271,6 +1282,34 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         mCountDownTimer!!.start()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    fun resetChatBot() {
+        SharedPreferenceHelper.getInstance().set(Constants.PREF_CHATBOT_THREAD_ID, null)
+        SharedPreferenceHelper.getInstance().set(Constants.PREF_CHAT_MESSAGES, null)
+        isStartedChat = false
+        chatMessages.clear()
+        msgChatAdapter?.notifyDataSetChanged()
+        mChatBotViewModel.createThreadChatBot()
+        Handler(Looper.getMainLooper()).postDelayed({
+            btnStartChatBot.setImageResource(R.drawable.ic_avatar_chatbot)
+        }, 2000)
+    }
+
+    fun updateViewChatBot(isShow: Boolean = true) {
+        if (isShow) {
+            if (btnStartChatBot.visibility == View.GONE) {
+                btnStartChatBot.visibility = View.VISIBLE
+                if (!isStartedChat) {
+                    viewIntroChatBot.showViewWithFadeIn()
+                }
+            }
+        } else {
+            btnStartChatBot.visibility = View.GONE
+            viewIntroChatBot.clearAnimation()
+            viewIntroChatBot.visibility = View.GONE
+        }
+    }
+
     private fun initChatAdapter() {
         chatMessages = SharedPreferenceHelper.getInstance().chatMessages
         msgChatAdapter = MessageChatBotAdapter(chatMessages, onAlbumClick = { albumName ->
@@ -1281,7 +1320,10 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                         chatPopupWindow?.dismiss()
                         if (!album.isUnlocked && album.unlock_url != null && album.unlock_url!!.isNotEmpty()) {
                             startActivity(
-                                PurchaseItemAlbumWebView.newIntent(this@NavigationActivity, album.unlock_url!!)
+                                PurchaseItemAlbumWebView.newIntent(
+                                    this@NavigationActivity,
+                                    album.unlock_url!!
+                                )
                             )
                         } else if (album.isUnlocked) {
                             startAlbumDetails(album)
@@ -1348,12 +1390,13 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
 
         edtMessageChat?.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                btnSendChat?.isEnabled = s.toString().trim { it <= ' ' }.isNotEmpty() && chatMessages.last().message != "Typing" && chatMessages.last().statusTyping == false
+                btnSendChat?.isEnabled = s.toString().trim { it <= ' ' }
+                    .isNotEmpty() && chatMessages.last().message != "Typing" && chatMessages.last().statusTyping == false
             }
 
             override fun beforeTextChanged(
-                    s: CharSequence, start: Int, count: Int,
-                    after: Int,
+                s: CharSequence, start: Int, count: Int,
+                after: Int,
             ) {
 
             }

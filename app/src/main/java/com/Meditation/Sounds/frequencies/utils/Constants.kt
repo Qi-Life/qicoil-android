@@ -298,6 +298,9 @@ class Constants {
 
         @JvmField
         val PREF_CHATBOT_THREAD_ID = "PREF_CHATBOT_THREAD_ID"
+
+        @JvmField
+        val PREF_CHAT_MESSAGES = "messages_chat"
 //        var tracks = ArrayList<Track>()
 
         var isGuestLogin = false

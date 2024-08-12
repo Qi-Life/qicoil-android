@@ -98,16 +98,35 @@ class MessageChatBotAdapter(
     }
 
     private fun getSpanText(msg: String): SpannableStringBuilder {
-        val pattern = "##\\w+\\s*\\w*\\s*\\w*\\s*\\w*\\s*\\w*\\s*\\w*"
-        val regex = Pattern.compile(pattern)
-        val matcher = regex.matcher(msg)
         val listAlbum = arrayListOf<String>()
-        while (matcher.find()) {
-            val matchedText = matcher.group()
-            val indexOfNewLine: Int = matchedText.indexOf('\n')
-            listAlbum.add(matchedText.substring(0, indexOfNewLine).replace("##", ""))
+        val regex2 = "##([^#]+)".toRegex()
+        val matches = regex2.findAll(msg)
+        val phrases = matches.map { it.groupValues[1].trim() }.toList()
+        phrases.forEach { matchedText ->
+            var indexOfNewLine: Int = matchedText.indexOf('\n')
+            if (indexOfNewLine == -1) {
+                indexOfNewLine = matchedText.length
+            }
+            if (indexOfNewLine > 0) {
+                listAlbum.add(matchedText.substring(0, indexOfNewLine).replace("##", ""))
+            }
         }
-
+//        val pattern = "##\\w+\\s*\\w*\\s*\\w*\\s*\\w*\\s*\\w*\\s*\\w*"
+//        val pattern2 = "##[a-zA-Z]+ & [a-zA-Z]+"
+//
+//        val regex = Pattern.compile(pattern)
+//        val matcher = regex.matcher(msg)
+//        val listAlbum = arrayListOf<String>()
+//        while (matcher.find()) {
+//            val matchedText = matcher.group()
+//            var indexOfNewLine: Int = matchedText.indexOf('\n')
+//            if (indexOfNewLine == -1) {
+//                indexOfNewLine = matchedText.length
+//            }
+//            if (indexOfNewLine > 0) {
+//                listAlbum.add(matchedText.substring(0, indexOfNewLine).replace("##", ""))
+//            }
+//        }
         val fullText = msg.replace("##", "")
         val spannableStringBuilder = SpannableStringBuilder(fullText)
 

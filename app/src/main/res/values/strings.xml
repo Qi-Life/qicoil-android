@@ -415,6 +415,8 @@
     <string name="tv_message">Message:</string>
     <string name="tv_master_wong_ai">Dr. Qi Ai assistant</string>
 
+    <string name="msg_say_hi_chat" translatable="false">Hi, My name is Dr.Qi, I\'m an AI assistant. How can I help you today? How have you been feeling lately?</string>
+    <string name="msg_error_network_chat" translatable="false">Connect Lost. Please check your internet connection.</string>
     <string name="lang_en" translatable="false">English</string>
     <string name="lang_fr" translatable="false">French</string>
     <string name="lang_zh" translatable="false">China</string>

@@ -3,6 +3,7 @@ package com.Meditation.Sounds.frequencies.lemeor.ui.programs
 import android.app.AlertDialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -25,6 +26,7 @@ import com.Meditation.Sounds.frequencies.lemeor.rifeBackProgram
 import com.Meditation.Sounds.frequencies.lemeor.trackIdForProgram
 import com.Meditation.Sounds.frequencies.lemeor.typeBack
 import com.Meditation.Sounds.frequencies.lemeor.ui.albums.detail.NewAlbumDetailFragment
+import com.Meditation.Sounds.frequencies.lemeor.ui.main.NavigationActivity
 import com.Meditation.Sounds.frequencies.lemeor.ui.main.UpdateTrack
 import com.Meditation.Sounds.frequencies.lemeor.ui.programs.detail.ProgramDetailFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.purchase.new_flow.NewPurchaseActivity
@@ -237,6 +239,7 @@ class NewProgramFragment : BaseFragment() {
         loadingFrame.visibility = View.VISIBLE
         loadImageWithGif(ivImage, R.raw.loading_grey)
         if (isTrackAdd) {
+            (activity as NavigationActivity).updateViewChatBot(isShow = false)
             program_title.text = getString(R.string.txt_my_playlists)
             program_back.visibility = View.VISIBLE
         } else {

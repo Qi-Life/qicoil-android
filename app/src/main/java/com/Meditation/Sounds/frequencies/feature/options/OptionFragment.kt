@@ -102,6 +102,7 @@ class OptionFragment : BaseFragment() {
                     SharedPreferenceHelper.getInstance().setBool(Constants.KEY_PURCHASED_HIGH_QUANTUM, false)
                     SharedPreferenceHelper.getInstance().setBool(Constants.KEY_PURCHASED_HIGH_ABUNDANCE, false)
                     SharedPreferenceHelper.getInstance().set(Constants.PREF_CHATBOT_THREAD_ID, null)
+                    SharedPreferenceHelper.getInstance().set(Constants.PREF_CHAT_MESSAGES, null)
                     initComponents()
 
                     //stop music

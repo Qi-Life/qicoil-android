@@ -14,6 +14,8 @@
         android:layout_height="match_parent"
         tools:listitem="@layout/album_item"
         tools:spanCount="3"
+        android:paddingBottom="@dimen/padding_bottom_list"
+        android:clipToPadding="false"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         android:layout_gravity="center" />
 </LinearLayout>

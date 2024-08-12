@@ -11,6 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        android:paddingBottom="@dimen/padding_bottom_list"
+        android:clipToPadding="false"
         app:spanCount="2"
         tools:listitem="@layout/album_item" />
 </androidx.constraintlayout.widget.ConstraintLayout>
