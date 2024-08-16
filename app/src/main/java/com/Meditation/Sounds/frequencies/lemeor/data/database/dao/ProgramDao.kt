@@ -24,7 +24,7 @@ interface ProgramDao {
     @Query("SELECT * FROM program ORDER BY `order` ASC")
     fun getPrograms(): LiveData<List<Program>>
 
-    @Query("SELECT * FROM program WHERE deleted=0 ORDER BY `order` ASC")
+    @Query("SELECT * FROM program WHERE deleted=0 AND TRIM(name) <> '' ORDER BY `order` ASC")
     fun getListProgram(): LiveData<List<Program>>
 
     @Query("SELECT * FROM program WHERE isMy=:isMy ORDER BY `order` ASC")

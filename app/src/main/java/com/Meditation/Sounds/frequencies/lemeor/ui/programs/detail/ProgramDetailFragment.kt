@@ -89,6 +89,7 @@ class ProgramDetailFragment : BaseFragment() {
     private var mTracks: ArrayList<Any>? = null
     private var program: Program? = null
     private var isFirst = true
+    private var isReload = false
     private var timeDelay = 500L
     private val tracks: ArrayList<Search> = ArrayList()
 
@@ -280,6 +281,10 @@ class ProgramDetailFragment : BaseFragment() {
         programName = program.name
 
         mViewModel.convertData(program) { list ->
+            if (tracks.size != list.size && isPlayProgram && playProgramId == program.id) {
+                isFirst = false
+                resetDataMyService(list.map { t -> t.obj } as ArrayList<Any>)
+            }
             tracks.clear()
             tracks.addAll(list)
             programTrackAdapter.submitData(tracks)
@@ -312,7 +317,6 @@ class ProgramDetailFragment : BaseFragment() {
                     }
                 }
             }
-            resetDataMyService(tracks.map { t -> t.obj } as ArrayList<Any>)
         }
     }
 
@@ -393,14 +397,18 @@ class ProgramDetailFragment : BaseFragment() {
                 val mIntent = Intent(requireContext(), PlayerService::class.java).apply {
                     putParcelableArrayListExtra("playlist", arrayListOf<MusicRepository.Music>())
                 }
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    requireActivity().stopService(mIntent)
-                    requireActivity().startForegroundService(mIntent)
-                } else {
-                    requireActivity().stopService(mIntent)
-                    requireActivity().startService(mIntent)
+                try {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        requireActivity().stopService(mIntent)
+                        requireActivity().startForegroundService(mIntent)
+                    } else {
+                        requireActivity().stopService(mIntent)
+                        requireActivity().startService(mIntent)
+                    }
+                    isFirst = false
+                } catch (_: Exception) {
                 }
-                isFirst = false
+
             }
             CoroutineScope(Dispatchers.Main).launch {
                 activity.showPlayerUI()
@@ -438,12 +446,15 @@ class ProgramDetailFragment : BaseFragment() {
             val mIntent = Intent(requireContext(), PlayerService::class.java).apply {
                 putParcelableArrayListExtra("playlist", arrayListOf<MusicRepository.Music>())
             }
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                requireActivity().stopService(mIntent)
-                requireActivity().startForegroundService(mIntent)
-            } else {
-                requireActivity().stopService(mIntent)
-                requireActivity().startService(mIntent)
+            try {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    requireActivity().stopService(mIntent)
+                    requireActivity().startForegroundService(mIntent)
+                } else {
+                    requireActivity().stopService(mIntent)
+                    requireActivity().startService(mIntent)
+                }
+            } catch (_: Exception) {
             }
         }
     }

@@ -243,9 +243,10 @@ class HomeViewModel(private val repository: HomeRepository, private val db: Data
                         }
                     }
                 }
-                onDone?.invoke()
             }
         } catch (_: Exception) {
+        } finally {
+            onDone?.invoke()
         }
     }
 }

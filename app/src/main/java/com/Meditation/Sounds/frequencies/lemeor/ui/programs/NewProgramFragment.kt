@@ -73,12 +73,13 @@ class NewProgramFragment : BaseFragment() {
             val btnAdd: Button = dialogView.findViewById<View>(R.id.btnSubmit) as Button
 
             btnAdd.setOnClickListener {
-                if (programName.text.isNotEmpty()) {
+                val name = programName.text.trim()
+                if (name.isNotEmpty()) {
                     CoroutineScope(Dispatchers.IO).launch {
                         //call api createProgram
                         try {
                             val result = withContext(Dispatchers.Default) {
-                                mViewModel.createProgram(programName.text.toString())
+                                mViewModel.createProgram(name.toString())
                             }
                             val program = result.data
                             mViewModel.insert(program)
@@ -86,7 +87,7 @@ class NewProgramFragment : BaseFragment() {
                             mViewModel.insert(
                                 Program(
                                     0,
-                                    programName.text.toString(),
+                                    name.toString(),
                                     "",
                                     0,
                                     Date().time,

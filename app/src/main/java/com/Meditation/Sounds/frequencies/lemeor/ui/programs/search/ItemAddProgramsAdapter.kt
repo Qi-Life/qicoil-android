@@ -39,7 +39,7 @@ class ItemAddProgramsAdapter(
                     imgViewAlbum.visibility = View.GONE
                     imgLock.visibility = View.GONE
                     imgView.visibility = View.VISIBLE
-                    imgView.setBackgroundDrawable(context.getDrawable(R.drawable.frequency))
+                    imgView.setBackgroundDrawable(context.getDrawable(R.drawable.frequency_v2))
                     tvName.text = r.title.trim()
                     tvDes.text = context.getString(R.string.tv_from_rife)
                     itemView.setOnClickListener {

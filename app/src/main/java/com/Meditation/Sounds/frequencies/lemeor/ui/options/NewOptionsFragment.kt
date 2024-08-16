@@ -434,7 +434,7 @@ class NewOptionsFragment : Fragment() {
                             isPlayAlbum = false
                             isPlayProgram = false
                             activity.hidePlayerUI()
-                            LanguageUtils.changeLanguage(requireContext(), lang.code)
+                            LanguageUtils.changeLanguage(requireActivity(), lang.code)
                             clearData()
                         }
                     }
