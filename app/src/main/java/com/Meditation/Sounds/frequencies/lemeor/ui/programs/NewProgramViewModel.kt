@@ -145,7 +145,9 @@ class NewProgramViewModel(private val repository: ProgramRepository) : ViewModel
 
                         listProgramHandled.forEach { item ->
                             item.records =
-                                item.records.filter { record -> validIds.contains(record) } as ArrayList<String>
+                                item.records.filter { record ->
+                                    validIds.contains(record) || record.contains('|') || record.contains('-')
+                                } as ArrayList<String>
                         }
                         withContext(Dispatchers.Main) {
                             onChange.invoke(listProgramHandled)

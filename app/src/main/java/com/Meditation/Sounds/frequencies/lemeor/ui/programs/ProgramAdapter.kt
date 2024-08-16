@@ -9,7 +9,11 @@ import com.Meditation.Sounds.frequencies.R
 import com.Meditation.Sounds.frequencies.lemeor.FAVORITES
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Program
 import com.Meditation.Sounds.frequencies.lemeor.getConvertedTime
-import kotlinx.android.synthetic.main.item_program.view.*
+import kotlinx.android.synthetic.main.item_program.view.item_program_delete
+import kotlinx.android.synthetic.main.item_program.view.item_program_duration
+import kotlinx.android.synthetic.main.item_program.view.item_program_lock
+import kotlinx.android.synthetic.main.item_program.view.item_program_name
+import kotlinx.android.synthetic.main.item_program.view.program_divider_favorites
 
 class ProgramAdapter(
     private var mData: List<Program> = listOf()
@@ -38,11 +42,14 @@ class ProgramAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val program = mData[position]
+        val countTrack = program.records.filter { it.contains('-') || it.contains('|') }.size
+        val countProgram = program.records.size - countTrack
+
 
         holder.itemView.item_program_name.text = program.name
         holder.itemView.item_program_duration.text = holder.itemView.context.getString(
             R.string.total_time,
-            getConvertedTime((program.records.size * 300000).toLong())
+            getConvertedTime((countProgram * 300000 + countTrack * 180000).toLong())
         )
         if (program.name.uppercase() == FAVORITES.uppercase() && program.favorited) {
             holder.itemView.item_program_delete.visibility = View.INVISIBLE
@@ -95,7 +102,7 @@ class ProgramAdapter(
     fun setData(programList: List<Program>?) {
         mData =
             ArrayList(programList as MutableList).reversed()
-                .sortedWith(compareByDescending { it.name.uppercase() == FAVORITES.uppercase() })
+                .sortedWith(compareByDescending { it.name.uppercase() == FAVORITES.uppercase() && it.favorited })
         notifyDataSetChanged()
     }
 }
