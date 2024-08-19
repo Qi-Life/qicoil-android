@@ -124,7 +124,7 @@ class NewProgramFragment : BaseFragment() {
                                 val programRoom = programDao.getProgramById(program.id)
                                 programRoom?.let { p ->
                                     p.records.add(trackIdForProgram)
-                                    programDao.updateProgram(p)
+                                    programDao.updateProgram(p.copy(updated_at = Date().time))
                                     if (p.user_id.isNotEmpty()) {
                                         try {
                                             mViewModel.updateTrackToProgram(
@@ -199,11 +199,7 @@ class NewProgramFragment : BaseFragment() {
                                     mViewModel.deleteProgram(program.id.toString())
                                     mViewModel.delete(program)
                                 } catch (_: Exception) {
-                                    mViewModel.udpate(
-                                        program.copy(
-                                            deleted = true
-                                        )
-                                    )
+                                    mViewModel.udpate(program.copy(deleted = true, updated_at = Date().time))
                                 }
                             }
                             Toast.makeText(
