@@ -9,7 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.Meditation.Sounds.frequencies.R
-
+import com.Meditation.Sounds.frequencies.lemeor.ui.main.NavigationActivity
 
 
 /**
@@ -33,10 +33,6 @@ abstract class BaseFragment : Fragment() {
         mContext = context
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 //        if(mView == null) {
             val layoutId = initLayout()
@@ -58,6 +54,13 @@ abstract class BaseFragment : Fragment() {
         addListener()
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (activity is NavigationActivity) {
+            (activity as NavigationActivity).updateViewChat()
+        }
+    }
+
     fun showLoading(isShow: Boolean) {
         try {
             if (isShow) {
@@ -69,7 +72,6 @@ abstract class BaseFragment : Fragment() {
             }
         } catch (_: IllegalArgumentException) {
         }
-
     }
 
     fun setNewPage(fragment: Fragment, containerId : Int) {

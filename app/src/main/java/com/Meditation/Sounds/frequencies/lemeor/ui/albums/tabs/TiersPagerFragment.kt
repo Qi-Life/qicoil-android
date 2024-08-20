@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.Meditation.Sounds.frequencies.R
+import com.Meditation.Sounds.frequencies.feature.base.BaseFragment
 import com.Meditation.Sounds.frequencies.lemeor.data.api.RetrofitBuilder
 import com.Meditation.Sounds.frequencies.lemeor.data.database.DataBase
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Tier
@@ -22,7 +23,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import kotlinx.android.synthetic.main.fragment_albums_pager.*
 
-class TiersPagerFragment : Fragment() {
+class TiersPagerFragment : BaseFragment() {
     var tiersPagerAdapter: TiersPagerAdapter? = null
 
     interface OnTiersFragmentListener {
@@ -32,21 +33,25 @@ class TiersPagerFragment : Fragment() {
     private var mListener: OnTiersFragmentListener? = null
     private lateinit var mViewModel: AlbumsViewModel
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_albums_pager, container, false)
+    override fun onResume() {
+        super.onResume()
+        mListener?.onRefreshTiers()
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun initLayout(): Int = R.layout.fragment_albums_pager
 
+    override fun initComponents() {
         initUI()
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        mListener?.onRefreshTiers()
+    override fun addListener() {
+        tiers_tabs.addOnTabSelectedListener(object : OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                tierPosition = tab.position
+            }
+            override fun onTabUnselected(tab: TabLayout.Tab) {}
+            override fun onTabReselected(tab: TabLayout.Tab) {}
+        })
     }
 
     override fun onAttach(context: Context) {
@@ -83,13 +88,5 @@ class TiersPagerFragment : Fragment() {
                 tiers_view_pager.setCurrentItem(tierPositionSelected, false)
             }
         }
-
-        tiers_tabs.addOnTabSelectedListener(object : OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                tierPosition = tab.position
-            }
-            override fun onTabUnselected(tab: TabLayout.Tab) {}
-            override fun onTabReselected(tab: TabLayout.Tab) {}
-        })
     }
 }

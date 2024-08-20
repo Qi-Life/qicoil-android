@@ -8,6 +8,7 @@ import android.widget.SeekBar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.Meditation.Sounds.frequencies.R
+import com.Meditation.Sounds.frequencies.feature.base.BaseFragment
 import com.Meditation.Sounds.frequencies.utils.CombinedLiveData
 import com.Meditation.Sounds.frequencies.utils.Constants
 import com.Meditation.Sounds.frequencies.utils.Utils
@@ -27,7 +28,7 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
 
-class FrequencyPageFragment : Fragment() {
+class FrequencyPageFragment : BaseFragment() {
     private val mFrequencyAdapter = FrequencyAdapter { i ->
         minValue = Constants.optionsHz[i].first
         maxValue = Constants.optionsHz[i].second
@@ -54,17 +55,16 @@ class FrequencyPageFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_frequency_page, container, false)
-    }
+    override fun initLayout(): Int = R.layout.fragment_frequency_page
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun initComponents() {
         initView()
         onSubscriber()
         onObserve()
+    }
+
+    override fun addListener() {
+
     }
 
     private fun onObserve() {

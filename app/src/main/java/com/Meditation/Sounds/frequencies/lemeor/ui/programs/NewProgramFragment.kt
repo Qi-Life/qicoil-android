@@ -239,7 +239,6 @@ class NewProgramFragment : BaseFragment() {
         loadingFrame.visibility = View.VISIBLE
         loadImageWithGif(ivImage, R.raw.loading_grey)
         if (isTrackAdd) {
-            (activity as NavigationActivity).updateViewChatBot(isShow = false)
             program_title.text = getString(R.string.txt_my_playlists)
             program_back.visibility = View.VISIBLE
         } else {

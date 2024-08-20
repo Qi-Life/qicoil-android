@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.Meditation.Sounds.frequencies.BuildConfig
 import com.Meditation.Sounds.frequencies.R
+import com.Meditation.Sounds.frequencies.feature.base.BaseFragment
 import com.Meditation.Sounds.frequencies.lemeor.InappPurchase.HIGHER_QUANTUM_TIER_INAPP_ABUNDANCE_HAPPINESS
 import com.Meditation.Sounds.frequencies.lemeor.InappPurchase.HIGHER_QUANTUM_TIER_INAPP_ABUNDANCE_LOVE
 import com.Meditation.Sounds.frequencies.lemeor.InappPurchase.HIGHER_QUANTUM_TIER_INAPP_ABUNDANCE_LUCK
@@ -100,7 +101,7 @@ import kotlinx.coroutines.launch
 
 const val REQUEST_CODE_AUTH = 2222
 
-class NewOptionsFragment : Fragment() {
+class NewOptionsFragment : BaseFragment() {
 
     private lateinit var mViewModel: NewOptionsViewModel
     private lateinit var mHomeViewModel: HomeViewModel
@@ -117,16 +118,14 @@ class NewOptionsFragment : Fragment() {
         )
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_new_options, container, false)
+    override fun initLayout(): Int = R.layout.fragment_new_options
+
+    override fun initComponents() {
+        initUI()
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun addListener() {
 
-        initUI()
     }
 
     private fun initUI() {

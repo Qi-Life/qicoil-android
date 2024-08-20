@@ -7,20 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import com.Meditation.Sounds.frequencies.R
 import com.Meditation.Sounds.frequencies.adapters.TitleAdapter
+import com.Meditation.Sounds.frequencies.feature.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_starter.*
 import java.util.ArrayList
 
-class StarterFragment : Fragment() {
+class StarterFragment : BaseFragment() {
 
     private var titleAdapter: TitleAdapter? = null
+    override fun initLayout(): Int = R.layout.fragment_starter
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_starter, container, false)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun initComponents() {
 
         val titleList = ArrayList<String>()
         titleList.add(getString(R.string.tv_title_free_1))
@@ -30,5 +26,8 @@ class StarterFragment : Fragment() {
 
         titleAdapter = TitleAdapter(titleList)
         starter_recycler_view.adapter = titleAdapter
+    }
+
+    override fun addListener() {
     }
 }

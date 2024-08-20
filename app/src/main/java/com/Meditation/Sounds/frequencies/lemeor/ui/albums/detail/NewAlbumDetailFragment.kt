@@ -222,7 +222,6 @@ class NewAlbumDetailFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (activity as NavigationActivity).updateViewChatBot(isShow = false)
         EventBus.getDefault().register(this)
 
     }
@@ -260,8 +259,6 @@ class NewAlbumDetailFragment : BaseFragment() {
             R.anim.trans_right_to_left_in,
             R.anim.trans_right_to_left_out
         ).replace(R.id.nav_host_fragment, fragment, fragment.javaClass.simpleName).commit()
-
-        (activity as NavigationActivity).updateViewChatBot(isShow = true)
     }
 
     private fun initUI() {

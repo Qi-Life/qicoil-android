@@ -15,6 +15,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.Meditation.Sounds.frequencies.R
+import com.Meditation.Sounds.frequencies.feature.base.BaseFragment
 import com.Meditation.Sounds.frequencies.feature.video.VideoAdapter
 import com.Meditation.Sounds.frequencies.lemeor.data.api.RetrofitBuilder
 import com.Meditation.Sounds.frequencies.lemeor.data.database.DataBase
@@ -35,7 +36,7 @@ import kotlinx.android.synthetic.main.fragment_new_videos.mvideoView
 import kotlinx.android.synthetic.main.fragment_video.*
 import org.json.JSONException
 
-class NewVideosFragment : Fragment() {
+class NewVideosFragment : BaseFragment() {
 
     private lateinit var mViewModel: NewVideosViewModel
     private var mVideoAdapter: VideoAdapter? = null
@@ -43,21 +44,15 @@ class NewVideosFragment : Fragment() {
     private var mPlaylistAdapter: PlaylistAdapter? = null
     private var mListPlaylist = ArrayList<Playlist>()
     private var mYouTubePlayer: YouTubePlayer? = null
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_new_videos, container, false)
-    }
+    override fun initLayout(): Int = R.layout.fragment_new_videos
 
     @Deprecated("Deprecated in Java")
     @SuppressLint("SetJavaScriptEnabled")
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
+    override fun initComponents() {
         mViewModel = ViewModelProvider(this,
-                ViewModelFactory(
-                        ApiHelper(RetrofitBuilder(requireContext()).apiService),
-                        DataBase.getInstance(requireContext()))
+            ViewModelFactory(
+                ApiHelper(RetrofitBuilder(requireContext()).apiService),
+                DataBase.getInstance(requireContext()))
         ).get(NewVideosViewModel::class.java)
 
         mPlaylistAdapter = PlaylistAdapter(requireContext(), mListPlaylist)
@@ -84,14 +79,14 @@ class NewVideosFragment : Fragment() {
         }
 
         //todo check info about support version
-       /* val youtubeFragment = YouTubePlayerSupportFragment.newInstance()
-        childFragmentManager.beginTransaction().add(R.id.videos_youtube_player, youtubeFragment).commit()
-        youtubeFragment.initialize(API_KEY, this@NewVideosFragment)*/
+        /* val youtubeFragment = YouTubePlayerSupportFragment.newInstance()
+         childFragmentManager.beginTransaction().add(R.id.videos_youtube_player, youtubeFragment).commit()
+         youtubeFragment.initialize(API_KEY, this@NewVideosFragment)*/
         Log.i("newvideo", "video");
 
         val mediaController = MediaController(activity)
-      //  mediaController.setAnchorView(mvideoView)
-       // mvideoView.setMediaController(mediaController)
+        //  mediaController.setAnchorView(mvideoView)
+        // mvideoView.setMediaController(mediaController)
 
         mvideoView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
             override fun onReady( youTubePlayer: YouTubePlayer) {
@@ -113,6 +108,10 @@ class NewVideosFragment : Fragment() {
             }
         })
         videos_recycler_view.adapter = mVideoAdapter
+    }
+
+    override fun addListener() {
+
     }
 
 

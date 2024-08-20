@@ -7,13 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import com.Meditation.Sounds.frequencies.R
 import com.Meditation.Sounds.frequencies.feature.album.detail.DescriptionAdapter
+import com.Meditation.Sounds.frequencies.feature.base.BaseFragment
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Album
 import com.Meditation.Sounds.frequencies.lemeor.loadImage
 import kotlinx.android.synthetic.main.fragment_purchase_album.*
 
 private const val ARG_ALBUM = "arg_album"
 
-class PurchaseAlbumFragment : Fragment() {
+class PurchaseAlbumFragment : BaseFragment() {
 
     private var mAlbum: Album? = null
     private var mDescriptionAdapter: DescriptionAdapter? = null
@@ -25,19 +26,18 @@ class PurchaseAlbumFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_purchase_album, container, false)
-    }
+    override fun initLayout(): Int = R.layout.fragment_purchase_album
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun initComponents() {
         purchase_album_image.radius = resources.getDimensionPixelOffset(R.dimen.corner_radius_album)
         mAlbum?.let { loadImage(requireContext(), purchase_album_image, it) }
 
         mDescriptionAdapter = mAlbum?.descriptions?.let { DescriptionAdapter(requireContext(), it) }
         purchase_album_description_recycler.adapter = mDescriptionAdapter
+    }
+
+    override fun addListener() {
+
     }
 
     companion object {

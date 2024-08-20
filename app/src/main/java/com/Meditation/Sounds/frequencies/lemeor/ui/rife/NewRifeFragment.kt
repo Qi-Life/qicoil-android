@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.Meditation.Sounds.frequencies.R
+import com.Meditation.Sounds.frequencies.feature.base.BaseFragment
 import com.Meditation.Sounds.frequencies.lemeor.data.api.RetrofitBuilder
 import com.Meditation.Sounds.frequencies.lemeor.data.database.DataBase
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Rife
@@ -21,21 +22,21 @@ import kotlinx.android.synthetic.main.fragment_new_rife.btnSearch
 import kotlinx.android.synthetic.main.fragment_new_rife.rife_tabs
 import kotlinx.android.synthetic.main.fragment_new_rife.rife_view_pager
 
-class NewRifeFragment : Fragment() {
+class NewRifeFragment : BaseFragment() {
     private lateinit var mViewModel: NewRifeViewModel
     private var rifePagerAdapter: RifePagerAdapter? = null
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_new_rife, container, false)
+    override fun initLayout(): Int = R.layout.fragment_new_rife
+
+    override fun initComponents() {
+        init()
     }
 
+    override fun addListener() {
+
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        init()
-
         view.isFocusableInTouchMode = true
         view.requestFocus()
     }

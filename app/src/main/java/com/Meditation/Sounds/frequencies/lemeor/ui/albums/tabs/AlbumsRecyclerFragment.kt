@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.Meditation.Sounds.frequencies.R
+import com.Meditation.Sounds.frequencies.feature.base.BaseFragment
 import com.Meditation.Sounds.frequencies.lemeor.data.api.RetrofitBuilder
 import com.Meditation.Sounds.frequencies.lemeor.data.database.DataBase
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Album
@@ -21,7 +22,7 @@ import com.Meditation.Sounds.frequencies.views.ItemOffsetDecoration
 import kotlinx.android.synthetic.main.fragment_albums_category.*
 
 
-class AlbumsRecyclerFragment : Fragment() {
+class AlbumsRecyclerFragment : BaseFragment() {
 
     interface AlbumsRecyclerListener {
         fun onStartAlbumDetail(album: Album)
@@ -41,35 +42,20 @@ class AlbumsRecyclerFragment : Fragment() {
         categoryId = arguments?.getInt(ARG_SECTION_NUMBER)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_albums_category, container, false)
-    }
+    override fun initLayout(): Int = R.layout.fragment_albums_category
 
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            albums_recycler_view.layoutManager = GridLayoutManager(context, 3)
-        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            albums_recycler_view.layoutManager = GridLayoutManager(context, 2)
-        }
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
+    override fun initComponents() {
         mViewModel = ViewModelProvider(this,
             ViewModelFactory(
                 ApiHelper(RetrofitBuilder(requireContext()).apiService),
                 DataBase.getInstance(requireContext()))
         )[AlbumsViewModel::class.java]
         if(categoryId!=null){
-        mViewModel.albums(categoryId!!)?.observe(viewLifecycleOwner) {
-            mListAlbum.clear()
-            mListAlbum.addAll(it.sortedBy { it.order_by })
-            mAlbumAdapter?.setData(mListAlbum)
-        }}
+            mViewModel.albums(categoryId!!)?.observe(viewLifecycleOwner) {
+                mListAlbum.clear()
+                mListAlbum.addAll(it.sortedBy { it.order_by })
+                mAlbumAdapter?.setData(mListAlbum)
+            }}
 
         getAlbumData()
 
@@ -80,8 +66,22 @@ class AlbumsRecyclerFragment : Fragment() {
             albums_recycler_view.layoutManager = GridLayoutManager(context, 2)
         }
         val itemDecoration = ItemOffsetDecoration(requireContext(),
-                if (Utils.isTablet(requireContext())) R.dimen.margin_buttons else R.dimen.item_offset)
+            if (Utils.isTablet(requireContext())) R.dimen.margin_buttons else R.dimen.item_offset)
         albums_recycler_view.addItemDecoration(itemDecoration)
+    }
+
+    override fun addListener() {
+
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            albums_recycler_view.layoutManager = GridLayoutManager(context, 3)
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            albums_recycler_view.layoutManager = GridLayoutManager(context, 2)
+        }
     }
 
     private fun getAlbumData() {

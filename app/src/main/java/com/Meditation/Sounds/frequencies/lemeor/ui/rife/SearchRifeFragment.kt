@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.Meditation.Sounds.frequencies.R
+import com.Meditation.Sounds.frequencies.feature.base.BaseFragment
 import com.Meditation.Sounds.frequencies.lemeor.data.api.RetrofitBuilder
 import com.Meditation.Sounds.frequencies.lemeor.data.database.DataBase
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Rife
@@ -23,7 +24,7 @@ import com.Meditation.Sounds.frequencies.views.ItemOffsetBottomDecoration
 import kotlinx.android.synthetic.main.fragment_search_rife.*
 
 
-class SearchRifeFragment : Fragment() {
+class SearchRifeFragment : BaseFragment() {
     private lateinit var mViewModel: NewRifeViewModel
     private val mProgramAdapter = ProgramAdapter {
         closeSearch()
@@ -35,15 +36,9 @@ class SearchRifeFragment : Fragment() {
 
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_search_rife, container, false)
-    }
+    override fun initLayout(): Int = R.layout.fragment_search_rife
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun initComponents() {
         initView()
         onObserve()
         rife_search?.addTextChangedListener(object : TextWatcher {
@@ -76,14 +71,18 @@ class SearchRifeFragment : Fragment() {
         }
         mViewModel.getRifeLocal{ data->
             val list  = data.toMutableList().sortedWith(compareBy<Rife> {
-            when {
-                it.title.lowercase().firstOrNull()?.isLetter() == true -> 0
-                else -> 1
-            }
-        }.thenBy { it.title.lowercase() })
+                when {
+                    it.title.lowercase().firstOrNull()?.isLetter() == true -> 0
+                    else -> 1
+                }
+            }.thenBy { it.title.lowercase() })
             mProgramAdapter.setListRife(list)
         }
     }
+
+    override fun addListener() {
+    }
+
 
     private fun openAlbum(rife: Rife) {
         parentFragmentManager

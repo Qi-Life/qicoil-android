@@ -699,7 +699,6 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
 //        askRating()
 //        hideKeyboard(applicationContext, album_search)
         navigation_albums.setOnClickListener {
-            updateViewChatBot(true)
             navigation_albums.onSelected {
                 closeSearch()
                 search_layout.visibility = View.VISIBLE
@@ -707,7 +706,6 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
             }
         }
         navigation_rife.setOnClickListener {
-            updateViewChatBot(true)
             navigation_rife.onSelected {
                 closeSearch()
                 isTrackAdd = false
@@ -720,7 +718,6 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
             }
         }
         navigation_programs.setOnClickListener {
-            updateViewChatBot(true)
             navigation_programs.onSelected {
                 closeSearch()
                 isTrackAdd = false
@@ -729,7 +726,6 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
             }
         }
         navigation_videos.setOnClickListener {
-            updateViewChatBot(true)
             navigation_videos.onSelected {
                 closeSearch()
                 search_layout.visibility = View.VISIBLE
@@ -737,7 +733,6 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
             }
         }
         navigation_discover.setOnClickListener {
-            updateViewChatBot(true)
             navigation_discover.onSelected {
                 closeSearch()
                 search_layout.visibility = View.VISIBLE
@@ -745,7 +740,6 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
             }
         }
         navigation_options.setOnClickListener {
-            updateViewChatBot(false)
             navigation_options.onSelected {
                 closeSearch()
                 search_layout.visibility = View.VISIBLE
@@ -1295,8 +1289,17 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         }, 2000)
     }
 
-    fun updateViewChatBot(isShow: Boolean = true) {
-        if (isShow) {
+    fun updateViewChat() {
+        val fragment = supportFragmentManager.fragments.lastOrNull()
+        var isHide = false
+        if (fragment is NewProgramFragment && isTrackAdd) {
+            isHide = true
+        }
+        if (!isHide && (fragment is TiersPagerFragment
+                    || fragment is NewRifeFragment
+                    || fragment is NewProgramFragment
+                    || fragment is NewVideosFragment
+                    || fragment is DiscoverFragment)) {
             if (btnStartChatBot.visibility == View.GONE) {
                 btnStartChatBot.visibility = View.VISIBLE
                 if (!isStartedChat) {
