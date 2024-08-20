@@ -55,6 +55,10 @@ class ChatBotViewModel() : ViewModel() {
                     }
                 }
             })
+        } else {
+            if (SharedPreferenceHelper.getInstance().chatMessages.isEmpty()) {
+                _bodyMessage.postValue(QApplication.getInstance().getString(R.string.msg_say_hi_chat))
+            }
         }
     }
 
