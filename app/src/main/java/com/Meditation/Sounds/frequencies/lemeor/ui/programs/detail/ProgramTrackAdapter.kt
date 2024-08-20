@@ -104,7 +104,7 @@ class ProgramTrackAdapter(
                 context, if (frequency.isSelected) R.color.colorPrimary else android.R.color.white
             )
         )
-        item_track_image.setImageResource(R.drawable.frequency)
+        item_track_image.setImageResource(R.drawable.frequency_v2)
         item_track_name.text = context.getString(R.string.navigation_lbl_rife)
         item_album_name.text = frequency.frequency.toString()
     }

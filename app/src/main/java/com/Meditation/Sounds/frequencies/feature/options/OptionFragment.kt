@@ -1,6 +1,10 @@
 package com.Meditation.Sounds.frequencies.feature.options
 
-import android.content.*
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.DialogInterface
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Build
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
@@ -90,20 +94,23 @@ class OptionFragment : BaseFragment() {
         mBtnLogout?.setOnClickListener {
             if (Utils.isConnectedToNetwork(mContext)) {
                 mBaseActivity?.showAlertWithAction(getString(R.string.txt_msg_logout), R.string.txt_ok, R.string.txt_no, DialogInterface.OnClickListener { _, _ ->
-
-                    mViewModel.syncProgramsToServer()
-                    SharedPreferenceHelper.getInstance()[(Constants.PREF_PROFILE)] = null
-                    SharedPreferenceHelper.getInstance()[(Constants.PREF_SESSION_ID)] = null
-                    SharedPreferenceHelper.getInstance().setBool(Constants.IS_PREMIUM, false)
-                    SharedPreferenceHelper.getInstance().setBool(Constants.IS_MASTER, false)
-                    SharedPreferenceHelper.getInstance().setBool(Constants.IS_UNLOCK_ALL, false)
-                    SharedPreferenceHelper.getInstance().setBool(Constants.KEY_PURCHASED, false)
-                    SharedPreferenceHelper.getInstance().setBool(Constants.KEY_PURCHASED_ADVANCED, false)
-                    SharedPreferenceHelper.getInstance().setBool(Constants.KEY_PURCHASED_HIGH_QUANTUM, false)
-                    SharedPreferenceHelper.getInstance().setBool(Constants.KEY_PURCHASED_HIGH_ABUNDANCE, false)
-                    SharedPreferenceHelper.getInstance().set(Constants.PREF_CHATBOT_THREAD_ID, null)
-                    SharedPreferenceHelper.getInstance().set(Constants.PREF_CHAT_MESSAGES, null)
-                    initComponents()
+                    mViewModel.syncProgramsToServer {
+                        SharedPreferenceHelper.getInstance()[(Constants.PREF_PROFILE)] = null
+                        SharedPreferenceHelper.getInstance()[(Constants.PREF_SESSION_ID)] = null
+                        SharedPreferenceHelper.getInstance().setBool(Constants.IS_PREMIUM, false)
+                        SharedPreferenceHelper.getInstance().setBool(Constants.IS_MASTER, false)
+                        SharedPreferenceHelper.getInstance().setBool(Constants.IS_UNLOCK_ALL, false)
+                        SharedPreferenceHelper.getInstance().setBool(Constants.KEY_PURCHASED, false)
+                        SharedPreferenceHelper.getInstance()
+                            .setBool(Constants.KEY_PURCHASED_ADVANCED, false)
+                        SharedPreferenceHelper.getInstance()
+                            .setBool(Constants.KEY_PURCHASED_HIGH_QUANTUM, false)
+                        SharedPreferenceHelper.getInstance()
+                            .setBool(Constants.KEY_PURCHASED_HIGH_ABUNDANCE, false)
+                        SharedPreferenceHelper.getInstance().set(Constants.PREF_CHATBOT_THREAD_ID, null)
+                        SharedPreferenceHelper.getInstance().set(Constants.PREF_CHAT_MESSAGES, null)
+                        initComponents()
+                    }
 
                     //stop music
                     if (activity is MainActivity) {

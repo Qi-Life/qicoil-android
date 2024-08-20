@@ -142,7 +142,7 @@ class PlayerUIFragment : NewBaseFragment() {
             }else if(it is MusicRepository.Frequency){
                 isTrack = false
                 track_name.text = it.frequency.toString()
-                track_image.setImageResource(R.drawable.frequency)
+                track_image.setImageResource(R.drawable.frequency_v2)
                 Log.i("currenttracl", "t-->" + it.duration)
             }
         }
