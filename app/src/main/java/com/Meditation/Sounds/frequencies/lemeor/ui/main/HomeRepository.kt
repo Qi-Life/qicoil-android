@@ -82,10 +82,10 @@ class HomeRepository(private val apiHelper: ApiHelper, private val localData: Da
         user?.unlocked_albums = it?.unlocked_albums.orEmpty()
         PreferenceHelper.saveUser(QApplication.getInstance().applicationContext, user)
 
+        syncPrograms(localData, it, user)
         syncTiers(localData, it)
         syncCategories(localData, it)
         syncTags(localData, it)
-        syncPrograms(localData, it, user)
         syncPlaylists(localData, it)
         syncAlbums(localData, it)
         syncTracks(localData, it)
@@ -140,6 +140,7 @@ class HomeRepository(private val apiHelper: ApiHelper, private val localData: Da
 
     fun getListTrack() = localData.trackDao().getTracks()
     fun getListRife() = localData.rifeDao().getLiveDataRifes()
+    suspend fun getProgramsRemote() = apiHelper.getPrograms()
 
     suspend fun getListA() = localData.albumDao().getAllAlbums()
     suspend fun getListT() = localData.trackDao().getData()

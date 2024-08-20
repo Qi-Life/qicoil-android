@@ -39,7 +39,7 @@
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:scaleType="fitCenter"
-            tools:srcCompat="@drawable/frequency" />
+            tools:srcCompat="@drawable/frequency_v2" />
     </androidx.cardview.widget.CardView>
 
     <!--    <androidx.appcompat.widget.AppCompatTextView-->

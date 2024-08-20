@@ -1,6 +1,7 @@
 package com.Meditation.Sounds.frequencies.lemeor.ui.main
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -27,6 +28,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
+import java.util.Date
 
 class HomeViewModel(private val repository: HomeRepository, private val db: DataBase) : ViewModel() {
     //val home = repository.getHome(user_id)
@@ -199,41 +201,64 @@ class HomeViewModel(private val repository: HomeRepository, private val db: Data
         }
     }
 
-    fun syncProgramsToServer(onDone: (() -> Unit)? = null) = viewModelScope.launch {
+    fun syncProgramsToServer(onDone :(()->Unit)? = null) = viewModelScope.launch {
         try {
 //            val localData = db.programDao().getData(true).toMutableList()
             val localAllData = db.programDao().getAllData().toMutableList()
-            if (localAllData.isNotEmpty()) {
-                val delete = localAllData.filter { it.deleted }
-                if (delete.isNotEmpty()) {
-                    withContext(Dispatchers.IO) {
-                        delete.forEach {
-                            try {
-                                repository.deleteProgram(it.id.toString())
-                                db.programDao().delete(it)
-                            } catch (_: Throwable) {
-                            }
-                        }
-                    }
-                }
-                val syncData = localAllData.filter { !it.deleted }
-                if (syncData.isNotEmpty()) {
-                    withContext(Dispatchers.IO) {
+            withContext(Dispatchers.IO) {
+                val data = repository.getProgramsRemote()
+                Log.d("TAG", "syncProgramsToServer: $data")
+                val listRemote = data.data?.data ?: arrayListOf<Program>()
+                if (localAllData.isNotEmpty()) {
+                    localAllData.forEach { local ->
+                        val remote = listRemote.firstOrNull { it.id == local.id }
                         try {
-                            val dataToSend = syncData.map {
-                                Update(id = if (it.user_id.isEmpty()) -1 else it.id, name = it.name, favorited = (it.name.lowercase() == FAVORITES.lowercase() && it.favorited), tracks = it.records.toList())
+                            if (remote != null) {
+                                if (remote.deleted) {
+                                    db.programDao().delete(local)
+                                } else if (remote.updated_at > local.updated_at) {
+                                    db.programDao().updateProgram(remote.copy(updated_at = Date().time))
+                                } else if (remote.updated_at < local.updated_at) {
+                                    if (local.deleted) {
+                                        repository.deleteProgram(local.id.toString())
+                                        db.programDao().delete(local)
+                                    } else {
+                                        val update = Update(
+                                            id = if (local.user_id.isEmpty()) -1 else local.id,
+                                            name = local.name,
+                                            favorited = (local.name.lowercase() == FAVORITES.lowercase() && local.favorited),
+                                            tracks = local.records.toList()
+                                        )
+                                        repository.syncProgramsApi(arrayListOf(update))
+                                    }
+                                }
                             }
-                            repository.syncProgramsApi(dataToSend)
+                            if (remote == null) {
+                                if (local.deleted) {
+                                    repository.deleteProgram(local.id.toString())
+                                    db.programDao().delete(local)
+                                } else {
+                                    val update = Update(
+                                        id = if (local.user_id.isEmpty()) -1 else local.id,
+                                        name = local.name,
+                                        favorited = (local.name.lowercase() == FAVORITES.lowercase() && local.favorited),
+                                        tracks = local.records.toList()
+                                    )
+                                    repository.syncProgramsApi(arrayListOf(update))
+                                }
+                            }
                         } catch (_: Throwable) {
                         }
                     }
                 }
-                onDone?.invoke()
             }
         } catch (_: Exception) {
+        } finally {
+            onDone?.invoke()
         }
     }
 }
+
 
 data class Update(
         val id: Int = 0,

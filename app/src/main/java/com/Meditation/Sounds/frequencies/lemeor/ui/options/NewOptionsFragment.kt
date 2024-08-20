@@ -434,7 +434,7 @@ class NewOptionsFragment : BaseFragment() {
                             isPlayAlbum = false
                             isPlayProgram = false
                             activity.hidePlayerUI()
-                            LanguageUtils.changeLanguage(requireContext(), lang.code)
+                            LanguageUtils.changeLanguage(requireActivity(), lang.code)
                             clearData()
                         }
                     }
@@ -564,22 +564,27 @@ class NewOptionsFragment : BaseFragment() {
                     onLogoutSuccess()
                     dialog.dismiss()
                 } else {
-                    mHomeViewModel.syncProgramsToServer()
-                    mViewModel.logout().observe(viewLifecycleOwner) {
-                        it?.let { resource ->
-                            when (resource.status) {
-                                Resource.Status.SUCCESS -> {
-                                    onLogoutSuccess()
-                                    dialog.dismiss()
-                                }
+                    mHomeViewModel.syncProgramsToServer {
+                        mViewModel.logout().observe(viewLifecycleOwner) {
+                            it?.let { resource ->
+                                when (resource.status) {
+                                    Resource.Status.SUCCESS -> {
+                                        onLogoutSuccess()
+                                        dialog.dismiss()
+                                    }
 
-                                Resource.Status.ERROR -> {
-                                    activity?.let { HudHelper.hide() }
-                                    Toast.makeText(context, it.message ?: getString(R.string.msg_error_occurred), Toast.LENGTH_LONG).show()
-                                }
+                                    Resource.Status.ERROR -> {
+                                        activity?.let { HudHelper.hide() }
+                                        Toast.makeText(
+                                            context,
+                                            it.message ?: getString(R.string.msg_error_occurred),
+                                            Toast.LENGTH_LONG
+                                        ).show()
+                                    }
 
-                                Resource.Status.LOADING -> {
-                                    activity?.let { activity -> HudHelper.show(activity) }
+                                    Resource.Status.LOADING -> {
+                                        activity?.let { activity -> HudHelper.show(activity) }
+                                    }
                                 }
                             }
                         }

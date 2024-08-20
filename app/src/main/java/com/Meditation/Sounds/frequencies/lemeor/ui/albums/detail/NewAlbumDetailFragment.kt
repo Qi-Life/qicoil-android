@@ -331,7 +331,7 @@ class NewAlbumDetailFragment : BaseFragment() {
         rifeAdapter.submitList(local)
         album_back.setOnClickListener { onBackPressed() }
         album_image.radius = resources.getDimensionPixelOffset(R.dimen.corner_radius_album)
-        album_image.setImageResource(R.drawable.frequency)
+        album_image.setImageResource(R.drawable.frequency_v2)
         tvDescription.text = description
         album_play.setOnClickListener {
             if (getFrequency().isNotEmpty()) {
@@ -447,14 +447,17 @@ class NewAlbumDetailFragment : BaseFragment() {
                 val mIntent = Intent(requireContext(), PlayerService::class.java).apply {
                     putParcelableArrayListExtra("playlist", arrayListOf<MusicRepository.Music>())
                 }
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    requireActivity().stopService(mIntent)
-                    requireActivity().startForegroundService(mIntent)
-                } else {
-                    requireActivity().stopService(mIntent)
-                    requireActivity().startService(mIntent)
+                try {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        requireActivity().stopService(mIntent)
+                        requireActivity().startForegroundService(mIntent)
+                    } else {
+                        requireActivity().stopService(mIntent)
+                        requireActivity().startService(mIntent)
+                    }
+                    isFirst = false
+                } catch (_: Exception) {
                 }
-                isFirst = false
             }
             CoroutineScope(Dispatchers.Main).launch { activity.showPlayerUI() }
         }
@@ -503,14 +506,17 @@ class NewAlbumDetailFragment : BaseFragment() {
                 val mIntent = Intent(requireContext(), PlayerService::class.java).apply {
                     putParcelableArrayListExtra("playlist", arrayListOf<MusicRepository.Music>())
                 }
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    requireActivity().stopService(mIntent)
-                    requireActivity().startForegroundService(mIntent)
-                } else {
-                    requireActivity().stopService(mIntent)
-                    requireActivity().startService(mIntent)
-                }
-                isFirst = false
+                try {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        requireActivity().stopService(mIntent)
+                        requireActivity().startForegroundService(mIntent)
+                    } else {
+                        requireActivity().stopService(mIntent)
+                        requireActivity().startService(mIntent)
+                    }
+                    isFirst = false
+                }catch (_:Exception){}
+
             }
             withContext(Dispatchers.Main) {
                 activity.showPlayerUI()

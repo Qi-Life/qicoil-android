@@ -12,12 +12,13 @@ import com.Meditation.Sounds.frequencies.lemeor.data.model.ScalarResponse
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Tier
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Track
 import com.Meditation.Sounds.frequencies.lemeor.data.model.User
+import okhttp3.internal.filterList
 
 suspend fun syncTiers(db: DataBase, response: HomeResponse?) {
     Log.d("LOG", "syncTiers")
 
     val localData = db.tierDao().getData().toMutableList()
-    val responseData = (response?.tiers?: listOf()).toMutableList()
+    val responseData = (response?.tiers?: listOf()).toMutableList().filter { it.name != null && it.name.isNotEmpty() }
 
     if (localData.isNotEmpty()) {
         Log.d("LOG", "Local bd is not empty")
@@ -70,7 +71,7 @@ suspend fun syncTiers(db: DataBase, response: HomeResponse?) {
 
 suspend fun syncCategories(db: DataBase, response: HomeResponse?) {
     val localData = db.categoryDao().getData().toMutableList()
-    val responseData = (response?.categories?: listOf()).toMutableList()
+    val responseData = (response?.categories?: listOf()).toMutableList().filter { it.name != null && it.name.isNotEmpty() }
 
     if (localData.isNotEmpty()) {
         responseData.forEach { resp ->

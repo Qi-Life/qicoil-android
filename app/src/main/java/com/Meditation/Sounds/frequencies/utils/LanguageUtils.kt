@@ -53,7 +53,8 @@ class LanguageUtils {
             PreferenceHelper.preference(context).codeLanguage = codeLanguage
             val locale = Locale(codeLanguage)
             Locale.setDefault(locale)
-            val otherLanguages = getLanguages(context).filter { it.code!= codeLanguage }.joinToString(",")
+            val otherLanguages = getLanguages(context).filter { it.code != codeLanguage }
+                .joinToString(",") { it.code }
             AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags("$codeLanguage,$otherLanguages"))
         }
     }
