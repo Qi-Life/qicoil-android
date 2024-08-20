@@ -101,6 +101,7 @@ import com.Meditation.Sounds.frequencies.lemeor.ui.purchase.new_flow.NewPurchase
 import com.Meditation.Sounds.frequencies.lemeor.ui.purchase.new_flow.PurchaseItemAlbumWebView
 import com.Meditation.Sounds.frequencies.lemeor.ui.rife.NewRifeFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.rife.NewRifeViewModel
+import com.Meditation.Sounds.frequencies.lemeor.ui.scalar.NewScalarViewModel
 import com.Meditation.Sounds.frequencies.lemeor.ui.videos.NewVideosFragment
 import com.Meditation.Sounds.frequencies.models.event.SyncDataEvent
 import com.Meditation.Sounds.frequencies.tasks.BaseTask
@@ -163,6 +164,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
     private lateinit var mViewModel: HomeViewModel
     private lateinit var mNewProgramViewModel: NewProgramViewModel
     private lateinit var mNewRifeViewModel: NewRifeViewModel
+    private lateinit var mNewScalarViewModel: NewScalarViewModel
     private lateinit var mChatBotViewModel: ChatBotViewModel
     private var playerUI: PlayerUIFragment? = null
 
@@ -612,6 +614,11 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                 ApiHelper(RetrofitBuilder(this).apiService), DataBase.getInstance(this)
             )
         )[NewRifeViewModel::class.java]
+        mNewScalarViewModel = ViewModelProvider(
+            this, ViewModelFactory(
+                ApiHelper(RetrofitBuilder(this).apiService), DataBase.getInstance(this)
+            )
+        )[NewScalarViewModel::class.java]
 
         mChatBotViewModel = ViewModelProvider(this)[ChatBotViewModel::class.java]
 
@@ -674,6 +681,13 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
 
                         }
                     }
+                }
+                if (user?.id != null) {
+//                    mViewModel.getScalar().observe(this) {
+//                        mNewScalarViewModel.getScalarLocal {
+//
+//                        }
+//                    }
                 }
             } catch (_: Exception) {
             }

@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.Meditation.Sounds.frequencies.lemeor.data.database.converters.*
 import com.Meditation.Sounds.frequencies.utils.Constants
+import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.parcel.RawValue
 import java.util.*
@@ -162,6 +163,22 @@ data class Rife(
         }
     }
 }
+
+@Entity(tableName = "scalar")
+data class Scalar(
+    @PrimaryKey var id: String = "",
+    var name: String = "",
+    var silent_energy_catalog_id: String = "",
+    var description: String = "",
+    var cover_image: String = "",
+    var silent_url: String = "",
+    var silent_energy_catalogs_name: String = "",
+    var silent_energy_catalogs_id: String = "",
+    var order_number: Int = 0,
+    var is_free: Boolean = false,
+    var created_at: Long = 0L,
+    var updated_at: Long = 0L,
+)
 
 fun String.floatOrZero() = try {
     toFloat()

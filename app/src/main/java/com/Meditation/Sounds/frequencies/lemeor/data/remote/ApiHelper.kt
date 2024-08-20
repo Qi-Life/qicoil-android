@@ -70,4 +70,6 @@ class ApiHelper(private val apiService: ApiService) : BaseDataSource() {
 
     suspend fun syncProgramsToServer(listProgram: List<Update>) =
         apiService.syncProgramsToServer(listProgram)
+
+    suspend fun getScalar() = getResult { apiService.getScalar() }
 }

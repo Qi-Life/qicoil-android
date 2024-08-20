@@ -19,6 +19,7 @@ import com.Meditation.Sounds.frequencies.lemeor.data.database.converters.Playlis
 import com.Meditation.Sounds.frequencies.lemeor.data.database.converters.PlaylistItemConverter
 import com.Meditation.Sounds.frequencies.lemeor.data.database.converters.ProgramConverter
 import com.Meditation.Sounds.frequencies.lemeor.data.database.converters.RifeConverter
+import com.Meditation.Sounds.frequencies.lemeor.data.database.converters.ScalarConverter
 import com.Meditation.Sounds.frequencies.lemeor.data.database.converters.StringArrConverter
 import com.Meditation.Sounds.frequencies.lemeor.data.database.converters.StringConverter
 import com.Meditation.Sounds.frequencies.lemeor.data.database.converters.TagConverter
@@ -30,6 +31,7 @@ import com.Meditation.Sounds.frequencies.lemeor.data.database.dao.HomeDao
 import com.Meditation.Sounds.frequencies.lemeor.data.database.dao.PlaylistDao
 import com.Meditation.Sounds.frequencies.lemeor.data.database.dao.ProgramDao
 import com.Meditation.Sounds.frequencies.lemeor.data.database.dao.RifeDao
+import com.Meditation.Sounds.frequencies.lemeor.data.database.dao.ScalarDao
 import com.Meditation.Sounds.frequencies.lemeor.data.database.dao.TagDao
 import com.Meditation.Sounds.frequencies.lemeor.data.database.dao.TierDao
 import com.Meditation.Sounds.frequencies.lemeor.data.database.dao.TrackDao
@@ -39,6 +41,7 @@ import com.Meditation.Sounds.frequencies.lemeor.data.model.HomeResponse
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Playlist
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Program
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Rife
+import com.Meditation.Sounds.frequencies.lemeor.data.model.Scalar
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Tag
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Tier
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Track
@@ -54,7 +57,8 @@ import com.Meditation.Sounds.frequencies.lemeor.data.model.Track
         Program::class,
         Playlist::class,
         Rife::class,
-    ], version = 6
+        Scalar::class,
+    ], version = 7
 )
 
 @TypeConverters(
@@ -69,6 +73,7 @@ import com.Meditation.Sounds.frequencies.lemeor.data.model.Track
     IntConverter::class,
     DoubleConverter::class,
     RifeConverter::class,
+    ScalarConverter::class,
     StringConverter::class,
     StringArrConverter::class,
     Converters::class,
@@ -84,6 +89,7 @@ abstract class DataBase : RoomDatabase() {
     abstract fun programDao(): ProgramDao
     abstract fun playlistDao(): PlaylistDao
     abstract fun rifeDao(): RifeDao
+    abstract fun scalarDao(): ScalarDao
 
     companion object {
 
@@ -144,6 +150,14 @@ abstract class DataBase : RoomDatabase() {
                 }
             }
         }
+        private val MIGRATION_6_7: Migration = object : Migration(6, 7) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("DROP TABLE IF EXISTS scalar")
+                database.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `scalar` (`id` TEXT NOT NULL, " + "`name` TEXT NOT NULL, " + "`silent_energy_catalog_id` TEXT NOT NULL, " + "`description` TEXT NOT NULL, `cover_image` TEXT NOT NULL, " + "`silent_url` TEXT NOT NULL, " + "`silent_energy_catalogs_name` TEXT NOT NULL, " + "`silent_energy_catalogs_id` TEXT NOT NULL, " + "`order_number` INTEGER NOT NULL, " + "`created_at` INTEGER NOT NULL, " + "`updated_at` INTEGER NOT NULL, "  + "`is_free` INTEGER NOT NULL, " + "PRIMARY KEY(`id`))"
+                )
+            }
+        }
 
         @Volatile
         private var instance: DataBase? = null
@@ -157,7 +171,7 @@ abstract class DataBase : RoomDatabase() {
         private fun buildDatabase(context: Context) = Room.databaseBuilder(
             context.applicationContext, DataBase::class.java, BuildConfig.DB_NAME
         ).addMigrations(
-            MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6
+            MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7
         ).build()
     }
 }

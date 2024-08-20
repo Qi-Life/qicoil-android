@@ -5,11 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Rife
+import com.Meditation.Sounds.frequencies.lemeor.data.model.Scalar
 import kotlinx.coroutines.launch
 
 class NewRifeViewModel(private val repository: RifeRepository) : ViewModel() {
 
     private var listRife = listOf<Rife>()
+    private var listScalar = listOf<Scalar>()
 
     private val _result = MutableLiveData<List<Rife>>()
 

@@ -15,6 +15,7 @@ import com.Meditation.Sounds.frequencies.lemeor.syncCategories
 import com.Meditation.Sounds.frequencies.lemeor.syncPlaylists
 import com.Meditation.Sounds.frequencies.lemeor.syncPrograms
 import com.Meditation.Sounds.frequencies.lemeor.syncRife
+import com.Meditation.Sounds.frequencies.lemeor.syncScalar
 import com.Meditation.Sounds.frequencies.lemeor.syncTags
 import com.Meditation.Sounds.frequencies.lemeor.syncTiers
 import com.Meditation.Sounds.frequencies.lemeor.syncTracks
@@ -111,6 +112,22 @@ class HomeRepository(private val apiHelper: ApiHelper, private val localData: Da
         saveCallResult = {
             CoroutineScope(Dispatchers.IO).launch {
                 syncRife(localData, it)
+            }
+        }
+    )
+
+    fun getScalar() = performGetOperation(
+        databaseQuery = {
+            localData.scalarDao().getLiveDataScalars()
+
+        },
+        networkCall = {
+            val data = apiHelper.getScalar()
+            data
+        },
+        saveCallResult = {
+            CoroutineScope(Dispatchers.IO).launch {
+                syncScalar(localData, it)
             }
         }
     )

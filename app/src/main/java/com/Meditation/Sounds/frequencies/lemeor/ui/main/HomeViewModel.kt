@@ -14,6 +14,7 @@ import com.Meditation.Sounds.frequencies.lemeor.data.model.Album
 import com.Meditation.Sounds.frequencies.lemeor.data.model.HomeResponse
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Program
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Rife
+import com.Meditation.Sounds.frequencies.lemeor.data.model.Scalar
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Search
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Status
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Track
@@ -41,6 +42,10 @@ class HomeViewModel(private val repository: HomeRepository, private val db: Data
 
     fun getRife(): LiveData<Resource<List<Rife>>> {
         return repository.getRife()
+    }
+
+    fun getScalar(): LiveData<Resource<List<Scalar>>> {
+        return repository.getScalar()
     }
 
     fun getListAlbum() = repository.getListAlbum()

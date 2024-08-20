@@ -550,6 +550,7 @@ class NewOptionsFragment : BaseFragment() {
             database.trackDao().clear()
             database.programDao().clear()
             database.playlistDao().clear()
+            database.scalarDao().clear()
         }
     }
 

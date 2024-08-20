@@ -27,6 +27,8 @@ import com.Meditation.Sounds.frequencies.lemeor.ui.rife.NewRifeViewModel
 import com.Meditation.Sounds.frequencies.lemeor.ui.rife.RifeRepository
 import com.Meditation.Sounds.frequencies.lemeor.ui.rife.SearchRifeViewModel
 import com.Meditation.Sounds.frequencies.lemeor.ui.rife.tabs.FrequencyViewModel
+import com.Meditation.Sounds.frequencies.lemeor.ui.scalar.NewScalarViewModel
+import com.Meditation.Sounds.frequencies.lemeor.ui.scalar.ScalarRepository
 import com.Meditation.Sounds.frequencies.lemeor.ui.videos.NewVideosViewModel
 import com.Meditation.Sounds.frequencies.lemeor.ui.videos.VideoRepository
 
@@ -85,6 +87,9 @@ class ViewModelFactory(private val apiHelper: ApiHelper, private val localData: 
         }
         if (modelClass.isAssignableFrom(ChatBotViewModel::class.java)) {
             return ChatBotViewModel() as T
+        }
+        if (modelClass.isAssignableFrom(NewScalarViewModel::class.java)) {
+            return NewScalarViewModel(ScalarRepository(apiHelper, localData)) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

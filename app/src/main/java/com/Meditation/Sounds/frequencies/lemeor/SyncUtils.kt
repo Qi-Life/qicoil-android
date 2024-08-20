@@ -8,6 +8,7 @@ import com.Meditation.Sounds.frequencies.lemeor.data.model.Category
 import com.Meditation.Sounds.frequencies.lemeor.data.model.HomeResponse
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Program
 import com.Meditation.Sounds.frequencies.lemeor.data.model.RifeResponse
+import com.Meditation.Sounds.frequencies.lemeor.data.model.ScalarResponse
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Tier
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Track
 import com.Meditation.Sounds.frequencies.lemeor.data.model.User
@@ -352,6 +353,18 @@ suspend fun syncRife(db: DataBase, response: RifeResponse?) {
     db.rifeDao().insertAll(responseData.filter { r ->
         try {
             r.title.isNotEmpty()
+        } catch (_: Exception) {
+            false
+        }
+    })
+}
+
+suspend fun syncScalar(db: DataBase, response: ScalarResponse?) {
+    val responseData = (response?.data ?: listOf()).toMutableList()
+    db.scalarDao().clear()
+    db.scalarDao().insertAll(responseData.filter { r ->
+        try {
+            r.name.isNotEmpty()
         } catch (_: Exception) {
             false
         }

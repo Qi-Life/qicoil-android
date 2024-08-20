@@ -94,7 +94,6 @@ interface ApiService {
     @GET(ApiConfig.API_RIFE)
     suspend fun getRife(): Response<RifeResponse>
 
-
     @GET(ApiConfig.API_PROGRAMS)
     suspend fun getPrograms(): Response<ProgramsResponse>
 
@@ -109,6 +108,9 @@ interface ApiService {
 
     @POST(ApiConfig.API_PROGRAMS_UPDATE)
     suspend fun updateTrackToServer(@Body map: UpdateTrack): Status
+
+    @GET(ApiConfig.API_SCALAR)
+    suspend fun getScalar(): Response<ScalarResponse>
 
 }
 
