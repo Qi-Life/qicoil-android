@@ -33,6 +33,7 @@ class RetrofitBuilder(val context: Context) {
         .addInterceptor(loggingInterceptor)
         .addInterceptor(authInterceptor)
         .addInterceptor(ChuckerInterceptor.Builder(context).build())
+        .retryOnConnectionFailure(true)
         .build()
 
     private fun getRetrofit(): Retrofit {
@@ -98,7 +99,7 @@ class RetrofitBuilder(val context: Context) {
 
     @SuppressLint("TrustAllX509TrustManager")
     fun unSafeOkHttpClient(): OkHttpClient.Builder {
-        val okHttpClient = OkHttpClient.Builder()
+        val okHttpClient = OkHttpClient.Builder().retryOnConnectionFailure(true)
         try {
             // Create a trust manager that does not validate certificate chains
             val trustAllCerts: Array<TrustManager> = arrayOf(@SuppressLint("CustomX509TrustManager")
