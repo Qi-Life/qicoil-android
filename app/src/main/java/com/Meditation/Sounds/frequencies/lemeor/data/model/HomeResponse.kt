@@ -164,6 +164,7 @@ data class Rife(
     }
 }
 
+@Parcelize
 @Entity(tableName = "scalar")
 data class Scalar(
     @PrimaryKey var id: String = "",
@@ -178,7 +179,7 @@ data class Scalar(
     var is_free: Boolean = false,
     var created_at: Long = 0L,
     var updated_at: Long = 0L,
-)
+) : Parcelable
 
 fun String.floatOrZero() = try {
     toFloat()

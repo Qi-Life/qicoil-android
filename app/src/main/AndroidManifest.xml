@@ -156,7 +156,21 @@
             android:foregroundServiceType="dataSync"
             android:exported="false" />
         <service
+            android:name=".lemeor.ui.scalar.ScalarDownloadService"
+            android:enabled="true"
+            android:foregroundServiceType="dataSync"
+            android:exported="false" />
+        <service
             android:name=".lemeor.tools.player.PlayerService"
+            android:exported="false"
+            android:foregroundServiceType="mediaPlayback"
+            tools:ignore="ExportedService" >
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".lemeor.tools.player.ScalarPlayerService"
             android:exported="false"
             android:foregroundServiceType="mediaPlayback"
             tools:ignore="ExportedService" >

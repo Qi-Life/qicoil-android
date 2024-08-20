@@ -86,6 +86,7 @@ import com.Meditation.Sounds.frequencies.lemeor.tools.player.PlayerRepeat
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.PlayerService
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.PlayerShuffle
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.PlayerUIFragment
+import com.Meditation.Sounds.frequencies.lemeor.tools.player.ScalarPlayerService
 import com.Meditation.Sounds.frequencies.lemeor.ui.albums.detail.NewAlbumDetailFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.albums.search.SearchAdapter
 import com.Meditation.Sounds.frequencies.lemeor.ui.albums.tabs.CategoriesPagerFragment.CategoriesPagerListener
@@ -102,6 +103,7 @@ import com.Meditation.Sounds.frequencies.lemeor.ui.purchase.new_flow.PurchaseIte
 import com.Meditation.Sounds.frequencies.lemeor.ui.rife.NewRifeFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.rife.NewRifeViewModel
 import com.Meditation.Sounds.frequencies.lemeor.ui.scalar.NewScalarViewModel
+import com.Meditation.Sounds.frequencies.lemeor.ui.scalar.ScalarDownloadService
 import com.Meditation.Sounds.frequencies.lemeor.ui.videos.NewVideosFragment
 import com.Meditation.Sounds.frequencies.models.event.SyncDataEvent
 import com.Meditation.Sounds.frequencies.tasks.BaseTask
@@ -592,7 +594,9 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         super.onDestroy()
         EventBus.getDefault().unregister(this)
         DownloadService.stopService(this)
+        ScalarDownloadService.stopService(this)
         stopService(Intent(this, PlayerService::class.java))
+        stopService(Intent(this, ScalarPlayerService::class.java))
     }
 
     private fun init() {

@@ -14,6 +14,7 @@ import com.Meditation.Sounds.frequencies.api.exception.ApiException
 import com.Meditation.Sounds.frequencies.lemeor.data.api.ApiConfig
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Album
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Rife
+import com.Meditation.Sounds.frequencies.lemeor.data.model.Scalar
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Track
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.MusicRepository
@@ -68,6 +69,11 @@ var selectedNaviFragment: Fragment? = null
 
 var isUserPaused = false
 
+//scalar
+var playListScalar: ArrayList<Scalar> = arrayListOf()
+var scalarFolder: String = "scalar_audio"
+var playScalar: Scalar? = null
+
 fun loadImage(context: Context, imageView: ImageView, album: Album) {
     val assetsPath = "file:///android_asset/albums/" + album.image
     if (album.category_id == 44 && !Utils.isConnectedToNetwork(context)) {
@@ -120,6 +126,17 @@ fun getTrackUrl(album: Album?, fileName: String): String {
     val url = URL(trackUrl)
     val uri = URI(url.protocol, url.userInfo, url.host, url.port, url.path, url.query, url.ref)
 
+    return uri.toASCIIString()
+}
+
+fun getTrackUrlScalar(fileName: String): String {
+    val trackUrl = ApiConfig.getStorage() +
+            File.separator +
+            scalarFolder +
+            File.separator +
+            fileName
+    val url = URL(trackUrl)
+    val uri = URI(url.protocol, url.userInfo, url.host, url.port, url.path, url.query, url.ref)
     return uri.toASCIIString()
 }
 
