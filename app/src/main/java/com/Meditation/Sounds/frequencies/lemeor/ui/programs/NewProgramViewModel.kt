@@ -71,24 +71,28 @@ class NewProgramViewModel(private val repository: ProgramRepository) : ViewModel
                 repository.updateProgram(p)
                 if (p.user_id.isNotEmpty()) {
                     try {
-                        updateTrackToProgram(
-                            UpdateTrack(
-                                track_id = listT,
-                                id = p.id,
-                                "mp3",
-                                request_type = "add",
-                                is_favorite = (p.name.uppercase() == FAVORITES.uppercase() && p.favorited)
+                        if (listT.isNotEmpty()) {
+                            updateTrackToProgram(
+                                UpdateTrack(
+                                    track_id = listT,
+                                    id = p.id,
+                                    "mp3",
+                                    request_type = "add",
+                                    is_favorite = (p.name.uppercase() == FAVORITES.uppercase() && p.favorited)
+                                )
                             )
-                        )
-                        updateTrackToProgram(
-                            UpdateTrack(
-                                track_id = listR,
-                                id = p.id,
-                                "rife",
-                                request_type = "add",
-                                is_favorite = (p.name.uppercase() == FAVORITES.uppercase() && p.favorited)
+                        }
+                        if (listR.isNotEmpty()) {
+                            updateTrackToProgram(
+                                UpdateTrack(
+                                    track_id = listR,
+                                    id = p.id,
+                                    "rife",
+                                    request_type = "add",
+                                    is_favorite = (p.name.uppercase() == FAVORITES.uppercase() && p.favorited)
+                                )
                             )
-                        )
+                        }
                         withContext(Dispatchers.Main) {
                             onDone?.invoke()
                         }

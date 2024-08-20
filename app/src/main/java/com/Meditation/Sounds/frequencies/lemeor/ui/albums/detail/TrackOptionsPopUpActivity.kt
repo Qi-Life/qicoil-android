@@ -47,6 +47,7 @@ import kotlinx.coroutines.withContext
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import java.io.File
+import java.util.Date
 import kotlin.math.abs
 
 class TrackOptionsPopUpActivity : AppCompatActivity() {
@@ -200,7 +201,7 @@ class TrackOptionsPopUpActivity : AppCompatActivity() {
                             }
                             if (frequency != null) p.records.remove(frequency)
                             else p.records.add(formatRife)
-                            programDao.updateProgram(p)
+                            programDao.updateProgram(p.copy(updated_at = Date().time))
                             if (p.user_id.isNotEmpty()) {
                                 try {
                                     mViewModel.updateTrackToProgram(
@@ -234,7 +235,7 @@ class TrackOptionsPopUpActivity : AppCompatActivity() {
                             } else {
                                 p.records.add(t.id.toString())
                             }
-                            programDao.updateProgram(p)
+                            programDao.updateProgram(p.copy(updated_at = Date().time))
                             if (p.user_id.isNotEmpty()) {
                                 try {
                                     mViewModel.updateTrackToProgram(

@@ -6,6 +6,7 @@ import com.Meditation.Sounds.frequencies.lemeor.data.model.*
 import com.Meditation.Sounds.frequencies.lemeor.data.remote.ApiHelper
 import com.Meditation.Sounds.frequencies.lemeor.ui.main.UpdateTrack
 import retrofit2.Response
+import java.util.Date
 
 class ProgramRepository(private val localData: DataBase, private val apiHelper: ApiHelper) {
 
@@ -49,5 +50,5 @@ class ProgramRepository(private val localData: DataBase, private val apiHelper: 
     }
 
     suspend fun getProgramById(id:Int) = localData.programDao().getProgramById(id)
-    suspend fun updateProgram(program: Program) = localData.programDao().updateProgram(program)
+    suspend fun updateProgram(program: Program) = localData.programDao().updateProgram(program.copy(updated_at = Date().time))
 }

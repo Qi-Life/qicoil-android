@@ -75,6 +75,7 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import java.io.File
 import java.util.Collections
+import java.util.Date
 
 
 class ProgramDetailFragment : BaseFragment() {
@@ -530,7 +531,7 @@ class ProgramDetailFragment : BaseFragment() {
                             list.removeAt(pos)
                             program?.records = list
                             program?.let {
-                                programDao.updateProgram(it)
+                                programDao.updateProgram(it.copy(updated_at = Date().time))
                                 if (it.user_id.isNotEmpty()) {
                                     try {
                                         mNewProgramViewModel.updateTrackToProgram(
@@ -565,7 +566,7 @@ class ProgramDetailFragment : BaseFragment() {
         Collections.swap(list, positionFrom, positionTo)
         program?.let {
             it.records = list as java.util.ArrayList<String>
-            programDao.updateProgram(it)
+            programDao.updateProgram(it.copy(updated_at = Date().time))
         }
     }
 
