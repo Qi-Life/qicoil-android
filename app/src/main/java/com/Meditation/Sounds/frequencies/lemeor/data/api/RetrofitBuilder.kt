@@ -5,16 +5,16 @@ import android.content.Context
 import com.Meditation.Sounds.frequencies.BuildConfig
 import com.Meditation.Sounds.frequencies.lemeor.data.api.ApiConfig.TIME_OUT
 import com.chuckerteam.chucker.api.ChuckerInterceptor
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.security.SecureRandom
 import java.security.cert.X509Certificate
 import java.util.concurrent.TimeUnit
 import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManager
 import javax.net.ssl.X509TrustManager
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 
 class RetrofitBuilder(val context: Context) {
@@ -33,7 +33,6 @@ class RetrofitBuilder(val context: Context) {
         .addInterceptor(loggingInterceptor)
         .addInterceptor(authInterceptor)
         .addInterceptor(ChuckerInterceptor.Builder(context).build())
-        .retryOnConnectionFailure(true)
         .build()
 
     private fun getRetrofit(): Retrofit {
@@ -99,7 +98,7 @@ class RetrofitBuilder(val context: Context) {
 
     @SuppressLint("TrustAllX509TrustManager")
     fun unSafeOkHttpClient(): OkHttpClient.Builder {
-        val okHttpClient = OkHttpClient.Builder().retryOnConnectionFailure(true)
+        val okHttpClient = OkHttpClient.Builder()
         try {
             // Create a trust manager that does not validate certificate chains
             val trustAllCerts: Array<TrustManager> = arrayOf(@SuppressLint("CustomX509TrustManager")

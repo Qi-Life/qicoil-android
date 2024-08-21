@@ -13,13 +13,15 @@ import com.Meditation.Sounds.frequencies.lemeor.ui.main.UpdateTrack
 import com.Meditation.Sounds.frequencies.utils.CombinedLiveData
 import com.Meditation.Sounds.frequencies.utils.forEachBreak
 import com.Meditation.Sounds.frequencies.utils.isNotString
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class NewProgramViewModel(private val repository: ProgramRepository) : ViewModel() {
-
+    private var isLoading = true
     suspend fun insert(program: Program?) {
         repository.insert(program)
     }
@@ -46,8 +48,9 @@ class NewProgramViewModel(private val repository: ProgramRepository) : ViewModel
     }
 
 
+    @OptIn(DelicateCoroutinesApi::class)
     fun addTrackToProgram(id: Int, list: List<Search>, onDone: (() -> Unit)? = null) {
-        viewModelScope.launch(Dispatchers.IO) {
+        GlobalScope.launch(Dispatchers.IO) {
             val program = repository.getProgramById(id)
             val listT = arrayListOf<String>()
             val listR = arrayListOf<String>()
@@ -127,35 +130,48 @@ class NewProgramViewModel(private val repository: ProgramRepository) : ViewModel
         }
     }
 
-    fun getPrograms(owner: LifecycleOwner, onChange: (List<Program>) -> Unit) {
+    fun getPrograms(
+        owner: LifecycleOwner,
+        onChange: (List<Program>) -> Unit,
+        showLoading: (Boolean) -> Unit,
+    ) {
         CombinedLiveData(repository.getListProgram(),
             repository.getListTrack(),
             combine = { listA, listT ->
                 val listAb = listA ?: arrayListOf()
                 val listTr = listT ?: arrayListOf()
                 if (listAb.isNotEmpty() && listTr.isNotEmpty()) {
-                    return@CombinedLiveData listTr
+                    return@CombinedLiveData Pair(listAb, listTr)
                 } else {
-                    return@CombinedLiveData arrayListOf()
+                    return@CombinedLiveData Pair(null, null)
                 }
-            }).observe(owner) { listT ->
+            }).observe(owner) { pair ->
+            val listA = pair.first ?: arrayListOf()
+            val listT = pair.second ?: arrayListOf()
+            if (listT.isEmpty() || listA.isEmpty()) {
+                showLoading(false)
+            }
             if (listT.isNotEmpty()) {
-                repository.getListProgram().observe(owner) { list ->
-                    viewModelScope.launch(Dispatchers.IO) {
-                        val programs = async { checkUnlocked(list) }
-                        val listProgramHandled = programs.await()
+                if(isLoading){
+                    showLoading(true)
+                }
+                viewModelScope.launch(Dispatchers.IO) {
+                    val programs = async { checkUnlocked(listA) }
+                    val listProgramHandled = programs.await()
 
-                        val validIds = listT.map { it.id.toString() }.toSet()
+                    val validIds = listT.map { it.id.toString() }.toSet()
 
-                        listProgramHandled.forEach { item ->
-                            item.records =
-                                item.records.filter { record ->
-                                    validIds.contains(record) || record.contains('|') || record.contains('-')
-                                } as ArrayList<String>
-                        }
-                        withContext(Dispatchers.Main) {
-                            onChange.invoke(listProgramHandled)
-                        }
+                    listProgramHandled.forEach { item ->
+                        item.records = item.records.filter { record ->
+                            validIds.contains(record) || record.contains('|') || record.contains(
+                                '-'
+                            )
+                        } as ArrayList<String>
+                    }
+                    withContext(Dispatchers.Main) {
+                        showLoading(false)
+                        isLoading = false
+                        onChange.invoke(listProgramHandled)
                     }
                 }
             }
