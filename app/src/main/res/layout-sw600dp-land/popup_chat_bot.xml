@@ -12,11 +12,21 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.3" />
 
+    <View
+        android:id="@+id/btnCloseChatBotInvisible"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="-20dp"
+        android:layout_marginEnd="@dimen/margin_item_dialog_20"
+        app:layout_constraintTop_toBottomOf="@+id/viewChatContent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <androidx.cardview.widget.CardView
+        android:id="@+id/viewChatContent"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_marginEnd="70dp"
-        android:layout_marginBottom="90dp"
+        android:layout_marginBottom="@dimen/margin_bottom_chat"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="10dp"
         app:cardUseCompatPadding="false"
@@ -40,7 +50,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                     android:text="@string/tv_master_wong_ai"
+                    android:text="@string/tv_master_wong_ai"
                     android:textColor="@color/text_press"
                     android:textSize="@dimen/text_size_20"
                     android:textStyle="bold"
@@ -116,7 +126,6 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
         </LinearLayout>
-
 
     </androidx.cardview.widget.CardView>
 

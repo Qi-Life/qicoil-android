@@ -30,6 +30,7 @@ import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.widget.LinearLayout
 import android.widget.PopupWindow
@@ -37,6 +38,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -1353,68 +1355,91 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
 
     @SuppressLint("SetTextI18n", "NotifyDataSetChanged")
     private fun showChatPopup() {
-        val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val popupView: View = inflater.inflate(R.layout.popup_chat_bot, null)
-        chatPopupWindow = PopupWindow(
-            popupView,
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            LinearLayout.LayoutParams.MATCH_PARENT
-        ).apply {
-            isFocusable = true
-            isTouchable = true
-            isOutsideTouchable = true
-            setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        getHeightPlayer { heightPlayer ->
+            val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            val popupView: View = inflater.inflate(R.layout.popup_chat_bot, null)
+            chatPopupWindow = PopupWindow(
+                popupView,
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT
+            ).apply {
+                isFocusable = true
+                isTouchable = true
+                isOutsideTouchable = true
+                setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            }
+            chatPopupWindow?.showAtLocation(btnStartChatBot, Gravity.BOTTOM, 0, 0)
+            val btnCloseChatBot = popupView.findViewById<View>(R.id.btnCloseChatBot)
+            if (Utils.isTablet(this@NavigationActivity)) {
+                val viewChatContent = popupView.findViewById<CardView>(R.id.viewChatContent)
+                val btnCloseChatBotInvisible = popupView.findViewById<View>(R.id.btnCloseChatBotInvisible)
+                val layoutParams = viewChatContent.layoutParams as ViewGroup.MarginLayoutParams
+                layoutParams.bottomMargin = heightPlayer + resources.getDimensionPixelSize(R.dimen.margin_bottom_chat)
+                viewChatContent.layoutParams = layoutParams
+                btnCloseChatBotInvisible.setOnClickListener {
+                    btnCloseChatBot.performClick()
+                }
+            }
+            btnCloseChatBot.setOnClickListener {
+                msgChatAdapter?.isCancelWrite = true
+                msgChatAdapter?.notifyDataSetChanged()
+                chatPopupWindow?.dismiss()
+            }
+            rvChatBot = popupView.findViewById(R.id.rvChatBot)
+            edtMessageChat = popupView.findViewById(R.id.edtMessageChat)
+            btnSendChat = popupView.findViewById(R.id.btnSendMessageChat)
+            btnSendChat?.isEnabled = false
+
+            val linearLayoutManager = LinearLayoutManager(this)
+            rvChatBot?.setLayoutManager(linearLayoutManager)
+            msgChatAdapter?.isCancelWrite = false
+            msgChatAdapter?.isTextAnimation = true
+            rvChatBot?.adapter = msgChatAdapter
+            rvChatBot?.viewTreeObserver?.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    rvChatBot?.viewTreeObserver?.removeOnGlobalLayoutListener(this)
+                    rvChatBot?.scrollToPosition(chatMessages.size - 1)
+                }
+            })
+
+            scrollToBottomWithOffset()
+
+            edtMessageChat?.addTextChangedListener(object : TextWatcher {
+                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                    btnSendChat?.isEnabled = s.toString().trim { it <= ' ' }
+                        .isNotEmpty() && chatMessages.last().message != "Typing" && chatMessages.last().statusTyping == false
+                }
+
+                override fun beforeTextChanged(
+                    s: CharSequence, start: Int, count: Int,
+                    after: Int,
+                ) {
+
+                }
+
+                override fun afterTextChanged(s: Editable) {
+
+                }
+            })
+            btnSendChat?.setOnClickListener {
+                val question: String = edtMessageChat?.getText().toString().trim { it <= ' ' }
+                if (question.isNotEmpty()) {
+                    addToChat(question, MessageChatBot.SEND_BY_ME)
+                    edtMessageChat?.setText("")
+                    mChatBotViewModel.sendMessageChat(question)
+                }
+            }
         }
+    }
 
-        chatPopupWindow?.showAtLocation(btnStartChatBot, Gravity.BOTTOM, 0, 0)
-        popupView.findViewById<View>(R.id.btnCloseChatBot).setOnClickListener {
-            msgChatAdapter?.isCancelWrite = true
-            msgChatAdapter?.notifyDataSetChanged()
-            chatPopupWindow?.dismiss()
-        }
-        rvChatBot = popupView.findViewById(R.id.rvChatBot)
-        edtMessageChat = popupView.findViewById(R.id.edtMessageChat)
-        btnSendChat = popupView.findViewById(R.id.btnSendMessageChat)
-        btnSendChat?.isEnabled = false
-
-        val linearLayoutManager = LinearLayoutManager(this)
-        rvChatBot?.setLayoutManager(linearLayoutManager)
-        msgChatAdapter?.isCancelWrite = false
-        msgChatAdapter?.isTextAnimation = true
-        rvChatBot?.adapter = msgChatAdapter
-        rvChatBot?.viewTreeObserver?.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                rvChatBot?.viewTreeObserver?.removeOnGlobalLayoutListener(this)
-                rvChatBot?.scrollToPosition(chatMessages.size - 1)
+    private fun getHeightPlayer(onHeight: (Int) -> Unit) {
+        val playerFragment = supportFragmentManager.fragments.firstOrNull { it is PlayerUIFragment }
+        if (playerFragment?.isVisible == true) {
+            playerFragment.view?.post {
+                onHeight.invoke((playerFragment.view?.height ?: 0))
             }
-        })
-
-        scrollToBottomWithOffset()
-
-        edtMessageChat?.addTextChangedListener(object : TextWatcher {
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                btnSendChat?.isEnabled = s.toString().trim { it <= ' ' }
-                    .isNotEmpty() && chatMessages.last().message != "Typing" && chatMessages.last().statusTyping == false
-            }
-
-            override fun beforeTextChanged(
-                s: CharSequence, start: Int, count: Int,
-                after: Int,
-            ) {
-
-            }
-
-            override fun afterTextChanged(s: Editable) {
-
-            }
-        })
-        btnSendChat?.setOnClickListener {
-            val question: String = edtMessageChat?.getText().toString().trim { it <= ' ' }
-            if (question.isNotEmpty()) {
-                addToChat(question, MessageChatBot.SEND_BY_ME)
-                edtMessageChat?.setText("")
-                mChatBotViewModel.sendMessageChat(question)
-            }
+        } else {
+            onHeight.invoke(0)
         }
     }
 
