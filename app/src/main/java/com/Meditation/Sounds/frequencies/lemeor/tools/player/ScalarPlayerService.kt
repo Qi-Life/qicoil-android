@@ -4,7 +4,10 @@ import android.app.Service
 import android.content.Intent
 import android.net.Uri
 import android.os.Binder
+import android.os.Build
 import android.os.IBinder
+import android.support.v4.media.session.MediaSessionCompat
+import android.support.v4.media.session.PlaybackStateCompat
 import com.Meditation.Sounds.frequencies.R
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Scalar
 import com.Meditation.Sounds.frequencies.lemeor.getPreloadedSaveDir
@@ -12,9 +15,8 @@ import com.Meditation.Sounds.frequencies.lemeor.getSaveDir
 import com.Meditation.Sounds.frequencies.lemeor.getTrackUrlScalar
 import com.Meditation.Sounds.frequencies.lemeor.playListScalar
 import com.Meditation.Sounds.frequencies.lemeor.playScalar
-import com.Meditation.Sounds.frequencies.lemeor.scalarFolder
+import com.Meditation.Sounds.frequencies.models.ScalarMediaSource
 import com.google.android.exoplayer2.DefaultRenderersFactory
-import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
@@ -24,50 +26,101 @@ import com.google.android.exoplayer2.util.Util
 import java.io.File
 
 class ScalarPlayerService : Service() {
-    private val playerMap = mutableMapOf<Uri, ExoPlayer>()
-    private val binder = MusicBinder()
+    private val scalarSources = mutableListOf<ScalarMediaSource>()
+
+    private val stateBuilder = PlaybackStateCompat.Builder().setActions(
+        PlaybackStateCompat.ACTION_PLAY or PlaybackStateCompat.ACTION_STOP or PlaybackStateCompat.ACTION_PAUSE or PlaybackStateCompat.ACTION_PLAY_PAUSE
+    )
+    private lateinit var mediaSession: MediaSessionCompat
+    val exoPlayer: SimpleExoPlayer by lazy {
+        SimpleExoPlayer.Builder(
+            this,
+            DefaultRenderersFactory(this),
+        ).build()
+    }
+    var currentState = PlaybackStateCompat.STATE_STOPPED
+
+    private val mediaSessionCallback: MediaSessionCompat.Callback =
+        object : MediaSessionCompat.Callback() {
+            override fun onPlay() {
+                super.onPlay()
+                exoPlayer.play()
+                mediaSession.setPlaybackState(
+                    stateBuilder.setState(
+                        PlaybackStateCompat.STATE_PLAYING,
+                        PlaybackStateCompat.PLAYBACK_POSITION_UNKNOWN,
+                        1f
+                    ).build()
+                )
+                currentState = PlaybackStateCompat.STATE_PLAYING
+            }
+
+            override fun onPause() {
+                super.onPause()
+                exoPlayer.pause()
+                mediaSession.setPlaybackState(
+                    stateBuilder.setState(
+                        PlaybackStateCompat.STATE_PAUSED,
+                        PlaybackStateCompat.PLAYBACK_POSITION_UNKNOWN,
+                        1f
+                    ).build()
+                )
+                currentState = PlaybackStateCompat.STATE_PAUSED
+            }
+        }
 
     override fun onBind(intent: Intent?): IBinder {
-        return binder
+        return PlayerServiceBinder(mediaSession)
     }
+
+    class PlayerServiceBinder(private val mediaSession: MediaSessionCompat) : Binder() {
+        val mediaSessionToken: MediaSessionCompat.Token
+            get() = mediaSession.sessionToken
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        mediaSession = MediaSessionCompat(this, "ScalarPlayerService").apply {
+            setFlags(
+                MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or
+                        MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS
+            )
+            setCallback(mediaSessionCallback)
+            isActive = true
+        }
+    }
+
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         intent?.let {
             when (it.action) {
-                "STOP" -> stopMusic()
-                "PAUSE" -> pauseMusic()
-                "REPLAY" -> resumeMusic()
-                "ADD" -> addMusic()
-                "REMOVE" -> removeMusic()
+                "ADD_REMOVE" -> addMusic()
             }
         }
         return START_STICKY
     }
 
-    private fun stopMusic() {
-        playerMap.values.forEach { player ->
-            player.stop()
-            player.release()
-        }
-        playerMap.clear()
-    }
-
     private fun addMusic() {
         playScalar?.let { scalar ->
-            getUriScalar(scalar)?.let { uri ->
-                if (!playerMap.containsKey(uri)) {
+            if (playListScalar.contains(scalar)) {
+                removeMusic()
+            } else {
+                getUriScalar(scalar)?.let { uri ->
                     playListScalar.add(scalar)
-                    val player =
-                        SimpleExoPlayer.Builder(this, DefaultRenderersFactory(this)).build().apply {
-                            volume = 0F
-                            Thread.sleep(100)
-                            setMediaSource(buildMediaSource(uri))
-                            prepare()
-                            Thread.sleep(100)
-                            volume = 1F
-                            playWhenReady = true
-                        }
-                    playerMap[uri] = player
+                    scalarSources.add(ScalarMediaSource(scalar.name ,buildMediaSource(uri)))
+                    exoPlayer.setMediaSources(scalarSources.map { it.mediaSource!! })
+                    exoPlayer.prepare()
+                    exoPlayer.playWhenReady = true
+
+                    mediaSession.isActive = true
+                    mediaSession.setPlaybackState(
+                        stateBuilder.setState(
+                            PlaybackStateCompat.STATE_PLAYING,
+                            PlaybackStateCompat.PLAYBACK_POSITION_UNKNOWN,
+                            1f
+                        ).build()
+                    )
+                    currentState = PlaybackStateCompat.STATE_PLAYING
                 }
             }
         }
@@ -77,31 +130,36 @@ class ScalarPlayerService : Service() {
         playScalar?.let { scalar ->
             getUriScalar(scalar)?.let { uri ->
                 playListScalar.remove(scalar)
-                playerMap[uri]?.let { player ->
-                    player.stop()
-                    player.release()
-                    playerMap.remove(uri)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    scalarSources.removeIf {it.tag == scalar.name}
+                }
+                exoPlayer.setMediaSources(scalarSources.map { it.mediaSource!! })
+                exoPlayer.prepare()
+
+                if (scalarSources.isNotEmpty()) {
+                    mediaSession.isActive = true
+                    mediaSession.setPlaybackState(
+                        stateBuilder.setState(
+                            PlaybackStateCompat.STATE_PLAYING,
+                            PlaybackStateCompat.PLAYBACK_POSITION_UNKNOWN,
+                            1f
+                        ).build()
+                    )
+                    currentState = PlaybackStateCompat.STATE_PLAYING
+                } else {
+                    mediaSession.isActive = false
+                    mediaSession.setPlaybackState(
+                        stateBuilder.setState(
+                            PlaybackStateCompat.STATE_STOPPED,
+                            PlaybackStateCompat.PLAYBACK_POSITION_UNKNOWN,
+                            1f
+                        ).build()
+                    )
+                    currentState = PlaybackStateCompat.STATE_STOPPED
                 }
             }
         }
     }
-
-    private fun pauseMusic() {
-        playerMap.values.forEach { player ->
-            if (player.isPlaying) {
-                player.playWhenReady = false
-            }
-        }
-    }
-
-    private fun resumeMusic() {
-        playerMap.values.forEach { player ->
-            if (!player.isPlaying) {
-                player.playWhenReady = true
-            }
-        }
-    }
-
 
     private fun buildMediaSource(uri: Uri): MediaSource {
         val dataSourceFactory: DataSource.Factory = DefaultDataSourceFactory(
@@ -113,12 +171,12 @@ class ScalarPlayerService : Service() {
     private fun getUriScalar(scalar: Scalar): Uri? {
         val file = File(
             getSaveDir(
-                applicationContext, scalar.silent_url, scalarFolder
+                applicationContext, scalar.audio_file, scalar.audio_folder
             )
         )
         val preloaded = File(
             getPreloadedSaveDir(
-                applicationContext, scalar.silent_url, scalarFolder
+                applicationContext, scalar.audio_file, scalar.audio_folder
             )
         )
 
@@ -132,7 +190,7 @@ class ScalarPlayerService : Service() {
         }
         if (uri == null) {
             uri = Uri.parse(
-                getTrackUrlScalar(scalar.silent_url)
+                getTrackUrlScalar(scalar)
             )
         }
         return uri
@@ -140,11 +198,7 @@ class ScalarPlayerService : Service() {
 
     override fun onDestroy() {
         super.onDestroy()
-        playListScalar.clear()
-        stopMusic()
-    }
-
-    inner class MusicBinder : Binder() {
-        fun getService(): ScalarPlayerService = this@ScalarPlayerService
+        exoPlayer.release()
+        mediaSession.release()
     }
 }

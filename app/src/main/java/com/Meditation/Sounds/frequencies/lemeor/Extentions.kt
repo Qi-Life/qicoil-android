@@ -71,7 +71,6 @@ var isUserPaused = false
 
 //scalar
 var playListScalar: ArrayList<Scalar> = arrayListOf()
-var scalarFolder: String = "scalar_audio"
 var playScalar: Scalar? = null
 
 fun loadImage(context: Context, imageView: ImageView, album: Album) {
@@ -108,6 +107,25 @@ fun loadImage(context: Context, imageView: ImageView, album: Album) {
     }
 }
 
+fun loadImageScalar(context: Context, imageView: ImageView, scalar: Scalar) {
+    val assetsPath = "file:///android_asset/scalars/" + scalar.name.trim() + ".png"
+
+    val requestOptions = RequestOptions()
+        .diskCacheStrategy(DiskCacheStrategy.ALL)
+        .signature(ObjectKey(scalar.updated_at))
+    Glide.with(context)
+        .load(Uri.parse(assetsPath))
+        .thumbnail(
+            Glide.with(context).load(Uri.parse(assetsPath))
+                .apply(RequestOptions().override(300, 300))
+        )
+        .apply(requestOptions)
+        .dontTransform()
+        .dontAnimate()
+        .placeholder(R.drawable.ic_album_placeholder)
+        .into(imageView)
+}
+
 fun getImageUrl(album: Album): String {
     return ApiConfig.getStorage() +
             File.separator +
@@ -129,15 +147,23 @@ fun getTrackUrl(album: Album?, fileName: String): String {
     return uri.toASCIIString()
 }
 
-fun getTrackUrlScalar(fileName: String): String {
+fun getTrackUrlScalar(scalar: Scalar): String {
     val trackUrl = ApiConfig.getStorage() +
             File.separator +
-            scalarFolder +
+            scalar.audio_folder +
             File.separator +
-            fileName
+            scalar.audio_file
     val url = URL(trackUrl)
     val uri = URI(url.protocol, url.userInfo, url.host, url.port, url.path, url.query, url.ref)
     return uri.toASCIIString()
+}
+
+fun getImageUrlScalar(scalar: Scalar): String {
+    return ApiConfig.getStorage() +
+            File.separator +
+            "" +
+            File.separator +
+            scalar.cover_image
 }
 
 fun getPreloadedSaveDir(context: Context, trackName: String, albumName: String): String {

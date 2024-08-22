@@ -60,7 +60,6 @@ class ApiHelper(private val apiService: ApiService) : BaseDataSource() {
 
     suspend fun getRife() = getResult { apiService.getRife() }
 
-
     suspend fun getPrograms() = getResult { apiService.getPrograms() }
 
     suspend fun createPrograms(name: String) = apiService.createPrograms(mapOf("name" to name))

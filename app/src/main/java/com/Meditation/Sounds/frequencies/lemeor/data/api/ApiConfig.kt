@@ -27,7 +27,7 @@ object ApiConfig {
     const val API_SUBMIT_TRACK_ERROR = "reportTrack"
     const val API_SUBMIT_PROGRAM = "submitProgram"
     const val API_RIFE = "rifes"
-    const val API_SCALAR = "scalar"
+    const val API_SCALAR = "silent_energies"
     const val API_PROGRAMS_UPDATE = "programs/updateTrack"
     const val API_PROGRAMS = "programs"
     const val API_PROGRAMS_SYNC = "programs/sync"

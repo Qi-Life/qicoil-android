@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 7,
-    "identityHash": "7d2f3466583b30e987927b71735309ce",
+    "identityHash": "556c70eeba10ccd768e47418f526f83c",
     "entities": [
       {
         "tableName": "home",
@@ -643,7 +643,7 @@
       },
       {
         "tableName": "scalar",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `silent_energy_catalog_id` TEXT NOT NULL, `description` TEXT NOT NULL, `cover_image` TEXT NOT NULL, `silent_url` TEXT NOT NULL, `silent_energy_catalogs_name` TEXT NOT NULL, `silent_energy_catalogs_id` TEXT NOT NULL, `order_number` INTEGER NOT NULL, `is_free` INTEGER NOT NULL, `created_at` INTEGER NOT NULL, `updated_at` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `silent_energy_catalog_id` TEXT NOT NULL, `description` TEXT NOT NULL, `cover_image` TEXT NOT NULL, `audio_folder` TEXT NOT NULL, `audio_file` TEXT NOT NULL, `silent_energy_catalogs_name` TEXT NOT NULL, `silent_energy_catalogs_id` TEXT NOT NULL, `order_number` INTEGER NOT NULL, `is_free` INTEGER NOT NULL, `created_at` INTEGER NOT NULL, `updated_at` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -676,8 +676,14 @@
             "notNull": true
           },
           {
-            "fieldPath": "silent_url",
-            "columnName": "silent_url",
+            "fieldPath": "audio_folder",
+            "columnName": "audio_folder",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "audio_file",
+            "columnName": "audio_file",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -731,7 +737,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7d2f3466583b30e987927b71735309ce')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '556c70eeba10ccd768e47418f526f83c')"
     ]
   }
 }

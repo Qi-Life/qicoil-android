@@ -109,6 +109,7 @@ class ScalarAlbumAnimation : FrameLayout {
     }
 
      fun startAnimation() {
+        clearAnimation()
         startStrokeAnimation()
         startColorAnimation()
         startGlowAnimation()

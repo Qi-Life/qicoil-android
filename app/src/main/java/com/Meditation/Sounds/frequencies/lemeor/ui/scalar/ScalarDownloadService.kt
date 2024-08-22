@@ -15,7 +15,6 @@ import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Scalar
 import com.Meditation.Sounds.frequencies.lemeor.getSaveDir
-import com.Meditation.Sounds.frequencies.lemeor.scalarFolder
 import com.Meditation.Sounds.frequencies.utils.Utils
 import com.Meditation.Sounds.frequencies.work.ScalarDownLoadCourseAudioWorkManager
 import kotlinx.coroutines.CoroutineScope
@@ -163,7 +162,7 @@ class ScalarDownloadService : LifecycleService() {
 
     private fun getCompletedFileCount(): Int {
         return scalars.filter {
-            File(getSaveDir(applicationContext, it.silent_url, scalarFolder)).exists()
+            File(getSaveDir(applicationContext, it.audio_file, it.audio_folder)).exists()
         }.size
     }
 

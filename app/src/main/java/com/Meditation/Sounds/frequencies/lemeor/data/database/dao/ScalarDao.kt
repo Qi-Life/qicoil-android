@@ -18,7 +18,7 @@ interface ScalarDao {
     @Query("SELECT * FROM scalar ORDER BY `id` ASC")
     fun getLiveDataScalars(): LiveData<List<Scalar>>
 
-    @Query("SELECT * FROM scalar ORDER BY `id` ASC")
+    @Query("SELECT * FROM scalar ORDER BY `order_number` ASC")
     suspend fun getData(): List<Scalar>
 
     @Query("SELECT * FROM scalar WHERE id=:id")

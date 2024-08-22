@@ -90,8 +90,63 @@ class PlayerUIFragment : NewBaseFragment() {
     private var repeat: Int = Player.REPEAT_MODE_ONE
     private var shuffle: Boolean = false
     private var isSeeking = false
-
     private var isTrack = true
+
+    //Scalar
+    private var playerServiceBinderScalar: ScalarPlayerService.PlayerServiceBinder? = null
+    private var playingScalar: Boolean = false
+    private var mediaScalarController: MediaControllerCompat? = null
+    private var callbackScalar: MediaControllerCompat.Callback =
+        object : MediaControllerCompat.Callback() {
+            override fun onPlaybackStateChanged(state: PlaybackStateCompat?) {
+                if (state == null) return
+                playingScalar = state.state == PlaybackStateCompat.STATE_PLAYING
+                player_play_scalar?.post {
+                    if (playingScalar) {
+                        player_play_scalar.setImageDrawable(
+                            getDrawable(
+                                requireActivity().applicationContext,
+                                R.drawable.oc_pause_song
+                            )
+                        )
+                    } else {
+                        player_play_scalar.setImageDrawable(
+                            getDrawable(
+                                requireActivity().applicationContext,
+                                R.drawable.ic_play_song
+                            )
+                        )
+                    }
+                }
+            }
+        }
+
+    private var serviceConnectionScalar = object : ServiceConnection {
+        override fun onServiceConnected(name: ComponentName?, binder: IBinder?) {
+            playerServiceBinderScalar = binder as ScalarPlayerService.PlayerServiceBinder
+            try {
+                mediaScalarController = MediaControllerCompat(
+                    requireContext(),
+                    playerServiceBinderScalar!!.mediaSessionToken
+                )
+                mediaScalarController?.registerCallback(callbackScalar)
+                callbackScalar.onPlaybackStateChanged(mediaScalarController!!.playbackState)
+
+                if (mediaScalarController != null) {
+                    if (playing) mediaScalarController?.transportControls?.pause()
+                    else mediaScalarController?.transportControls?.play()
+                }
+            } catch (e: RemoteException) {
+                mediaScalarController = null
+            }
+        }
+
+        override fun onServiceDisconnected(name: ComponentName?) {
+            playerServiceBinder = null
+            mediaScalarController?.unregisterCallback(callbackScalar)
+            mediaScalarController = null
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -104,6 +159,11 @@ class PlayerUIFragment : NewBaseFragment() {
         requireContext().bindService(
             Intent(requireContext(), PlayerService::class.java),
             serviceConnection as ServiceConnection,
+            AppCompatActivity.BIND_AUTO_CREATE
+        )
+        requireContext().bindService(
+            Intent(requireContext(), ScalarPlayerService::class.java),
+            serviceConnectionScalar as ServiceConnection,
             AppCompatActivity.BIND_AUTO_CREATE
         )
     }
@@ -326,6 +386,17 @@ class PlayerUIFragment : NewBaseFragment() {
                 }
         }
 
+        player_play_scalar.setOnClickListener {
+            if (mediaScalarController != null)
+                if (playingScalar) {
+//                    isUserPaused = true
+                    mediaScalarController?.transportControls?.pause()
+                } else {
+//                    isUserPaused = false
+                    mediaScalarController?.transportControls?.play()
+                }
+        }
+
         player_next.setOnClickListener {
             if (mediaController != null)
                 mediaController?.transportControls?.skipToNext()
@@ -384,5 +455,6 @@ class PlayerUIFragment : NewBaseFragment() {
         mediaController?.unregisterCallback(callback)
         mediaController = null
         serviceConnection.let { requireContext().unbindService(it) }
+        serviceConnectionScalar.let { requireContext().unbindService(it) }
     }
 }

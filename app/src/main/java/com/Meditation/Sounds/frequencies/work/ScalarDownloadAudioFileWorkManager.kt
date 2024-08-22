@@ -2,23 +2,17 @@ package com.Meditation.Sounds.frequencies.work
 
 
 import android.content.Context
-import androidx.work.Constraints
 import androidx.work.CoroutineWorker
 import androidx.work.Data
-import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequest
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
-import com.Meditation.Sounds.frequencies.lemeor.data.model.Album
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Scalar
-import com.Meditation.Sounds.frequencies.lemeor.data.model.Track
 import com.Meditation.Sounds.frequencies.lemeor.getSaveDir
 import com.Meditation.Sounds.frequencies.lemeor.getTempFile
-import com.Meditation.Sounds.frequencies.lemeor.getTrackUrl
 import com.Meditation.Sounds.frequencies.lemeor.getTrackUrlScalar
-import com.Meditation.Sounds.frequencies.lemeor.scalarFolder
 import com.Meditation.Sounds.frequencies.util.FileDownloader
 import java.io.File
 
@@ -32,11 +26,12 @@ class ScalarDownLoadCourseAudioWorkManager(
     override suspend fun doWork(): Result {
         val url = inputData.getString(URL)
         val fileName = inputData.getString(FILE_NAME) ?: ""
+        val audioFolder = inputData.getString(AUDIO_FOLDER) ?: ""
         val trackId = inputData.getInt(TRACK_ID, 0)
-        val tmpFile = File(getTempFile(context, fileName, scalarFolder))
+        val tmpFile = File(getTempFile(context, fileName, audioFolder))
         try {
             if (url != null) {
-                val targetFile = File(getSaveDir(context, fileName, scalarFolder))
+                val targetFile = File(getSaveDir(context, fileName, audioFolder))
                 var percentage = 0L
                 if (!targetFile.exists()) {
                     FileDownloader.download(url, tmpFile) { downloaded, total ->
@@ -91,6 +86,7 @@ class ScalarDownLoadCourseAudioWorkManager(
         const val URL = "url"
         const val TRACK_ID = "track_id"
         const val FILE_NAME = "file_name"
+        const val AUDIO_FOLDER = "audio_folder"
         const val DOWNLOADED = "downloaded"
         const val TOTAL = "total"
         const val ERROR = "error"
@@ -101,8 +97,9 @@ class ScalarDownLoadCourseAudioWorkManager(
         fun start(context: Context, scalar: Scalar): OneTimeWorkRequest {
             val inputData = Data.Builder()
                 .putInt(TRACK_ID, scalar.id.toInt())
-                .putString(FILE_NAME, scalar.silent_url)
-                .putString(URL, getTrackUrlScalar(scalar.silent_url))
+                .putString(FILE_NAME, scalar.audio_file)
+                .putString(AUDIO_FOLDER, scalar.audio_folder)
+                .putString(URL, getTrackUrlScalar(scalar))
 
             val oneTimeWorkRequest =
                 OneTimeWorkRequestBuilder<DownLoadCourseAudioWorkManager>()

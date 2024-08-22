@@ -104,6 +104,7 @@ import com.Meditation.Sounds.frequencies.lemeor.ui.purchase.new_flow.NewPurchase
 import com.Meditation.Sounds.frequencies.lemeor.ui.purchase.new_flow.PurchaseItemAlbumWebView
 import com.Meditation.Sounds.frequencies.lemeor.ui.rife.NewRifeFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.rife.NewRifeViewModel
+import com.Meditation.Sounds.frequencies.lemeor.ui.scalar.NewScalarFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.scalar.NewScalarViewModel
 import com.Meditation.Sounds.frequencies.lemeor.ui.scalar.ScalarDownloadService
 import com.Meditation.Sounds.frequencies.lemeor.ui.videos.NewVideosFragment
@@ -137,6 +138,7 @@ import kotlinx.android.synthetic.main.activity_navigation.navigation_discover
 import kotlinx.android.synthetic.main.activity_navigation.navigation_options
 import kotlinx.android.synthetic.main.activity_navigation.navigation_programs
 import kotlinx.android.synthetic.main.activity_navigation.navigation_rife
+import kotlinx.android.synthetic.main.activity_navigation.navigation_scalar
 import kotlinx.android.synthetic.main.activity_navigation.navigation_videos
 import kotlinx.android.synthetic.main.activity_navigation.search_categories_recycler
 import kotlinx.android.synthetic.main.activity_navigation.search_divider
@@ -689,11 +691,11 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                     }
                 }
                 if (user?.id != null) {
-//                    mViewModel.getScalar().observe(this) {
-//                        mNewScalarViewModel.getScalarLocal {
-//
-//                        }
-//                    }
+                    mViewModel.getScalar().observe(this) {
+                        mNewScalarViewModel.getScalarLocal {
+
+                        }
+                    }
                 }
             } catch (_: Exception) {
             }
@@ -718,6 +720,13 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
     private fun onButtonNavigationSelected() {
 //        askRating()
 //        hideKeyboard(applicationContext, album_search)
+        navigation_scalar.setOnClickListener {
+            navigation_scalar.onSelected {
+                closeSearch()
+                search_layout.visibility = View.VISIBLE
+                setFragment(NewScalarFragment())
+            }
+        }
         navigation_albums.setOnClickListener {
             navigation_albums.onSelected {
                 closeSearch()

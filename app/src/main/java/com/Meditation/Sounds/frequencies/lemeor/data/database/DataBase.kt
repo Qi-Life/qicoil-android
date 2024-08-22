@@ -154,7 +154,7 @@ abstract class DataBase : RoomDatabase() {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("DROP TABLE IF EXISTS scalar")
                 database.execSQL(
-                    "CREATE TABLE IF NOT EXISTS `scalar` (`id` TEXT NOT NULL, " + "`name` TEXT NOT NULL, " + "`silent_energy_catalog_id` TEXT NOT NULL, " + "`description` TEXT NOT NULL, `cover_image` TEXT NOT NULL, " + "`silent_url` TEXT NOT NULL, " + "`silent_energy_catalogs_name` TEXT NOT NULL, " + "`silent_energy_catalogs_id` TEXT NOT NULL, " + "`order_number` INTEGER NOT NULL, " + "`created_at` INTEGER NOT NULL, " + "`updated_at` INTEGER NOT NULL, "  + "`is_free` INTEGER NOT NULL, " + "PRIMARY KEY(`id`))"
+                    "CREATE TABLE IF NOT EXISTS `scalar` (`id` TEXT NOT NULL, " + "`name` TEXT NOT NULL, " + "`silent_energy_catalog_id` TEXT NOT NULL, " + "`description` TEXT NOT NULL, `cover_image` TEXT NOT NULL, " + "`audio_file` TEXT NOT NULL, " + "`audio_folder` TEXT NOT NULL, " + "`silent_energy_catalogs_name` TEXT NOT NULL, " + "`silent_energy_catalogs_id` TEXT NOT NULL, " + "`order_number` INTEGER NOT NULL, " + "`created_at` INTEGER NOT NULL, " + "`updated_at` INTEGER NOT NULL, "  + "`is_free` INTEGER NOT NULL, " + "PRIMARY KEY(`id`))"
                 )
             }
         }
