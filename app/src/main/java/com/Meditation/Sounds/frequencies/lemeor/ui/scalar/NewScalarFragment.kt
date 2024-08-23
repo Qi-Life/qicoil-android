@@ -1,15 +1,21 @@
 package com.Meditation.Sounds.frequencies.lemeor.ui.scalar
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.Meditation.Sounds.frequencies.R
 import com.Meditation.Sounds.frequencies.feature.base.BaseFragment
+import com.Meditation.Sounds.frequencies.lemeor.convertSecondsToTime
 import com.Meditation.Sounds.frequencies.lemeor.data.api.RetrofitBuilder
 import com.Meditation.Sounds.frequencies.lemeor.data.database.DataBase
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Rife
@@ -20,12 +26,18 @@ import com.Meditation.Sounds.frequencies.lemeor.getPreloadedSaveDir
 import com.Meditation.Sounds.frequencies.lemeor.getSaveDir
 import com.Meditation.Sounds.frequencies.lemeor.playScalar
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.ScalarPlayerService
+import com.Meditation.Sounds.frequencies.lemeor.tools.player.ScalarPlayerStatus
+import com.Meditation.Sounds.frequencies.lemeor.ui.main.NavigationActivity
 import com.Meditation.Sounds.frequencies.utils.Utils
 import com.Meditation.Sounds.frequencies.views.ItemOffsetDecoration
+import kotlinx.android.synthetic.main.fragment_new_album_detail.program_time
 import kotlinx.android.synthetic.main.fragment_new_scalar.rcvScalar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import java.io.File
 
 class NewScalarFragment : BaseFragment() {
@@ -63,6 +75,15 @@ class NewScalarFragment : BaseFragment() {
 
         initAdapter()
     }
+
+    @SuppressLint("NotifyDataSetChanged")
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onEvent(event: ScalarPlayerStatus) {
+        scalarAlbumsAdapter?.isPlaying = event.isPlaying
+       scalarAlbumsAdapter?.notifyDataSetChanged()
+    }
+
+
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
@@ -103,9 +124,9 @@ class NewScalarFragment : BaseFragment() {
     private fun playAndDownload(scalar: Scalar) {
         if (Utils.isConnectedToNetwork(requireContext())) {
             CoroutineScope(Dispatchers.IO).launch {
-//                val file = File(getSaveDir(requireContext(), scalar.audio_file, scalar.audio_folder))
-//                val preloaded =
-//                    File(getPreloadedSaveDir(requireContext(), scalar.audio_file, scalar.audio_folder))
+                val file = File(getSaveDir(requireContext(), scalar.audio_file, scalar.audio_folder))
+                val preloaded =
+                    File(getPreloadedSaveDir(requireContext(), scalar.audio_file, scalar.audio_folder))
 //                if (!file.exists() && !preloaded.exists()) {
 //                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
 //                        if (ContextCompat.checkSelfPermission(
@@ -156,14 +177,26 @@ class NewScalarFragment : BaseFragment() {
                 val playIntent = Intent(context, ScalarPlayerService::class.java).apply {
                     action = actionScalar
                 }
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    requireActivity().startForegroundService(playIntent)
-                } else {
-                    requireActivity().startService(playIntent)
-                }
+                requireActivity().startService(playIntent)
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                    requireActivity().startForegroundService(playIntent)
+//                } else {
+//
+//                }
             } catch (_: Exception) {
             }
-//            CoroutineScope(Dispatchers.Main).launch { (activity as NavigationActivity).showPlayerUI() }
+            CoroutineScope(Dispatchers.Main).launch { (activity as NavigationActivity).showPlayerUI() }
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        EventBus.getDefault().register(this)
+    }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        EventBus.getDefault().unregister(this)
     }
 }

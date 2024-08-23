@@ -518,9 +518,7 @@ class NewAlbumDetailFragment : BaseFragment() {
                 }catch (_:Exception){}
 
             }
-            withContext(Dispatchers.Main) {
-                activity.showPlayerUI()
-            }
+            CoroutineScope(Dispatchers.Main).launch { activity.showPlayerUI() }
         }
     }
 

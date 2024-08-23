@@ -20,6 +20,8 @@ class ScalarAlbumsAdapter(
     private var mData: ArrayList<Scalar>,
 ) : RecyclerView.Adapter<ScalarAlbumsAdapter.ViewHolder>() {
 
+    var isPlaying = true
+
     interface Listener {
         fun onClickItem(album: Scalar)
         fun onLongClickItem(album: Scalar)
@@ -54,7 +56,7 @@ class ScalarAlbumsAdapter(
             holder.itemView.lock.visibility = View.GONE
         }
 
-        if (playListScalar.contains(scalar)) {
+        if (playListScalar.contains(scalar) && isPlaying) {
             holder.itemView.viewPlayingAnimation.startAnimation()
         } else {
             holder.itemView.viewPlayingAnimation.clearAnimation()

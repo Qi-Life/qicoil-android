@@ -1,5 +1,6 @@
 package com.Meditation.Sounds.frequencies.lemeor.tools.player
 
+import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
 import android.net.Uri
@@ -8,6 +9,7 @@ import android.os.Build
 import android.os.IBinder
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import androidx.media.session.MediaButtonReceiver
 import com.Meditation.Sounds.frequencies.R
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Scalar
 import com.Meditation.Sounds.frequencies.lemeor.getPreloadedSaveDir
@@ -31,7 +33,14 @@ class ScalarPlayerService : Service() {
     private val stateBuilder = PlaybackStateCompat.Builder().setActions(
         PlaybackStateCompat.ACTION_PLAY or PlaybackStateCompat.ACTION_STOP or PlaybackStateCompat.ACTION_PAUSE or PlaybackStateCompat.ACTION_PLAY_PAUSE
     )
-    private lateinit var mediaSession: MediaSessionCompat
+    private val mediaSession: MediaSessionCompat by lazy {
+        MediaSessionCompat(this, "ScalarPlayerService").apply {
+            setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS)
+            setCallback(mediaSessionCallback)
+            isActive = true
+        }
+    }
+
     val exoPlayer: SimpleExoPlayer by lazy {
         SimpleExoPlayer.Builder(
             this,
@@ -77,19 +86,6 @@ class ScalarPlayerService : Service() {
         val mediaSessionToken: MediaSessionCompat.Token
             get() = mediaSession.sessionToken
     }
-
-    override fun onCreate() {
-        super.onCreate()
-        mediaSession = MediaSessionCompat(this, "ScalarPlayerService").apply {
-            setFlags(
-                MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or
-                        MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS
-            )
-            setCallback(mediaSessionCallback)
-            isActive = true
-        }
-    }
-
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         intent?.let {
