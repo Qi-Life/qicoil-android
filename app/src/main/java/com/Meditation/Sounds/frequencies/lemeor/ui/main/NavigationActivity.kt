@@ -630,10 +630,10 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
 
         mChatBotViewModel = ViewModelProvider(this)[ChatBotViewModel::class.java]
 
-        navigation_albums.onSelected {
+        navigation_scalar.onSelected {
             closeSearch()
             search_layout.visibility = View.VISIBLE
-            setFragment(TiersPagerFragment())
+            setFragment(NewScalarFragment())
         }
 
         flash_sale.visibility = View.GONE //At the request of the client
@@ -811,6 +811,9 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         }
     }
 
+    fun onScalarSelect(){
+        navigation_scalar.performClick()
+    }
 
     private fun View.onSelected(listener: () -> Unit) {
         if (mViewGroupCurrent != this) {
@@ -1324,7 +1327,8 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         if (fragment is NewProgramFragment && isTrackAdd) {
             isHide = true
         }
-        if (!isHide && (fragment is TiersPagerFragment
+        if (!isHide && (fragment is NewScalarFragment
+                    || fragment is TiersPagerFragment
                     || fragment is NewRifeFragment
                     || fragment is NewProgramFragment
                     || fragment is NewVideosFragment

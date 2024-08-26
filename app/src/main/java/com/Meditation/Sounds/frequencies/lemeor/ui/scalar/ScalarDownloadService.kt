@@ -8,7 +8,6 @@ import android.net.ConnectivityManager
 import android.os.Binder
 import android.os.Build
 import android.os.IBinder
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleService
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkInfo
@@ -31,7 +30,7 @@ class ScalarDownloadService : LifecycleService() {
         fun startService(context: Context, scalar: Scalar) {
             val startIntent = Intent(context, ScalarDownloadService::class.java)
             startIntent.putExtra(EXTRA_SCALAR, scalar)
-            ContextCompat.startForegroundService(context, startIntent)
+            context.startService(startIntent)
         }
 
         fun stopService(context: Context) {
@@ -49,6 +48,7 @@ class ScalarDownloadService : LifecycleService() {
     private val binder = DownloadServiceBinder()
 
     private var hasNetwork = true
+    private var isDownloading = false
 
     private val networkChangeReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent?) {
@@ -84,7 +84,9 @@ class ScalarDownloadService : LifecycleService() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
         val scalar: Scalar = intent?.getParcelableExtra(EXTRA_SCALAR)!!
-        this.scalars.add(scalar)
+        if (this.scalars.firstOrNull { it.id == scalar.id } == null) {
+            this.scalars.add(scalar)
+        }
         val needToDownloadTrack =
             this.scalars.filter { downloadErrorScalars.contains(it.id) }.toMutableList()
         this.scalars = this.scalars.filter { !downloadErrorScalars.contains(it.id) }.toMutableList()
@@ -101,6 +103,7 @@ class ScalarDownloadService : LifecycleService() {
 
         CoroutineScope(Dispatchers.IO).launch {
             CoroutineScope(Dispatchers.Main).launch {
+                enqueueFiles()
                 if (this@ScalarDownloadService.scalars.isEmpty()) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         stopForeground(STOP_FOREGROUND_REMOVE)
@@ -113,17 +116,24 @@ class ScalarDownloadService : LifecycleService() {
         return START_NOT_STICKY
     }
 
+    private fun enqueueFiles() {
+        if (!isDownloading) {
+            downloadNext()
+        }
+    }
+
     private fun downloadNext(redownload: Boolean = false) {
         WorkManager.getInstance(application)
             .cancelAllWorkByTag(ScalarDownLoadCourseAudioWorkManager.TAG)
         scalars.firstOrNull {
             (redownload || !downloadErrorScalars.contains(it.id))
         }?.let {
+            isDownloading = true
             downloadErrorScalars.remove(it.id)
             val request = ScalarDownLoadCourseAudioWorkManager.start(applicationContext, it)
             observeWorker(request)
         } ?: run {
-
+            isDownloading = false
         }
 
     }
@@ -138,6 +148,17 @@ class ScalarDownloadService : LifecycleService() {
                             ScalarDownLoadCourseAudioWorkManager.TRACK_ID, 0
                         )
                         downloadErrorScalars.remove(trackId.toString())
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                            scalars.removeIf { it.id == trackId.toString() }
+                        } else {
+                            val iterator: MutableIterator<Scalar> = scalars.iterator()
+                            while (iterator.hasNext()) {
+                                val item: Scalar = iterator.next()
+                                if (item.id === trackId.toString()) {
+                                    iterator.remove()
+                                }
+                            }
+                        }
                         downloadNext(false)
                     } else if (workInfo.state == WorkInfo.State.FAILED) {
                         workInfo.tags.firstOrNull { it.startsWith("track") }?.let { tag ->

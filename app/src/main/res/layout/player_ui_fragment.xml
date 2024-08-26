@@ -40,8 +40,8 @@
 
         <View
             android:id="@+id/view_scalar_status_stoping"
-            android:layout_width="8dp"
-            android:layout_height="8dp"
+            android:layout_width="6dp"
+            android:layout_height="6dp"
             android:layout_marginEnd="3dp"
             android:layout_marginBottom="3dp"
             android:background="@drawable/bg_player_status_dot"
@@ -57,6 +57,7 @@
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:ellipsize="marquee"
+            app:layout_constraintEnd_toStartOf="@+id/view_scalar_status_playing"
             android:paddingStart="@dimen/indent_8"
             android:paddingEnd="@dimen/indent_8"
             android:text="@string/tv_silent_scalar_turned_off"

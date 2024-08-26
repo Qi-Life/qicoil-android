@@ -79,7 +79,6 @@ class NewScalarFragment : BaseFragment() {
     @SuppressLint("NotifyDataSetChanged")
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onEvent(event: ScalarPlayerStatus) {
-        scalarAlbumsAdapter?.isPlaying = event.isPlaying
        scalarAlbumsAdapter?.notifyDataSetChanged()
     }
 
@@ -127,41 +126,41 @@ class NewScalarFragment : BaseFragment() {
                 val file = File(getSaveDir(requireContext(), scalar.audio_file, scalar.audio_folder))
                 val preloaded =
                     File(getPreloadedSaveDir(requireContext(), scalar.audio_file, scalar.audio_folder))
-//                if (!file.exists() && !preloaded.exists()) {
-//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-//                        if (ContextCompat.checkSelfPermission(
-//                                requireActivity(), Manifest.permission.READ_MEDIA_IMAGES
-//                            ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
-//                                requireActivity(), Manifest.permission.READ_MEDIA_AUDIO
-//                            ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
-//                                requireActivity(), Manifest.permission.READ_MEDIA_VIDEO
-//                            ) == PackageManager.PERMISSION_GRANTED
-//                        ) {
-//                            ScalarDownloadService.startService(context = requireContext(), scalar)
-//                        } else {
-//                            ActivityCompat.requestPermissions(
-//                                requireActivity(), arrayOf(
-//                                    Manifest.permission.READ_MEDIA_IMAGES,
-//                                    Manifest.permission.READ_MEDIA_AUDIO,
-//                                    Manifest.permission.READ_MEDIA_VIDEO
-//                                ), 1001
-//                            )
-//                        }
-//                    } else {
-//                        if (ContextCompat.checkSelfPermission(
-//                                requireActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE
-//                            ) == PackageManager.PERMISSION_GRANTED
-//                        ) {
-//                            ScalarDownloadService.startService(context = requireContext(), scalar)
-//                        } else {
-//                            ActivityCompat.requestPermissions(
-//                                requireActivity(),
-//                                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-//                                1001
-//                            )
-//                        }
-//                    }
-//                }
+                if (!file.exists() && !preloaded.exists()) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        if (ContextCompat.checkSelfPermission(
+                                requireActivity(), Manifest.permission.READ_MEDIA_IMAGES
+                            ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+                                requireActivity(), Manifest.permission.READ_MEDIA_AUDIO
+                            ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+                                requireActivity(), Manifest.permission.READ_MEDIA_VIDEO
+                            ) == PackageManager.PERMISSION_GRANTED
+                        ) {
+                            ScalarDownloadService.startService(context = requireContext(), scalar)
+                        } else {
+                            ActivityCompat.requestPermissions(
+                                requireActivity(), arrayOf(
+                                    Manifest.permission.READ_MEDIA_IMAGES,
+                                    Manifest.permission.READ_MEDIA_AUDIO,
+                                    Manifest.permission.READ_MEDIA_VIDEO
+                                ), 1001
+                            )
+                        }
+                    } else {
+                        if (ContextCompat.checkSelfPermission(
+                                requireActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE
+                            ) == PackageManager.PERMISSION_GRANTED
+                        ) {
+                            ScalarDownloadService.startService(context = requireContext(), scalar)
+                        } else {
+                            ActivityCompat.requestPermissions(
+                                requireActivity(),
+                                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                                1001
+                            )
+                        }
+                    }
+                }
                 playStopScalar("ADD_REMOVE")
             }
         } else {

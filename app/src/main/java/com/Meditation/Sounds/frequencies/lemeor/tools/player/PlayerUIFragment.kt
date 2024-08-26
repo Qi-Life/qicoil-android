@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.content.ComponentName
 import android.content.Intent
 import android.content.ServiceConnection
+import android.content.res.Configuration
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.IBinder
@@ -19,6 +21,7 @@ import android.view.animation.AnimationUtils
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
+import androidx.fragment.app.FragmentTransaction
 import com.Meditation.Sounds.frequencies.R
 import com.Meditation.Sounds.frequencies.lemeor.*
 import com.Meditation.Sounds.frequencies.lemeor.ui.albums.detail.NewAlbumDetailFragment
@@ -117,6 +120,8 @@ class PlayerUIFragment : NewBaseFragment() {
             override fun onPlaybackStateChanged(state: PlaybackStateCompat?) {
                 if (state == null) return
                 playingScalar = state.state == PlaybackStateCompat.STATE_PLAYING && playListScalar.isNotEmpty()
+                playingScalarPlayer = playingScalar
+                EventBus.getDefault().post(ScalarPlayerStatus())
                 player_play_scalar?.post {
                     if (playingScalar) {
                         player_play_scalar.setImageDrawable(
@@ -135,7 +140,6 @@ class PlayerUIFragment : NewBaseFragment() {
                     }
                 }
                 updateViewPlayerScalar()
-                EventBus.getDefault().post(ScalarPlayerStatus(playingScalar))
             }
         }
 
@@ -149,17 +153,17 @@ class PlayerUIFragment : NewBaseFragment() {
                 )
                 mediaScalarController?.registerCallback(callbackScalar)
                 callbackScalar.onPlaybackStateChanged(mediaScalarController!!.playbackState)
-                if (mediaScalarController != null) {
-                    if (playing) mediaScalarController?.transportControls?.pause()
-                    else mediaScalarController?.transportControls?.play()
-                }
+//                if (mediaScalarController != null) {
+//                    if (playingScalar) mediaScalarController?.transportControls?.pause()
+//                    else mediaScalarController?.transportControls?.play()
+//                }
             } catch (e: RemoteException) {
                 mediaScalarController = null
             }
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
-            playerServiceBinder = null
+            playerServiceBinderScalar = null
             mediaScalarController?.unregisterCallback(callbackScalar)
             mediaScalarController = null
         }
@@ -169,6 +173,21 @@ class PlayerUIFragment : NewBaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.player_ui_fragment, container, false)
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE || newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            try {
+                val ft: FragmentTransaction = parentFragmentManager.beginTransaction()
+                if (Build.VERSION.SDK_INT >= 26) {
+                    ft.setReorderingAllowed(true)
+                }
+                ft.detach(this).attach(this).commit()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -290,7 +309,6 @@ class PlayerUIFragment : NewBaseFragment() {
                         ProgramDetailFragment().javaClass.simpleName
                     ).commit()
                 }
-
             } else {
                 val newAlbumDetailFragment = fragmentList.lastOrNull {
                     it is NewAlbumDetailFragment
@@ -390,17 +408,21 @@ class PlayerUIFragment : NewBaseFragment() {
 //                AnimationUtils.loadAnimation(requireContext(), R.anim.clockwise_rotation)
 //            rotation.repeatCount = Animation.INFINITE
 //            player_repeat.clearAnimation()
-            if (mediaController != null)
-                if (playing) {
-                    isUserPaused = true
-                    mediaController?.transportControls?.pause()
-                } else {
-                    isUserPaused = false
-                    mediaController?.transportControls?.play()
+            if (trackList?.isNotEmpty() == true) {
+                if (mediaController != null)
+                    if (playing) {
+                        isUserPaused = true
+                        mediaController?.transportControls?.pause()
+                        mediaScalarController?.transportControls?.pause()
+                    } else {
+                        isUserPaused = false
+                        mediaController?.transportControls?.play()
+                        mediaScalarController?.transportControls?.play()
 //                    if (repeat == Player.REPEAT_MODE_ALL) {
 //                        player_repeat.startAnimation(rotation)
 //                    }
-                }
+                    }
+            }
         }
 
         player_play_scalar.setOnClickListener {
@@ -413,9 +435,11 @@ class PlayerUIFragment : NewBaseFragment() {
         }
 
         player_next.setOnClickListener {
-            if (mediaController != null)
-                mediaController?.transportControls?.skipToNext()
-            isMultiPlay = false
+            if (trackList?.isNotEmpty() == true) {
+                if (mediaController != null)
+                    mediaController?.transportControls?.skipToNext()
+                isMultiPlay = false
+            }
         }
 
         player_previous.setOnClickListener {

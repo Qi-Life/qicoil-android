@@ -56,6 +56,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.ktx.logEvent
 import com.google.firebase.ktx.Firebase
+import kotlinx.android.synthetic.main.fragment_new_album_detail.album_add_scalar
 import kotlinx.android.synthetic.main.fragment_new_album_detail.album_back
 import kotlinx.android.synthetic.main.fragment_new_album_detail.album_image
 import kotlinx.android.synthetic.main.fragment_new_album_detail.album_play
@@ -298,6 +299,9 @@ class NewAlbumDetailFragment : BaseFragment() {
                 playAndDownload(this)
             }
         }
+        album_add_scalar.setOnClickListener {
+            (activity as NavigationActivity).onScalarSelect()
+        }
 
         if (currentTrack.value != null) {
             val track = currentTrack.value
@@ -337,6 +341,9 @@ class NewAlbumDetailFragment : BaseFragment() {
             if (getFrequency().isNotEmpty()) {
                 play()
             }
+        }
+        album_add_scalar.setOnClickListener {
+            (activity as NavigationActivity).onScalarSelect()
         }
         if (currentTrack.value != null) {
             val item = currentTrack.value

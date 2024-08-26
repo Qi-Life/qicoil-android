@@ -72,6 +72,7 @@ var isUserPaused = false
 //scalar
 var playListScalar: ArrayList<Scalar> = arrayListOf()
 var playScalar: Scalar? = null
+var playingScalarPlayer = false
 
 fun loadImage(context: Context, imageView: ImageView, album: Album) {
     val assetsPath = "file:///android_asset/albums/" + album.image

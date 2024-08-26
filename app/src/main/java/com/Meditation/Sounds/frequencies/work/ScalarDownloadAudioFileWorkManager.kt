@@ -102,7 +102,7 @@ class ScalarDownLoadCourseAudioWorkManager(
                 .putString(URL, getTrackUrlScalar(scalar))
 
             val oneTimeWorkRequest =
-                OneTimeWorkRequestBuilder<DownLoadCourseAudioWorkManager>()
+                OneTimeWorkRequestBuilder<ScalarDownLoadCourseAudioWorkManager>()
                     .setInputData(inputData.build())
                     .addTag(getTag(trackId = scalar.id.toInt()))
                     .addTag(TAG)

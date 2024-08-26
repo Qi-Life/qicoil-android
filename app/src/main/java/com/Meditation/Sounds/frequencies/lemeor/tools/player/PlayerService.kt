@@ -476,7 +476,9 @@ class PlayerService : Service() {
                     exoPlayer.playWhenReady = false
                     if (isRegisteredBusyReceiver) {
                         isRegisteredBusyReceiver = false
-                        unregisterReceiver(becomingNoisyReceiver)
+                        try {
+                            unregisterReceiver(becomingNoisyReceiver)
+                        } catch (_:IllegalArgumentException) {}
                     }
                 }
                 soundFrequency.stopPlayback()

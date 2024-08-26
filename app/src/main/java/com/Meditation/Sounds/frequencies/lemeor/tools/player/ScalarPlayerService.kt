@@ -128,6 +128,14 @@ class ScalarPlayerService : Service() {
                 playListScalar.remove(scalar)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     scalarSources.removeIf {it.tag == scalar.name}
+                } else {
+                    val iterator: MutableIterator<ScalarMediaSource> = scalarSources.iterator()
+                    while (iterator.hasNext()) {
+                        val item: ScalarMediaSource = iterator.next()
+                        if (item.tag === scalar.name) {
+                            iterator.remove()
+                        }
+                    }
                 }
                 exoPlayer.setMediaSources(scalarSources.map { it.mediaSource!! })
                 exoPlayer.prepare()

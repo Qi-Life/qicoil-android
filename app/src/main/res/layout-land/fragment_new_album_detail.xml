@@ -99,17 +99,25 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1" />
 
-                    <Button
+
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/album_play"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="40dp"
                         android:layout_margin="@dimen/indent_16"
-                        android:background="@drawable/rounded_btn_play"
-                        android:minHeight="35dp"
-                        android:paddingLeft="@dimen/image_size_40"
-                        android:paddingRight="@dimen/image_size_40"
-                        android:text="@string/btn_play"
-                        android:textColor="@android:color/white" />
+                        android:adjustViewBounds="true"
+                        android:textColor="@android:color/white"
+                        app:srcCompat="@drawable/ic_play_detail" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/album_add_scalar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginVertical="@dimen/indent_16"
+                        android:layout_marginEnd="@dimen/indent_16"
+                        android:adjustViewBounds="true"
+                        android:textColor="@android:color/white"
+                        app:srcCompat="@drawable/ic_play_scalar_detail" />
 
                     <View
                         android:layout_width="wrap_content"
