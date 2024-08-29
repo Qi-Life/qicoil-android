@@ -341,5 +341,8 @@
     <string name="msg_chatting_bot_cookie_policies">通过与我聊天，您同意我们的隐私和 Cookie 政策。</string>
     <string name="tv_message">信息:</string>
     <string name="tv_master_wong_ai">Dr. Qi Ai assistant</string>
-
+    <string name="navigation_lbl_scalar">标量</string>
+    <string name="tv_scalars">标量</string>
+    <string name="tv_silent_scalar_turned_on">静默标量当前已开启</string>
+    <string name="tv_silent_scalar_turned_off">静默标量目前已关闭</string>
 </resources>

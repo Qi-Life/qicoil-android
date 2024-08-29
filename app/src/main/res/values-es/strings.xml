@@ -2,6 +2,7 @@
 <resources>
     <string name="action_settings">Ajustes</string>
     <string name="navigation_lbl_albums">Álbumes</string>
+    <string name="navigation_lbl_scalar">Escalar</string>
     <string name="navigation_lbl_quantum">Cuántico</string>
     <string name="navigation_lbl_rife">Abundante</string>
     <string name="navigation_lbl_programs">Programas</string>
@@ -296,6 +297,7 @@
     <string name="total_time">Espere por favor %1$s</string>
     <string name="error_hz_exceeded">Se excede el HZ %1$s</string>
     <string name="tv_rifes">Rifes</string>
+    <string name="tv_scalars">Escalares</string>
     <string name="tv_track">Pista</string>
     <string name="tv_from_rife">De la matriz</string>
     <string name="tv_cus_frequency">Frecuencias personalizadas</string>
@@ -341,5 +343,7 @@
     <string name="msg_chatting_bot_cookie_policies">Al chatear conmigo, aceptas nuestras Políticas de privacidad y cookies.</string>
     <string name="tv_message">Mensaje:</string>
     <string name="tv_master_wong_ai">Dr. Qi Ai assistant</string>
+    <string name="tv_silent_scalar_turned_on">El escalar silencioso está activado actualmente</string>
+    <string name="tv_silent_scalar_turned_off">El escalar silencioso está actualmente desactivado</string>
 
 </resources>

@@ -57,11 +57,6 @@
     <string name="tv_title_trial">Déverrouiller les fréquences quantum \n De méditation</string>
     <string name="tv_trial_package_200">200+ fréquences quantiques</string>
 
-
-
-
-
-
     <string name="navigation_lbl_albums">Albums</string>
     <string name="options_sign_in">Se connecter</string>
     <string name="play">Jouer</string>
@@ -347,5 +342,8 @@
     <string name="msg_chatting_bot_cookie_policies">En discutant avec moi, vous acceptez nos politiques de confidentialité et de cookies.</string>
     <string name="tv_message">Message:</string>
     <string name="tv_master_wong_ai">Dr. Qi Ai assistant</string>
-
+    <string name="navigation_lbl_scalar">Scalaire</string>
+    <string name="tv_scalars">Scalaires</string>
+    <string name="tv_silent_scalar_turned_on">Le scalaire silencieux est actuellement activé</string>
+    <string name="tv_silent_scalar_turned_off">Le scalaire silencieux est actuellement désactivé</string>
 </resources>

@@ -34,6 +34,7 @@
             android:id="@+id/view_scalar_status_playing"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/player_play_scalar"
             app:layout_constraintTop_toTopOf="parent" />
@@ -82,7 +83,6 @@
                 android:id="@+id/track_image_scalar"
                 android:layout_width="@dimen/height_small_icon"
                 android:layout_height="@dimen/height_small_icon"
-                android:padding="5dp"
                 android:src="@drawable/ic_album_default_small" />
 
             <TextView
@@ -154,7 +154,6 @@
             android:id="@+id/track_image"
             android:layout_width="@dimen/height_small_icon"
             android:layout_height="@dimen/height_small_icon"
-            android:padding="5dp"
             android:src="@drawable/ic_album_default_small"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"

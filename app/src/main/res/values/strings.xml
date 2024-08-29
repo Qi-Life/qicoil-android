@@ -370,6 +370,7 @@
     <string name="subs_purchase_info">Subscribe for %1$s/month or %2$s/year</string>
     <string name="error_hz_exceeded">The Hz is exceeded %1$s</string>
     <string name="tv_rifes">Rifes</string>
+    <string name="tv_scalars">Scalars</string>
     <string name="tv_track">Track</string>
     <string name="tv_from_rife">From Rife</string>
     <string name="tv_cus_frequency">Custom Frequencies</string>

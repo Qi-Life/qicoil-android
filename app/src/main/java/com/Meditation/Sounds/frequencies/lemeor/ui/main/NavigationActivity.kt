@@ -63,6 +63,7 @@ import com.Meditation.Sounds.frequencies.lemeor.data.database.DataBase
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Album
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Program
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Rife
+import com.Meditation.Sounds.frequencies.lemeor.data.model.Scalar
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Search
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Track
 import com.Meditation.Sounds.frequencies.lemeor.data.remote.ApiHelper
@@ -111,7 +112,7 @@ import com.Meditation.Sounds.frequencies.lemeor.ui.videos.NewVideosFragment
 import com.Meditation.Sounds.frequencies.models.event.SyncDataEvent
 import com.Meditation.Sounds.frequencies.tasks.BaseTask
 import com.Meditation.Sounds.frequencies.tasks.GetFlashSaleTask
-import com.Meditation.Sounds.frequencies.utils.Combined4LiveData
+import com.Meditation.Sounds.frequencies.utils.Combined5LiveData
 import com.Meditation.Sounds.frequencies.utils.Constants
 import com.Meditation.Sounds.frequencies.utils.CopyAssets.copyAssetFolder
 import com.Meditation.Sounds.frequencies.utils.FlowSearch
@@ -238,6 +239,8 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                     NewAlbumDetailFragment.newInstance(0, 0, Constants.TYPE_RIFE, rife.id),
                     NewAlbumDetailFragment().javaClass.simpleName
                 ).commit()
+            }  else if (item.obj is Scalar) {
+                onScalarSelect()
             }
         }
     }
@@ -824,20 +827,22 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         }
     }
 
+
     //region SEARCH
     private fun initSearch() {
         search_categories_recycler.apply {
             adapter = searchAdapter
             itemAnimator = null
         }
-        Combined4LiveData(albumsSearch,
+        Combined5LiveData(albumsSearch,
             tracksSearch,
             programsSearch,
             mNewRifeViewModel.result,
-            combine = { data1, data2, data3, data4 ->
+            mNewScalarViewModel.result,
+            combine = { data1, data2, data3, data4, data5 ->
                 val search = mutableListOf<Search>()
                 var i = 0
-//                Frequencies
+//              Frequencies
                 data2?.let {
                     val converted = ArrayList<Track>()
                     it.forEach { track ->
@@ -859,7 +864,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                         }
                     }
                 }
-//                Albums
+//              Albums
                 data1?.let {
                     val converted = ArrayList<Album>()
                     if (searchAdapter.getCategories().isEmpty()) {
@@ -894,14 +899,14 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                     val groupAlbum = converted.groupingBy { a -> a.name }.eachCount()
                     searchAdapter.setGroupAlbum(groupAlbum)
                 }
-//                Programs
+//              Programs
                 data3?.let {
                     it.forEach { program ->
                         search.add(Search(i, program))
                         i++
                     }
                 }
-//                Rife
+//              Rife
                 data4?.let {
                     it.forEach { rife ->
                         search.add(Search(i, rife))
@@ -909,7 +914,15 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                     }
                 }
 
-                return@Combined4LiveData search
+//                Scalar
+                data5?.let {
+                    it.forEach { scalar ->
+                        search.add(Search(i, scalar))
+                        i++
+                    }
+                }
+
+                return@Combined5LiveData search
             }).observe(this) {
             if (it.isEmpty()) {
                 lblnoresult.visibility = View.VISIBLE
@@ -928,6 +941,9 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
             val programs = mViewModel.searchProgram("%$s%")
             withContext(Dispatchers.Main) {
                 mNewRifeViewModel.searchMain(s.toString())
+            }
+            withContext(Dispatchers.Main) {
+                mNewScalarViewModel.searchMain(s.toString())
             }
             CoroutineScope(Dispatchers.Main).launch {
                 albumsSearch.value = albums

@@ -5,7 +5,6 @@ import android.content.ComponentName
 import android.content.Intent
 import android.content.ServiceConnection
 import android.content.res.Configuration
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.IBinder
@@ -21,21 +20,51 @@ import android.view.animation.AnimationUtils
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
-import androidx.fragment.app.FragmentTransaction
 import com.Meditation.Sounds.frequencies.R
-import com.Meditation.Sounds.frequencies.lemeor.*
+import com.Meditation.Sounds.frequencies.lemeor.currentPosition
+import com.Meditation.Sounds.frequencies.lemeor.currentTrack
+import com.Meditation.Sounds.frequencies.lemeor.duration
+import com.Meditation.Sounds.frequencies.lemeor.getConvertedTime
+import com.Meditation.Sounds.frequencies.lemeor.isMultiPlay
+import com.Meditation.Sounds.frequencies.lemeor.isUserPaused
+import com.Meditation.Sounds.frequencies.lemeor.loadImage
+import com.Meditation.Sounds.frequencies.lemeor.loadImageScalar
+import com.Meditation.Sounds.frequencies.lemeor.max
+import com.Meditation.Sounds.frequencies.lemeor.playListScalar
+import com.Meditation.Sounds.frequencies.lemeor.playProgramId
+import com.Meditation.Sounds.frequencies.lemeor.playingScalarPlayer
+import com.Meditation.Sounds.frequencies.lemeor.programName
+import com.Meditation.Sounds.frequencies.lemeor.trackList
 import com.Meditation.Sounds.frequencies.lemeor.ui.albums.detail.NewAlbumDetailFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.base.NewBaseFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.programs.detail.ProgramDetailFragment
 import com.Meditation.Sounds.frequencies.utils.Constants
 import com.google.android.exoplayer2.Player
-import kotlinx.android.synthetic.main.player_ui_fragment.*
+import kotlinx.android.synthetic.main.player_ui_fragment.player_next
+import kotlinx.android.synthetic.main.player_ui_fragment.player_play
+import kotlinx.android.synthetic.main.player_ui_fragment.player_play_scalar
+import kotlinx.android.synthetic.main.player_ui_fragment.player_previous
+import kotlinx.android.synthetic.main.player_ui_fragment.player_repeat
+import kotlinx.android.synthetic.main.player_ui_fragment.player_shuffle
+import kotlinx.android.synthetic.main.player_ui_fragment.seekBar
+import kotlinx.android.synthetic.main.player_ui_fragment.track_duration
+import kotlinx.android.synthetic.main.player_ui_fragment.track_image
+import kotlinx.android.synthetic.main.player_ui_fragment.track_image_scalar
+import kotlinx.android.synthetic.main.player_ui_fragment.track_name
+import kotlinx.android.synthetic.main.player_ui_fragment.track_name_scalar
+import kotlinx.android.synthetic.main.player_ui_fragment.track_position
+import kotlinx.android.synthetic.main.player_ui_fragment.track_title
+import kotlinx.android.synthetic.main.player_ui_fragment.tv_scalar_play_status
+import kotlinx.android.synthetic.main.player_ui_fragment.view_album_scalar
+import kotlinx.android.synthetic.main.player_ui_fragment.view_scalar_status_playing
+import kotlinx.android.synthetic.main.player_ui_fragment.view_scalar_status_stoping
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
 
 class PlayerUIFragment : NewBaseFragment() {
+    private var isScreenRotation = false
     private var playerServiceBinder: PlayerService.PlayerServiceBinder? = null
     private var mediaController: MediaControllerCompat? = null
     private var callback: MediaControllerCompat.Callback =
@@ -95,7 +124,7 @@ class PlayerUIFragment : NewBaseFragment() {
         }
     }
     private var playing: Boolean = false
-    private var repeat: Int = Player.REPEAT_MODE_ONE
+    private var repeat: Int = Player.REPEAT_MODE_ALL
     private var shuffle: Boolean = false
     private var isSeeking = false
     private var isTrack = true
@@ -119,7 +148,8 @@ class PlayerUIFragment : NewBaseFragment() {
         object : MediaControllerCompat.Callback() {
             override fun onPlaybackStateChanged(state: PlaybackStateCompat?) {
                 if (state == null) return
-                playingScalar = state.state == PlaybackStateCompat.STATE_PLAYING && playListScalar.isNotEmpty()
+                playingScalar =
+                    state.state == PlaybackStateCompat.STATE_PLAYING && playListScalar.isNotEmpty()
                 playingScalarPlayer = playingScalar
                 EventBus.getDefault().post(ScalarPlayerStatus())
                 player_play_scalar?.post {
@@ -169,24 +199,24 @@ class PlayerUIFragment : NewBaseFragment() {
         }
     }
 
+    private var currentView: View? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.player_ui_fragment, container, false)
+        currentView = inflater.inflate(R.layout.player_ui_fragment, container, false)
+        return currentView
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE || newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            try {
-                val ft: FragmentTransaction = parentFragmentManager.beginTransaction()
-                if (Build.VERSION.SDK_INT >= 26) {
-                    ft.setReorderingAllowed(true)
-                }
-                ft.detach(this).attach(this).commit()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
+        isScreenRotation = true
+        if (fragmentManager != null) {
+            fragmentManager?.beginTransaction()?.detach(this)?.commitAllowingStateLoss()
+        }
+        super.onConfigurationChanged(newConfig)
+        if (fragmentManager != null) {
+            fragmentManager?.beginTransaction()?.attach(this)?.commitAllowingStateLoss()
         }
     }
 
@@ -208,10 +238,6 @@ class PlayerUIFragment : NewBaseFragment() {
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onEvent(event: Any?) {
         if (event is String && event == "play Rife") {
-            val rotation: Animation =
-                AnimationUtils.loadAnimation(requireContext(), R.anim.clockwise_rotation)
-            rotation.repeatCount = Animation.INFINITE
-            player_repeat.clearAnimation()
             if (mediaController != null)
                 if (playing) {
                     isUserPaused = true
@@ -224,18 +250,21 @@ class PlayerUIFragment : NewBaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         playerInit()
         setListeners()
+        if (isScreenRotation) {
+            updateViewWhenRotation()
+        }
     }
 
     private fun setListeners() {
         currentTrack.observe(viewLifecycleOwner) {
             setUI(it)
-            if(it is MusicRepository.Track){
+            if (it is MusicRepository.Track) {
                 isTrack = true
                 track_name.text = it.title
 
                 loadImage(requireContext(), track_image, it.album)
                 Log.i("currenttracl", "t-->" + it.duration)
-            }else if(it is MusicRepository.Frequency){
+            } else if (it is MusicRepository.Frequency) {
                 isTrack = false
                 track_name.text = it.frequency.toString()
                 track_image.setImageResource(R.drawable.frequency_v2)
@@ -245,7 +274,7 @@ class PlayerUIFragment : NewBaseFragment() {
 
         currentPosition.observe(viewLifecycleOwner) {
             track_position.text = getConvertedTime(it)
-            if(!isSeeking) {
+            if (!isSeeking) {
                 seekBar.progress = it.toInt()
             }
         }
@@ -404,10 +433,6 @@ class PlayerUIFragment : NewBaseFragment() {
 
     private fun playerInit() {
         player_play.setOnClickListener {
-//            val rotation: Animation =
-//                AnimationUtils.loadAnimation(requireContext(), R.anim.clockwise_rotation)
-//            rotation.repeatCount = Animation.INFINITE
-//            player_repeat.clearAnimation()
             if (trackList?.isNotEmpty() == true) {
                 if (mediaController != null)
                     if (playing) {
@@ -418,9 +443,6 @@ class PlayerUIFragment : NewBaseFragment() {
                         isUserPaused = false
                         mediaController?.transportControls?.play()
                         mediaScalarController?.transportControls?.play()
-//                    if (repeat == Player.REPEAT_MODE_ALL) {
-//                        player_repeat.startAnimation(rotation)
-//                    }
                     }
             }
         }
@@ -459,10 +481,6 @@ class PlayerUIFragment : NewBaseFragment() {
         }
 
         player_repeat.setOnClickListener {
-//            val rotation: Animation =
-//                AnimationUtils.loadAnimation(requireContext(), R.anim.clockwise_rotation)
-//            rotation.repeatCount = Animation.INFINITE
-//            player_repeat.clearAnimation()
             when (repeat) {
                 Player.REPEAT_MODE_OFF -> {
                     repeat = Player.REPEAT_MODE_ONE
@@ -472,9 +490,6 @@ class PlayerUIFragment : NewBaseFragment() {
                 Player.REPEAT_MODE_ONE -> {
                     repeat = Player.REPEAT_MODE_ALL
                     player_repeat.setImageResource(R.drawable.ic_repeat_all)
-//                    if (playing) {
-//                        player_repeat.startAnimation(rotation)
-//                    }
                 }
 
                 Player.REPEAT_MODE_ALL -> {
@@ -486,29 +501,74 @@ class PlayerUIFragment : NewBaseFragment() {
         }
     }
 
-    private fun updateViewPlayerScalar(){
-       if (isAdded) {
-           if (playingScalar) {
-               tv_scalar_play_status.text = getString(R.string.tv_silent_scalar_turned_on)
-               view_scalar_status_stoping.visibility = View.INVISIBLE
-               view_scalar_status_playing.visibility = View.VISIBLE
-               indexAlbumScalar = -1
-               handlerDisplayAlbum.removeCallbacks(runnableDisplayAlbum)
-               handlerDisplayAlbum.post(runnableDisplayAlbum)
-           } else {
-               view_scalar_status_stoping.visibility = View.VISIBLE
-               view_scalar_status_playing.visibility = View.INVISIBLE
-               handlerDisplayAlbum.removeCallbacks(runnableDisplayAlbum)
-               view_album_scalar.visibility = View.GONE
-               tv_scalar_play_status.text = getString(R.string.tv_silent_scalar_turned_off)
-           }
-       }
+    private fun updateViewWhenRotation() {
+        isScreenRotation = false
+        when (repeat) {
+            Player.REPEAT_MODE_OFF -> {
+                player_repeat.setImageResource(R.drawable.ic_repeat_off)
+            }
+
+            Player.REPEAT_MODE_ONE -> {
+                player_repeat.setImageResource(R.drawable.ic_repeat_one)
+            }
+
+            Player.REPEAT_MODE_ALL -> {
+                player_repeat.setImageResource(R.drawable.ic_repeat_all)
+            }
+        }
+        if (playing) {
+            player_play.setImageDrawable(
+                getDrawable(
+                    requireActivity().applicationContext,
+                    R.drawable.oc_pause_song
+                )
+            )
+        }
+        if (playingScalar) {
+            view_scalar_status_stoping.visibility = View.INVISIBLE
+            view_scalar_status_playing.visibility = View.VISIBLE
+            tv_scalar_play_status.text = ""
+            view_album_scalar.visibility = View.VISIBLE
+            if (playListScalar.size == 1) {
+                track_name_scalar.text = playListScalar.first().name
+                loadImageScalar(
+                    requireContext(),
+                    track_image_scalar,
+                    playListScalar.first()
+                )
+            }
+            player_play_scalar.setImageDrawable(
+                getDrawable(
+                    requireActivity().applicationContext,
+                    R.drawable.ic_silent_scalar_off
+                )
+            )
+        }
+    }
+
+    private fun updateViewPlayerScalar() {
+        if (isAdded) {
+            if (playingScalar) {
+                tv_scalar_play_status.text = getString(R.string.tv_silent_scalar_turned_on)
+                view_scalar_status_stoping.visibility = View.INVISIBLE
+                view_scalar_status_playing.visibility = View.VISIBLE
+                indexAlbumScalar = -1
+                handlerDisplayAlbum.removeCallbacks(runnableDisplayAlbum)
+                handlerDisplayAlbum.post(runnableDisplayAlbum)
+            } else {
+                view_scalar_status_stoping.visibility = View.VISIBLE
+                view_scalar_status_playing.visibility = View.INVISIBLE
+                handlerDisplayAlbum.removeCallbacks(runnableDisplayAlbum)
+                view_album_scalar.visibility = View.GONE
+                tv_scalar_play_status.text = getString(R.string.tv_silent_scalar_turned_off)
+            }
+        }
     }
 
     @SuppressLint("SetTextI18n")
-    private fun updateViewAlbumScalar(){
+    private fun updateViewAlbumScalar() {
         if (isAdded) {
-            if (indexAlbumScalar == -1){
+            if (indexAlbumScalar == -1) {
                 tv_scalar_play_status.text = getString(R.string.tv_silent_scalar_turned_on)
                 view_album_scalar.visibility = View.GONE
             } else if (playListScalar.size == 1) {
@@ -522,7 +582,11 @@ class PlayerUIFragment : NewBaseFragment() {
                     tv_scalar_play_status.text = ""
                     view_album_scalar.visibility = View.VISIBLE
                     track_name_scalar.text = playListScalar[indexAlbumScalar].name
-                    loadImageScalar(requireContext(), track_image_scalar, playListScalar[indexAlbumScalar])
+                    loadImageScalar(
+                        requireContext(),
+                        track_image_scalar,
+                        playListScalar[indexAlbumScalar]
+                    )
                     if (indexAlbumScalar == playListScalar.size - 1) {
                         indexAlbumScalar = -1
                     }
@@ -535,9 +599,14 @@ class PlayerUIFragment : NewBaseFragment() {
         super.onDestroy()
         if (mediaController != null)
             mediaController?.transportControls?.stop()
+        if (mediaScalarController != null)
+            mediaScalarController?.transportControls?.stop()
         playerServiceBinder = null
+        playerServiceBinderScalar = null
         mediaController?.unregisterCallback(callback)
+        mediaScalarController?.unregisterCallback(callbackScalar)
         mediaController = null
+        mediaScalarController = null
         serviceConnection.let { requireContext().unbindService(it) }
         serviceConnectionScalar.let { requireContext().unbindService(it) }
     }

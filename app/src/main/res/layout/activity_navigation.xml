@@ -60,7 +60,7 @@
             android:id="@+id/navigation_albums"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="1.2"
             android:gravity="center_horizontal">
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -130,7 +130,7 @@
             android:id="@+id/navigation_programs"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="1.2"
             android:gravity="center_horizontal">
 
             <androidx.appcompat.widget.LinearLayoutCompat

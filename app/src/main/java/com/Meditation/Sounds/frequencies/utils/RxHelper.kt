@@ -81,35 +81,41 @@ class Combined3LiveData<T, K, M, S>(
     }
 }
 
-class Combined4LiveData<T, K, M, N, S>(
+class Combined5LiveData<T, K, M, N, S, H>(
     source1: LiveData<T>,
     source2: LiveData<K>,
     source3: LiveData<M>,
     source4: LiveData<N>,
-    private val combine: (data1: T?, data2: K?, data3: M?, data4: N?) -> S
+    source5: LiveData<H>,
+    private val combine: (data1: T?, data2: K?, data3: M?, data4: N?, data5: H?) -> S
 ) : MediatorLiveData<S>() {
 
     private var data1: T? = null
     private var data2: K? = null
     private var data3: M? = null
     private var data4: N? = null
+    private var data5: H? = null
 
     init {
         super.addSource(source1) {
             data1 = it
-            value = combine(data1, data2, data3, data4)
+            value = combine(data1, data2, data3, data4, data5)
         }
         super.addSource(source2) {
             data2 = it
-            value = combine(data1, data2, data3, data4)
+            value = combine(data1, data2, data3, data4, data5)
         }
         super.addSource(source3) {
             data3 = it
-            value = combine(data1, data2, data3, data4)
+            value = combine(data1, data2, data3, data4, data5)
         }
         super.addSource(source4) {
             data4 = it
-            value = combine(data1, data2, data3, data4)
+            value = combine(data1, data2, data3, data4, data5)
+        }
+        super.addSource(source5) {
+            data5 = it
+            value = combine(data1, data2, data3, data4, data5)
         }
     }
 

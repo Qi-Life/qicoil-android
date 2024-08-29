@@ -68,6 +68,8 @@ class SearchAdapter(private val onClick: (Search, Int) -> Unit) :
                     itemView.tvSearch.text = (item.obj as Track).name
                 }else if(item.obj is Rife){
                     itemView.tvSearch.text = (item.obj as Rife).title
+                }else if(item.obj is Scalar){
+                    itemView.tvSearch.text = (item.obj as Scalar).name
                 }
             }
             itemView.tvSearch.setOnClickListener {
@@ -122,6 +124,10 @@ class SearchAdapter(private val onClick: (Search, Int) -> Unit) :
                 }
                 is Rife -> {
                     tvTitle.text = view.context.getString(R.string.tv_rifes)
+                    tvTitle.visibility = View.VISIBLE
+                }
+                is Scalar -> {
+                    tvTitle.text = view.context.getString(R.string.tv_scalars)
                     tvTitle.visibility = View.VISIBLE
                 }
                 else -> {
