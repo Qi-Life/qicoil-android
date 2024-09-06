@@ -161,13 +161,13 @@ class NewScalarFragment : BaseFragment() {
                         }
                     }
                 }
-                playStopScalar("ADD_REMOVE")
             }
         } else {
             Toast.makeText(
                 requireContext(), getString(R.string.err_network_available), Toast.LENGTH_SHORT
             ).show()
         }
+        playStopScalar("ADD_REMOVE")
     }
 
     private fun playStopScalar(actionScalar: String) {

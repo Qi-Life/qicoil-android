@@ -24,7 +24,7 @@
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:adjustViewBounds="true"
-            android:src="@drawable/ic_silent_scalar_on"
+            android:src="@drawable/ic_silent_scalar_off"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -81,8 +81,8 @@
 
             <ImageView
                 android:id="@+id/track_image_scalar"
-                android:layout_width="@dimen/height_small_icon"
-                android:layout_height="@dimen/height_small_icon"
+                android:layout_width="@dimen/height_repeat_button"
+                android:layout_height="@dimen/height_repeat_button"
                 android:src="@drawable/ic_album_default_small" />
 
             <TextView
@@ -159,47 +159,50 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.Meditation.Sounds.frequencies.views.CustomFontTextView
-            android:id="@+id/track_title"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:ellipsize="marquee"
-            android:paddingStart="@dimen/indent_8"
-            android:paddingEnd="@dimen/indent_8"
-            android:singleLine="true"
-            android:textAllCaps="true"
-            android:textColor="@android:color/white"
-            android:textSize="16sp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@id/track_name"
-            app:layout_constraintLeft_toRightOf="@+id/track_image"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            font:fontText="fonts/BebasNeue_Bold.otf"
-            tools:text="Track name" />
-
-        <TextView
-            android:id="@+id/track_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/activity_horizontal_margin"
-            android:ellipsize="marquee"
-            android:paddingStart="@dimen/indent_8"
-            android:paddingEnd="@dimen/indent_8"
-            android:singleLine="true"
-            android:textColor="@android:color/white"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/player_previous"
             app:layout_constraintStart_toEndOf="@+id/track_image"
-            app:layout_constraintTop_toBottomOf="@id/track_title"
-            tools:text="Track name" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.Meditation.Sounds.frequencies.views.CustomFontTextView
+                android:id="@+id/track_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="marquee"
+                android:paddingStart="@dimen/indent_8"
+                android:paddingEnd="@dimen/indent_8"
+                android:singleLine="true"
+                android:textAllCaps="true"
+                android:visibility="gone"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                font:fontText="fonts/BebasNeue_Bold.otf"
+                tools:text="Track name" />
+
+            <TextView
+                android:id="@+id/track_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:ellipsize="marquee"
+                android:paddingStart="@dimen/indent_8"
+                android:paddingEnd="@dimen/indent_8"
+                android:singleLine="true"
+                android:text="@string/tv_please_choose_a_frequency_to_play"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
 
         <ImageView
             android:id="@+id/player_repeat"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/height_repeat_button"
             android:adjustViewBounds="true"
-            android:src="@drawable/ic_repeat_all"
+            android:src="@drawable/ic_repeat_all_disable"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/player_shuffle"
             app:layout_constraintTop_toTopOf="parent"
@@ -223,7 +226,7 @@
             android:layout_width="@dimen/height_top_icon"
             android:layout_height="@dimen/height_top_icon"
             android:layout_marginEnd="10dp"
-            android:src="@drawable/bg_btn_play_pause"
+            android:src="@drawable/ic_play_song_disable"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/player_next"
             app:layout_constraintTop_toTopOf="parent"
@@ -234,7 +237,7 @@
             android:layout_width="@dimen/height_small_icon"
             android:layout_height="@dimen/height_small_icon"
             android:layout_marginEnd="10dp"
-            android:src="@drawable/ic_next_song_new"
+            android:src="@drawable/ic_next_song_new_disable"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/player_repeat"
             app:layout_constraintTop_toTopOf="parent"

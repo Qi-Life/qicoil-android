@@ -32,7 +32,6 @@ import com.Meditation.Sounds.frequencies.lemeor.loadImageScalar
 import com.Meditation.Sounds.frequencies.lemeor.max
 import com.Meditation.Sounds.frequencies.lemeor.playListScalar
 import com.Meditation.Sounds.frequencies.lemeor.playProgramId
-import com.Meditation.Sounds.frequencies.lemeor.playingScalarPlayer
 import com.Meditation.Sounds.frequencies.lemeor.programName
 import com.Meditation.Sounds.frequencies.lemeor.trackList
 import com.Meditation.Sounds.frequencies.lemeor.ui.albums.detail.NewAlbumDetailFragment
@@ -70,7 +69,7 @@ class PlayerUIFragment : NewBaseFragment() {
     private var callback: MediaControllerCompat.Callback =
         object : MediaControllerCompat.Callback() {
             override fun onPlaybackStateChanged(state: PlaybackStateCompat?) {
-                if (state == null) return
+                if (state == null || trackList.isNullOrEmpty()) return
                 playing = state.state == PlaybackStateCompat.STATE_PLAYING
                 player_play?.post {
                     if (playing) {
@@ -88,6 +87,20 @@ class PlayerUIFragment : NewBaseFragment() {
                                 R.drawable.ic_play_song
                             )
                         )
+                    }
+                    player_next?.setImageResource(R.drawable.ic_next_song_new)
+                    when (repeat) {
+                        Player.REPEAT_MODE_OFF -> {
+                            player_repeat?.setImageResource(R.drawable.ic_repeat_off)
+                        }
+
+                        Player.REPEAT_MODE_ONE -> {
+                            player_repeat?.setImageResource(R.drawable.ic_repeat_one)
+                        }
+
+                        Player.REPEAT_MODE_ALL -> {
+                            player_repeat?.setImageResource(R.drawable.ic_repeat_all)
+                        }
                     }
                 }
             }
@@ -150,21 +163,20 @@ class PlayerUIFragment : NewBaseFragment() {
                 if (state == null) return
                 playingScalar =
                     state.state == PlaybackStateCompat.STATE_PLAYING && playListScalar.isNotEmpty()
-                playingScalarPlayer = playingScalar
                 EventBus.getDefault().post(ScalarPlayerStatus())
                 player_play_scalar?.post {
                     if (playingScalar) {
                         player_play_scalar.setImageDrawable(
                             getDrawable(
                                 requireActivity().applicationContext,
-                                R.drawable.ic_silent_scalar_off
+                                R.drawable.ic_silent_scalar_on
                             )
                         )
                     } else {
                         player_play_scalar.setImageDrawable(
                             getDrawable(
                                 requireActivity().applicationContext,
-                                R.drawable.ic_silent_scalar_on
+                                R.drawable.ic_silent_scalar_off
                             )
                         )
                     }
@@ -422,11 +434,14 @@ class PlayerUIFragment : NewBaseFragment() {
         }
         if (playProgramId >= 0) {
             track_title.text = programName
+            track_title.visibility = View.VISIBLE
         } else {
             if (obj is MusicRepository.Track) {
                 track_title.text = obj.album.name
+                track_title.visibility = View.VISIBLE
             } else if (obj is MusicRepository.Frequency) {
                 track_title.text = obj.title
+                track_title.visibility = View.VISIBLE
             }
         }
     }
@@ -438,11 +453,9 @@ class PlayerUIFragment : NewBaseFragment() {
                     if (playing) {
                         isUserPaused = true
                         mediaController?.transportControls?.pause()
-                        mediaScalarController?.transportControls?.pause()
                     } else {
                         isUserPaused = false
                         mediaController?.transportControls?.play()
-                        mediaScalarController?.transportControls?.play()
                     }
             }
         }
@@ -481,23 +494,25 @@ class PlayerUIFragment : NewBaseFragment() {
         }
 
         player_repeat.setOnClickListener {
-            when (repeat) {
-                Player.REPEAT_MODE_OFF -> {
-                    repeat = Player.REPEAT_MODE_ONE
-                    player_repeat.setImageResource(R.drawable.ic_repeat_one)
-                }
+            if (trackList?.isNotEmpty() == true) {
+                when (repeat) {
+                    Player.REPEAT_MODE_OFF -> {
+                        repeat = Player.REPEAT_MODE_ONE
+                        player_repeat.setImageResource(R.drawable.ic_repeat_one)
+                    }
 
-                Player.REPEAT_MODE_ONE -> {
-                    repeat = Player.REPEAT_MODE_ALL
-                    player_repeat.setImageResource(R.drawable.ic_repeat_all)
-                }
+                    Player.REPEAT_MODE_ONE -> {
+                        repeat = Player.REPEAT_MODE_ALL
+                        player_repeat.setImageResource(R.drawable.ic_repeat_all)
+                    }
 
-                Player.REPEAT_MODE_ALL -> {
-                    repeat = Player.REPEAT_MODE_OFF
-                    player_repeat.setImageResource(R.drawable.ic_repeat_off)
+                    Player.REPEAT_MODE_ALL -> {
+                        repeat = Player.REPEAT_MODE_OFF
+                        player_repeat.setImageResource(R.drawable.ic_repeat_off)
+                    }
                 }
+                EventBus.getDefault().post(PlayerRepeat(repeat))
             }
-            EventBus.getDefault().post(PlayerRepeat(repeat))
         }
     }
 
@@ -540,7 +555,7 @@ class PlayerUIFragment : NewBaseFragment() {
             player_play_scalar.setImageDrawable(
                 getDrawable(
                     requireActivity().applicationContext,
-                    R.drawable.ic_silent_scalar_off
+                    R.drawable.ic_silent_scalar_on
                 )
             )
         }

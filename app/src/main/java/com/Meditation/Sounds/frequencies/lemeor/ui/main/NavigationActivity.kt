@@ -72,6 +72,7 @@ import com.Meditation.Sounds.frequencies.lemeor.data.utils.ViewModelFactory
 import com.Meditation.Sounds.frequencies.lemeor.getSaveDir
 import com.Meditation.Sounds.frequencies.lemeor.hideKeyboard
 import com.Meditation.Sounds.frequencies.lemeor.isTrackAdd
+import com.Meditation.Sounds.frequencies.lemeor.playListScalar
 import com.Meditation.Sounds.frequencies.lemeor.selectedNaviFragment
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper.isFirstSync
@@ -90,6 +91,7 @@ import com.Meditation.Sounds.frequencies.lemeor.tools.player.PlayerService
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.PlayerShuffle
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.PlayerUIFragment
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.ScalarPlayerService
+import com.Meditation.Sounds.frequencies.lemeor.trackList
 import com.Meditation.Sounds.frequencies.lemeor.ui.albums.detail.NewAlbumDetailFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.albums.search.SearchAdapter
 import com.Meditation.Sounds.frequencies.lemeor.ui.albums.tabs.CategoriesPagerFragment.CategoriesPagerListener
@@ -313,12 +315,12 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
             }
 
             if (event?.javaClass == PlayerRepeat::class.java) {
-                val repeat = event as PlayerRepeat
-                when (repeat.type) {
-                    Player.REPEAT_MODE_ALL -> showMode("Repeat All")
-                    Player.REPEAT_MODE_OFF -> showMode("Repeat Off")
-                    Player.REPEAT_MODE_ONE -> showMode("Repeat One")
-                }
+//                val repeat = event as PlayerRepeat
+//                when (repeat.type) {
+//                    Player.REPEAT_MODE_ALL -> showMode("Repeat All")
+//                    Player.REPEAT_MODE_OFF -> showMode("Repeat Off")
+//                    Player.REPEAT_MODE_ONE -> showMode("Repeat One")
+//                }
             }
             if (event?.javaClass == PlayerShuffle::class.java) {
                 val shuffle = event as PlayerShuffle
@@ -599,6 +601,8 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
 
     override fun onDestroy() {
         super.onDestroy()
+        playListScalar.clear()
+        trackList?.clear()
         EventBus.getDefault().unregister(this)
         DownloadService.stopService(this)
         ScalarDownloadService.stopService(this)
@@ -711,12 +715,21 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
 
     private fun setFragment(fragment: Fragment) {
         selectedNaviFragment = fragment
-
         album_search.clearFocus()
-
         supportFragmentManager.beginTransaction().replace(
             R.id.nav_host_fragment, fragment, fragment.javaClass.simpleName
         ).commit()
+    }
+
+    private fun setFragmentBackAnimation(fragment: Fragment) {
+        selectedNaviFragment = fragment
+        album_search.clearFocus()
+        supportFragmentManager.beginTransaction().setCustomAnimations(
+            R.anim.trans_left_to_right_in,
+            R.anim.trans_left_to_right_out,
+            R.anim.trans_right_to_left_in,
+            R.anim.trans_right_to_left_out
+        ).replace(R.id.nav_host_fragment, fragment, fragment.javaClass.simpleName).commit()
     }
 
     @Suppress("UNSAFE_CALL_ON_PARTIALLY_DEFINED_RESOURCE")
@@ -815,7 +828,11 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
     }
 
     fun onScalarSelect(){
-        navigation_scalar.performClick()
+        navigation_scalar.onSelected {
+            closeSearch()
+            search_layout.visibility = View.VISIBLE
+            setFragmentBackAnimation(NewScalarFragment())
+        }
     }
 
     private fun View.onSelected(listener: () -> Unit) {

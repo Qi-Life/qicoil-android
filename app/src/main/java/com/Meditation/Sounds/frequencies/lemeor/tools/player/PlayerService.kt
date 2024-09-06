@@ -192,7 +192,8 @@ class PlayerService : Service() {
             //todo remake this ugly fading
             exoPlayer.volume = 0F
             Thread.sleep(100)
-            exoPlayer.seekTo(seekPosition.toLong())
+            playPosition = seekPosition.toLong()
+            exoPlayer.seekTo(playPosition)
             Thread.sleep(100)
             mediaSession.setPlaybackState(
                 stateBuilder.setState(
@@ -202,6 +203,22 @@ class PlayerService : Service() {
                 ).build()
             )
             exoPlayer.volume = 1F
+
+            val item = musicRepository?.getCurrent()
+            if (item is MusicRepository.Track) {
+                var position = exoPlayer.currentPosition
+                if (position < 0) position = 0
+                currentPosition.postValue(position)
+            } else {
+                timePlayed =
+                    totalPlayedSoundTime + SystemClock.elapsedRealtime() - startedPlaySoundTime
+                if (timerPlayRife - timePlayed < 0) {
+                    startedPlaySoundTime = SystemClock.elapsedRealtime()
+                    totalPlayedSoundTime = 0
+                }
+                duration.postValue((timerPlayRife - timePlayed).coerceAtLeast(0))
+                currentPosition.postValue(timePlayed)
+            }
         }
 
         if (event?.javaClass == PlayerSelected::class.java) {

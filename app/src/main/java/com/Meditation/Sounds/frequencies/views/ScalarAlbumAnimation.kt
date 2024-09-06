@@ -10,6 +10,7 @@ import android.util.AttributeSet
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.FrameLayout
 import androidx.annotation.AttrRes
+import com.Meditation.Sounds.frequencies.R
 
 class ScalarAlbumAnimation : FrameLayout {
     private val paint = Paint().apply {
@@ -23,7 +24,7 @@ class ScalarAlbumAnimation : FrameLayout {
     private var colorAnimator: ValueAnimator? = null
     private var glowAnimator: ValueAnimator? = null
     private val padding = 12f
-    private val radius = 20f
+    private var radius = 20f
     private var glowRadius = 0f
 
     constructor(context: Context) : super(context, null) {
@@ -48,6 +49,8 @@ class ScalarAlbumAnimation : FrameLayout {
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
+        radius = context.resources.getDimension(R.dimen.corner_radius_album)
+
         paint.strokeWidth = strokeWidthDefault
         paint.color = strokeColor
         paint.setShadowLayer(glowRadius, 0f, 0f, Color.WHITE)

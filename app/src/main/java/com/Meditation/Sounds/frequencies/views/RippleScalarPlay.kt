@@ -13,8 +13,8 @@ import android.view.View
 import android.view.animation.DecelerateInterpolator
 
 class RippleScalarPlay : View {
-    private var color: String = "#0FFF50"
-    private var fadedColor: String = "#000FFF50"
+    private var color: String = "#FFFFFF"
+    private var fadedColor: String = "#00FFFFFF"
 
     private var mBubbleMaxRadiusInPx = 0f
     private var mBubbleMinRadiusInPx = 0f
@@ -65,15 +65,15 @@ class RippleScalarPlay : View {
         super.onDraw(canvas)
         //fading circle
         canvas.drawCircle(
-            mBubbleMaxRadiusInPx, mBubbleMaxRadiusInPx, mFadingCircleRadius, mVariablePaint!!
+            mBubbleMaxRadiusInPx, mBubbleMaxRadiusInPx, mFadingCircleRadius / 1.3f, mVariablePaint!!
         )
         //draw colored circle
         canvas.drawCircle(
-            mBubbleMaxRadiusInPx, mBubbleMaxRadiusInPx, mColoredCircleRadius, mPaint!!
+            mBubbleMaxRadiusInPx, mBubbleMaxRadiusInPx, mColoredCircleRadius / 1.3f, mPaint!!
         )
     }
 
-    fun startAnimating() {
+    private fun startAnimating() {
         colorAnimator = ValueAnimator.ofArgb(
             Color.parseColor(color), Color.parseColor(
                 fadedColor

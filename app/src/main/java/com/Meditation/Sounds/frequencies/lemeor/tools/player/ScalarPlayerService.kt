@@ -52,7 +52,6 @@ class ScalarPlayerService : Service() {
     private val mediaSessionCallback: MediaSessionCompat.Callback =
         object : MediaSessionCompat.Callback() {
             override fun onPlay() {
-                super.onPlay()
                 exoPlayer.play()
                 mediaSession.setPlaybackState(
                     stateBuilder.setState(
@@ -65,7 +64,6 @@ class ScalarPlayerService : Service() {
             }
 
             override fun onPause() {
-                super.onPause()
                 exoPlayer.pause()
                 mediaSession.setPlaybackState(
                     stateBuilder.setState(

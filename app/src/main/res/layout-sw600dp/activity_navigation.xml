@@ -466,6 +466,31 @@
             app:fontText="fonts/MyriadPro_Bold.otf" />
     </RelativeLayout>
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/btnStartChatBot"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_margin="@dimen/margin_item_dialog_20"
+        app:layout_constraintBottom_toTopOf="@+id/player_ui_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_avatar_chatbot" />
+
+    <TextView
+        android:id="@+id/viewIntroChatBot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="-25dp"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/ic_bg_tooltip_chatbot"
+        android:gravity="center"
+        android:textSize="@dimen/text_size_small"
+        android:textStyle="bold"
+        android:lineSpacingMultiplier=".8"
+        android:textColor="#000"
+        android:text="My name is Dr. Qi\nI'm an AI assistant"
+        app:layout_constraintBottom_toBottomOf="@+id/btnStartChatBot"
+        app:layout_constraintEnd_toStartOf="@+id/btnStartChatBot" />
+
     <!-- Search list -->
     <LinearLayout
         android:layout_width="match_parent"
@@ -557,28 +582,4 @@
 
     </LinearLayout>
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/btnStartChatBot"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_margin="@dimen/margin_item_dialog_20"
-        app:layout_constraintBottom_toTopOf="@+id/player_ui_container"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_avatar_chatbot" />
-
-    <TextView
-        android:id="@+id/viewIntroChatBot"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="-25dp"
-        android:layout_marginBottom="30dp"
-        android:background="@drawable/ic_bg_tooltip_chatbot"
-        android:gravity="center"
-        android:textSize="@dimen/text_size_small"
-        android:textStyle="bold"
-        android:lineSpacingMultiplier=".8"
-        android:textColor="#000"
-        android:text="My name is Dr. Qi\nI'm an AI assistant"
-        app:layout_constraintBottom_toBottomOf="@+id/btnStartChatBot"
-        app:layout_constraintEnd_toStartOf="@+id/btnStartChatBot" />
 </androidx.constraintlayout.widget.ConstraintLayout>

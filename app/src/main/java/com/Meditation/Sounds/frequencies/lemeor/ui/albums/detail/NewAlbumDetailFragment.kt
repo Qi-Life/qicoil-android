@@ -246,7 +246,6 @@ class NewAlbumDetailFragment : BaseFragment() {
         }
     }
 
-
     private fun onBackPressed() {
         tierPositionSelected = tierPosition
         var fragment = selectedNaviFragment

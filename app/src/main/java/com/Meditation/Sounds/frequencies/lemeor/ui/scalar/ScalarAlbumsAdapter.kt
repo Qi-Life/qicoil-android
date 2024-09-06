@@ -10,7 +10,6 @@ import com.Meditation.Sounds.frequencies.R
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Scalar
 import com.Meditation.Sounds.frequencies.lemeor.loadImageScalar
 import com.Meditation.Sounds.frequencies.lemeor.playListScalar
-import com.Meditation.Sounds.frequencies.lemeor.playingScalarPlayer
 import kotlinx.android.synthetic.main.scalar_album_item.view.image
 import kotlinx.android.synthetic.main.scalar_album_item.view.image_lock
 import kotlinx.android.synthetic.main.scalar_album_item.view.lock
@@ -55,7 +54,7 @@ class ScalarAlbumsAdapter(
             holder.itemView.lock.visibility = View.GONE
         }
 
-        if (playListScalar.contains(scalar) && playingScalarPlayer) {
+        if (playListScalar.contains(scalar)) {
             holder.itemView.viewPlayingAnimation.startAnimation()
         } else {
             holder.itemView.viewPlayingAnimation.clearAnimation()

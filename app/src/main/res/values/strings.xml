@@ -418,6 +418,7 @@
     <string name="tv_master_wong_ai">Dr. Qi Ai assistant</string>
     <string name="tv_silent_scalar_turned_on">Silent Scalar is currently turned on</string>
     <string name="tv_silent_scalar_turned_off">Silent Scalar is currently turned off</string>
+    <string name="tv_please_choose_a_frequency_to_play">Please choose a Frequency to play</string>
 
     <string name="msg_say_hi_chat" translatable="false">Hi, My name is Dr.Qi, I\'m an AI assistant. How can I help you today? How have you been feeling lately?</string>
     <string name="msg_error_network_chat" translatable="false">Connect Lost. Please check your internet connection.</string>
