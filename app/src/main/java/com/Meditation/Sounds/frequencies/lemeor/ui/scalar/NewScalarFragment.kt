@@ -15,10 +15,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.Meditation.Sounds.frequencies.R
 import com.Meditation.Sounds.frequencies.feature.base.BaseFragment
-import com.Meditation.Sounds.frequencies.lemeor.convertSecondsToTime
 import com.Meditation.Sounds.frequencies.lemeor.data.api.RetrofitBuilder
 import com.Meditation.Sounds.frequencies.lemeor.data.database.DataBase
-import com.Meditation.Sounds.frequencies.lemeor.data.model.Rife
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Scalar
 import com.Meditation.Sounds.frequencies.lemeor.data.remote.ApiHelper
 import com.Meditation.Sounds.frequencies.lemeor.data.utils.ViewModelFactory
@@ -30,7 +28,6 @@ import com.Meditation.Sounds.frequencies.lemeor.tools.player.ScalarPlayerStatus
 import com.Meditation.Sounds.frequencies.lemeor.ui.main.NavigationActivity
 import com.Meditation.Sounds.frequencies.utils.Utils
 import com.Meditation.Sounds.frequencies.views.ItemOffsetDecoration
-import kotlinx.android.synthetic.main.fragment_new_album_detail.program_time
 import kotlinx.android.synthetic.main.fragment_new_scalar.rcvScalar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

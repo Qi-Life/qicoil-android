@@ -345,5 +345,5 @@
     <string name="tv_master_wong_ai">Dr. Qi Ai assistant</string>
     <string name="tv_silent_scalar_turned_on">El escalar silencioso está activado actualmente</string>
     <string name="tv_silent_scalar_turned_off">El escalar silencioso está actualmente desactivado</string>
-
+    <string name="tv_please_choose_a_frequency_to_play">Por favor, seleccione una Frecuencia para reproducir</string>
 </resources>

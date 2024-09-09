@@ -92,7 +92,6 @@ class AuthActivity : AppCompatActivity(), OnLoginListener, OnRegistrationListene
         if (!BuildConfig.IS_FREE) {
             CoroutineScope(Dispatchers.IO).launch {
                 val albumDao = DataBase.getInstance(applicationContext).albumDao()
-
                 albumDao.getAllAlbums().find { !it.isUnlocked }?.let {
                     runOnUiThread { openAd() }
                 }

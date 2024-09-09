@@ -39,12 +39,16 @@ import androidx.core.app.NotificationCompat.Builder
 import androidx.core.app.NotificationCompat.PRIORITY_HIGH
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.MutableLiveData
 import androidx.media.app.NotificationCompat
 import androidx.media.session.MediaButtonReceiver
 import com.Meditation.Sounds.frequencies.R
 import com.Meditation.Sounds.frequencies.generators.SoundGenerator
 import com.Meditation.Sounds.frequencies.generators.model.WaveTypes
 import com.Meditation.Sounds.frequencies.lemeor.currentPosition
+import com.Meditation.Sounds.frequencies.lemeor.currentTrack
+import com.Meditation.Sounds.frequencies.lemeor.currentTrackIndex
+import com.Meditation.Sounds.frequencies.lemeor.data.model.Rife
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Track
 import com.Meditation.Sounds.frequencies.lemeor.duration
 import com.Meditation.Sounds.frequencies.lemeor.getPreloadedSaveDir
@@ -53,6 +57,7 @@ import com.Meditation.Sounds.frequencies.lemeor.getTrackUrl
 import com.Meditation.Sounds.frequencies.lemeor.isMultiPlay
 import com.Meditation.Sounds.frequencies.lemeor.isUserPaused
 import com.Meditation.Sounds.frequencies.lemeor.max
+import com.Meditation.Sounds.frequencies.lemeor.playListScalar
 import com.Meditation.Sounds.frequencies.lemeor.playRife
 import com.Meditation.Sounds.frequencies.lemeor.playtimeRife
 import com.Meditation.Sounds.frequencies.lemeor.trackList

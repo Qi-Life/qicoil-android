@@ -346,4 +346,5 @@
     <string name="tv_scalars">Scalaires</string>
     <string name="tv_silent_scalar_turned_on">Le scalaire silencieux est actuellement activé</string>
     <string name="tv_silent_scalar_turned_off">Le scalaire silencieux est actuellement désactivé</string>
+    <string name="tv_please_choose_a_frequency_to_play">Veuillez choisir une Fréquence pour jouer</string>
 </resources>

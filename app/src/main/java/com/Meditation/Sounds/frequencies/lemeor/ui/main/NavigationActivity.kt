@@ -58,6 +58,9 @@ import com.Meditation.Sounds.frequencies.feature.chatbot.ChatBotViewModel
 import com.Meditation.Sounds.frequencies.feature.chatbot.MessageChatBot
 import com.Meditation.Sounds.frequencies.feature.chatbot.MessageChatBotAdapter
 import com.Meditation.Sounds.frequencies.feature.discover.DiscoverFragment
+import com.Meditation.Sounds.frequencies.lemeor.currentPosition
+import com.Meditation.Sounds.frequencies.lemeor.currentTrack
+import com.Meditation.Sounds.frequencies.lemeor.currentTrackIndex
 import com.Meditation.Sounds.frequencies.lemeor.data.api.RetrofitBuilder
 import com.Meditation.Sounds.frequencies.lemeor.data.database.DataBase
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Album
@@ -69,10 +72,13 @@ import com.Meditation.Sounds.frequencies.lemeor.data.model.Track
 import com.Meditation.Sounds.frequencies.lemeor.data.remote.ApiHelper
 import com.Meditation.Sounds.frequencies.lemeor.data.utils.Resource
 import com.Meditation.Sounds.frequencies.lemeor.data.utils.ViewModelFactory
+import com.Meditation.Sounds.frequencies.lemeor.duration
 import com.Meditation.Sounds.frequencies.lemeor.getSaveDir
 import com.Meditation.Sounds.frequencies.lemeor.hideKeyboard
 import com.Meditation.Sounds.frequencies.lemeor.isTrackAdd
+import com.Meditation.Sounds.frequencies.lemeor.max
 import com.Meditation.Sounds.frequencies.lemeor.playListScalar
+import com.Meditation.Sounds.frequencies.lemeor.playRife
 import com.Meditation.Sounds.frequencies.lemeor.selectedNaviFragment
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper.isFirstSync
@@ -314,14 +320,14 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                 }
             }
 
-            if (event?.javaClass == PlayerRepeat::class.java) {
+//            if (event?.javaClass == PlayerRepeat::class.java) {
 //                val repeat = event as PlayerRepeat
 //                when (repeat.type) {
 //                    Player.REPEAT_MODE_ALL -> showMode("Repeat All")
 //                    Player.REPEAT_MODE_OFF -> showMode("Repeat Off")
 //                    Player.REPEAT_MODE_ONE -> showMode("Repeat One")
 //                }
-            }
+//            }
             if (event?.javaClass == PlayerShuffle::class.java) {
                 val shuffle = event as PlayerShuffle
                 if (shuffle.it) {
@@ -601,13 +607,19 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
 
     override fun onDestroy() {
         super.onDestroy()
-        playListScalar.clear()
-        trackList?.clear()
         EventBus.getDefault().unregister(this)
         DownloadService.stopService(this)
         ScalarDownloadService.stopService(this)
         stopService(Intent(this, PlayerService::class.java))
         stopService(Intent(this, ScalarPlayerService::class.java))
+        playListScalar.clear()
+        trackList?.clear()
+        currentPosition.postValue(0)
+        currentTrack.value = null
+        currentTrackIndex.value = 0
+        playRife = null
+        max.value = 0
+        duration.value = 0
     }
 
     private fun init() {

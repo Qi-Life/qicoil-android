@@ -76,7 +76,6 @@ class AlbumsRecyclerFragment : BaseFragment() {
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             albums_recycler_view.layoutManager = GridLayoutManager(context, 3)
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -105,8 +104,6 @@ class AlbumsRecyclerFragment : BaseFragment() {
         } else {
             (activity as BaseActivity).showAlert(getString(R.string.err_network_available))
         }*/
-
-
     }
 
     fun startAlbumDetails(album: Album) {

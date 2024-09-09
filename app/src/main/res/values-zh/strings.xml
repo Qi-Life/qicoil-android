@@ -345,4 +345,5 @@
     <string name="tv_scalars">标量</string>
     <string name="tv_silent_scalar_turned_on">静默标量当前已开启</string>
     <string name="tv_silent_scalar_turned_off">静默标量目前已关闭</string>
+    <string name="tv_please_choose_a_frequency_to_play">请选择播放频率</string>
 </resources>

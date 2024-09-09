@@ -15,9 +15,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import android.widget.SeekBar
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import com.Meditation.Sounds.frequencies.R
@@ -268,19 +267,21 @@ class PlayerUIFragment : NewBaseFragment() {
     }
 
     private fun setListeners() {
-        currentTrack.observe(viewLifecycleOwner) {
-            setUI(it)
-            if (it is MusicRepository.Track) {
-                isTrack = true
-                track_name.text = it.title
+        currentTrack.observe(viewLifecycleOwner) { track ->
+            track?.let {
+                setUI(it)
+                if (it is MusicRepository.Track) {
+                    isTrack = true
+                    track_name.text = it.title
 
-                loadImage(requireContext(), track_image, it.album)
-                Log.i("currenttracl", "t-->" + it.duration)
-            } else if (it is MusicRepository.Frequency) {
-                isTrack = false
-                track_name.text = it.frequency.toString()
-                track_image.setImageResource(R.drawable.frequency_v2)
-                Log.i("currenttracl", "t-->" + it.duration)
+                    loadImage(requireContext(), track_image, it.album)
+                    Log.i("currenttracl", "t-->" + it.duration)
+                } else if (it is MusicRepository.Frequency) {
+                    isTrack = false
+                    track_name.text = it.frequency.toString()
+                    track_image.setImageResource(R.drawable.frequency_v2)
+                    Log.i("currenttracl", "t-->" + it.duration)
+                }
             }
         }
 
@@ -447,6 +448,9 @@ class PlayerUIFragment : NewBaseFragment() {
     }
 
     private fun playerInit() {
+        if (trackList?.isEmpty() == true){
+            currentPosition.postValue(0)
+        }
         player_play.setOnClickListener {
             if (trackList?.isNotEmpty() == true) {
                 if (mediaController != null)

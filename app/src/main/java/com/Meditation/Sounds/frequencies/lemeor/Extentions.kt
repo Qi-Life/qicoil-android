@@ -35,7 +35,7 @@ const val FAVORITES = "Favorites"
 
 var trackList: ArrayList<MusicRepository.Music>? = null
 
-val currentTrack = MutableLiveData<Any>()
+val currentTrack = MutableLiveData<Any?>()
 val currentTrackIndex = MutableLiveData<Int>()
 val currentPosition = MutableLiveData<Long>()
 var playRife: Rife? = null
@@ -44,7 +44,6 @@ val max = MutableLiveData<Long>(0)
 val duration = MutableLiveData<Long>()
 
 //for track add to program
-
 var trackIdForProgram: String = (Constants.defaultHz - 1).toString()
 var albumIdBackProgram: Int? = -1
 var categoryIdBackProgram: Int? = -1
@@ -224,7 +223,6 @@ fun getTempFile(context: Context, trackName: String, albumName: String): String 
 }
 
 fun getConvertedTime(millis: Long): String {
-    //Log.i("milisecond","s-->"+millis);
     val second: Long = millis / 1000 % 60
     val minute: Long = millis / (1000 * 60) % 60
     val hour: Long = millis / (1000 * 60 * 60) % 24

@@ -49,7 +49,7 @@ class ScalarAlbumAnimation : FrameLayout {
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        radius = context.resources.getDimension(R.dimen.corner_radius_album)
+        radius = context.resources.getDimension(R.dimen.corner_radius_album) - 3f
 
         paint.strokeWidth = strokeWidthDefault
         paint.color = strokeColor

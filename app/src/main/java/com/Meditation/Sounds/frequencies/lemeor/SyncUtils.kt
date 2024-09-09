@@ -347,8 +347,6 @@ fun checkUnlocked(isFree: Int): Boolean {
 }
 
 suspend fun syncRife(db: DataBase, response: RifeResponse?) {
-    Log.d("LOG", "syncRife")
-
     val responseData = (response?.data ?: listOf()).toMutableList()
     db.rifeDao().clear()
     db.rifeDao().insertAll(responseData.filter { r ->
