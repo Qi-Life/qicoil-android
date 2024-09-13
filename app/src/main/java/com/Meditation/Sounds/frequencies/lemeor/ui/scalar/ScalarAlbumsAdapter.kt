@@ -23,6 +23,7 @@ class ScalarAlbumsAdapter(
     interface Listener {
         fun onClickItem(album: Scalar)
         fun onLongClickItem(album: Scalar)
+        fun onScalarSubscription()
     }
 
     private var mListener: Listener? = null
@@ -70,6 +71,9 @@ class ScalarAlbumsAdapter(
         holder.itemView.setOnLongClickListener {
             mListener?.onLongClickItem(scalar)
             true
+        }
+        holder.itemView.image_lock.setOnClickListener {
+            mListener?.onScalarSubscription()
         }
     }
 

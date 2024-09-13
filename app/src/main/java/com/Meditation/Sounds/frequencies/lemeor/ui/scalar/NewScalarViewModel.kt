@@ -3,9 +3,14 @@ package com.Meditation.Sounds.frequencies.lemeor.ui.scalar
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Scalar
+import com.Meditation.Sounds.frequencies.lemeor.data.utils.Resource
+import com.Meditation.Sounds.frequencies.lemeor.data.utils.getErrorMsg
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 
 class NewScalarViewModel(private val repository: ScalarRepository) : ViewModel() {
 
@@ -49,6 +54,17 @@ class NewScalarViewModel(private val repository: ScalarRepository) : ViewModel()
             _result.value =
                 listScalar.filter { it.name.lowercase().contains(keySearch.lowercase()) }
                     .sortedBy { it.name.lowercase().indexOf(keySearch.lowercase()) != 0 }
+        }
+    }
+
+    fun getScalarSubscription() = liveData(Dispatchers.IO) {
+        emit(Resource.loading(data = null))
+        try {
+            emit(Resource.success(data = repository.getScalarSubscription()))
+        } catch (exception: HttpException) {
+            emit(Resource.error(data = null, message = getErrorMsg(exception)))
+        } catch (exception: Throwable) {
+            emit(Resource.error(data = null, message = exception.message))
         }
     }
 }

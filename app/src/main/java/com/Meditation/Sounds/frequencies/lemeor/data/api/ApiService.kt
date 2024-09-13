@@ -112,5 +112,7 @@ interface ApiService {
     @GET(ApiConfig.API_SCALAR)
     suspend fun getScalar(): Response<ScalarResponse>
 
+    @GET(ApiConfig.API_SCALAR_SUBSCRIPTION)
+    suspend fun getScalarSubscription(): ScalarSubscriptionResponse
 }
 

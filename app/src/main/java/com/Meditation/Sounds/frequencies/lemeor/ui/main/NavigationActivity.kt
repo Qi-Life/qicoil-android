@@ -311,8 +311,18 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                 }
             }
 
-            if (event == SyncDataEvent) {
-                syncData()
+            if (event is SyncDataEvent) {
+                if (event.isSyncScalar) {
+                    val user = PreferenceHelper.getUser(this)
+                    if (user?.id != null) {
+                        mViewModel.getScalar().observe(this) {
+
+                        }
+                    }
+                } else {
+                    syncData()
+                }
+
             }
             if (event is String && event == "showDisclaimer") {
                 if (preference(applicationContext).isShowDisclaimer && preference(applicationContext).isLogged && !mDisclaimerDialog.isShowing) {

@@ -19,6 +19,7 @@ import com.Meditation.Sounds.frequencies.lemeor.data.api.RetrofitBuilder
 import com.Meditation.Sounds.frequencies.lemeor.data.database.DataBase
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Scalar
 import com.Meditation.Sounds.frequencies.lemeor.data.remote.ApiHelper
+import com.Meditation.Sounds.frequencies.lemeor.data.utils.Resource
 import com.Meditation.Sounds.frequencies.lemeor.data.utils.ViewModelFactory
 import com.Meditation.Sounds.frequencies.lemeor.getPreloadedSaveDir
 import com.Meditation.Sounds.frequencies.lemeor.getSaveDir
@@ -26,8 +27,10 @@ import com.Meditation.Sounds.frequencies.lemeor.playScalar
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.ScalarPlayerService
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.ScalarPlayerStatus
 import com.Meditation.Sounds.frequencies.lemeor.ui.main.NavigationActivity
+import com.Meditation.Sounds.frequencies.lemeor.ui.purchase.new_flow.PurchaseScalarWebView
 import com.Meditation.Sounds.frequencies.utils.Utils
 import com.Meditation.Sounds.frequencies.views.ItemOffsetDecoration
+import com.tonyodev.fetch2core.isNetworkAvailable
 import kotlinx.android.synthetic.main.fragment_new_scalar.rcvScalar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -79,8 +82,6 @@ class NewScalarFragment : BaseFragment() {
        scalarAlbumsAdapter?.notifyDataSetChanged()
     }
 
-
-
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -103,6 +104,31 @@ class NewScalarFragment : BaseFragment() {
 
             override fun onLongClickItem(album: Scalar) {
 
+            }
+
+            override fun onScalarSubscription() {
+                if (requireActivity().isNetworkAvailable()) {
+                    mViewModel.getScalarSubscription().observe(viewLifecycleOwner) { sub ->
+                        sub?.let { resource ->
+                            when (resource.status) {
+                                Resource.Status.SUCCESS -> {
+                                    sub.data?.let { u ->
+                                        startActivity(
+                                            PurchaseScalarWebView.newIntent(requireContext(),u.data.payment_url)
+                                        )
+                                    }
+
+                                }
+
+                                Resource.Status.ERROR -> {
+                                }
+
+                                Resource.Status.LOADING -> {
+                                }
+                            }
+                        }
+                    }
+                }
             }
         })
 

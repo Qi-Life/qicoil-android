@@ -78,7 +78,7 @@ class AuthActivity : AppCompatActivity(), OnLoginListener, OnRegistrationListene
         saveUser(applicationContext, resource.data?.user)
         resource.data?.user?.let { user -> updateUnlocked(applicationContext, user, true) }
         EventBus.getDefault().post("showDisclaimer")
-        Handler(Looper.getMainLooper()).postDelayed({ EventBus.getDefault().post(SyncDataEvent)}, 2000)
+        Handler(Looper.getMainLooper()).postDelayed({ EventBus.getDefault().post(SyncDataEvent())}, 2000)
     }
 
     private fun sendDataWithDelay() {

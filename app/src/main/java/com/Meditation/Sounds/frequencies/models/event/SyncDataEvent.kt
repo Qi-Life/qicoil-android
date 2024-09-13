@@ -1,3 +1,3 @@
 package com.Meditation.Sounds.frequencies.models.event
 
-object SyncDataEvent
+data class SyncDataEvent(val isSyncScalar: Boolean = false)

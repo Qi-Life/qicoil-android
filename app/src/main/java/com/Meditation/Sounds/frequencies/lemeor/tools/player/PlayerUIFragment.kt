@@ -304,16 +304,18 @@ class PlayerUIFragment : NewBaseFragment() {
             override fun onProgressChanged(p0: SeekBar, p1: Int, p2: Boolean) {}
 
             override fun onStartTrackingTouch(p0: SeekBar) {
-                if (isTrack) {
-                    isSeeking = true
-                }
+//                if (isTrack) {
+//
+//                }
+                isSeeking = true
             }
 
             override fun onStopTrackingTouch(seekBar: SeekBar) {
-                if (isTrack) {
-                    isSeeking = false
-                    EventBus.getDefault().post(PlayerSeek(seekBar.progress))
-                }
+//                if (isTrack) {
+//
+//                }
+                isSeeking = false
+                EventBus.getDefault().post(PlayerSeek(seekBar.progress))
             }
         })
     }

@@ -147,10 +147,11 @@ class PlayerService : Service() {
     private var isShuffle: Boolean = false
 
     private var playPosition: Long = 0
-    private var isRepeatAll = false
-    private var typePlayer = 1
+    private var isRepeatAll = true
+    private var typePlayer = 2
     private var timerPlayRife = 3 * 60 * 1000L
 
+    private var totalTimeSeekbarChangeDelay = 0L
     private var totalPlayedSoundTime = 0L
     private var startedPlaySoundTime = 0L
     private var timePlayed = 0L
@@ -215,14 +216,16 @@ class PlayerService : Service() {
                 if (position < 0) position = 0
                 currentPosition.postValue(position)
             } else {
-                timePlayed =
-                    totalPlayedSoundTime + SystemClock.elapsedRealtime() - startedPlaySoundTime
-                if (timerPlayRife - timePlayed < 0) {
-                    startedPlaySoundTime = SystemClock.elapsedRealtime()
-                    totalPlayedSoundTime = 0
+                if (currentState == PlaybackStateCompat.STATE_PAUSED) {
+                    totalTimeSeekbarChangeDelay = 0
+                    totalPlayedSoundTime = seekPosition.toLong()
+                    timePlayed = seekPosition.toLong()
+                    duration.postValue((timerPlayRife - timePlayed).coerceAtLeast(0))
+                    currentPosition.postValue(timePlayed)
+                } else {
+                    totalTimeSeekbarChangeDelay = SystemClock.elapsedRealtime() - startedPlaySoundTime
+                    totalPlayedSoundTime = seekPosition.toLong()
                 }
-                duration.postValue((timerPlayRife - timePlayed).coerceAtLeast(0))
-                currentPosition.postValue(timePlayed)
             }
         }
 
@@ -274,7 +277,7 @@ class PlayerService : Service() {
         }
 
         exoPlayer.addListener(exoPlayerListener)
-        exoPlayer.repeatMode = Player.REPEAT_MODE_ONE
+        exoPlayer.repeatMode = REPEAT_MODE_OFF
 
         //send state
     }
@@ -295,10 +298,14 @@ class PlayerService : Service() {
                             duration.postValue(((max.value ?: dur) - position).coerceAtLeast(0))
                         } else {
                             timePlayed =
-                                totalPlayedSoundTime + SystemClock.elapsedRealtime() - startedPlaySoundTime
+                                totalPlayedSoundTime + SystemClock.elapsedRealtime() - startedPlaySoundTime - totalTimeSeekbarChangeDelay
+                            if (currentState == PlaybackStateCompat.STATE_PAUSED) {
+                                totalTimeSeekbarChangeDelay = 0
+                            }
                             if (timerPlayRife - timePlayed < 0) {
                                 startedPlaySoundTime = SystemClock.elapsedRealtime()
                                 totalPlayedSoundTime = 0
+                                totalTimeSeekbarChangeDelay = 0
                                 if (typePlayer == REPEAT_MODE_OFF) {
                                     if (musicRepository?.isLastTrack() == true) {
                                         mediaSessionCallback.onStop()
@@ -557,6 +564,7 @@ class PlayerService : Service() {
 
             override fun onSkipToNext() {
                 totalPlayedSoundTime = 0
+                totalTimeSeekbarChangeDelay = 0
                 playPosition = 0
 
                 val track = if (isMultiPlay) {
@@ -580,6 +588,7 @@ class PlayerService : Service() {
             override fun onSkipToPrevious() {
                 try {
                     totalPlayedSoundTime = 0
+                    totalTimeSeekbarChangeDelay = 0
                     playPosition = 0
                     if (musicRepository != null) {
                         val track: MusicRepository.Music = if (isShuffle) {
