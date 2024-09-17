@@ -21,10 +21,10 @@
             android:background="#16ffffff"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingBottom="5dp"
             android:paddingLeft="40dp"
+            android:paddingTop="5dp"
             android:paddingRight="40dp"
-            android:paddingTop="5dp">
+            android:paddingBottom="5dp">
 
             <ImageView
                 android:id="@+id/imvBack"
@@ -33,7 +33,7 @@
                 android:layout_gravity="center_vertical"
                 android:padding="@dimen/padding_icon_actionbar"
                 android:src="@drawable/ic_back"
-                android:tint="#ffffff" />
+                app:tint="#ffffff" />
 
             <com.Meditation.Sounds.frequencies.views.CustomFontTextView
                 android:layout_width="wrap_content"
@@ -45,16 +45,26 @@
                 app:fontText="fonts/BebasNeue Book.ttf" />
         </FrameLayout>
 
-        <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
-            android:id="@+id/mvideoView"
-            android:name="com.google.android.youtube.player.YouTubePlayerSupportFragment"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/scrollView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
 
-<!--        <com.github.barteksc.pdfviewer.PDFView-->
-<!--            android:id="@+id/mPdfView"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:background="#ffffff" />-->
+            <WebView
+                android:id="@+id/wvInstructions"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!--        <com.github.barteksc.pdfviewer.PDFView-->
+        <!--            android:id="@+id/mPdfView"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            android:background="#ffffff" />-->
     </LinearLayout>
 </FrameLayout>

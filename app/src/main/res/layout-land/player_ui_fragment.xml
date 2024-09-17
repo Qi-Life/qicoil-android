@@ -73,11 +73,13 @@
                 android:paddingBottom="@dimen/indent_4">
 
 
-                <ImageView
+                <com.github.siyamed.shapeimageview.RoundedImageView
                     android:id="@+id/track_image"
-                    android:layout_width="@dimen/height_small_icon"
-                    android:layout_height="@dimen/height_small_icon"
-                    android:padding="5dp"
+                    android:layout_width="@dimen/height_repeat_button"
+                    android:layout_height="@dimen/height_repeat_button"
+                    app:siBorderColor="@color/track_name_background"
+                    app:siBorderWidth="0dp"
+                    app:siRadius="5dp"
                     android:src="@drawable/ic_album_default_small"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -252,10 +254,13 @@
                 app:layout_constraintStart_toEndOf="@+id/view_scalar_status_playing"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <ImageView
+                <com.github.siyamed.shapeimageview.RoundedImageView
                     android:id="@+id/track_image_scalar"
                     android:layout_width="@dimen/height_repeat_button"
                     android:layout_height="@dimen/height_repeat_button"
+                    app:siBorderColor="@color/transparent"
+                    app:siBorderWidth="0dp"
+                    app:siRadius="5dp"
                     android:src="@drawable/ic_album_default_small" />
 
                 <TextView

@@ -16,7 +16,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import com.Meditation.Sounds.frequencies.R
@@ -524,27 +523,38 @@ class PlayerUIFragment : NewBaseFragment() {
 
     private fun updateViewWhenRotation() {
         isScreenRotation = false
-        when (repeat) {
-            Player.REPEAT_MODE_OFF -> {
-                player_repeat.setImageResource(R.drawable.ic_repeat_off)
-            }
+        if (trackList?.isNotEmpty() == true) {
+            when (repeat) {
+                Player.REPEAT_MODE_OFF -> {
+                    player_repeat.setImageResource(R.drawable.ic_repeat_off)
+                }
 
-            Player.REPEAT_MODE_ONE -> {
-                player_repeat.setImageResource(R.drawable.ic_repeat_one)
-            }
+                Player.REPEAT_MODE_ONE -> {
+                    player_repeat.setImageResource(R.drawable.ic_repeat_one)
+                }
 
-            Player.REPEAT_MODE_ALL -> {
-                player_repeat.setImageResource(R.drawable.ic_repeat_all)
+                Player.REPEAT_MODE_ALL -> {
+                    player_repeat.setImageResource(R.drawable.ic_repeat_all)
+                }
             }
-        }
-        if (playing) {
-            player_play.setImageDrawable(
-                getDrawable(
-                    requireActivity().applicationContext,
-                    R.drawable.oc_pause_song
+            player_next?.setImageResource(R.drawable.ic_next_song_new)
+            if (playing) {
+                player_play.setImageDrawable(
+                    getDrawable(
+                        requireActivity().applicationContext,
+                        R.drawable.oc_pause_song
+                    )
                 )
-            )
+            } else {
+                player_play.setImageDrawable(
+                    getDrawable(
+                        requireActivity().applicationContext,
+                        R.drawable.ic_play_song
+                    )
+                )
+            }
         }
+
         if (playingScalar) {
             view_scalar_status_stoping.visibility = View.INVISIBLE
             view_scalar_status_playing.visibility = View.VISIBLE
