@@ -56,7 +56,6 @@ android {
         }
         quantum {
             applicationId "com.quantumfrequencies"
-
             versionCode 2255
             versionName "2.2.55"
 

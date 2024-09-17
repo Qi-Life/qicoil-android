@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import com.Meditation.Sounds.frequencies.R
 import com.Meditation.Sounds.frequencies.feature.base.BaseFragment
@@ -58,10 +59,11 @@ class NewProgramFragment : BaseFragment() {
     }
 
     override fun addListener() {
-        mViewModel.getPrograms(viewLifecycleOwner) {
+        mViewModel.getPrograms(viewLifecycleOwner, onChange = {
             mProgramAdapter.setData(it)
-            loadingFrame.visibility = View.GONE
-        }
+        }, showLoading = {
+            loadingFrame.isVisible = it
+        })
 
         program_back.setOnClickListener { onBackPressed() }
 

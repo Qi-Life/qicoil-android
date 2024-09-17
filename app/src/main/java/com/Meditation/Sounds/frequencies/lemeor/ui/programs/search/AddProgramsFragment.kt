@@ -87,8 +87,8 @@ class AddProgramsFragment : BaseFragment() {
         }
         btnAdd.safeOnClickListener {
             if (listSelected.isNotEmpty()) {
-                onBackPressed()
                 mNewProgramViewModel.addTrackToProgram(programId, listSelected)
+                onBackPressed()
             }
         }
         FlowSearch.fromSearchView(searchHint).debounce(200).map { text -> text.trim() }
