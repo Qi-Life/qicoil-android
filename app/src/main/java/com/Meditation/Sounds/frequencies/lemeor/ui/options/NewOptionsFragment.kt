@@ -514,13 +514,16 @@ class NewOptionsFragment : BaseFragment() {
 
     private fun onLogoutSuccess() {
         clearData()
-        activity?.let { HudHelper.hide() }
+        activity?.let {
+            HudHelper.hide()
+        }
 
         hashMapTiers = HashMap()
         val activity = activity as NavigationActivity
         isPlayProgram = false
         isPlayAlbum = false
         activity.hidePlayerUI()
+        activity.clearDataPlayer()
 
         preference(requireContext()).isLogged = false
         preference(requireContext()).token = null

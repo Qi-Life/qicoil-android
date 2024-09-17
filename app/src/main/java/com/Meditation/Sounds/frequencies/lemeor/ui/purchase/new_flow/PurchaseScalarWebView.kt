@@ -33,9 +33,12 @@ class PurchaseScalarWebView : BaseActivity() {
                     message: String?,
                     result: JsResult?
                 ): Boolean {
-                    if (url?.contains("success") == true && !isSynced) {
+                    if (message == "Success" && !isSynced) {
                         isSynced = true
                         EventBus.getDefault().post(SyncDataEvent(isSyncScalar = true))
+                    }
+                    if (message == "Goback") {
+                        finish()
                     }
                     result?.confirm()
                     return true

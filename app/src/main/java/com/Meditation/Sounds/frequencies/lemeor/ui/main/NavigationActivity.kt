@@ -622,14 +622,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         ScalarDownloadService.stopService(this)
         stopService(Intent(this, PlayerService::class.java))
         stopService(Intent(this, ScalarPlayerService::class.java))
-        playListScalar.clear()
-        trackList?.clear()
-        currentPosition.postValue(0)
-        currentTrack.value = null
-        currentTrackIndex.value = 0
-        playRife = null
-        max.value = 0
-        duration.value = 0
+        clearDataPlayer()
     }
 
     private fun init() {
@@ -1575,6 +1568,17 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         rvChatBot?.post {
             rvChatBot?.scrollBy(0, 1000)
         }
+    }
+
+    fun clearDataPlayer(){
+        playListScalar.clear()
+        trackList?.clear()
+        currentPosition.postValue(0)
+        currentTrack.value = null
+        currentTrackIndex.value = 0
+        playRife = null
+        max.value = 0
+        duration.value = 0
     }
 
 

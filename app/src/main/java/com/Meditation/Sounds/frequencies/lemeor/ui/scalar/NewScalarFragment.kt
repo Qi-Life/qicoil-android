@@ -128,6 +128,8 @@ class NewScalarFragment : BaseFragment() {
                             }
                         }
                     }
+                } else {
+                    Toast.makeText(requireContext(), getString(R.string.err_network_available), Toast.LENGTH_SHORT).show()
                 }
             }
         })
