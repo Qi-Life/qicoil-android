@@ -652,10 +652,10 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
 
         mChatBotViewModel = ViewModelProvider(this)[ChatBotViewModel::class.java]
 
-        navigation_scalar.onSelected {
+        navigation_albums.onSelected {
             closeSearch()
             search_layout.visibility = View.VISIBLE
-            setFragment(NewScalarFragment())
+            setFragment(TiersPagerFragment())
         }
 
         flash_sale.visibility = View.GONE //At the request of the client
@@ -740,10 +740,10 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         selectedNaviFragment = fragment
         album_search.clearFocus()
         supportFragmentManager.beginTransaction().setCustomAnimations(
-            R.anim.trans_left_to_right_in,
-            R.anim.trans_left_to_right_out,
             R.anim.trans_right_to_left_in,
-            R.anim.trans_right_to_left_out
+            R.anim.trans_right_to_left_out,
+            R.anim.trans_left_to_right_in,
+            R.anim.trans_left_to_right_out
         ).replace(R.id.nav_host_fragment, fragment, fragment.javaClass.simpleName).commit()
     }
 
