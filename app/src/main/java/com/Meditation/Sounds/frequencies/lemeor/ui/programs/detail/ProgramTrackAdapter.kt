@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.item_program_track.view.item_track_name
 import kotlinx.android.synthetic.main.item_program_track.view.item_track_options
 
 class ProgramTrackAdapter(
-    private val onClickItem: (item: Search) -> Unit,
+    private val onClickItem: (item: Search, index: Int) -> Unit,
     private val onClickOptions: (item: Search) -> Unit
 ) : ListAdapter<Search, ProgramTrackAdapter.ViewHolder>(SearchDiffCallback()) {
     private var selectedItem: Search? = null
@@ -54,7 +54,7 @@ class ProgramTrackAdapter(
             }
             itemView.setOnClickListener {
                 setSelectedItem(item)
-                onClickItem.invoke(item)
+                onClickItem.invoke(item, layoutPosition)
             }
         }
     }

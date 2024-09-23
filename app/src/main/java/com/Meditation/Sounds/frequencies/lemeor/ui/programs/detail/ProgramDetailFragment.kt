@@ -96,11 +96,11 @@ class ProgramDetailFragment : BaseFragment() {
 
     private val programTrackAdapter by lazy {
         ProgramTrackAdapter(
-            onClickItem = { item ->
+            onClickItem = { _, index ->
                 isMultiPlay = false
                 play(tracks.map { it.obj } as ArrayList<Any>)
                 Handler(Looper.getMainLooper()).postDelayed({
-                    EventBus.getDefault().post(PlayerSelected(item.id))
+                    EventBus.getDefault().post(PlayerSelected(index))
                     timeDelay = 200L
                 }, timeDelay)
             },

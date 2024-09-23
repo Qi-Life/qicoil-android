@@ -49,6 +49,7 @@ import com.Meditation.Sounds.frequencies.lemeor.ui.albums.tabs.TiersPagerFragmen
 import com.Meditation.Sounds.frequencies.lemeor.ui.main.NavigationActivity
 import com.Meditation.Sounds.frequencies.lemeor.ui.programs.NewProgramFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.rife.NewRifeViewModel
+import com.Meditation.Sounds.frequencies.lemeor.ui.scalar.NewScalarFragment
 import com.Meditation.Sounds.frequencies.utils.Constants
 import com.Meditation.Sounds.frequencies.utils.Utils
 import com.Meditation.Sounds.frequencies.utils.firstIndexOrNull
@@ -299,7 +300,11 @@ class NewAlbumDetailFragment : BaseFragment() {
             }
         }
         album_add_scalar.setOnClickListener {
-            (activity as NavigationActivity).onScalarSelect()
+            if (selectedNaviFragment != null && selectedNaviFragment is NewScalarFragment) {
+                onBackPressed()
+            } else {
+                (activity as NavigationActivity).onScalarSelect()
+            }
         }
 
         if (currentTrack.value != null) {
@@ -342,7 +347,11 @@ class NewAlbumDetailFragment : BaseFragment() {
             }
         }
         album_add_scalar.setOnClickListener {
-            (activity as NavigationActivity).onScalarSelect()
+            if (selectedNaviFragment != null && selectedNaviFragment is NewScalarFragment) {
+                onBackPressed()
+            } else {
+                (activity as NavigationActivity).onScalarSelect()
+            }
         }
         if (currentTrack.value != null) {
             val item = currentTrack.value
