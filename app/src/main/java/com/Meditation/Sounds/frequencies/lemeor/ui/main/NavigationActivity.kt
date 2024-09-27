@@ -75,6 +75,7 @@ import com.Meditation.Sounds.frequencies.lemeor.data.utils.ViewModelFactory
 import com.Meditation.Sounds.frequencies.lemeor.duration
 import com.Meditation.Sounds.frequencies.lemeor.getSaveDir
 import com.Meditation.Sounds.frequencies.lemeor.hideKeyboard
+import com.Meditation.Sounds.frequencies.lemeor.isChatBotHided
 import com.Meditation.Sounds.frequencies.lemeor.isTrackAdd
 import com.Meditation.Sounds.frequencies.lemeor.max
 import com.Meditation.Sounds.frequencies.lemeor.playListScalar
@@ -135,6 +136,7 @@ import com.tonyodev.fetch2core.isNetworkAvailable
 import kotlinx.android.synthetic.main.activity_navigation.album_search
 import kotlinx.android.synthetic.main.activity_navigation.album_search_clear
 import kotlinx.android.synthetic.main.activity_navigation.bg_mode
+import kotlinx.android.synthetic.main.activity_navigation.btnHideChatBot
 import kotlinx.android.synthetic.main.activity_navigation.btnStartChatBot
 import kotlinx.android.synthetic.main.activity_navigation.flash_sale
 import kotlinx.android.synthetic.main.activity_navigation.flash_sale_hours
@@ -583,6 +585,14 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
             viewIntroChatBot.visibility = View.GONE
             btnStartChatBot.setImageResource(R.drawable.ic_avatar_chatboting)
             showChatPopup()
+        }
+
+        btnHideChatBot.setOnClickListener {
+            isChatBotHided = true
+            viewIntroChatBot.clearAnimation()
+            btnStartChatBot.visibility = View.GONE
+            viewIntroChatBot.visibility = View.GONE
+            btnHideChatBot.visibility = View.GONE
         }
 
         orientationChangesUI(resources.configuration.orientation)
@@ -1375,7 +1385,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         if (fragment is NewProgramFragment && isTrackAdd) {
             isHide = true
         }
-        if (!isHide && (fragment is NewScalarFragment
+        if (!isChatBotHided && !isHide && (fragment is NewScalarFragment
                     || fragment is TiersPagerFragment
                     || fragment is NewRifeFragment
                     || fragment is NewProgramFragment
@@ -1579,6 +1589,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         playRife = null
         max.value = 0
         duration.value = 0
+        isChatBotHided = false
     }
 
 
