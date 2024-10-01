@@ -470,7 +470,7 @@
         android:id="@+id/btnStartChatBot"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_margin="@dimen/margin_item_dialog_20"
+        android:layout_margin="@dimen/margin_item_dialog"
         app:layout_constraintBottom_toTopOf="@+id/player_ui_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_avatar_chatbot" />
