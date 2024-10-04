@@ -11,6 +11,7 @@
     tools:context=".lemeor.tools.player.PlayerUIFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/viewPlayerScalar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#1868AD"
@@ -61,7 +62,7 @@
             app:layout_constraintEnd_toStartOf="@+id/view_scalar_status_playing"
             android:paddingStart="@dimen/indent_8"
             android:paddingEnd="@dimen/indent_8"
-            android:text="@string/tv_silent_scalar_turned_off"
+            android:text="@string/tv_there_no_silent_energies"
             android:textColor="@android:color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"

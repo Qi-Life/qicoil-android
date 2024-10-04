@@ -34,6 +34,7 @@ import com.Meditation.Sounds.frequencies.lemeor.programName
 import com.Meditation.Sounds.frequencies.lemeor.trackList
 import com.Meditation.Sounds.frequencies.lemeor.ui.albums.detail.NewAlbumDetailFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.base.NewBaseFragment
+import com.Meditation.Sounds.frequencies.lemeor.ui.main.NavigationActivity
 import com.Meditation.Sounds.frequencies.lemeor.ui.programs.detail.ProgramDetailFragment
 import com.Meditation.Sounds.frequencies.utils.Constants
 import com.google.android.exoplayer2.Player
@@ -52,6 +53,7 @@ import kotlinx.android.synthetic.main.player_ui_fragment.track_name_scalar
 import kotlinx.android.synthetic.main.player_ui_fragment.track_position
 import kotlinx.android.synthetic.main.player_ui_fragment.track_title
 import kotlinx.android.synthetic.main.player_ui_fragment.tv_scalar_play_status
+import kotlinx.android.synthetic.main.player_ui_fragment.viewPlayerScalar
 import kotlinx.android.synthetic.main.player_ui_fragment.view_album_scalar
 import kotlinx.android.synthetic.main.player_ui_fragment.view_scalar_status_playing
 import kotlinx.android.synthetic.main.player_ui_fragment.view_scalar_status_stoping
@@ -466,12 +468,15 @@ class PlayerUIFragment : NewBaseFragment() {
         }
 
         player_play_scalar.setOnClickListener {
-            if (mediaScalarController != null && playListScalar.isNotEmpty())
+            if (mediaScalarController != null && playListScalar.isNotEmpty()) {
                 if (playingScalar) {
                     mediaScalarController?.transportControls?.pause()
                 } else {
                     mediaScalarController?.transportControls?.play()
                 }
+            } else {
+                (activity as NavigationActivity).onScalarSelect()
+            }
         }
 
         player_next.setOnClickListener {
@@ -517,6 +522,12 @@ class PlayerUIFragment : NewBaseFragment() {
                     }
                 }
                 EventBus.getDefault().post(PlayerRepeat(repeat))
+            }
+        }
+
+        viewPlayerScalar.setOnClickListener {
+            if (playListScalar.isEmpty()) {
+                (activity as NavigationActivity).onScalarSelect()
             }
         }
     }
