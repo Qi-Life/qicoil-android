@@ -853,6 +853,18 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
     }
 
     fun onScalarSelect(){
+        if (mViewGroupCurrent == navigation_scalar && supportFragmentManager.fragments.lastOrNull() is NewAlbumDetailFragment){
+            var fragment = selectedNaviFragment
+            if (fragment == null) {
+                fragment = NewScalarFragment()
+            }
+            supportFragmentManager.beginTransaction().setCustomAnimations(
+                R.anim.trans_left_to_right_in,
+                R.anim.trans_left_to_right_out,
+                R.anim.trans_right_to_left_in,
+                R.anim.trans_right_to_left_out
+            ).replace(R.id.nav_host_fragment, fragment, fragment.javaClass.simpleName).commit()
+        }
         navigation_scalar.onSelected {
             closeSearch()
             search_layout.visibility = View.VISIBLE
@@ -1393,6 +1405,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                     || fragment is DiscoverFragment)) {
             if (btnStartChatBot.visibility == View.GONE) {
                 btnStartChatBot.visibility = View.VISIBLE
+                btnHideChatBot.visibility = View.VISIBLE
                 if (!isStartedChat) {
                     viewIntroChatBot.showViewWithFadeIn()
                 }
@@ -1401,6 +1414,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
             btnStartChatBot.visibility = View.GONE
             viewIntroChatBot.clearAnimation()
             viewIntroChatBot.visibility = View.GONE
+            btnHideChatBot.visibility = View.GONE
         }
     }
 
