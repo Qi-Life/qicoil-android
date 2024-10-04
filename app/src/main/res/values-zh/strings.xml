@@ -346,4 +346,5 @@
     <string name="tv_silent_scalar_turned_on">静默标量当前已开启</string>
     <string name="tv_silent_scalar_turned_off">静默标量目前已关闭</string>
     <string name="tv_please_choose_a_frequency_to_play">请选择播放频率</string>
+    <string name="tv_there_no_silent_energies">没有静默能量，请激活它。</string>
 </resources>

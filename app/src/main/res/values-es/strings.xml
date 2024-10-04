@@ -346,4 +346,5 @@
     <string name="tv_silent_scalar_turned_on">El escalar silencioso está activado actualmente</string>
     <string name="tv_silent_scalar_turned_off">El escalar silencioso está actualmente desactivado</string>
     <string name="tv_please_choose_a_frequency_to_play">Por favor, seleccione una Frecuencia para reproducir</string>
+    <string name="tv_there_no_silent_energies">No hay energías silenciosas, por favor actívalas.</string>
 </resources>
