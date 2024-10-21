@@ -5,8 +5,9 @@
     <string name="action_settings">Settings</string>
 
     <!--region Navigation-->
+    <string name="navigation_lbl_home">Home</string>
     <string name="navigation_lbl_albums">Albums</string>
-    <string name="navigation_lbl_scalar">Scalar</string>
+    <string name="navigation_lbl_scalar">Silent Quantum</string>
     <string name="navigation_lbl_quantum">Quantum</string>
     <string name="navigation_lbl_rife">Rife</string>
     <string name="navigation_lbl_programs">Programs</string>
@@ -420,6 +421,10 @@
     <string name="tv_silent_scalar_turned_off">Silent Scalar is currently turned off</string>
     <string name="tv_please_choose_a_frequency_to_play">Please choose a Frequency to play</string>
     <string name="tv_there_no_silent_energies">There are no Silent energies, please active it.</string>
+    <string name="recent">Recent:</string>
+    <string name="you_have_no_program_selected">You have no program selected</string>
+    <string name="save_schedule">Save schedule</string>
+    <string name="schedule_on_off">Schedule ON/off</string>
 
     <string name="msg_say_hi_chat" translatable="false">Hi, My name is Dr.Qi, I\'m an AI assistant. How can I help you today? How have you been feeling lately?</string>
     <string name="msg_error_network_chat" translatable="false">Connect Lost. Please check your internet connection.</string>

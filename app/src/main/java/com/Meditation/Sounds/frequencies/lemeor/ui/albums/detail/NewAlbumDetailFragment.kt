@@ -51,6 +51,7 @@ import com.Meditation.Sounds.frequencies.lemeor.ui.programs.NewProgramFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.rife.NewRifeViewModel
 import com.Meditation.Sounds.frequencies.lemeor.ui.scalar.NewScalarFragment
 import com.Meditation.Sounds.frequencies.utils.Constants
+import com.Meditation.Sounds.frequencies.utils.SharedPreferenceHelper
 import com.Meditation.Sounds.frequencies.utils.Utils
 import com.Meditation.Sounds.frequencies.utils.firstIndexOrNull
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -366,6 +367,7 @@ class NewAlbumDetailFragment : BaseFragment() {
     }
 
     private fun playAndDownload(album: Album) {
+        SharedPreferenceHelper.getInstance().addRecentAlbum(album)
         playRife = null
         firebaseAnalytics.logEvent("Downloads") {
             param("Album Id", album.id.toString())

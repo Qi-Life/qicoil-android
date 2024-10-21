@@ -229,6 +229,6 @@ dependencies {
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.2'
     implementation 'io.reactivex.rxjava3:rxjava:3.1.5'
     implementation 'androidx.work:work-runtime-ktx:2.7.1'
-
     implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0'
+    implementation 'com.github.Jay-Goo:RangeSeekBar:v3.0.0'
 }

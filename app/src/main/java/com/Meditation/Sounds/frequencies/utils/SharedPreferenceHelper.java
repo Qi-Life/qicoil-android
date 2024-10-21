@@ -5,11 +5,13 @@ import android.content.SharedPreferences;
 
 import com.Meditation.Sounds.frequencies.QApplication;
 import com.Meditation.Sounds.frequencies.feature.chatbot.MessageChatBot;
+import com.Meditation.Sounds.frequencies.lemeor.data.model.Album;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -185,7 +187,32 @@ public class SharedPreferenceHelper {
         if (json == null) {
             return new ArrayList<>();
         }
-        Type type = new TypeToken<List<MessageChatBot>>() {}.getType();
+        Type type = new TypeToken<List<MessageChatBot>>() {
+        }.getType();
+        return new Gson().fromJson(json, type);
+    }
+
+    public void addRecentAlbum(Album album) {
+        ArrayList<Album> listAlbums = getRecentAlbums();
+        Iterator<Album> iterator = listAlbums.iterator();
+        while (iterator.hasNext()) {
+            Album item = iterator.next();
+            if (item.getId() == album.getId()) {
+                iterator.remove();
+            }
+        }
+        listAlbums.add(0, album);
+        String json = new Gson().toJson(new ArrayList<>(listAlbums.subList(0, Math.min(15, listAlbums.size()))));
+        mSharedPreferences.edit().putString(Constants.PREF_RECENT_ALBUMS, json).apply();
+    }
+
+    public ArrayList<Album> getRecentAlbums() {
+        String json = mSharedPreferences.getString(Constants.PREF_RECENT_ALBUMS, null);
+        if (json == null) {
+            return new ArrayList<>();
+        }
+        Type type = new TypeToken<List<Album>>() {
+        }.getType();
         return new Gson().fromJson(json, type);
     }
 }

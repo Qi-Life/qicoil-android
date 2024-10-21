@@ -303,6 +303,9 @@ class Constants {
         val PREF_CHAT_MESSAGES = "messages_chat"
 //        var tracks = ArrayList<Track>()
 
+        @JvmField
+        val PREF_RECENT_ALBUMS = "recent_albums"
+
         var isGuestLogin = false
 
         val optionsHz = arrayListOf(

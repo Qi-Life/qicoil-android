@@ -106,6 +106,7 @@ import com.Meditation.Sounds.frequencies.lemeor.ui.albums.tabs.TiersPagerFragmen
 import com.Meditation.Sounds.frequencies.lemeor.ui.albums.tabs.TiersPagerFragment.OnTiersFragmentListener
 import com.Meditation.Sounds.frequencies.lemeor.ui.auth.AuthActivity
 import com.Meditation.Sounds.frequencies.lemeor.ui.auth.updateTier
+import com.Meditation.Sounds.frequencies.lemeor.ui.home.HomeFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.options.NewOptionsFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.programs.NewProgramFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.programs.NewProgramViewModel
@@ -146,6 +147,7 @@ import kotlinx.android.synthetic.main.activity_navigation.lblnoresult
 import kotlinx.android.synthetic.main.activity_navigation.mTvDownloadPercent
 import kotlinx.android.synthetic.main.activity_navigation.navigation_albums
 import kotlinx.android.synthetic.main.activity_navigation.navigation_discover
+import kotlinx.android.synthetic.main.activity_navigation.navigation_home
 import kotlinx.android.synthetic.main.activity_navigation.navigation_options
 import kotlinx.android.synthetic.main.activity_navigation.navigation_programs
 import kotlinx.android.synthetic.main.activity_navigation.navigation_rife
@@ -662,10 +664,10 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
 
         mChatBotViewModel = ViewModelProvider(this)[ChatBotViewModel::class.java]
 
-        navigation_albums.onSelected {
+        navigation_home.onSelected {
             closeSearch()
             search_layout.visibility = View.VISIBLE
-            setFragment(TiersPagerFragment())
+            setFragment(HomeFragment())
         }
 
         flash_sale.visibility = View.GONE //At the request of the client
@@ -761,6 +763,14 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
     private fun onButtonNavigationSelected() {
 //        askRating()
 //        hideKeyboard(applicationContext, album_search)
+
+        navigation_home.setOnClickListener {
+            navigation_home.onSelected {
+                closeSearch()
+                search_layout.visibility = View.VISIBLE
+                setFragment(HomeFragment())
+            }
+        }
         navigation_scalar.setOnClickListener {
             navigation_scalar.onSelected {
                 closeSearch()
