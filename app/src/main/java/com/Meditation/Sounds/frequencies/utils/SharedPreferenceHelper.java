@@ -67,6 +67,17 @@ public class SharedPreferenceHelper {
         return mSharedPreferences.getInt(key, 0);
     }
 
+    public void setFloat(String key, float value) {
+        mSharedPreferences.edit().putFloat(key, value).apply();
+    }
+
+    public float getFloat(String key, float defaultValue) {
+        if (defaultValue != 0) {
+            return mSharedPreferences.getFloat(key, defaultValue);
+        }
+        return mSharedPreferences.getFloat(key, 0f);
+    }
+
 
     public void setLong(String key, long value) {
         mSharedPreferences.edit().putLong(key, value).apply();

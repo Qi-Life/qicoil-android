@@ -306,6 +306,23 @@ class Constants {
         @JvmField
         val PREF_RECENT_ALBUMS = "recent_albums"
 
+        @JvmField
+        val PREF_SCHEDULE_PROGRAM_STATUS = "PREF_SCHEDULE_PROGRAM_STATUS"
+        @JvmField
+        val PREF_SCHEDULE_START_TIME_AM = "PREF_SCHEDULE_START_TIME_AM"
+        @JvmField
+        val PREF_SCHEDULE_END_TIME_AM = "PREF_SCHEDULE_END_TIME_AM"
+        @JvmField
+        val PREF_SCHEDULE_START_TIME_PM = "PREF_SCHEDULE_START_TIME_PM"
+        @JvmField
+        val PREF_SCHEDULE_END_TIME_PM = "PREF_SCHEDULE_END_TIME_PM"
+        @JvmField
+        val PREF_SCHEDULE_PROGRAM_PLAY = "PREF_SCHEDULE_PROGRAM_PLAY"
+        @JvmField
+        val PREF_SCHEDULE_PROGRAM_STOP = "PREF_SCHEDULE_PROGRAM_STOP"
+        @JvmField
+        val PREF_SCHEDULE_PROGRAM_ID = "PREF_SCHEDULE_PROGRAM_ID"
+
         var isGuestLogin = false
 
         val optionsHz = arrayListOf(

@@ -249,7 +249,7 @@ class PlayerUIFragment : NewBaseFragment() {
     @SuppressLint("NotifyDataSetChanged")
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onEvent(event: Any?) {
-        if (event is String && event == "play Rife") {
+        if (event is String && (event == "play Rife" || event == "pause player")) {
             if (mediaController != null)
                 if (playing) {
                     isUserPaused = true

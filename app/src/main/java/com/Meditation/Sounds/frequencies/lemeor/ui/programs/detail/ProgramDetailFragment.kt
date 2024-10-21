@@ -53,13 +53,17 @@ import com.Meditation.Sounds.frequencies.lemeor.ui.programs.NewProgramFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.programs.NewProgramViewModel
 import com.Meditation.Sounds.frequencies.lemeor.ui.programs.dialog.FrequenciesDialogFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.programs.search.AddProgramsFragment
+import com.Meditation.Sounds.frequencies.services.AlarmsScheduleProgramReceiver
 import com.Meditation.Sounds.frequencies.utils.Constants
+import com.Meditation.Sounds.frequencies.utils.QcAlarmManager
+import com.Meditation.Sounds.frequencies.utils.SharedPreferenceHelper
 import com.Meditation.Sounds.frequencies.utils.Utils
 import com.Meditation.Sounds.frequencies.utils.isNotString
 import com.Meditation.Sounds.frequencies.views.ItemLastOffsetBottomDecoration
 import kotlinx.android.synthetic.main.fragment_program_detail.action_frequencies
 import kotlinx.android.synthetic.main.fragment_program_detail.action_quantum
 import kotlinx.android.synthetic.main.fragment_program_detail.action_rife
+import kotlinx.android.synthetic.main.fragment_program_detail.btnSwitchSchedule
 import kotlinx.android.synthetic.main.fragment_program_detail.fabOption
 import kotlinx.android.synthetic.main.fragment_program_detail.program_back
 import kotlinx.android.synthetic.main.fragment_program_detail.program_name
@@ -236,6 +240,17 @@ class ProgramDetailFragment : BaseFragment() {
                 program = it
                 initView(it)
             }
+        }
+
+        btnSwitchSchedule.isSelected = SharedPreferenceHelper.getInstance().getInt(Constants.PREF_SCHEDULE_PROGRAM_ID) == programId
+        btnSwitchSchedule.setOnClickListener {
+            if (btnSwitchSchedule.isSelected) {
+                SharedPreferenceHelper.getInstance().setInt(Constants.PREF_SCHEDULE_PROGRAM_ID, 0)
+            } else {
+                SharedPreferenceHelper.getInstance().setInt(Constants.PREF_SCHEDULE_PROGRAM_ID, programId)
+            }
+            btnSwitchSchedule.isSelected = !btnSwitchSchedule.isSelected
+            SharedPreferenceHelper.getInstance().setBool(Constants.PREF_SCHEDULE_PROGRAM_STATUS, btnSwitchSchedule.isSelected)
         }
     }
 

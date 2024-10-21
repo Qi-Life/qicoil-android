@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -31,6 +32,7 @@ import com.Meditation.Sounds.frequencies.lemeor.ui.main.NavigationActivity
 import com.Meditation.Sounds.frequencies.lemeor.ui.main.UpdateTrack
 import com.Meditation.Sounds.frequencies.lemeor.ui.programs.detail.ProgramDetailFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.purchase.new_flow.NewPurchaseActivity
+import com.Meditation.Sounds.frequencies.models.event.ScheduleProgramStatusEvent
 import com.Meditation.Sounds.frequencies.utils.Constants
 import com.Meditation.Sounds.frequencies.utils.isNotString
 import com.Meditation.Sounds.frequencies.utils.loadImageWithGif
@@ -45,6 +47,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.greenrobot.eventbus.EventBus
 import java.util.Date
 
 class NewProgramFragment : BaseFragment() {
@@ -203,7 +206,12 @@ class NewProgramFragment : BaseFragment() {
                                     mViewModel.deleteProgram(program.id.toString())
                                     mViewModel.delete(program)
                                 } catch (_: Exception) {
-                                    mViewModel.udpate(program.copy(deleted = true, updated_at = Date().time))
+                                    mViewModel.udpate(
+                                        program.copy(
+                                            deleted = true,
+                                            updated_at = Date().time
+                                        )
+                                    )
                                 }
                             }
                             Toast.makeText(

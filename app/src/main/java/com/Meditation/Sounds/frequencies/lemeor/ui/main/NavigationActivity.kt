@@ -73,12 +73,17 @@ import com.Meditation.Sounds.frequencies.lemeor.data.remote.ApiHelper
 import com.Meditation.Sounds.frequencies.lemeor.data.utils.Resource
 import com.Meditation.Sounds.frequencies.lemeor.data.utils.ViewModelFactory
 import com.Meditation.Sounds.frequencies.lemeor.duration
+import com.Meditation.Sounds.frequencies.lemeor.getConvertedTime
 import com.Meditation.Sounds.frequencies.lemeor.getSaveDir
 import com.Meditation.Sounds.frequencies.lemeor.hideKeyboard
 import com.Meditation.Sounds.frequencies.lemeor.isChatBotHided
+import com.Meditation.Sounds.frequencies.lemeor.isPlayAlbum
+import com.Meditation.Sounds.frequencies.lemeor.isPlayProgram
 import com.Meditation.Sounds.frequencies.lemeor.isTrackAdd
 import com.Meditation.Sounds.frequencies.lemeor.max
+import com.Meditation.Sounds.frequencies.lemeor.playAlbumId
 import com.Meditation.Sounds.frequencies.lemeor.playListScalar
+import com.Meditation.Sounds.frequencies.lemeor.playProgramId
 import com.Meditation.Sounds.frequencies.lemeor.playRife
 import com.Meditation.Sounds.frequencies.lemeor.selectedNaviFragment
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper
@@ -93,7 +98,9 @@ import com.Meditation.Sounds.frequencies.lemeor.tools.downloader.DownloadInfo
 import com.Meditation.Sounds.frequencies.lemeor.tools.downloader.DownloadService
 import com.Meditation.Sounds.frequencies.lemeor.tools.downloader.DownloadTrackErrorEvent
 import com.Meditation.Sounds.frequencies.lemeor.tools.downloader.DownloaderActivity
+import com.Meditation.Sounds.frequencies.lemeor.tools.player.MusicRepository
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.PlayerRepeat
+import com.Meditation.Sounds.frequencies.lemeor.tools.player.PlayerSelected
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.PlayerService
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.PlayerShuffle
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.PlayerUIFragment
@@ -111,6 +118,7 @@ import com.Meditation.Sounds.frequencies.lemeor.ui.options.NewOptionsFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.programs.NewProgramFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.programs.NewProgramViewModel
 import com.Meditation.Sounds.frequencies.lemeor.ui.programs.detail.ProgramDetailFragment
+import com.Meditation.Sounds.frequencies.lemeor.ui.programs.detail.ProgramDetailViewModel
 import com.Meditation.Sounds.frequencies.lemeor.ui.purchase.new_flow.NewPurchaseActivity
 import com.Meditation.Sounds.frequencies.lemeor.ui.purchase.new_flow.PurchaseItemAlbumWebView
 import com.Meditation.Sounds.frequencies.lemeor.ui.rife.NewRifeFragment
@@ -119,6 +127,7 @@ import com.Meditation.Sounds.frequencies.lemeor.ui.scalar.NewScalarFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.scalar.NewScalarViewModel
 import com.Meditation.Sounds.frequencies.lemeor.ui.scalar.ScalarDownloadService
 import com.Meditation.Sounds.frequencies.lemeor.ui.videos.NewVideosFragment
+import com.Meditation.Sounds.frequencies.models.event.ScheduleProgramStatusEvent
 import com.Meditation.Sounds.frequencies.models.event.SyncDataEvent
 import com.Meditation.Sounds.frequencies.tasks.BaseTask
 import com.Meditation.Sounds.frequencies.tasks.GetFlashSaleTask
@@ -160,6 +169,8 @@ import kotlinx.android.synthetic.main.activity_navigation.view.txt_mode
 import kotlinx.android.synthetic.main.activity_navigation.viewGroupDownload
 import kotlinx.android.synthetic.main.activity_navigation.viewIntroChatBot
 import kotlinx.android.synthetic.main.activity_navigation.view_data
+import kotlinx.android.synthetic.main.fragment_program_detail.program_play
+import kotlinx.android.synthetic.main.fragment_program_detail.program_time
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
@@ -185,6 +196,8 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
     private lateinit var mNewRifeViewModel: NewRifeViewModel
     private lateinit var mNewScalarViewModel: NewScalarViewModel
     private lateinit var mChatBotViewModel: ChatBotViewModel
+    private lateinit var mProgramDetailViewModel: ProgramDetailViewModel
+
     private var playerUI: PlayerUIFragment? = null
 
     private var mLocalApkPath: String? = null
@@ -198,6 +211,9 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
     private var edtMessageChat: AppCompatEditText? = null
     private var btnSendChat: AppCompatImageView? = null
     private var isStartedChat = false
+
+    //alarm play programs
+    private var isFirstPlay = true
 
     //search
     private val searchAdapter by lazy {
@@ -350,6 +366,41 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                     showMode("Shuffle Off")
                 }
             }
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN_ORDERED)
+    fun onAlarmsScheduleProgramEvent(event: ScheduleProgramStatusEvent?) {
+        //SharedPreferenceHelper.getInstance().getInt(Constants.PREF_SCHEDULE_PROGRAM_ID) != 0
+        if (event?.isPlay == true) {
+            mProgramDetailViewModel.program(123323).observe(this@NavigationActivity) {
+                if (it != null && it.id != 0) {
+                    val tracks: ArrayList<Search> = ArrayList()
+                    mProgramDetailViewModel.convertData(it) { list ->
+                        if (tracks.size != list.size && isPlayProgram && playProgramId == it.id) {
+                            isFirstPlay = false
+                        }
+                        tracks.clear()
+                        tracks.addAll(list)
+                        if (currentTrack.value != null) {
+                            val track = currentTrack.value
+                            if (track is MusicRepository.Track) {
+                                tracks.firstOrNull {
+                                    (it.obj is Track) && it.id == track.trackId
+                                }?.let {
+
+                                }
+                            }
+                        }
+
+                        playPrograms(tracks.map { it.obj } as ArrayList<Any>, it.id)
+                        EventBus.getDefault().post(PlayerSelected(0))
+                    }
+
+                }
+            }
+        } else {
+            EventBus.getDefault().post("pause player")
         }
     }
 
@@ -599,6 +650,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
 
         orientationChangesUI(resources.configuration.orientation)
 
+        QcAlarmManager.setScheduleProgramsAlarms(this@NavigationActivity)
     }
 
     private fun copyAssetsFiles() {
@@ -635,6 +687,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         stopService(Intent(this, PlayerService::class.java))
         stopService(Intent(this, ScalarPlayerService::class.java))
         clearDataPlayer()
+        QcAlarmManager.clearScheduleProgramsAlarms(this@NavigationActivity)
     }
 
     private fun init() {
@@ -650,6 +703,12 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                 ApiHelper(RetrofitBuilder(this).apiService), DataBase.getInstance(this)
             )
         )[NewProgramViewModel::class.java]
+
+        mProgramDetailViewModel = ViewModelProvider(
+            this, ViewModelFactory(
+                ApiHelper(RetrofitBuilder(this).apiService), DataBase.getInstance(this)
+            )
+        )[ProgramDetailViewModel::class.java]
 
         mNewRifeViewModel = ViewModelProvider(
             this, ViewModelFactory(
@@ -1614,6 +1673,64 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         max.value = 0
         duration.value = 0
         isChatBotHided = false
+    }
+
+    private fun playPrograms(tracks: ArrayList<Any>, programId: Int) {
+        playRife = null
+        if (isPlayAlbum || playProgramId != programId) {
+           hidePlayerUI()
+        }
+        isPlayAlbum = false
+        playAlbumId = -1
+        isPlayProgram = true
+        playProgramId = programId
+        CoroutineScope(Dispatchers.IO).launch {
+            val data = tracks.mapNotNull { t ->
+                when (t) {
+                    is Track -> {
+                        MusicRepository.Track(
+                            t.id,
+                            t.name,
+                            t.album?.name ?: "",
+                            t.albumId,
+                            t.album!!,
+                            R.drawable.launcher,
+                            t.duration,
+                            0,
+                            t.filename
+                        )
+                    }
+
+                    is MusicRepository.Frequency -> {
+                        t
+                    }
+
+                    else -> null
+                }
+            } as ArrayList<MusicRepository.Music>
+            if (isFirstPlay) {
+                trackList?.clear()
+                trackList = data
+                val mIntent = Intent(applicationContext, PlayerService::class.java).apply {
+                    putParcelableArrayListExtra("playlist", arrayListOf<MusicRepository.Music>())
+                }
+                try {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        stopService(mIntent)
+                        startForegroundService(mIntent)
+                    } else {
+                        stopService(mIntent)
+                        startService(mIntent)
+                    }
+                    isFirstPlay = false
+                } catch (_: Exception) {
+                }
+
+            }
+            CoroutineScope(Dispatchers.Main).launch {
+                showPlayerUI()
+            }
+        }
     }
 
 

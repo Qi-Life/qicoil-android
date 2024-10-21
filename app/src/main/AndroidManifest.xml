@@ -151,6 +151,14 @@
             android:name=".services.AlarmReceiver"
             android:exported="false" />
         <receiver
+            android:name=".services.AlarmsScheduleProgramReceiver"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="PREF_SCHEDULE_PROGRAM_PLAY"/>
+                <action android:name="PREF_SCHEDULE_PROGRAM_STOP"/>
+            </intent-filter>
+        </receiver>
+        <receiver
             android:name=".services.INotificationBroascast"
             android:exported="false" />
 

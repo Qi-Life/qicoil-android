@@ -36,6 +36,29 @@
         font:fontText="fonts/BebasNeue_Bold.otf"
         tools:text="Program name" />
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/btnSwitchSchedule"
+        android:layout_width="60dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="25dp"
+        app:layout_constraintBottom_toBottomOf="@+id/program_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/program_name"
+        app:srcCompat="@drawable/bg_switch_schedule" />
+
+    <com.Meditation.Sounds.frequencies.views.CustomFontTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:text="@string/schedule_on_off"
+        android:textAllCaps="true"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/text_size_small"
+        app:fontText="fonts/HelveticaNeue_Bold.otf"
+        app:layout_constraintBottom_toBottomOf="@+id/program_name"
+        app:layout_constraintEnd_toStartOf="@+id/btnSwitchSchedule"
+        app:layout_constraintTop_toTopOf="@+id/program_name" />
+
     <com.Meditation.Sounds.frequencies.views.CustomFontTextView
         android:id="@+id/program_time"
         android:layout_width="match_parent"
