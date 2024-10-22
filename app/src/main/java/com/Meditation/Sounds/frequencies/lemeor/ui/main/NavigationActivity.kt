@@ -49,6 +49,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.Meditation.Sounds.frequencies.BuildConfig
 import com.Meditation.Sounds.frequencies.QApplication
 import com.Meditation.Sounds.frequencies.R
@@ -127,8 +130,10 @@ import com.Meditation.Sounds.frequencies.lemeor.ui.scalar.NewScalarFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.scalar.NewScalarViewModel
 import com.Meditation.Sounds.frequencies.lemeor.ui.scalar.ScalarDownloadService
 import com.Meditation.Sounds.frequencies.lemeor.ui.videos.NewVideosFragment
+import com.Meditation.Sounds.frequencies.models.event.ScheduleProgramProgressEvent
 import com.Meditation.Sounds.frequencies.models.event.ScheduleProgramStatusEvent
 import com.Meditation.Sounds.frequencies.models.event.SyncDataEvent
+import com.Meditation.Sounds.frequencies.services.worker.DailyWorker
 import com.Meditation.Sounds.frequencies.tasks.BaseTask
 import com.Meditation.Sounds.frequencies.tasks.GetFlashSaleTask
 import com.Meditation.Sounds.frequencies.utils.Combined5LiveData
@@ -184,6 +189,8 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import retrofit2.HttpException
 import java.io.File
+import java.util.Calendar
+import java.util.concurrent.TimeUnit
 
 
 const val REQUEST_CODE_PERMISSION = 1111
@@ -403,6 +410,12 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
             EventBus.getDefault().post("pause player")
         }
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN_ORDERED)
+    fun onScheduleProgramProgressEvent(event: ScheduleProgramProgressEvent?) {
+        QcAlarmManager.setScheduleProgramsAlarms(this@NavigationActivity)
+    }
+
 
     private fun showMode(title: String) {
         bg_mode.isVisible = true
@@ -651,6 +664,8 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         orientationChangesUI(resources.configuration.orientation)
 
         QcAlarmManager.setScheduleProgramsAlarms(this@NavigationActivity)
+
+        scheduleDailyWork()
     }
 
     private fun copyAssetsFiles() {
@@ -688,6 +703,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         stopService(Intent(this, ScalarPlayerService::class.java))
         clearDataPlayer()
         QcAlarmManager.clearScheduleProgramsAlarms(this@NavigationActivity)
+        WorkManager.getInstance(this).cancelUniqueWork("DailyWorker")
     }
 
     private fun init() {
@@ -1731,6 +1747,30 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                 showPlayerUI()
             }
         }
+    }
+
+    private fun scheduleDailyWork() {
+        val currentDateTime = Calendar.getInstance()
+        val midnight = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 1)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+            add(Calendar.DAY_OF_MONTH, 1)
+        }
+
+        val initialDelay = midnight.timeInMillis - currentDateTime.timeInMillis
+
+        val dailyWorkRequest = PeriodicWorkRequestBuilder<DailyWorker>(1, TimeUnit.DAYS)
+            .setInitialDelay(initialDelay, TimeUnit.MILLISECONDS)
+            .build()
+
+        WorkManager.getInstance(applicationContext)
+            .enqueueUniquePeriodicWork(
+                "DailyWorker",
+                ExistingPeriodicWorkPolicy.REPLACE,
+                dailyWorkRequest
+            )
     }
 
 

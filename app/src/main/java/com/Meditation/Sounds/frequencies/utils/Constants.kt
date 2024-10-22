@@ -322,6 +322,8 @@ class Constants {
         val PREF_SCHEDULE_PROGRAM_STOP = "PREF_SCHEDULE_PROGRAM_STOP"
         @JvmField
         val PREF_SCHEDULE_PROGRAM_ID = "PREF_SCHEDULE_PROGRAM_ID"
+        @JvmField
+        val PREF_SCHEDULE_PROGRAM_NAME = "PREF_SCHEDULE_PROGRAM_NAME"
 
         var isGuestLogin = false
 

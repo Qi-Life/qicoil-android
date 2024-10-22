@@ -42,6 +42,7 @@ import com.Meditation.Sounds.frequencies.lemeor.selectedNaviFragment
 import com.Meditation.Sounds.frequencies.lemeor.tools.downloader.DownloadService
 import com.Meditation.Sounds.frequencies.lemeor.tools.downloader.DownloaderActivity
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.MusicRepository
+import com.Meditation.Sounds.frequencies.lemeor.tools.player.PlayerRepeat
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.PlayerSelected
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.PlayerService
 import com.Meditation.Sounds.frequencies.lemeor.trackList
@@ -53,6 +54,7 @@ import com.Meditation.Sounds.frequencies.lemeor.ui.programs.NewProgramFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.programs.NewProgramViewModel
 import com.Meditation.Sounds.frequencies.lemeor.ui.programs.dialog.FrequenciesDialogFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.programs.search.AddProgramsFragment
+import com.Meditation.Sounds.frequencies.models.event.ScheduleProgramProgressEvent
 import com.Meditation.Sounds.frequencies.services.AlarmsScheduleProgramReceiver
 import com.Meditation.Sounds.frequencies.utils.Constants
 import com.Meditation.Sounds.frequencies.utils.QcAlarmManager
@@ -246,11 +248,14 @@ class ProgramDetailFragment : BaseFragment() {
         btnSwitchSchedule.setOnClickListener {
             if (btnSwitchSchedule.isSelected) {
                 SharedPreferenceHelper.getInstance().setInt(Constants.PREF_SCHEDULE_PROGRAM_ID, 0)
+                SharedPreferenceHelper.getInstance().set(Constants.PREF_SCHEDULE_PROGRAM_NAME, "")
             } else {
                 SharedPreferenceHelper.getInstance().setInt(Constants.PREF_SCHEDULE_PROGRAM_ID, programId)
+                SharedPreferenceHelper.getInstance().set(Constants.PREF_SCHEDULE_PROGRAM_NAME, program?.name)
             }
             btnSwitchSchedule.isSelected = !btnSwitchSchedule.isSelected
             SharedPreferenceHelper.getInstance().setBool(Constants.PREF_SCHEDULE_PROGRAM_STATUS, btnSwitchSchedule.isSelected)
+            EventBus.getDefault().post(ScheduleProgramProgressEvent)
         }
     }
 

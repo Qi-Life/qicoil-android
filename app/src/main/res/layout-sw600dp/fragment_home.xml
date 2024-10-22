@@ -57,10 +57,9 @@
         android:id="@+id/imvSaveSchedule"
         android:layout_width="18dp"
         android:layout_height="18dp"
-        android:layout_marginStart="10dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tvSaveSchedule"
-        app:layout_constraintStart_toEndOf="@+id/tvSaveSchedule"
-        app:layout_constraintTop_toTopOf="@+id/tvSaveSchedule"
+        app:layout_constraintBottom_toBottomOf="@+id/tvProgramName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvProgramName"
         app:srcCompat="@drawable/ic_save_schedule" />
 
 
@@ -68,38 +67,38 @@
         android:id="@+id/tvSaveSchedule"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
         android:text="@string/save_schedule"
         android:textAllCaps="true"
-        android:layout_marginTop="10dp"
         android:textColor="@android:color/white"
         android:textSize="@dimen/text_size_small"
         app:fontText="fonts/HelveticaNeue_Regular.otf"
-        app:layout_constraintStart_toStartOf="@+id/tvScheduleOnOff"
-        app:layout_constraintTop_toBottomOf="@+id/tvScheduleOnOff" />
+        app:layout_constraintBottom_toBottomOf="@+id/tvProgramName"
+        app:layout_constraintEnd_toStartOf="@+id/imvSaveSchedule"
+        app:layout_constraintTop_toTopOf="@+id/tvProgramName" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/btnSwitchSchedule"
         android:layout_width="60dp"
-        android:layout_marginStart="7dp"
         android:layout_height="25dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tvScheduleOnOff"
-        app:layout_constraintStart_toEndOf="@+id/tvScheduleOnOff"
-        app:layout_constraintTop_toTopOf="@+id/tvScheduleOnOff"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvProgramName"
+        app:layout_constraintEnd_toStartOf="@+id/tvSaveSchedule"
+        app:layout_constraintTop_toTopOf="@+id/tvProgramName"
         app:srcCompat="@drawable/bg_switch_schedule" />
 
     <com.Meditation.Sounds.frequencies.views.CustomFontTextView
-        android:id="@+id/tvScheduleOnOff"
         android:layout_width="wrap_content"
-        android:layout_marginTop="10dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="5dp"
         android:text="@string/schedule_on_off"
         android:textAllCaps="true"
         android:textColor="@android:color/white"
         android:textSize="@dimen/text_size_small"
         app:fontText="fonts/HelveticaNeue_Bold.otf"
-        app:layout_constraintStart_toStartOf="@+id/tvProgramName"
-        app:layout_constraintTop_toBottomOf="@+id/tvProgramName" />
+        app:layout_constraintBottom_toBottomOf="@+id/tvProgramName"
+        app:layout_constraintEnd_toStartOf="@+id/btnSwitchSchedule"
+        app:layout_constraintTop_toTopOf="@+id/tvProgramName" />
 
 
     <com.Meditation.Sounds.frequencies.views.CustomFontTextView
@@ -112,7 +111,7 @@
         android:textSize="@dimen/text_size_small_11"
         app:fontText="fonts/HelveticaNeue_Regular.otf"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvSaveSchedule" />
+        app:layout_constraintTop_toBottomOf="@+id/tvProgramName" />
 
     <com.jaygoo.widget.RangeSeekBar
         android:id="@+id/sbRangeScheduleTimeAm"

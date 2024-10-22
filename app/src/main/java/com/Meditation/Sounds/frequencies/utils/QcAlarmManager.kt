@@ -5,6 +5,7 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.text.format.DateFormat
 import android.util.Log
 import com.Meditation.Sounds.frequencies.api.models.GetFlashSaleOutput
@@ -209,61 +210,79 @@ class QcAlarmManager {
         }
 
 
+        @SuppressLint("SimpleDateFormat")
         fun setScheduleProgramsAlarms(context: Context) {
             //clear schedule programs
             clearScheduleProgramsAlarms(context)
-            if (SharedPreferenceHelper.getInstance()
-                    .getBool(Constants.PREF_SCHEDULE_PROGRAM_STATUS)
-            ) {
+            if (SharedPreferenceHelper.getInstance().getBool(Constants.PREF_SCHEDULE_PROGRAM_STATUS)) {
                 val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                val currentTime = Calendar.getInstance()
+                val simpleDateFormat = SimpleDateFormat("ddMMyyyy : HH:mm:ss")
 
-//                val hourStartAm = SharedPreferenceHelper.getInstance()
-//                    .getFloat(Constants.PREF_SCHEDULE_START_TIME_AM, 0f).toInt() / 60
-//                val mintStartAm = SharedPreferenceHelper.getInstance()
-//                    .getFloat(Constants.PREF_SCHEDULE_START_TIME_AM, 0f).toInt() % 60
-//
-//                val hourEndAm = SharedPreferenceHelper.getInstance()
-//                    .getFloat(Constants.PREF_SCHEDULE_END_TIME_AM, 0f).toInt() / 60
-//                val mintEndAm = SharedPreferenceHelper.getInstance()
-//                    .getFloat(Constants.PREF_SCHEDULE_END_TIME_AM, 0f).toInt() % 60
-//
-//                val playIntentMorning =
-//                    Intent(context, AlarmsScheduleProgramReceiver::class.java).apply {
-//                        action = Constants.PREF_SCHEDULE_PROGRAM_PLAY
-//                    }
-//                val playPendingIntentMorning = PendingIntent.getBroadcast(
-//                    context,
-//                    1000,
-//                    playIntentMorning,
-//                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-//                )
-//                val calendarMorningStart = Calendar.getInstance().apply {
-//                    set(Calendar.HOUR_OF_DAY, hourStartAm)
-//                    set(Calendar.MINUTE, mintStartAm)
-//                    set(Calendar.SECOND, 0)
-//                }
+                val hourStartAm = SharedPreferenceHelper.getInstance()
+                    .getFloat(Constants.PREF_SCHEDULE_START_TIME_AM, 0f).toInt() / 60
+                val mintStartAm = SharedPreferenceHelper.getInstance()
+                    .getFloat(Constants.PREF_SCHEDULE_START_TIME_AM, 0f).toInt() % 60
+
+                val hourEndAm = SharedPreferenceHelper.getInstance()
+                    .getFloat(Constants.PREF_SCHEDULE_END_TIME_AM, 0f).toInt() / 60
+                val mintEndAm = SharedPreferenceHelper.getInstance()
+                    .getFloat(Constants.PREF_SCHEDULE_END_TIME_AM, 0f).toInt() % 60
+
+                val calendarMorningStart = Calendar.getInstance().apply {
+                    set(Calendar.HOUR_OF_DAY, hourStartAm)
+                    set(Calendar.MINUTE, mintStartAm)
+                    set(Calendar.SECOND, 0)
+                }
+
+                val calendarMorningEnd = Calendar.getInstance().apply {
+                    set(Calendar.HOUR_OF_DAY, hourEndAm)
+                    set(Calendar.MINUTE, mintEndAm)
+                    set(Calendar.SECOND, 0)
+                }
+
+                if (calendarMorningStart.before(currentTime)) {
+                    calendarMorningStart.add(Calendar.DAY_OF_YEAR, 1)
+                    calendarMorningEnd.add(Calendar.DAY_OF_YEAR, 1)
+                }
+
+                val playIntentMorning =
+                    Intent(context, AlarmsScheduleProgramReceiver::class.java).apply {
+                        action = Constants.PREF_SCHEDULE_PROGRAM_PLAY
+                    }
+                playIntentMorning.putExtra("data", "start mor ${simpleDateFormat.format(calendarMorningStart.time)}")
+                val playPendingIntentMorning = PendingIntent.getBroadcast(
+                    context,
+                    1000,
+                    playIntentMorning,
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                )
+
 //                alarmManager.setRepeating(
 //                    AlarmManager.RTC_WAKEUP,
 //                    calendarMorningStart.timeInMillis,
 //                    AlarmManager.INTERVAL_DAY,
 //                    playPendingIntentMorning
 //                )
-//
-//                val stopIntentMorning =
-//                    Intent(context, AlarmsScheduleProgramReceiver::class.java).apply {
-//                        action = Constants.PREF_SCHEDULE_PROGRAM_STOP
-//                    }
-//                val stopPendingIntentMorning = PendingIntent.getBroadcast(
-//                    context,
-//                    1001,
-//                    stopIntentMorning,
-//                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-//                )
-//                val calendarMorningEnd = Calendar.getInstance().apply {
-//                    set(Calendar.HOUR_OF_DAY, hourEndAm)
-//                    set(Calendar.MINUTE, mintEndAm)
-//                    set(Calendar.SECOND, 0)
-//                }
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendarMorningStart.timeInMillis, playPendingIntentMorning)
+                } else {
+                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendarMorningStart.timeInMillis, playPendingIntentMorning)
+                }
+
+                val stopIntentMorning =
+                    Intent(context, AlarmsScheduleProgramReceiver::class.java).apply {
+                        action = Constants.PREF_SCHEDULE_PROGRAM_STOP
+                    }
+                stopIntentMorning.putExtra("data", "stop mor ${simpleDateFormat.format(calendarMorningEnd.time)}")
+                val stopPendingIntentMorning = PendingIntent.getBroadcast(
+                    context,
+                    1001,
+                    stopIntentMorning,
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                )
+
 //                alarmManager.setRepeating(
 //                    AlarmManager.RTC_WAKEUP,
 //                    calendarMorningEnd.timeInMillis,
@@ -271,59 +290,84 @@ class QcAlarmManager {
 //                    stopPendingIntentMorning
 //                )
 
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendarMorningEnd.timeInMillis, stopPendingIntentMorning)
+                } else {
+                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendarMorningEnd.timeInMillis, stopPendingIntentMorning)
+                }
+
                 val hourStartPm = SharedPreferenceHelper.getInstance()
                     .getFloat(Constants.PREF_SCHEDULE_START_TIME_PM, 0f).toInt() / 60
                 val mintStartPm = SharedPreferenceHelper.getInstance()
                     .getFloat(Constants.PREF_SCHEDULE_START_TIME_PM, 0f).toInt() % 60
 
-//                val hourEndPm = SharedPreferenceHelper.getInstance()
-//                    .getFloat(Constants.PREF_SCHEDULE_END_TIME_PM, 0f).toInt() / 60
-//                val mintEndPm = SharedPreferenceHelper.getInstance()
-//                    .getFloat(Constants.PREF_SCHEDULE_END_TIME_PM, 0f).toInt() % 60
+                val hourEndPm = SharedPreferenceHelper.getInstance()
+                    .getFloat(Constants.PREF_SCHEDULE_END_TIME_PM, 0f).toInt() / 60
+                val mintEndPm = SharedPreferenceHelper.getInstance()
+                    .getFloat(Constants.PREF_SCHEDULE_END_TIME_PM, 0f).toInt() % 60
+
+                val calendarAfternoonStart = Calendar.getInstance().apply {
+                    set(Calendar.HOUR_OF_DAY, hourStartPm + 12)
+                    set(Calendar.MINUTE, mintStartPm)
+                    set(Calendar.SECOND, 0)
+                }
+
+                val calendarAfternoonEnd = Calendar.getInstance().apply {
+                    set(Calendar.HOUR_OF_DAY, hourEndPm + 12)
+                    set(Calendar.MINUTE, mintEndPm)
+                    set(Calendar.SECOND, 0)
+                }
+
+                if (calendarAfternoonStart.before(currentTime)) {
+                    calendarAfternoonStart.add(Calendar.DAY_OF_YEAR, 1)
+                    calendarAfternoonEnd.add(Calendar.DAY_OF_YEAR, 1)
+                }
 
                 val playIntentAfternoon =
                     Intent(context, AlarmsScheduleProgramReceiver::class.java).apply {
                         action = Constants.PREF_SCHEDULE_PROGRAM_PLAY
                     }
+                playIntentAfternoon.putExtra("data", "start after ${simpleDateFormat.format(calendarAfternoonStart.time)}")
                 val playPendingIntentAfternoon = PendingIntent.getBroadcast(
                     context,
                     1002,
                     playIntentAfternoon,
                     PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
                 )
-                val calendarAfternoonStart = Calendar.getInstance().apply {
-                    set(Calendar.HOUR_OF_DAY, if (is24HourFormat(context)) (hourStartPm + 12) else hourStartPm)
-                    set(Calendar.MINUTE, mintStartPm)
-                    set(Calendar.SECOND, 0)
-                }
-                alarmManager.setRepeating(
-                    AlarmManager.RTC_WAKEUP,
-                    calendarAfternoonStart.timeInMillis,
-                    AlarmManager.INTERVAL_DAY,
-                    playPendingIntentAfternoon
-                )
-
-//                val stopIntentAfternoon =
-//                    Intent(context, AlarmsScheduleProgramReceiver::class.java).apply {
-//                        action = Constants.PREF_SCHEDULE_PROGRAM_STOP
-//                    }
-//                val stopPendingIntentAfternoon = PendingIntent.getBroadcast(
-//                    context,
-//                    1003,
-//                    stopIntentAfternoon,
-//                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+//                alarmManager.setRepeating(
+//                    AlarmManager.RTC_WAKEUP,
+//                    calendarAfternoonStart.timeInMillis,
+//                    AlarmManager.INTERVAL_DAY,
+//                    playPendingIntentAfternoon
 //                )
-//                val calendarAfternoonEnd = Calendar.getInstance().apply {
-//                    set(Calendar.HOUR_OF_DAY, if (is24HourFormat(context)) (hourEndPm + 12) else hourEndPm)
-//                    set(Calendar.MINUTE, mintEndPm)
-//                    set(Calendar.SECOND, 0)
-//                }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendarAfternoonStart.timeInMillis, playPendingIntentAfternoon)
+                } else {
+                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendarAfternoonStart.timeInMillis, playPendingIntentAfternoon)
+                }
+
+                val stopIntentAfternoon =
+                    Intent(context, AlarmsScheduleProgramReceiver::class.java).apply {
+                        action = Constants.PREF_SCHEDULE_PROGRAM_STOP
+                    }
+                stopIntentAfternoon.putExtra("data", "stop after ${simpleDateFormat.format(calendarAfternoonEnd.time)}")
+                val stopPendingIntentAfternoon = PendingIntent.getBroadcast(
+                    context,
+                    1003,
+                    stopIntentAfternoon,
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                )
 //                alarmManager.setRepeating(
 //                    AlarmManager.RTC_WAKEUP,
 //                    calendarAfternoonEnd.timeInMillis,
 //                    AlarmManager.INTERVAL_DAY,
 //                    stopPendingIntentAfternoon
 //                )
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendarAfternoonEnd.timeInMillis, stopPendingIntentAfternoon)
+                } else {
+                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendarAfternoonEnd.timeInMillis, stopPendingIntentAfternoon)
+                }
             }
         }
 
@@ -349,10 +393,6 @@ class QcAlarmManager {
                 PendingIntent.FLAG_NO_CREATE or PendingIntent.FLAG_IMMUTABLE
             )
             return pendingIntent != null
-        }
-
-        private fun is24HourFormat(context: Context): Boolean {
-            return DateFormat.is24HourFormat(context)
         }
     }
 
