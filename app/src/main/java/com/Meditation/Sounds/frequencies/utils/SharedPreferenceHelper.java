@@ -226,4 +226,8 @@ public class SharedPreferenceHelper {
         }.getType();
         return new Gson().fromJson(json, type);
     }
+
+    public void clearRecentAlbums() {
+        mSharedPreferences.edit().putString(Constants.PREF_RECENT_ALBUMS, null).apply();
+    }
 }

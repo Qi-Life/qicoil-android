@@ -22,6 +22,7 @@ import com.Meditation.Sounds.frequencies.lemeor.data.model.Track
 import com.Meditation.Sounds.frequencies.lemeor.data.utils.Resource
 import com.Meditation.Sounds.frequencies.lemeor.data.utils.getErrorMsg
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper
+import com.Meditation.Sounds.frequencies.models.ProgramSchedule
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -185,6 +186,8 @@ class HomeViewModel(private val repository: HomeRepository, private val db: Data
     suspend fun searchProgram(searchString: String): List<Program> {
         return repository.searchProgram(searchString)
     }
+
+    suspend fun updateProgramScheduleTime(param: ProgramSchedule) = repository.updateProgramScheduleTime(param)
 
     fun loadFromCache(context: Context) {
         val cache: HomeResponse = Gson().fromJson(context.assets.open("db_caсhe.json").bufferedReader().use { reader ->

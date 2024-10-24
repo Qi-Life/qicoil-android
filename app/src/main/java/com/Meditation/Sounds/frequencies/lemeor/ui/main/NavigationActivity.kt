@@ -151,6 +151,7 @@ import com.tonyodev.fetch2core.isNetworkAvailable
 import kotlinx.android.synthetic.main.activity_navigation.album_search
 import kotlinx.android.synthetic.main.activity_navigation.album_search_clear
 import kotlinx.android.synthetic.main.activity_navigation.bg_mode
+import kotlinx.android.synthetic.main.activity_navigation.btnAddProgram
 import kotlinx.android.synthetic.main.activity_navigation.btnHideChatBot
 import kotlinx.android.synthetic.main.activity_navigation.btnStartChatBot
 import kotlinx.android.synthetic.main.activity_navigation.flash_sale
@@ -659,6 +660,10 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
             btnStartChatBot.visibility = View.GONE
             viewIntroChatBot.visibility = View.GONE
             btnHideChatBot.visibility = View.GONE
+        }
+
+        btnAddProgram.setOnClickListener {
+            navigation_programs.performClick()
         }
 
         orientationChangesUI(resources.configuration.orientation)
@@ -1501,6 +1506,12 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
             viewIntroChatBot.visibility = View.GONE
             btnHideChatBot.visibility = View.GONE
         }
+
+        if (fragment is HomeFragment) {
+            btnAddProgram.visibility = View.VISIBLE
+        } else {
+            btnAddProgram.visibility = View.GONE
+        }
     }
 
     private fun initChatAdapter() {
@@ -1760,11 +1771,9 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         }
 
         val initialDelay = midnight.timeInMillis - currentDateTime.timeInMillis
-
         val dailyWorkRequest = PeriodicWorkRequestBuilder<DailyWorker>(1, TimeUnit.DAYS)
             .setInitialDelay(initialDelay, TimeUnit.MILLISECONDS)
             .build()
-
         WorkManager.getInstance(applicationContext)
             .enqueueUniquePeriodicWork(
                 "DailyWorker",

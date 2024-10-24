@@ -1,5 +1,7 @@
 package com.Meditation.Sounds.frequencies.lemeor.data.model
 
+import com.Meditation.Sounds.frequencies.models.ProgramSchedule
+
 data class AuthResponse(var token: String, var user: User)
 
 data class User(
@@ -9,7 +11,8 @@ data class User(
         var is_active: Int,
         var unlocked_tiers: List<Int>,
         var unlocked_categories: List<Int>,
-        var unlocked_albums: List<Int>
+        var unlocked_albums: List<Int>,
+        var program_schedule: ProgramSchedule? = null
 )
 
 data class PassEmailResponse(var token: String, var message: String)

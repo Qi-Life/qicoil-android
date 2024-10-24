@@ -29,12 +29,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvRecent" />
 
+    <com.Meditation.Sounds.frequencies.views.CustomFontTextView
+        android:id="@+id/tvNoDataRecent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/tv_empty_list"
+        android:textAllCaps="true"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/text_size_small_6"
+        app:fontText="fonts/HelveticaNeue_Italic.ttf"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvRecent" />
 
     <com.Meditation.Sounds.frequencies.views.CustomFontTextView
         android:id="@+id/tvProgramName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:text="@string/you_have_no_program_selected"
         android:textAllCaps="true"
         android:textColor="@android:color/white"
@@ -58,20 +70,20 @@
         android:layout_width="18dp"
         android:layout_height="18dp"
         android:layout_marginStart="10dp"
+        app:tint="@color/text_color_schedule"
         app:layout_constraintBottom_toBottomOf="@+id/tvSaveSchedule"
         app:layout_constraintStart_toEndOf="@+id/tvSaveSchedule"
         app:layout_constraintTop_toTopOf="@+id/tvSaveSchedule"
         app:srcCompat="@drawable/ic_save_schedule" />
 
-
     <com.Meditation.Sounds.frequencies.views.CustomFontTextView
         android:id="@+id/tvSaveSchedule"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:text="@string/save_schedule"
         android:textAllCaps="true"
-        android:layout_marginTop="10dp"
-        android:textColor="@android:color/white"
+        android:textColor="@color/text_color_schedule"
         android:textSize="@dimen/text_size_small"
         app:fontText="fonts/HelveticaNeue_Regular.otf"
         app:layout_constraintStart_toStartOf="@+id/tvScheduleOnOff"
@@ -80,8 +92,8 @@
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/btnSwitchSchedule"
         android:layout_width="60dp"
-        android:layout_marginStart="7dp"
         android:layout_height="25dp"
+        android:layout_marginStart="7dp"
         app:layout_constraintBottom_toBottomOf="@+id/tvScheduleOnOff"
         app:layout_constraintStart_toEndOf="@+id/tvScheduleOnOff"
         app:layout_constraintTop_toTopOf="@+id/tvScheduleOnOff"
@@ -90,8 +102,8 @@
     <com.Meditation.Sounds.frequencies.views.CustomFontTextView
         android:id="@+id/tvScheduleOnOff"
         android:layout_width="wrap_content"
-        android:layout_marginTop="10dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:text="@string/schedule_on_off"
         android:textAllCaps="true"
@@ -106,7 +118,7 @@
         android:id="@+id/tvScheduleTimeAm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:text="00:00 AM to 3:00 AM"
         android:textColor="@android:color/white"
         android:textSize="@dimen/text_size_small_11"

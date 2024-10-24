@@ -3,6 +3,7 @@ package com.Meditation.Sounds.frequencies.lemeor.data.remote
 import com.Meditation.Sounds.frequencies.lemeor.data.api.ApiService
 import com.Meditation.Sounds.frequencies.lemeor.ui.main.Update
 import com.Meditation.Sounds.frequencies.lemeor.ui.main.UpdateTrack
+import com.Meditation.Sounds.frequencies.models.ProgramSchedule
 
 class ApiHelper(private val apiService: ApiService) : BaseDataSource() {
     suspend fun getHome(user_id : String) = getResult{ apiService.getHome(user_id) }
@@ -73,4 +74,6 @@ class ApiHelper(private val apiService: ApiService) : BaseDataSource() {
     suspend fun getScalar() = getResult { apiService.getScalar() }
 
     suspend fun getScalarSubscription() = apiService.getScalarSubscription()
+
+    suspend fun updateProgramScheduleTime(param: ProgramSchedule) = apiService.updateProgramScheduleTime(param)
 }

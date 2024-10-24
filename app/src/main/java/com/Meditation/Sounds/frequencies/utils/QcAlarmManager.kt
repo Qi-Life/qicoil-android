@@ -258,13 +258,6 @@ class QcAlarmManager {
                     PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
                 )
 
-//                alarmManager.setRepeating(
-//                    AlarmManager.RTC_WAKEUP,
-//                    calendarMorningStart.timeInMillis,
-//                    AlarmManager.INTERVAL_DAY,
-//                    playPendingIntentMorning
-//                )
-
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendarMorningStart.timeInMillis, playPendingIntentMorning)
                 } else {
@@ -282,13 +275,6 @@ class QcAlarmManager {
                     stopIntentMorning,
                     PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
                 )
-
-//                alarmManager.setRepeating(
-//                    AlarmManager.RTC_WAKEUP,
-//                    calendarMorningEnd.timeInMillis,
-//                    AlarmManager.INTERVAL_DAY,
-//                    stopPendingIntentMorning
-//                )
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendarMorningEnd.timeInMillis, stopPendingIntentMorning)
@@ -334,12 +320,7 @@ class QcAlarmManager {
                     playIntentAfternoon,
                     PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
                 )
-//                alarmManager.setRepeating(
-//                    AlarmManager.RTC_WAKEUP,
-//                    calendarAfternoonStart.timeInMillis,
-//                    AlarmManager.INTERVAL_DAY,
-//                    playPendingIntentAfternoon
-//                )
+
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendarAfternoonStart.timeInMillis, playPendingIntentAfternoon)
                 } else {
@@ -357,12 +338,7 @@ class QcAlarmManager {
                     stopIntentAfternoon,
                     PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
                 )
-//                alarmManager.setRepeating(
-//                    AlarmManager.RTC_WAKEUP,
-//                    calendarAfternoonEnd.timeInMillis,
-//                    AlarmManager.INTERVAL_DAY,
-//                    stopPendingIntentAfternoon
-//                )
+
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendarAfternoonEnd.timeInMillis, stopPendingIntentAfternoon)
                 } else {

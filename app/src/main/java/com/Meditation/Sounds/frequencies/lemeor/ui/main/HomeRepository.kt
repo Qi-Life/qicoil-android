@@ -5,7 +5,6 @@ import com.Meditation.Sounds.frequencies.lemeor.data.database.DataBase
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Album
 import com.Meditation.Sounds.frequencies.lemeor.data.model.HomeResponse
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Program
-import com.Meditation.Sounds.frequencies.lemeor.data.model.ScalarSubscriptionResponse
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Status
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Track
 import com.Meditation.Sounds.frequencies.lemeor.data.model.User
@@ -22,6 +21,7 @@ import com.Meditation.Sounds.frequencies.lemeor.syncTiers
 import com.Meditation.Sounds.frequencies.lemeor.syncTracks
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper
 import com.Meditation.Sounds.frequencies.lemeor.ui.auth.updateUnlocked
+import com.Meditation.Sounds.frequencies.models.ProgramSchedule
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -52,6 +52,7 @@ class HomeRepository(private val apiHelper: ApiHelper, private val localData: Da
             }
         }
     )
+    suspend fun updateProgramScheduleTime(param: ProgramSchedule) = apiHelper.updateProgramScheduleTime(param)
 
     suspend fun getAlbumById(id: Int, category_id: Int): Album? {
         return localData.albumDao().getAlbumById(id, category_id)

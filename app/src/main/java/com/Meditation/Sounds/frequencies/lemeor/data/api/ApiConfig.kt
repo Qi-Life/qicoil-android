@@ -32,6 +32,7 @@ object ApiConfig {
     const val API_PROGRAMS_UPDATE = "programs/updateTrack"
     const val API_PROGRAMS = "programs"
     const val API_PROGRAMS_SYNC = "programs/sync"
+    const val API_PROGRAMS_SCHEDULE_TIME = "user/programSchedule"
 
     private const val API_RESET_PASS = "password/reset"
 

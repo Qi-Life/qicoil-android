@@ -3,6 +3,7 @@ package com.Meditation.Sounds.frequencies.lemeor.data.api
 import com.Meditation.Sounds.frequencies.lemeor.data.model.*
 import com.Meditation.Sounds.frequencies.lemeor.ui.main.Update
 import com.Meditation.Sounds.frequencies.lemeor.ui.main.UpdateTrack
+import com.Meditation.Sounds.frequencies.models.ProgramSchedule
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -114,5 +115,8 @@ interface ApiService {
 
     @GET(ApiConfig.API_SCALAR_SUBSCRIPTION)
     suspend fun getScalarSubscription(): ScalarSubscriptionResponse
+
+    @POST(ApiConfig.API_PROGRAMS_SCHEDULE_TIME)
+    suspend fun updateProgramScheduleTime(@Body param: ProgramSchedule): Status
 }
 

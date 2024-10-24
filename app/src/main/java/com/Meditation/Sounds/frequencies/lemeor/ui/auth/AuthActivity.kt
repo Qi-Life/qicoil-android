@@ -30,6 +30,7 @@ import com.Meditation.Sounds.frequencies.lemeor.ui.auth.LoginFragment.OnLoginLis
 import com.Meditation.Sounds.frequencies.lemeor.ui.auth.RegistrationFragment.OnRegistrationListener
 import com.Meditation.Sounds.frequencies.models.event.SyncDataEvent
 import com.Meditation.Sounds.frequencies.utils.Constants
+import com.Meditation.Sounds.frequencies.utils.SharedPreferenceHelper
 import com.appsflyer.AFInAppEventParameterName
 import com.appsflyer.AppsFlyerLib
 import kotlinx.coroutines.CoroutineScope
@@ -77,6 +78,19 @@ class AuthActivity : AppCompatActivity(), OnLoginListener, OnRegistrationListene
         preference(applicationContext).token = resource.data?.token
         saveUser(applicationContext, resource.data?.user)
         resource.data?.user?.let { user -> updateUnlocked(applicationContext, user, true) }
+        if (resource.data?.user?.program_schedule != null) {
+            val programSchedule = resource.data.user.program_schedule
+            SharedPreferenceHelper.getInstance()
+                .setFloat(Constants.PREF_SCHEDULE_START_TIME_AM, programSchedule?.startTimeAm ?: 0f)
+            SharedPreferenceHelper.getInstance()
+                .setFloat(Constants.PREF_SCHEDULE_END_TIME_AM, programSchedule?.stopTimeAm ?: 180f)
+
+            SharedPreferenceHelper.getInstance()
+                .setFloat(Constants.PREF_SCHEDULE_START_TIME_PM, programSchedule?.startTimePm ?: 540f)
+            SharedPreferenceHelper.getInstance()
+                .setFloat(Constants.PREF_SCHEDULE_END_TIME_PM, programSchedule?.stopTimePm ?: 719f)
+        }
+
         EventBus.getDefault().post("showDisclaimer")
         Handler(Looper.getMainLooper()).postDelayed({ EventBus.getDefault().post(SyncDataEvent())}, 2000)
     }

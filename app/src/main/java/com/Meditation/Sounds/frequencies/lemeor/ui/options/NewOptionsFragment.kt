@@ -3,15 +3,11 @@ package com.Meditation.Sounds.frequencies.lemeor.ui.options
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.net.Uri
-import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.Meditation.Sounds.frequencies.BuildConfig
 import com.Meditation.Sounds.frequencies.R
@@ -369,8 +365,7 @@ class NewOptionsFragment : BaseFragment() {
         }
 
         options_disclaimer.setOnClickListener {
-            val dialog = DisclaimerDialog(
-                requireContext(),
+            val dialog = DisclaimerDialog(requireContext(),
                 false,
                 object : DisclaimerDialog.IOnSubmitListener {
                     override fun submit(isCheck: Boolean) {}
@@ -495,8 +490,12 @@ class NewOptionsFragment : BaseFragment() {
 
                                         Resource.Status.ERROR -> {
                                             activity?.let { HudHelper.hide() }
-                                            Toast.makeText(context, it.message ?: getString(R.string.msg_error_occurred), Toast.LENGTH_LONG)
-                                                .show()
+                                            Toast.makeText(
+                                                context,
+                                                it.message
+                                                    ?: getString(R.string.msg_error_occurred),
+                                                Toast.LENGTH_LONG
+                                            ).show()
                                         }
 
                                         Resource.Status.LOADING -> {
@@ -527,6 +526,18 @@ class NewOptionsFragment : BaseFragment() {
 
         preference(requireContext()).isLogged = false
         preference(requireContext()).token = null
+
+        SharedPreferenceHelper.getInstance().setBool(Constants.PREF_SCHEDULE_PROGRAM_STATUS, false)
+        SharedPreferenceHelper.getInstance()
+            .setFloat(Constants.PREF_SCHEDULE_START_TIME_AM, 0f)
+        SharedPreferenceHelper.getInstance()
+            .setFloat(Constants.PREF_SCHEDULE_END_TIME_AM, 180f)
+        SharedPreferenceHelper.getInstance()
+            .setFloat(Constants.PREF_SCHEDULE_START_TIME_PM, 540f)
+        SharedPreferenceHelper.getInstance()
+            .setFloat(Constants.PREF_SCHEDULE_END_TIME_PM, 719f)
+
+        SharedPreferenceHelper.getInstance().clearRecentAlbums()
 
         val user = PreferenceHelper.getUser(requireContext())
 
@@ -562,7 +573,6 @@ class NewOptionsFragment : BaseFragment() {
         dialogBuilder.setMessage(getString(R.string.txt_msg_logout)).setCancelable(false)
             .setNegativeButton(getString(R.string.txt_cancel), null)
             .setPositiveButton(getString(R.string.txt_ok)) { dialog, _ ->
-
                 if (options_user_name.text.equals("Guest")) {
                     onLogoutSuccess()
                     dialog.dismiss()
