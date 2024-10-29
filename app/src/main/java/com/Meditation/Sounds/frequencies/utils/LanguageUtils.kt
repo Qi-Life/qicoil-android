@@ -1,15 +1,13 @@
 package com.Meditation.Sounds.frequencies.utils
 
 import android.content.Context
-import android.os.LocaleList
-import android.util.DisplayMetrics
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 import com.Meditation.Sounds.frequencies.R
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper.codeLanguage
 import com.Meditation.Sounds.frequencies.models.Language
-import java.util.*
+import java.util.Locale
 
 
 class LanguageUtils {
@@ -39,6 +37,72 @@ class LanguageUtils {
                     "China",
                     context.getString(R.string.lang_zh),
                     "zh"
+                ),
+                Language(
+                    R.drawable.ic_china,
+                    "Japanese",
+                    context.getString(R.string.lang_ja),
+                    "ja"
+                ),
+                Language(
+                    R.drawable.ic_china,
+                    "Vietnamese",
+                    context.getString(R.string.lang_vi),
+                    "vi"
+                ),
+                Language(
+                    R.drawable.ic_china,
+                    "German",
+                    context.getString(R.string.lang_de),
+                    "de"
+                ),
+                Language(
+                    R.drawable.ic_china,
+                    "Chinese - Traditional",
+                    context.getString(R.string.lang_zh_hant),
+                    "zh_hant"
+                ),
+                Language(
+                    R.drawable.ic_china,
+                    "Chinese - Simplified",
+                    context.getString(R.string.lang_zh_hans),
+                    "zh_hans"
+                ),
+                Language(
+                    R.drawable.ic_china,
+                    "Hindi",
+                    context.getString(R.string.lang_hi),
+                    "hi"
+                ),
+                Language(
+                    R.drawable.ic_china,
+                    "Arabic",
+                    context.getString(R.string.lang_ar),
+                    "ar"
+                ),
+                Language(
+                    R.drawable.ic_china,
+                    "Portuguese",
+                    context.getString(R.string.lang_pt),
+                    "pt"
+                ),
+                Language(
+                    R.drawable.ic_china,
+                    "Korean",
+                    context.getString(R.string.lang_ko),
+                    "ko"
+                ),
+                Language(
+                    R.drawable.ic_china,
+                    "Italian",
+                    context.getString(R.string.lang_it),
+                    "it"
+                ),
+                Language(
+                    R.drawable.ic_china,
+                    "Bengali",
+                    context.getString(R.string.lang_bn),
+                    "bn"
                 ),
             )
         }

@@ -1,0 +1,448 @@
+<resources>
+    <string name="facebook_app_id" translatable="false">239929504671619</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb239929504671619</string>
+
+    <string name="action_settings">Einstellungen</string>
+
+    <!--region Navigation-->
+    <string name="navigation_lbl_home">Heim</string>
+    <string name="navigation_lbl_albums">Alben</string>
+    <string name="navigation_lbl_scalar">Stilles Quantum</string>
+    <string name="navigation_lbl_quantum">Quantum</string>
+    <string name="navigation_lbl_rife">Weit verbreitet</string>
+    <string name="navigation_lbl_programs">Programme</string>
+    <string name="navigation_lbl_videos">Videos</string>
+    <string name="navigation_lbl_shop">Geschäft</string>
+    <string name="navigation_lbl_options">Optionen</string>
+    <!--endregion-->
+
+    <!--region Options-->
+    <string name="options_qi_coil">Holen Sie sich eine Qi-Spule</string>
+    <string name="options_sign_in">anmelden</string>
+    <string name="options_log_out">Abmelden</string>
+    <string name="options_delete_user">Benutzer löschen</string>
+    <string name="profile_lbl_subscription">Abonnement</string>
+    <string name="tv_restore_purchase">Kauf wiederherstellen</string>
+    <string name="profile_lbl_instructions">Anweisungen</string>
+    <string name="profile_lbl_disclaimer">Haftungsausschluss</string>
+    <string name="profile_lbl_about">Um</string>
+    <!--endregion-->
+
+    <string name="btn_play">Spielen</string>
+    <string name="btn_add">Hinzufügen</string>
+
+    <!--region Fetch-->
+    <string name="start_fetching">Beginnen Sie mit dem Abrufen von Dateien.</string>
+    <string name="start">Start</string>
+    <string name="complete_over" translatable="false">%1$d/%2$d</string>
+    <string name="fetch_done">Abruf abgeschlossen.</string>
+    <string name="reset">ZURÜCKSETZEN</string>
+    <string name="game_download_error">Es ist ein Fehler aufgetreten, Dateien konnten nicht abgerufen werden.</string>
+    <!--endregion-->
+
+    <!--region Player-->
+    <string name="notification_channel_name">Spielerkontrollen</string>
+
+    <string name="play">Spielen</string>
+    <string name="pause">Pause</string>
+    <string name="stop">Stoppen</string>
+    <string name="previous">Vorherige</string>
+    <string name="next">Nächste</string>
+    <!--endregion-->
+
+    <!--region Downloader-->
+    <string name="downloader_utils_eta_sec" translatable="false">%1$ds left</string>
+    <string name="downloader_utils_eta_min" translatable="false">%1$dm %2$ds left</string>
+    <string name="downloader_utils_eta_hrs" translatable="false">%1$dh %2$dm %3$ds left</string>
+    <string name="download_speed_bytes" translatable="false">%1$d B/s</string>
+    <string name="download_speed_kb" translatable="false">%1$s KB/s</string>
+    <string name="download_speed_mb" translatable="false">%1$s MB/s</string>
+    <!--endregion-->
+
+    <string name="total_time">Gesamtzeit %1$s</string>
+
+    <string name="options_version" translatable="false">&#160;v %1$s</string>
+
+    <string name="toast_download_complete">Download abgeschlossen!</string>
+    <string name="txt_total_time">GESAMTZEIT</string>
+    <string name="txt_my_playlists">MEINE PROGRAMME</string>
+    <string name="txt_share">AKTIE</string>
+    <string name="txt_delete">LÖSCHEN</string>
+    <string name="txt_save">SPEICHERN</string>
+    <string name="txt_add">HINZUFÜGEN</string>
+    <string name="txt_create_playlist">Playlist erstellen</string>
+    <string name="txt_edit_playlist">Playlist bearbeiten</string>
+    <string name="txt_playlist_name">Name der Wiedergabeliste</string>
+    <string name="txt_ok">OK</string>
+    <string name="txt_no">NEIN</string>
+    <string name="txt_enter_password">Geben Sie das Passwort ein</string>
+    <string name="txt_plz_enter_playlist_name">Bitte geben Sie den Namen der Playlist ein</string>
+    <string name="txt_create_playlist_success">Playlist erfolgreich erstellt</string>
+    <string name="txt_edit_playlist_name_success">Der Name der Playlist wurde erfolgreich bearbeitet</string>
+    <string name="txt_delete_playlist_name_success">Playlist erfolgreich gelöscht</string>
+    <string name="txt_no_songs">Keine Frequenzen</string>
+    <string name="txt_no_result">Keine Ergebnisse gefunden</string>
+    <string name="txt_search_songs">Suchfrequenzen</string>
+    <string name="txt_no_playlist">Keine Programme</string>
+    <string name="txt_no_albums">Keine Alben</string>
+    <string name="msg_download_data">Daten herunterladen&#8230; Bitte warten</string>
+    <string name="msg_error_when_download">Daten können nicht heruntergeladen werden! Bitte versuchen Sie es erneut</string>
+    <string name="txt_try_again">Versuchen Sie es erneut</string>
+    <string name="txt_cancel">Stornieren</string>
+    <string name="msg_coming_soon">Demnächst erhältlich&#8230;</string>
+    <string name="msg_add_first_playlist">Bitte erste Playlist hinzufügen</string>
+    <string name="txt_downloading">Herunterladen</string>
+    <string name="txt_downloaded">Herunterladen</string>
+    <string name="msg_loading">Laden&#8230;</string>
+    <string name="txt_disclaimer_title">Haftungsausschluss und Verzicht</string>
+    <string name="txt_disclaimer_content">Durch die Nutzung dieser App entbinden Sie im gesetzlich zulässigen Umfang den Ersteller dieser App, die Website und ihre verbundenen Unternehmen sowie deren Mitarbeiter, Vertreter und Vertreter von jeglicher Haftung, Schäden oder Verlusten. Diese App und dieses Tablet sind keine medizinischen Geräte und nicht für die Diagnose, Behandlung, Heilung oder Vorbeugung von Krankheiten bestimmt. Diese App wurde nicht von der FDA bewertet und es werden keine medizinischen Ansprüche für diese App geltend gemacht oder impliziert. Wenn Sie Unwohlsein oder Schwindel verspüren, beenden Sie die Verwendung dieser App. Konsultieren Sie immer Ihren Arzt, bevor Sie eines unserer Produkte verwenden.</string>
+    <string name="txt_agree">Zustimmen</string>
+    <string name="txt_disagree">Verschiedener Meinung sein</string>
+    <string name="txt_later">Nochmals anzeigen</string>
+    <string name="txt_about">Um</string>
+    <string name="txt_yes">JA</string>
+    <string name="txt_warning_clear_playlist">Möchten Sie die aktuelle Playlist wirklich löschen?</string>
+    <string name="txt_warning_update_newversion_title">Update verfügbar</string>
+    <string name="txt_warning_update_newversion">Ein Update ist verfügbar. Möchten Sie die Anwendung jetzt aktualisieren?\nFalls Sie die neue Version nicht installieren können. Bitte leeren Sie den App-Cache des Google Play Store und versuchen Sie es erneut.</string>
+    <string name="txt_downloading_dot">Herunterladen…</string>
+    <string name="txt_donot_show_message">Diese Nachricht nicht mehr anzeigen</string>
+    <string name="txt_now_playing">Läuft gerade: %1$s</string>
+    <string name="txt_warning_delete_playlist">Sind Sie sicher, dass Sie diese Playlist löschen möchten?</string>
+
+    <string name="tv_7_days_free">7 Tage\nKostenlos</string>
+    <string name="tv_7_days_free_limited_time_offer">7 TAGE KOSTENLOS \n Zeitlich begrenztes Angebot</string>
+    <string name="tv_free_trial">Kostenlose Testversion</string>
+    <string name="tv_1_month">1\nMonat</string>
+    <string name="tv_1_year">1\nJahr</string>
+    <string name="tv_message_billing_1">• Schalten Sie die gesamte Sammlung von Qi-Coil-Alben frei</string>
+    <string name="tv_message_billing_2">• Anpassbare Programme</string>
+    <string name="tv_message_billing_3">• Vorinstallierte Programme</string>
+    <string name="tv_subscription_info">ABONNEMENT-INFORMATIONEN</string>
+    <string name="txt_about_subscribe_1">• Datenschutzrichtlinie: http://www.tattoobookapp.com/quantumwavebiotechnology/privacy/</string>
+    <string name="txt_about_subscribe_2">• Nutzungsbedingungen: http://www.tattoobookapp.com/quantumwavebiotechnology/terms/</string>
+    <string name="txt_about_subscribe_3">• Jeder ungenutzte Teil eines kostenlosen Testzeitraums, sofern angeboten, verfällt, wenn der Benutzer ein Abonnement für diese Veröffentlichung erwirbt.</string>
+    <string name="tv_back">zurück</string>
+    <string name="tv_sub_info_1">• Während des aktiven Abonnementzeitraums ist keine Kündigung des aktuellen Abonnements zulässig</string>
+    <string name="tv_sub_info_2">• Abonnements können vom Benutzer verwaltet werden und die automatische Verlängerung kann deaktiviert werden, indem Sie nach dem Kauf zu den Kontoeinstellungen des Benutzers gehen</string>
+    <string name="tv_sub_info_3">• Das Abonnement verlängert sich automatisch, es sei denn, die automatische Verlängerung wird mindestens 24 Stunden vor dem Ende des aktuellen Zeitraums deaktiviert</string>
+    <string name="tv_sub_info_4">• Die Zahlung wird bei Bestätigung des Kaufs vom Google-Konto abgebucht</string>
+    <string name="tv_sub_info_5">• Kostenlose Testversion – 7 Tage kostenlos, dann 24,99 pro Monat. Der Preis entspricht dem gleichen Prece-Segment, das im Android Google Play für andere Währungen festgelegt ist</string>
+    <string name="tv_price_of_subscription">Preis des Abonnements:</string>
+    <string name="tv_sub_info_6">• 1 Monat, 7 Tage kostenlose Testversion</string>
+    <string name="tv_length_of_subscription">Dauer des Abonnements:</string>
+    <string name="tv_start_free_trial">Kostenlose Testversion starten</string>
+    <string name="tv_subscription_now">JETZT KAUFEN</string><!--Subscribe-->
+    <string name="tv_activate">Aktivieren Sie Ihre\nkostenlose Testversion</string>
+    <string name="tv_auto_renewable_subscription_info">Informationen zum automatisch erneuerbaren Abonnement:</string>
+    <string name="tv_flash_sale">FLASH-VERKAUF</string>
+    <string name="tv_available_until">&#160;Verfügbar bis&#160;</string>
+    <string name="txt_then_trial_price">Dann %1$s/Monat</string>
+    <!---->
+
+    <string name="tv_advanced_frequencies">Fülle I</string><!--ABUNDANCE-->
+    <string name="tv_basic_frequencies">BASIC</string>
+    <string name="tv_master_frequencies">MASTER</string>
+    <string name="tv_advanced_meditation_frequencies">FORTGESCHRITTENE \n MEDITATIONSFREQUENZEN</string>
+    <string name="tv_advanced_meditation_frequencies_2">ERWEITERTE MEDITATIONSFREQUENZEN</string>
+    <string name="tv_transform_yourself_faster_with_advanced_mind_enhancement_frequencies">Verwandeln Sie sich schneller mit fortschrittlichen Frequenzen zur Geistesverbesserung</string>
+    <string name="tv_title_sub_item_1"><![CDATA[• Steigerung der Gehirnwellen- und Geisteskraft]]></string>
+    <string name="tv_title_sub_item_2">​• Stärken Sie Ihre Kraft, Fülle zu schaffen, zu manifestieren und anzuziehen</string>
+    <string name="tv_title_sub_item_3">• Beschleunigte Gesundheit</string>
+    <string name="tv_title_sub_item_4">​• Erhöhen Sie Ihre spirituelle Resonanz</string>
+    <string name="tv_title_sub_item_5">​​• Erkunden Sie unbekannte Bereiche des Klarträumens und der Astralprojektion</string>
+
+    <string name="tv_recurring_billing">Wiederkehrende Abrechnung. Jederzeit kündbar.</string>
+    <string name="tv_one_time_payment">Einmalige Zahlung</string>
+    <string name="tv_title_subscription_monthly">Dieses Abonnement verlängert sich automatisch um 1999 pro Monat, sofern es nicht mindestens 24 Stunden vor Ablauf des Testzeitraums in Ihren Kontoeinstellungen bei Google Play gekündigt wird. Zahlungen werden Ihrem Google-Konto bei Bestätigung des Kaufs belastet. Die Belastung des Kontos für die Verlängerung erfolgt innerhalb von 24 Stunden vor Ablauf des aktuellen Zeitraums. Jeder ungenutzte Teil eines kostenlosen Testzeitraums, sofern angeboten, verfällt, wenn der Benutzer ein Abonnement für diese Veröffentlichung erwirbt.</string>
+    <string name="tv_title_subscription_lifetime">Zahlungen werden Ihrem Google-Konto bei Bestätigung des Kaufs belastet. Die Belastung des Kontos für die Verlängerung erfolgt innerhalb von 24 Stunden vor Ablauf des aktuellen Zeitraums. Jeder ungenutzte Teil eines kostenlosen Testzeitraums, sofern angeboten, verfällt, wenn der Benutzer ein Abonnement für diese Veröffentlichung erwirbt. Indem Sie fortfahren, stimmen Sie unseren zu</string>
+    <string name="tv_link">Bedingungen und Datenschutzbestimmungen</string>
+    <string name="tv_monthly">monatlich</string>
+    <string name="tv_per_month">pro Monat</string>
+    <string name="tv_annual">Jährlich</string>
+    <string name="tv_per_year">pro Jahr</string>
+    <string name="tv_lifetime">Lebensdauer</string>
+    <string name="tv_pay_once">einmal zahlen</string>
+    <string name="tv_continue">Weitermachen</string>
+    <string name="tv_basic_subscription">Essential-Abonnement</string>
+    <string name="tv_unlock_meditation_prequencies">Schalten Sie Meditationsfrequenzen frei</string>
+    <string name="tv_unlock_meditation_prequencies_2">Schalten Sie Meditationsfrequenzen frei</string>
+    <string name="tv_try_7_days_free">Testen Sie es 7 Tage lang kostenlos</string>
+    <!--new-->
+
+    <string name="tv_minutes">MINUTEN</string>
+    <string name="tv_seconds">SEKUNDEN</string>
+    <string name="tv_hours">STD</string>
+    <string name="tv_offer_expires_in">Das Angebot läuft ab:</string>
+    <string name="tv__50_off">50 % SPAREN</string><!--50% Off-->
+    <string name="tv_unlock_all_34_basic_frequencies_one_time">Schalte ALLE 43 &lt;br/&gt;wesentlichen Frequenzen &lt;u&gt;FÜR IMMER&lt;/u&gt; frei.</string>
+    <string name="tv_unlock_all_34_basic_frequencies_one_time_yearly">Schalte ALLE 43 \nwesentlichen Frequenzen frei</string>
+    <string name="tv_unlock_all_34_basic_frequencies">Schalten Sie ALLE 34 wesentlichen Frequenzen frei </string>
+    <string name="tv_unlock_all_150_advanced_frequencies_one_time">Schalte ALLE 189 &lt;br/&gt;Abundance-Frequenzen &lt;u&gt;FÜR IMMER&lt;/u&gt; frei.</string>
+    <string name="tv_unlock_all_150_advanced_frequencies_one_time_yearly">Schalte ALLE 189 \nÜberflussfrequenzen frei</string>
+    <string name="tv_unlock_all_150_advanced_frequencies">Schalte ALLE 189 \nÜberflussfrequenzen frei </string>
+    <string name="tv_brainwave_mind_power_enhancement"><![CDATA[Verbesserung der Gehirnwellen- und Geisteskraft]]></string>
+    <string name="tvcreate_manifest_attract_abundancet"><![CDATA[Fülle schaffen, manifestieren und anziehen]]></string>
+    <string name="tv_improve_overall_health">Verbessern Sie die allgemeine Gesundheit</string>
+    <string name="tv_raise_your_spiritual_resonance">Erhöhen Sie Ihre spirituelle Resonanz</string>
+    <string name="tv_unlock_34_advanced_frequencies">Schalten Sie 43 wesentliche Frequenzen frei</string>
+    <string name="tv_buy_now">Jetzt kaufen</string>
+    <string name="tv_current_plan">AKTIVIERT</string><!--CURRENT PLAN-->
+    <string name="tv_choose_your_subscription_plan">Wählen Sie Ihren Abonnementplan</string>
+
+    <string name="tv_title_free_1">9 Starterfrequenzen</string>
+    <string name="tv_title_free_2"><![CDATA[Fokus & Meditation]]></string>
+    <string name="tv_title_free_3">Linderung von Stress und Ängsten</string>
+    <string name="tv_title_free_4"><![CDATA[Besserer Schlaf und Entspannung]]></string>
+
+    <string name="tv_title_basic_1">Schalten Sie 43 wesentliche Frequenzen frei</string>
+    <string name="tv_title_basic_2">Klare negative Energie</string>
+    <string name="tv_title_basic_3">Verbessern Sie die Meditation</string>
+    <string name="tv_title_basic_4">Stress abbauen &amp; Angst</string>
+    <string name="tv_title_basic_7">Steigern Sie die körperliche und geistige Energie</string>
+    <string name="tv_title_basic_8">Verbessern Sie Konzentration und Produktivität</string>
+    <string name="tv_title_basic_9">Lernen Sie schneller</string>
+
+    <string name="tv_title_advanced_1">Schalten Sie 43 wesentliche Frequenzen frei</string>
+    <string name="tv_title_advanced_2">Schalte 189 Fülle-Frequenzen frei</string>
+    <string name="tv_title_advanced_3">Erhöhen Sie Glück und Zufälle</string>
+    <string name="tv_title_advanced_4">Verstärken Sie Ihre Manifestationskraft</string>
+    <string name="tv_title_advanced_5">Gestalten Sie Ihre Realität</string>
+    <string name="tv_title_advanced_7">Stärken Sie Ihre Intuition</string>
+    <string name="tv_title_advanced_8">Schalte 189 Fülle-Frequenzen frei</string>
+    <string name="tv_title_advanced_9">Erwecke dein Drittes Auge</string>
+    <string name="tv_title_advanced_10">Ziehen Sie Erfolg und Fülle an</string>
+
+    <string name="tv_title_advanced2_1">Schalten Sie 43 wesentliche Frequenzen frei</string>
+    <string name="tv_title_advanced2_2">Schalte 189 Fülle-Frequenzen frei</string>
+    <string name="tv_title_advanced2_3">Schalten Sie 261 Frequenzen mit höherer Fülle frei</string>
+    <string name="tv_title_advanced2_4">Erhöhen Sie Glück und Zufälle</string>
+    <string name="tv_title_advanced2_5">Verstärken Sie Ihre Manifestationskraft</string>
+    <string name="tv_title_advanced2_6">Gestalten Sie Ihre Realität</string>
+    <string name="tv_title_advanced2_7">Stärken Sie Ihre Intuition</string>
+    <string name="tv_title_advanced2_8">Erwecke dein Drittes Auge</string>
+    <string name="tv_title_advanced2_9">Ziehen Sie Erfolg und Fülle an</string>
+    <string name="tv_title_advanced2_10"><![CDATA[Profunde bewusste und unterbewusste Stimulation]]></string>
+    <string name="tv_title_advanced2_11"><![CDATA[Heilung stimulieren und Vitalität fördern]]></string>
+    <string name="tv_title_advanced2_12">Bringen Sie Ihre Chakren ins Gleichgewicht</string>
+    <string name="tv_title_advanced2_13">EMF-Schutz</string>
+
+
+    <string name="tv_reviews">Rezensionen</string>
+    <string name="tv_faq">FAQs</string>
+    <string name="tv_education">Ausbildung</string>
+    <string name="tv_qi_coils">Qi-Spulen</string>
+    <string name="player_error">Fehler beim Initialisieren des YouTube-Players: %1$s</string>
+    <string name="tv_purchase_limit">Kauflimit: 0/1</string>
+    <string name="tv_yearly_payment_of">Jährliche Zahlung von</string>
+    <string name="tv_title_advanced_6"><![CDATA[Stärken und balancieren Sie Ihr Energiefeld]]></string>
+    <string name="tv_get_this_huge_deal_before_it_s_gone">Sichern Sie sich dieses Riesenangebot, bevor es weg ist!</string>
+
+    <string name="tv_change_password">Kennwort ändern</string>
+    <string name="tv_help_support">Hilfe &amp; Unterstützung</string>
+
+    <string name="tv_my_custom_playlists">Meine benutzerdefinierten Programme</string>
+    <string name="tv_redeem">Tilgen</string>
+
+    <string name="tv_title_subscription">Das Abonnement verlängert sich automatisch, es sei denn, die automatische Verlängerung wird mindestens 24 Stunden vor Ablauf des aktuellen Zeitraums deaktiviert. Die Zahlung wird Ihrem GooglePlay-Konto belastet. Verwalten Sie Abonnements und deaktivieren Sie die automatische Verlängerung in den GooglePlay-Einstellungen.</string>
+    <string name="tv_title_subscription_new">Dieses Abonnement verlängert sich automatisch, es sei denn, die automatische Verlängerung wird mindestens 24 Stunden vor Ablauf des aktuellen Zeitraums deaktiviert. Die Zahlung wird Ihrem GooglePlay-Konto belastet. Verwalten Sie Abonnements und deaktivieren Sie die automatische Verlängerung in den GooglePlay-Kontoeinstellungen.</string>
+    <string name="flash_sale_50_off">Flash Sale – 0,5 RABATT</string>
+    <string name="tv_forgotten_password">&lt;u&gt;Passwort vergessen?&lt;/u&gt;</string>
+    <string name="tv_link_sign_in">&lt;u&gt; Anmelden.&lt;/u&gt;</string>
+    <string name="tv_link_sign_up">&lt;u&gt; Melden Sie sich an.&lt;/u&gt;</string>
+    <string name="tv_signUp">Sie haben noch kein Konto?</string>
+    <string name="tv_signIn">Sie haben bereits ein Konto?</string>
+    <string name="tv_not_worry">Keine Sorge! \nGeben Sie unten einfach Ihre registrierte E-Mail-Adresse ein und wir senden Ihnen eine E-Mail mit Anweisungen zum Zurücksetzen Ihres Passworts.</string>
+    <string name="tv_sign_up">Melden Sie sich an</string>
+    <string name="tv_email">E-Mail</string>
+    <string name="tv_password">Passwort</string>
+    <string name="tv_confirm_password">Passwort bestätigen</string>
+    <string name="tv_get_started">Legen Sie los</string>
+    <string name="tv_sign_in">Anmelden</string>
+    <string name="tv_google">Weiter mit Google</string>
+    <string name="tv_facebook">Weiter mit Facebook</string>
+    <string name="tv_guest">Als Gast fortfahren</string>
+    <string name="tv_login">Login</string>
+    <string name="txt_forgotten_password">Passwort vergessen</string>
+    <string name="tv_forgot_password">Passwort vergessen?</string>
+    <string name="tv_email_address">E-Mail-Adresse</string>
+    <string name="tv_send_email">E-Mail senden</string>
+    <string name="tv_old_password">Altes Passwort</string>
+    <string name="tv_new_password">Neues Passwort</string>
+    <string name="tv_confirm_new_password">Bestätigen Sie das neue Passwort</string>
+    <string name="txt_processing">Verarbeitung</string>
+    <string name="txt_msg_logout">Sind Sie sicher, dass Sie sich abmelden möchten?</string>
+    <string name="txt_msg_deleteuser">Sind Sie sicher, dass Sie den Benutzer löschen möchten?</string>
+    <string name="tv_name">Name</string>
+    <string name="err_network_available">Bitte überprüfen Sie die Netzwerkverbindung!</string>
+    <string name="err_unexpected_exception">Bitte versuchen Sie es erneut!</string>
+    <string name="err_unexpected_exception_api">Verbindung fehlgeschlagen. Bitte versuchen Sie es erneut!</string>
+    <string name="txt_warning_login_fail">Falsche E-Mail oder Passwort. Versuchen Sie es erneut oder wählen Sie „Passwort vergessen“, um es zurückzusetzen.</string>
+    <string name="txt_waiting">Bitte warten…</string>
+    <string name="txt_clear_data">Daten löschen…</string>
+    <string name="txt_email_exist">Diese E-Mail ist bereits registriert.</string>
+    <string name="tv_err_email_register">Ihre E-Mail-Adresse wurde nicht gefunden.</string>
+    <string name="tv_forgot_password_success">Passwort erfolgreich geändert!</string>
+    <string name="tv_send_email_success">E-Mail gesendet. Überprüfen Sie Ihre E-Mails und öffnen Sie den Link, um Ihr Passwort zurückzusetzen.</string>
+    <string name="tv_unlock_powerful_frequencies">Wählen Sie Ihren Abonnementplan</string><!--Unlock Powerful Frequencies-->
+    <string name="txt_encrypting_message">Wir synchronisieren neue Daten. Dieser Vorgang kann weniger als 10 Minuten dauern. Bitte beenden Sie die Anwendung nicht und fahren Sie sie nicht herunter.\nDie Synchronisierung verbraucht keine Netzwerkkapazität.</string>
+    <string name="txt_warning_frequencies_frequencies">Bitte warten Sie, während wir die Frequenzen aktualisieren. Für ein besseres Benutzererlebnis wurden die Frequenzen verstärkt und neu gemastert.</string>
+    <string name="tv_frequencies">Frequenzen</string>
+    <string name="tv_albums">Alben</string>
+    <string name="tv_programs">Programme</string>
+    <string name="tv_higher_abundance">ÜBERFLUSS II</string><!--HIGHER\nABUNDANCE-->
+    <string name="tv_description">Beschreibung</string>
+
+    <string name="tv_note_5">• Erreichen Sie höchste Gehirnleistung, Kreativität und Ideen</string>
+    <string name="tv_note_4">• Holen Sie sich absolute Entspannung und Heilung</string>
+    <string name="tv_note_3">• Fühlen Sie sich ausgeruht, aufgeladen und erholt</string>
+    <string name="tv_note_2">• Fühlen Sie sich konzentriert, entspannt, geerdet und zentriert</string>
+    <string name="tv_note_1">• Stimmt Ihre Gehirnströme ab</string>
+    <string name="tv_create_new">NEU ERSTELLEN</string>
+    <string name="tv_higher_quantum">HÖHERES QUANTUM</string>
+    <string name="tv_search">Suchen</string>
+    <string name="tv_starter">Anlasser</string>
+    <string name="tv_duration">Dauer</string>
+    <string name="tv_move_up_queue">Warteschlange nach oben verschieben</string>
+    <string name="tv_move_down_queue">Warteschlange nach unten verschieben</string>
+    <string name="tv_remove">Entfernen</string>
+    <string name="tv_added_to_my_custom_playlist">Zu meiner benutzerdefinierten Playlist hinzugefügt</string>
+    <string name="tv_add_to_program">Zum Programm hinzufügen</string>
+    <string name="tv_add_to_favorites">Zu Favoriten hinzufügen</string>
+    <string name="tv_redownload">Erneut herunterladen</string>
+    <string name="tv_favorites">Favoriten</string>
+    <string name="tv_remove_from_favorite">Aus Favorit entfernen</string>
+
+    <!--region Delete-->
+    <string name="title_activity_navigation" translatable="false">MainActivity</string>
+    <string name="title_home" translatable="false">Home</string>
+    <string name="title_dashboard" translatable="false">Dashboard</string>
+    <string name="title_notifications" translatable="false">Notifications</string>
+    <string name="title_activity_qwe" translatable="false">MainActivity</string>
+    <!--endregion-->
+
+    <!--Lemeor-->
+    <string name="video_url" translatable="false">https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&amp;playlistId=%1$s&amp;key=%2$s&amp;maxResults=50</string>
+    <string name="flash_sale_colon" translatable="false">:</string>
+    <string name="flash_sale_00" translatable="false">00</string>
+    <string name="some_dot" translatable="false">•</string>
+    <string name="btn_download">Herunterladen</string>
+    <string name="program_favorites">Favoriten</string>
+    <string name="txt_flash_sale">Flash-Sale</string>
+    <string name="search_hint">Suchen</string>
+    <string name="lbl_categories">Kategorien</string>
+    <string name="downloader_quantity">Wird heruntergeladen (%1$d/%2$d)</string>
+    <string name="downloader_quantity_collapse" translatable="false">%1$d/%2$d</string>
+
+    <string name="tst_download_successful_en" translatable="false">Download successful</string>
+    <string name="tst_download_successful_zh" translatable="false">下载成功</string>
+    <string name="tst_download_successful_es" translatable="false">Descargar exitoso</string>
+    <string name="tst_download_successful_fr" translatable="false">Télécharger réussi</string>
+
+    <string name="inapp_purchase_info">Einmalige Zahlung von: %1$s</string>
+    <string name="purchase_dialog_btn_month">Monat</string>
+    <string name="purchase_dialog_btn_annual">Jährlich</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+
+    <string name="share_message">Ich habe diese neue Meditations-App Qi Coil gefunden: https://play.google.com/store/apps/details?id=com.Meditation.Sounds.frequencies</string>
+    <!-- <string name="facebook_app_id">554730859218975</string> -->
+    <string name="download_error">Download-Fehler</string>
+    <string name="download_error_message">Einige Dateien können nicht heruntergeladen werden. Versuchen Sie es später noch einmal!</string>
+
+    <!-- new text-->
+    <string name="tv_from">Aus</string>
+    <string name="tv_now">Jetzt</string>
+    <string name="tv_category_name">Kategoriename</string>
+    <string name="tv_title_trial">Schalte Quanten-\n-Meditationsfrequenzen frei</string>
+    <string name="tv_trial_package_200">Über 200 Quantenfrequenzen</string>
+    <string name="tv_trial_unlimited_use">Unbegrenzte Nutzung</string>
+    <string name="tv_trial_custom_playlists">Benutzerdefinierte Wiedergabelisten</string>
+    <string name="tv_trial_free_updates">Kostenlose Updates</string>
+    <string name="tv_trial_free_7_days">Testen Sie 7 Tage lang kostenlos</string>
+    <string name="tv_trial_pay_7_days">59,99 $ pro Jahr nach der KOSTENLOSEN 7-tägigen Testversion</string>
+    <string name="tv_downloading">Herunterladen</string>
+    <string name="tv_yearly_payment_of_49">Jährliche Zahlung von 49 $</string>
+    <string name="tv_fine_tune_hz">Feinabstimmung von Hz</string>
+    <string name="tv_hz">Hz</string>
+    <string name="tv_disclaimer">Haftungsausschluss</string>
+    <string name="tv_unlock_now">JETZT ENTSPERREN</string>
+    <string name="tv_apply_now">JETZT BEWERBEN</string>
+    <string name="tv_count_frequencies">%s Frequenzen / 00:03:00</string>
+    <string name="subs_purchase_info">Abonnieren Sie für %1$s/Monat oder %2$s/Jahr</string>
+    <string name="error_hz_exceeded">Der Hz-Wert wird %1$s überschritten</string>
+    <string name="tv_rifes">Rifes</string>
+    <string name="tv_scalars">Skalare</string>
+    <string name="tv_track">Schiene</string>
+    <string name="tv_from_rife">Von Rife</string>
+    <string name="tv_cus_frequency">Benutzerdefinierte Frequenzen</string>
+    <string name="tv_add_rife">Rife hinzufügen</string>
+    <string name="tv_add_quantum">Quantum hinzufügen</string>
+    <string name="tv_error_hz">Die Hz sind größer als %1$s und kleiner als %2$s</string>
+    <string name="title_cus_frequency">Neue benutzerdefinierte Häufigkeit hinzufügen</string>
+    <string name="tv_fre_hz">Frequenzen (Hz)</string>
+    <string name="tv_add">Hinzufügen</string>
+    <string name="tv_delete">Löschen</string>
+    <string name="tv_error_playlist_name">Bitte geben Sie den Namen der Playlist ein</string>
+    <string name="tv_track_last_pos">Spur in letzter Position</string>
+    <string name="tv_track_first_pos">Spur an erster Stelle</string>
+    <string name="tv_error_back">Bitte klicken Sie erneut auf ZURÜCK, um den Vorgang zu beenden!</string>
+    <string name="tv_please_enter_old_pass">Bitte geben Sie das alte Passwort ein!</string>
+    <string name="tv_err_old_pass_characters">Das alte Passwort darf nicht weniger als 6 Zeichen lang sein!</string>
+    <string name="tv_please_enter_new_pass">Bitte geben Sie ein neues Passwort ein!</string>
+    <string name="tv_err_new_pass_characters">Das neue Passwort darf nicht weniger als 6 Zeichen lang sein!</string>
+    <string name="tv_please_enter_confirm_pass">Bitte geben Sie ein neues Passwort ein!</string>
+    <string name="tv_err_confirm_pass_characters">Bestätigen Sie, dass das neue Passwort nicht weniger als 6 Zeichen lang sein darf!</string>
+    <string name="tv_please_enter_confirm_new_pass">Bitte überprüfen Sie Neues Passwort bestätigen!</string>
+    <string name="tv_please_enter_email">Bitte E-Mail eingeben!</string>
+    <string name="tv_invalid_email">Ungültige E-Mail!</string>
+    <string name="tv_please_enter_pass">Bitte Passwort eingeben!</string>
+    <string name="tv_download_completed">Download abgeschlossen</string>
+    <string name="tv_new_apk">[Neue APK] %1$s</string>
+    <string name="tv_downloading_file">Dateien werden heruntergeladen…</string>
+    <string name="tv_term_and_privacy">Bedingungen| und |Datenschutzerklärung</string>
+    <string name="tv_err_pass_characters">Das Passwort darf nicht weniger als 6 Zeichen lang sein!</string>
+    <string name="tv_please_enter_confirm_password">Bitte geben Sie das Bestätigungspasswort ein!</string>
+    <string name="tv_please_check_confirm_password">Bitte überprüfen Sie „Passwort bestätigen“!</string>
+    <string name="tv_invalid_email_add">Ihre E-Mail-Adresse ist ungültig!</string>
+    <string name="tv_please_enter_name">Bitte Namen eingeben!</string>
+    <string name="tv_incorrect_old_pass">Das alte Passwort ist falsch!</string>
+    <string name="tv_empty_list">Leere Liste</string>
+    <string name="tv_stop">Stoppen</string>
+    <string name="tv_removed_favorite">Aus Favoriten entfernt</string>
+    <string name="tv_add_favorite">Zu den Favoriten hinzugefügt</string>
+    <string name="tv_account_deleted_success">Ihr Konto wurde erfolgreich gelöscht!</string>
+    <string name="tv_no_purchases_available">Keine Käufe möglich</string>
+    <string name="tv_purchases_have_been_restored">Einkäufe wurden wiederhergestellt</string>
+    <string name="msg_error_occurred">Es ist ein Fehler aufgetreten!</string>
+    <string name="msg_chatting_bot_cookie_policies">Indem Sie mit mir chatten, stimmen Sie unseren Datenschutz- und Cookie-Richtlinien zu.</string>
+    <string name="tv_message">Nachricht:</string>
+    <string name="tv_master_wong_ai">Assistent von Dr. Qi Ai</string>
+    <string name="tv_silent_scalar_turned_on">Silent Scalar ist derzeit aktiviert</string>
+    <string name="tv_silent_scalar_turned_off">Silent Scalar ist derzeit deaktiviert</string>
+    <string name="tv_please_choose_a_frequency_to_play">Bitte wählen Sie eine Häufigkeit zum Abspielen aus</string>
+    <string name="tv_there_no_silent_energies">Es gibt keine stillen Energien, bitte aktivieren Sie sie.</string>
+    <string name="recent">Jüngste:</string>
+    <string name="you_have_no_program_selected">Sie haben kein Programm ausgewählt</string>
+    <string name="save_schedule">Zeitplan speichern</string>
+    <string name="schedule_on_off">Zeitplan EIN/AUS</string>
+    <string name="the_schedule_frequency_is_coming_up">Die geplante Frequenz steht kurz bevor. Möchten Sie darauf umsteigen?</string>
+    <string name="chat_bot_on_off">Chatbot EIN/AUS</string>
+
+    <string name="msg_say_hi_chat" translatable="false">Hi, My name is Dr.Qi, I\'m an AI assistant. How can I help you today? How have you been feeling lately?</string>
+    <string name="msg_error_network_chat" translatable="false">Connect Lost. Please check your internet connection.</string>
+    <string name="lang_en" translatable="false">English</string>
+    <string name="lang_fr" translatable="false">French</string>
+    <string name="lang_zh" translatable="false">China</string>
+    <string name="lang_es" translatable="false">Spanish</string>
+    <string name="lang_ja" translatable="false">Japanese</string>
+    <string name="lang_vi" translatable="false">Vietnamese</string>
+    <string name="lang_de" translatable="false">German</string>
+    <string name="lang_zh_hant" translatable="false">Chinese - Traditional</string>
+    <string name="lang_zh_hans" translatable="false">Chinese - Simplified</string>
+    <string name="lang_hi" translatable="false">Hindi</string>
+    <string name="lang_ar" translatable="false">Arabic</string>
+    <string name="lang_pt" translatable="false">Portuguese</string>
+    <string name="lang_ko" translatable="false">Korean</string>
+    <string name="lang_it" translatable="false">Italian</string>
+    <string name="lang_bn" translatable="false">Bengali</string>
+</resources>

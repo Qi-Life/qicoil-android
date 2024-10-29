@@ -1,0 +1,448 @@
+<resources>
+    <string name="facebook_app_id" translatable="false">239929504671619</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb239929504671619</string>
+
+    <string name="action_settings">設定</string>
+
+    <!--region Navigation-->
+    <string name="navigation_lbl_home">家</string>
+    <string name="navigation_lbl_albums">專輯</string>
+    <string name="navigation_lbl_scalar">沉默的量子</string>
+    <string name="navigation_lbl_quantum">量子</string>
+    <string name="navigation_lbl_rife">盛行</string>
+    <string name="navigation_lbl_programs">節目</string>
+    <string name="navigation_lbl_videos">影片</string>
+    <string name="navigation_lbl_shop">店鋪</string>
+    <string name="navigation_lbl_options">選項</string>
+    <!--endregion-->
+
+    <!--region Options-->
+    <string name="options_qi_coil">取得 QI 線圈</string>
+    <string name="options_sign_in">登入</string>
+    <string name="options_log_out">退出</string>
+    <string name="options_delete_user">刪除用戶</string>
+    <string name="profile_lbl_subscription">訂閱</string>
+    <string name="tv_restore_purchase">恢復購買</string>
+    <string name="profile_lbl_instructions">指示</string>
+    <string name="profile_lbl_disclaimer">免責聲明</string>
+    <string name="profile_lbl_about">關於</string>
+    <!--endregion-->
+
+    <string name="btn_play">玩</string>
+    <string name="btn_add">添加</string>
+
+    <!--region Fetch-->
+    <string name="start_fetching">開始獲取文件。</string>
+    <string name="start">開始</string>
+    <string name="complete_over" translatable="false">%1$d/%2$d</string>
+    <string name="fetch_done">抓取完成。</string>
+    <string name="reset">重置</string>
+    <string name="game_download_error">發生錯誤，無法取得文件。</string>
+    <!--endregion-->
+
+    <!--region Player-->
+    <string name="notification_channel_name">玩家控制</string>
+
+    <string name="play">玩</string>
+    <string name="pause">暫停</string>
+    <string name="stop">停止</string>
+    <string name="previous">以前的</string>
+    <string name="next">下一個</string>
+    <!--endregion-->
+
+    <!--region Downloader-->
+    <string name="downloader_utils_eta_sec" translatable="false">%1$ds left</string>
+    <string name="downloader_utils_eta_min" translatable="false">%1$dm %2$ds left</string>
+    <string name="downloader_utils_eta_hrs" translatable="false">%1$dh %2$dm %3$ds left</string>
+    <string name="download_speed_bytes" translatable="false">%1$d B/s</string>
+    <string name="download_speed_kb" translatable="false">%1$s KB/s</string>
+    <string name="download_speed_mb" translatable="false">%1$s MB/s</string>
+    <!--endregion-->
+
+    <string name="total_time">總時間%1$s</string>
+
+    <string name="options_version" translatable="false">&#160;v %1$s</string>
+
+    <string name="toast_download_complete">下載完成！</string>
+    <string name="txt_total_time">總時間</string>
+    <string name="txt_my_playlists">我的計劃</string>
+    <string name="txt_share">分享</string>
+    <string name="txt_delete">刪除</string>
+    <string name="txt_save">節省</string>
+    <string name="txt_add">添加</string>
+    <string name="txt_create_playlist">建立播放清單</string>
+    <string name="txt_edit_playlist">編輯播放列表</string>
+    <string name="txt_playlist_name">播放清單名稱</string>
+    <string name="txt_ok">好的</string>
+    <string name="txt_no">不</string>
+    <string name="txt_enter_password">輸入密碼</string>
+    <string name="txt_plz_enter_playlist_name">請輸入播放清單名稱</string>
+    <string name="txt_create_playlist_success">播放清單創建成功</string>
+    <string name="txt_edit_playlist_name_success">已成功編輯播放清單名稱</string>
+    <string name="txt_delete_playlist_name_success">已成功刪除播放列表</string>
+    <string name="txt_no_songs">無頻率</string>
+    <string name="txt_no_result">沒有找到結果</string>
+    <string name="txt_search_songs">搜尋頻率</string>
+    <string name="txt_no_playlist">沒有節目</string>
+    <string name="txt_no_albums">沒有專輯</string>
+    <string name="msg_download_data">下載資料——請稍等</string>
+    <string name="msg_error_when_download">無法下載資料！請重試</string>
+    <string name="txt_try_again">再試一次</string>
+    <string name="txt_cancel">取消</string>
+    <string name="msg_coming_soon">即將推出&#8230;</string>
+    <string name="msg_add_first_playlist">請新增第一個播放列表</string>
+    <string name="txt_downloading">正在下載</string>
+    <string name="txt_downloaded">正在下載</string>
+    <string name="msg_loading">正在加載…</string>
+    <string name="txt_disclaimer_title">免責聲明和棄權</string>
+    <string name="txt_disclaimer_content">透過使用此應用程序，在適用法律允許的範圍內，您免除此應用程式的創建者、網站及其關聯公司及其員工、代理人和代表的任何及所有責任、損害或損失。此應用程式和平板電腦不是醫療設備，不可用於診斷、治療、治癒或預防任何疾病。此應用程式尚未經過 FDA 評估，並且沒有對此應用程式作出或暗示任何醫療聲明。如果您感到不適或頭暈，請停止使用此應用程式。在使用任何產品或我們的產品之前，請務必諮詢您的醫生。</string>
+    <string name="txt_agree">同意</string>
+    <string name="txt_disagree">不同意</string>
+    <string name="txt_later">再次顯示</string>
+    <string name="txt_about">關於</string>
+    <string name="txt_yes">是的</string>
+    <string name="txt_warning_clear_playlist">您確定要清除目前播放清單嗎？</string>
+    <string name="txt_warning_update_newversion_title">可用更新</string>
+    <string name="txt_warning_update_newversion">有更新可用。您要立即更新應用程式嗎？請清除 Google Play 商店應用程式快取並重試。</string>
+    <string name="txt_downloading_dot">正在下載…</string>
+    <string name="txt_donot_show_message">不再顯示此訊息</string>
+    <string name="txt_now_playing">正在播放：%1$s</string>
+    <string name="txt_warning_delete_playlist">您確定要刪除此播放清單嗎？</string>
+
+    <string name="tv_7_days_free">7 天\n免費</string>
+    <string name="tv_7_days_free_limited_time_offer">7 天免費 \n 限時優惠</string>
+    <string name="tv_free_trial">免費試用</string>
+    <string name="tv_1_month">1\n個月</string>
+    <string name="tv_1_year">1\n年</string>
+    <string name="tv_message_billing_1">• 解鎖所有 Qi Coil 專輯收藏</string>
+    <string name="tv_message_billing_2">• 可自訂的程式</string>
+    <string name="tv_message_billing_3">• 預先載入程式</string>
+    <string name="tv_subscription_info">訂閱訊息</string>
+    <string name="txt_about_subscribe_1">• 隱私權政策：http://www.tattoobookapp.com/quantumwavebiotechnology/privacy/</string>
+    <string name="txt_about_subscribe_2">• 使用條款：http://www.tattoobookapp.com/quantumwavebiotechnology/terms/</string>
+    <string name="txt_about_subscribe_3">• 免費試用期的任何未使用部分（如果提供）將在使用者購買該出版物的訂閱時被沒收。</string>
+    <string name="tv_back">後退</string>
+    <string name="tv_sub_info_1">• 有效訂閱期間不允許取消目前訂閱</string>
+    <string name="tv_sub_info_2">• 訂閱可以由使用者管理，並且可以在購買後前往使用者的帳戶設定來關閉自動續訂</string>
+    <string name="tv_sub_info_3">• 訂閱會自動續訂，除非在當期結束前至少 24 小時關閉自動續訂</string>
+    <string name="tv_sub_info_4">• 確認購買後，付款將記入 Google 帳戶</string>
+    <string name="tv_sub_info_5">• 免費試用- 7 天免費，然後每月24.99 美元。價格對應相同的前段，在Android Google Play中為其他貨幣設置</string>
+    <string name="tv_price_of_subscription">訂閱價格：</string>
+    <string name="tv_sub_info_6">• 1 個月 7 天免費試用</string>
+    <string name="tv_length_of_subscription">訂閱時長：</string>
+    <string name="tv_start_free_trial">開始免費試用</string>
+    <string name="tv_subscription_now">立即購買</string><!--Subscribe-->
+    <string name="tv_activate">啟用\n免費試用版</string>
+    <string name="tv_auto_renewable_subscription_info">自動更新訂閱資訊：</string>
+    <string name="tv_flash_sale">閃購</string>
+    <string name="tv_available_until">“可用至”</string>
+    <string name="txt_then_trial_price">然後%1$s/月</string>
+    <!---->
+
+    <string name="tv_advanced_frequencies">豐度一</string><!--ABUNDANCE-->
+    <string name="tv_basic_frequencies">基本的</string>
+    <string name="tv_master_frequencies">掌握</string>
+    <string name="tv_advanced_meditation_frequencies">高級\n冥想頻率</string>
+    <string name="tv_advanced_meditation_frequencies_2">進階冥想頻率</string>
+    <string name="tv_transform_yourself_faster_with_advanced_mind_enhancement_frequencies">透過高階思維增強頻率更快改變自己</string>
+    <string name="tv_title_sub_item_1"><![CDATA[•腦波&意念力增強]]></string>
+    <string name="tv_title_sub_item_2">• 增強您創造、體現和吸引富足的力量</string>
+    <string name="tv_title_sub_item_3">• 加速健康</string>
+    <string name="tv_title_sub_item_4">• 提升你的精神共鳴</string>
+    <string name="tv_title_sub_item_5">• 探索清醒夢和星體投射的未知領域</string>
+
+    <string name="tv_recurring_billing">定期計費。隨時取消。</string>
+    <string name="tv_one_time_payment">一次付款</string>
+    <string name="tv_title_subscription_monthly">此訂閱會每月自動續訂 1999 年，除非在試用期結束前至少 24 小時在 Google Play 的帳戶設定中取消訂閱。確認購買後，付款將從您的 Google 帳戶中扣除。本期結束前24小時內向帳戶收取續約費用。免費試用期的任何未使用部分（如果提供）將在用戶購買該出版物的訂閱時被沒收。</string>
+    <string name="tv_title_subscription_lifetime">確認購買後，付款將從您的 Google 帳戶中扣除。本期結束前24小時內向帳戶收取續約費用。免費試用期的任何未使用部分（如果提供）將在用戶購買該出版物的訂閱時被沒收。繼續即表示您同意我們的</string>
+    <string name="tv_link">條款和隱私權政策</string>
+    <string name="tv_monthly">每月</string>
+    <string name="tv_per_month">每月</string>
+    <string name="tv_annual">年度的</string>
+    <string name="tv_per_year">每年</string>
+    <string name="tv_lifetime">壽命</string>
+    <string name="tv_pay_once">支付一次</string>
+    <string name="tv_continue">繼續</string>
+    <string name="tv_basic_subscription">基本訂閱</string>
+    <string name="tv_unlock_meditation_prequencies">解鎖冥想頻率</string>
+    <string name="tv_unlock_meditation_prequencies_2">解鎖冥想頻率</string>
+    <string name="tv_try_7_days_free">免費試用 7 天</string>
+    <!--new-->
+
+    <string name="tv_minutes">分分鐘</string>
+    <string name="tv_seconds">秒</string>
+    <string name="tv_hours">小時數</string>
+    <string name="tv_offer_expires_in">優惠到期時間：</string>
+    <string name="tv__50_off">節省 50%</string><!--50% Off-->
+    <string name="tv_unlock_all_34_basic_frequencies_one_time">解鎖全部 43 個<br/>基本頻率<u>永遠</u></string>
+    <string name="tv_unlock_all_34_basic_frequencies_one_time_yearly">解鎖全部 43 個\n基本頻率</string>
+    <string name="tv_unlock_all_34_basic_frequencies">解鎖全部 34 個基本頻率 </string>
+    <string name="tv_unlock_all_150_advanced_frequencies_one_time">解鎖全部 189 個<br/>豐度頻率<u>永遠</u></string>
+    <string name="tv_unlock_all_150_advanced_frequencies_one_time_yearly">解鎖全部 189 個\n豐度頻率</string>
+    <string name="tv_unlock_all_150_advanced_frequencies">解鎖全部 189 個\n豐度頻率 </string>
+    <string name="tv_brainwave_mind_power_enhancement"><![CDATA[腦波&意念增強]]></string>
+    <string name="tvcreate_manifest_attract_abundancet"><![CDATA[創造、體現並吸引豐富]]></string>
+    <string name="tv_improve_overall_health">改善整體健康</string>
+    <string name="tv_raise_your_spiritual_resonance">提升你的精神共鳴</string>
+    <string name="tv_unlock_34_advanced_frequencies">解鎖 43 個基本頻率</string>
+    <string name="tv_buy_now">立即購買</string>
+    <string name="tv_current_plan">活性</string><!--CURRENT PLAN-->
+    <string name="tv_choose_your_subscription_plan">選擇您的訂閱計劃</string>
+
+    <string name="tv_title_free_1">9 啟動頻率</string>
+    <string name="tv_title_free_2"><![CDATA[專注與冥想]]></string>
+    <string name="tv_title_free_3">緩解壓力和焦慮</string>
+    <string name="tv_title_free_4"><![CDATA[更好的睡眠與放鬆]]></string>
+
+    <string name="tv_title_basic_1">解鎖 43 個基本頻率</string>
+    <string name="tv_title_basic_2">清除負能量</string>
+    <string name="tv_title_basic_3">增強冥想</string>
+    <string name="tv_title_basic_4">緩解壓力和焦慮</string>
+    <string name="tv_title_basic_7">增強體力和精神能量</string>
+    <string name="tv_title_basic_8">提高專注力和生產力</string>
+    <string name="tv_title_basic_9">學得更快</string>
+
+    <string name="tv_title_advanced_1">解鎖 43 個基本頻率</string>
+    <string name="tv_title_advanced_2">解鎖 189 個豐度頻率</string>
+    <string name="tv_title_advanced_3">增加運氣和巧合</string>
+    <string name="tv_title_advanced_4">增強你的表現力</string>
+    <string name="tv_title_advanced_5">設計你的現實</string>
+    <string name="tv_title_advanced_7">增強你的直覺</string>
+    <string name="tv_title_advanced_8">解鎖 189 個豐度頻率</string>
+    <string name="tv_title_advanced_9">喚醒你的第三隻眼</string>
+    <string name="tv_title_advanced_10">吸引成功和豐盛</string>
+
+    <string name="tv_title_advanced2_1">解鎖 43 個基本頻率</string>
+    <string name="tv_title_advanced2_2">解鎖 189 個豐度頻率</string>
+    <string name="tv_title_advanced2_3">解鎖 261 個更高的豐度頻率</string>
+    <string name="tv_title_advanced2_4">增加運氣和巧合</string>
+    <string name="tv_title_advanced2_5">增強你的表現力</string>
+    <string name="tv_title_advanced2_6">設計你的現實</string>
+    <string name="tv_title_advanced2_7">增強你的直覺</string>
+    <string name="tv_title_advanced2_8">喚醒你的第三隻眼</string>
+    <string name="tv_title_advanced2_9">吸引成功和豐盛</string>
+    <string name="tv_title_advanced2_10"><![CDATA[深刻的意識與潛意識刺激]]></string>
+    <string name="tv_title_advanced2_11"><![CDATA[刺激治療並促進活力]]></string>
+    <string name="tv_title_advanced2_12">平衡你的脈輪</string>
+    <string name="tv_title_advanced2_13">電磁場保護</string>
+
+
+    <string name="tv_reviews">評論</string>
+    <string name="tv_faq">常見問題解答</string>
+    <string name="tv_education">教育</string>
+    <string name="tv_qi_coils">氣線圈</string>
+    <string name="player_error">初始化 YouTube 播放器時發生錯誤：%1$s</string>
+    <string name="tv_purchase_limit">購買限額：0/1</string>
+    <string name="tv_yearly_payment_of">每年支付</string>
+    <string name="tv_title_advanced_6"><![CDATA[強化並平衡你的能量場]]></string>
+    <string name="tv_get_this_huge_deal_before_it_s_gone">在它消失之前得到這個大優惠！</string>
+
+    <string name="tv_change_password">更改密碼</string>
+    <string name="tv_help_support">幫助&amp;支援</string>
+
+    <string name="tv_my_custom_playlists">我的定製程式</string>
+    <string name="tv_redeem">贖回</string>
+
+    <string name="tv_title_subscription">訂閱會自動續訂，除非在當前週期結束前至少 24 小時關閉自動續訂。付款將從您的 GooglePlay 帳戶中扣除。在 GooglePlay 設定中管理訂閱並關閉自動續訂。</string>
+    <string name="tv_title_subscription_new">除非在當前週期結束前至少 24 小時關閉自動續訂，否則此訂閱會自動續訂。付款將從您的 GooglePlay 帳戶中扣除。在 GooglePlay 帳戶設定中管理訂閱並關閉自動續訂。</string>
+    <string name="flash_sale_50_off">閃購 - 0.5 折</string>
+    <string name="tv_forgotten_password">&lt;u&gt;忘記密碼？</string>
+    <string name="tv_link_sign_in">&lt;你&gt;登入。</string>
+    <string name="tv_link_sign_up">&lt;你&gt;註冊。</string>
+    <string name="tv_signUp">沒有帳戶？</string>
+    <string name="tv_signIn">已有帳戶？</string>
+    <string name="tv_not_worry">不用擔心！ \n只需在下面輸入您註冊的電子郵件地址，我們就會向您發送一封電子郵件，其中包含有關如何重設密碼的說明。</string>
+    <string name="tv_sign_up">報名</string>
+    <string name="tv_email">電子郵件</string>
+    <string name="tv_password">密碼</string>
+    <string name="tv_confirm_password">確認密碼</string>
+    <string name="tv_get_started">開始使用</string>
+    <string name="tv_sign_in">登入</string>
+    <string name="tv_google">繼續使用谷歌</string>
+    <string name="tv_facebook">繼續使用 Facebook</string>
+    <string name="tv_guest">繼續以訪客身份</string>
+    <string name="tv_login">登入</string>
+    <string name="txt_forgotten_password">忘記密碼</string>
+    <string name="tv_forgot_password">忘記密碼？</string>
+    <string name="tv_email_address">電子郵件</string>
+    <string name="tv_send_email">傳送電子郵件</string>
+    <string name="tv_old_password">舊密碼</string>
+    <string name="tv_new_password">新密碼</string>
+    <string name="tv_confirm_new_password">確認新密碼</string>
+    <string name="txt_processing">加工</string>
+    <string name="txt_msg_logout">您確定要退出嗎？</string>
+    <string name="txt_msg_deleteuser">您確定要刪除使用者嗎？</string>
+    <string name="tv_name">姓名</string>
+    <string name="err_network_available">請檢查網路連線！</string>
+    <string name="err_unexpected_exception">請再試一次！</string>
+    <string name="err_unexpected_exception_api">連線失敗。請再試一次！</string>
+    <string name="txt_warning_login_fail">電子郵件或密碼錯誤。再試一次或選擇忘記密碼來重置它。</string>
+    <string name="txt_waiting">請稍候…</string>
+    <string name="txt_clear_data">清除資料…</string>
+    <string name="txt_email_exist">此郵箱號碼已被註冊。</string>
+    <string name="tv_err_email_register">找不到您的電子郵件地址。</string>
+    <string name="tv_forgot_password_success">密碼修改成功！</string>
+    <string name="tv_send_email_success">電子郵件已發送。檢查您的電子郵件並打開連結以重設密碼。</string>
+    <string name="tv_unlock_powerful_frequencies">選擇您的訂閱計劃</string><!--Unlock Powerful Frequencies-->
+    <string name="txt_encrypting_message">我們正在同步新數據，此過程可能需要不到 10 分鐘。請不要退出應用程式或關機。</string>
+    <string name="txt_warning_frequencies_frequencies">我們正在更新頻率，請稍候。頻率被放大並重新掌握，以獲得更好的用戶體驗。</string>
+    <string name="tv_frequencies">頻率</string>
+    <string name="tv_albums">專輯</string>
+    <string name="tv_programs">節目</string>
+    <string name="tv_higher_abundance">豐富度II</string><!--HIGHER\nABUNDANCE-->
+    <string name="tv_description">描述</string>
+
+    <string name="tv_note_5">• 獲得最佳的大腦表現、創造力和想法</string>
+    <string name="tv_note_4">• 獲得極度放鬆和治愈</string>
+    <string name="tv_note_3">• 感到休息、充電、恢復</string>
+    <string name="tv_note_2">• 感覺專注、放鬆、踏實、集中</string>
+    <string name="tv_note_1">• 調整你的腦波</string>
+    <string name="tv_create_new">創造新的</string>
+    <string name="tv_higher_quantum">更高的量子</string>
+    <string name="tv_search">搜尋</string>
+    <string name="tv_starter">起動機</string>
+    <string name="tv_duration">期間</string>
+    <string name="tv_move_up_queue">上移隊列</string>
+    <string name="tv_move_down_queue">下移佇列</string>
+    <string name="tv_remove">消除</string>
+    <string name="tv_added_to_my_custom_playlist">添加到我的自訂播放列表</string>
+    <string name="tv_add_to_program">添加到程式</string>
+    <string name="tv_add_to_favorites">加入收藏夾</string>
+    <string name="tv_redownload">重新下載</string>
+    <string name="tv_favorites">收藏夾</string>
+    <string name="tv_remove_from_favorite">從收藏夾中刪除</string>
+
+    <!--region Delete-->
+    <string name="title_activity_navigation" translatable="false">MainActivity</string>
+    <string name="title_home" translatable="false">Home</string>
+    <string name="title_dashboard" translatable="false">Dashboard</string>
+    <string name="title_notifications" translatable="false">Notifications</string>
+    <string name="title_activity_qwe" translatable="false">MainActivity</string>
+    <!--endregion-->
+
+    <!--Lemeor-->
+    <string name="video_url" translatable="false">https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&amp;playlistId=%1$s&amp;key=%2$s&amp;maxResults=50</string>
+    <string name="flash_sale_colon" translatable="false">:</string>
+    <string name="flash_sale_00" translatable="false">00</string>
+    <string name="some_dot" translatable="false">•</string>
+    <string name="btn_download">下載</string>
+    <string name="program_favorites">收藏夾</string>
+    <string name="txt_flash_sale">閃購</string>
+    <string name="search_hint">搜尋</string>
+    <string name="lbl_categories">類別</string>
+    <string name="downloader_quantity">正在下載（%1$d/%2$d）</string>
+    <string name="downloader_quantity_collapse" translatable="false">%1$d/%2$d</string>
+
+    <string name="tst_download_successful_en" translatable="false">Download successful</string>
+    <string name="tst_download_successful_zh" translatable="false">下载成功</string>
+    <string name="tst_download_successful_es" translatable="false">Descargar exitoso</string>
+    <string name="tst_download_successful_fr" translatable="false">Télécharger réussi</string>
+
+    <string name="inapp_purchase_info">一次付款：%1$s</string>
+    <string name="purchase_dialog_btn_month">月</string>
+    <string name="purchase_dialog_btn_annual">年度的</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+
+    <string name="share_message">我發現了這個新的冥想應用程式 Qi Coil https://play.google.com/store/apps/details?id=com.Meditation.Sounds.frequencies</string>
+    <!-- <string name="facebook_app_id">554730859218975</string> -->
+    <string name="download_error">下載錯誤</string>
+    <string name="download_error_message">有些文件無法下載。稍後再試！</string>
+
+    <!-- new text-->
+    <string name="tv_from">從</string>
+    <string name="tv_now">現在</string>
+    <string name="tv_category_name">類別名稱</string>
+    <string name="tv_title_trial">解鎖量子\n冥想頻率</string>
+    <string name="tv_trial_package_200">200+ 量子頻率</string>
+    <string name="tv_trial_unlimited_use">無限制使用</string>
+    <string name="tv_trial_custom_playlists">自訂播放列表</string>
+    <string name="tv_trial_free_updates">免費更新</string>
+    <string name="tv_trial_free_7_days">免費試用 7 天</string>
+    <string name="tv_trial_pay_7_days">免費試用 7 天後每年 59.99 美元</string>
+    <string name="tv_downloading">正在下載</string>
+    <string name="tv_yearly_payment_of_49">年付款 49 美元</string>
+    <string name="tv_fine_tune_hz">微調頻率</string>
+    <string name="tv_hz">赫茲</string>
+    <string name="tv_disclaimer">免責聲明</string>
+    <string name="tv_unlock_now">立即解鎖</string>
+    <string name="tv_apply_now">立即申請</string>
+    <string name="tv_count_frequencies">%s 頻率 / 00:03:00</string>
+    <string name="subs_purchase_info">訂閱費用為 %1$s/月或 %2$s/年</string>
+    <string name="error_hz_exceeded">頻率超出%1$s</string>
+    <string name="tv_rifes">里夫斯</string>
+    <string name="tv_scalars">標量</string>
+    <string name="tv_track">追蹤</string>
+    <string name="tv_from_rife">從盛行</string>
+    <string name="tv_cus_frequency">自訂頻率</string>
+    <string name="tv_add_rife">添加盛行</string>
+    <string name="tv_add_quantum">添加量子</string>
+    <string name="tv_error_hz">Hz 大於 %1$s 且小於 %2$s</string>
+    <string name="title_cus_frequency">新增的自訂頻率</string>
+    <string name="tv_fre_hz">頻率（赫茲）</string>
+    <string name="tv_add">添加</string>
+    <string name="tv_delete">刪除</string>
+    <string name="tv_error_playlist_name">請輸入播放清單名稱</string>
+    <string name="tv_track_last_pos">軌道位於最後位置</string>
+    <string name="tv_track_first_pos">軌道位於第一個位置</string>
+    <string name="tv_error_back">請再次點擊“BACK”退出！</string>
+    <string name="tv_please_enter_old_pass">請輸入舊密碼！</string>
+    <string name="tv_err_old_pass_characters">舊密碼不能少於6個字元！</string>
+    <string name="tv_please_enter_new_pass">請輸入新密碼！</string>
+    <string name="tv_err_new_pass_characters">新密碼不能少於6個字元！</string>
+    <string name="tv_please_enter_confirm_pass">請輸入確認新密碼！</string>
+    <string name="tv_err_confirm_pass_characters">確認新密碼不能少於6個字元！</string>
+    <string name="tv_please_enter_confirm_new_pass">請檢查確認新密碼！</string>
+    <string name="tv_please_enter_email">請輸入郵箱！</string>
+    <string name="tv_invalid_email">無效的電子郵件！</string>
+    <string name="tv_please_enter_pass">請輸入密碼！</string>
+    <string name="tv_download_completed">下載完成</string>
+    <string name="tv_new_apk">[新 APK] %1$s</string>
+    <string name="tv_downloading_file">正在下載檔案...</string>
+    <string name="tv_term_and_privacy">條款|和|隱私權政策</string>
+    <string name="tv_err_pass_characters">密碼不能少於6個字元！</string>
+    <string name="tv_please_enter_confirm_password">請輸入確認密碼！</string>
+    <string name="tv_please_check_confirm_password">請檢查確認密碼！</string>
+    <string name="tv_invalid_email_add">您的電子郵件地址無效！</string>
+    <string name="tv_please_enter_name">請輸入姓名！</string>
+    <string name="tv_incorrect_old_pass">舊密碼不正確！</string>
+    <string name="tv_empty_list">空列表</string>
+    <string name="tv_stop">停止</string>
+    <string name="tv_removed_favorite">從收藏夾中刪除</string>
+    <string name="tv_add_favorite">已新增至收藏夾</string>
+    <string name="tv_account_deleted_success">您的帳戶刪除成功！</string>
+    <string name="tv_no_purchases_available">沒有可用的購買</string>
+    <string name="tv_purchases_have_been_restored">已恢復購買</string>
+    <string name="msg_error_occurred">發生錯誤！</string>
+    <string name="msg_chatting_bot_cookie_policies">與我聊天即表示您同意我們的隱私權和 Cookie 政策。</string>
+    <string name="tv_message">訊息:</string>
+    <string name="tv_master_wong_ai">齊艾博士助理</string>
+    <string name="tv_silent_scalar_turned_on">靜音標量目前已開啟</string>
+    <string name="tv_silent_scalar_turned_off">靜默標量目前已關閉</string>
+    <string name="tv_please_choose_a_frequency_to_play">請選擇播放頻率</string>
+    <string name="tv_there_no_silent_energies">沒有沉默的能量，請激活它。</string>
+    <string name="recent">最近的：</string>
+    <string name="you_have_no_program_selected">您沒有選擇任何節目</string>
+    <string name="save_schedule">儲存日程</string>
+    <string name="schedule_on_off">時間表開/關</string>
+    <string name="the_schedule_frequency_is_coming_up">預定的頻率即將到來。您想切換到它嗎？</string>
+    <string name="chat_bot_on_off">聊天機器人開/關</string>
+
+    <string name="msg_say_hi_chat" translatable="false">Hi, My name is Dr.Qi, I\'m an AI assistant. How can I help you today? How have you been feeling lately?</string>
+    <string name="msg_error_network_chat" translatable="false">Connect Lost. Please check your internet connection.</string>
+    <string name="lang_en" translatable="false">English</string>
+    <string name="lang_fr" translatable="false">French</string>
+    <string name="lang_zh" translatable="false">China</string>
+    <string name="lang_es" translatable="false">Spanish</string>
+    <string name="lang_ja" translatable="false">Japanese</string>
+    <string name="lang_vi" translatable="false">Vietnamese</string>
+    <string name="lang_de" translatable="false">German</string>
+    <string name="lang_zh_hant" translatable="false">Chinese - Traditional</string>
+    <string name="lang_zh_hans" translatable="false">Chinese - Simplified</string>
+    <string name="lang_hi" translatable="false">Hindi</string>
+    <string name="lang_ar" translatable="false">Arabic</string>
+    <string name="lang_pt" translatable="false">Portuguese</string>
+    <string name="lang_ko" translatable="false">Korean</string>
+    <string name="lang_it" translatable="false">Italian</string>
+    <string name="lang_bn" translatable="false">Bengali</string>
+</resources>

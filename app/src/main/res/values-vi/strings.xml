@@ -1,0 +1,448 @@
+<resources>
+    <string name="facebook_app_id" translatable="false">239929504671619</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb239929504671619</string>
+
+    <string name="action_settings">Cài đặt</string>
+
+    <!--region Navigation-->
+    <string name="navigation_lbl_home">Trang chủ</string>
+    <string name="navigation_lbl_albums">Album</string>
+    <string name="navigation_lbl_scalar">Lượng tử im lặng</string>
+    <string name="navigation_lbl_quantum">lượng tử</string>
+    <string name="navigation_lbl_rife">đầy rẫy</string>
+    <string name="navigation_lbl_programs">Chương trình</string>
+    <string name="navigation_lbl_videos">Video</string>
+    <string name="navigation_lbl_shop">Cửa hàng</string>
+    <string name="navigation_lbl_options">Tùy chọn</string>
+    <!--endregion-->
+
+    <!--region Options-->
+    <string name="options_qi_coil">NHẬN CUỘN QI</string>
+    <string name="options_sign_in">Đăng nhập</string>
+    <string name="options_log_out">Đăng xuất</string>
+    <string name="options_delete_user">Xóa người dùng</string>
+    <string name="profile_lbl_subscription">Đăng ký</string>
+    <string name="tv_restore_purchase">Khôi phục mua hàng</string>
+    <string name="profile_lbl_instructions">Hướng dẫn</string>
+    <string name="profile_lbl_disclaimer">Tuyên bố từ chối trách nhiệm</string>
+    <string name="profile_lbl_about">Về</string>
+    <!--endregion-->
+
+    <string name="btn_play">Chơi</string>
+    <string name="btn_add">Thêm vào</string>
+
+    <!--region Fetch-->
+    <string name="start_fetching">Bắt đầu tìm nạp tập tin.</string>
+    <string name="start">Bắt đầu</string>
+    <string name="complete_over" translatable="false">%1$d/%2$d</string>
+    <string name="fetch_done">Tìm nạp xong.</string>
+    <string name="reset">CÀI LẠI</string>
+    <string name="game_download_error">Đã xảy ra lỗi, không thể tải tập tin.</string>
+    <!--endregion-->
+
+    <!--region Player-->
+    <string name="notification_channel_name">Điều khiển người chơi</string>
+
+    <string name="play">Chơi</string>
+    <string name="pause">Tạm dừng</string>
+    <string name="stop">Dừng lại</string>
+    <string name="previous">Trước</string>
+    <string name="next">Kế tiếp</string>
+    <!--endregion-->
+
+    <!--region Downloader-->
+    <string name="downloader_utils_eta_sec" translatable="false">%1$ds left</string>
+    <string name="downloader_utils_eta_min" translatable="false">%1$dm %2$ds left</string>
+    <string name="downloader_utils_eta_hrs" translatable="false">%1$dh %2$dm %3$ds left</string>
+    <string name="download_speed_bytes" translatable="false">%1$d B/s</string>
+    <string name="download_speed_kb" translatable="false">%1$s KB/s</string>
+    <string name="download_speed_mb" translatable="false">%1$s MB/s</string>
+    <!--endregion-->
+
+    <string name="total_time">tổng thời gian %1$s</string>
+
+    <string name="options_version" translatable="false">&#160;v %1$s</string>
+
+    <string name="toast_download_complete">Tải xuống hoàn tất!</string>
+    <string name="txt_total_time">TỔNG THỜI GIAN</string>
+    <string name="txt_my_playlists">CHƯƠNG TRÌNH CỦA TÔI</string>
+    <string name="txt_share">CHIA SẺ</string>
+    <string name="txt_delete">XÓA BỎ</string>
+    <string name="txt_save">CỨU</string>
+    <string name="txt_add">THÊM VÀO</string>
+    <string name="txt_create_playlist">Tạo danh sách phát</string>
+    <string name="txt_edit_playlist">Chỉnh sửa danh sách phát</string>
+    <string name="txt_playlist_name">Tên danh sách phát</string>
+    <string name="txt_ok">Được rồi</string>
+    <string name="txt_no">KHÔNG</string>
+    <string name="txt_enter_password">Nhập mật khẩu</string>
+    <string name="txt_plz_enter_playlist_name">Vui lòng nhập tên danh sách phát</string>
+    <string name="txt_create_playlist_success">Đã tạo danh sách phát thành công</string>
+    <string name="txt_edit_playlist_name_success">Đã chỉnh sửa tên danh sách phát thành công</string>
+    <string name="txt_delete_playlist_name_success">Đã xóa danh sách phát thành công</string>
+    <string name="txt_no_songs">Không có tần số</string>
+    <string name="txt_no_result">Không tìm thấy kết quả</string>
+    <string name="txt_search_songs">Tần suất tìm kiếm</string>
+    <string name="txt_no_playlist">Không có chương trình</string>
+    <string name="txt_no_albums">Không có album nào</string>
+    <string name="msg_download_data">Đang tải xuống dữ liệu&#8230; Vui lòng chờ</string>
+    <string name="msg_error_when_download">Không thể tải dữ liệu! Vui lòng thử lại</string>
+    <string name="txt_try_again">Thử lại</string>
+    <string name="txt_cancel">Hủy bỏ</string>
+    <string name="msg_coming_soon">Sắp có&#8230;</string>
+    <string name="msg_add_first_playlist">Vui lòng thêm danh sách phát đầu tiên</string>
+    <string name="txt_downloading">Đang tải xuống</string>
+    <string name="txt_downloaded">Đang tải xuống</string>
+    <string name="msg_loading">Đang tải&#8230;</string>
+    <string name="txt_disclaimer_title">Tuyên bố miễn trừ trách nhiệm và miễn trừ</string>
+    <string name="txt_disclaimer_content">Bằng cách sử dụng ứng dụng này, trong phạm vi được luật hiện hành cho phép, bạn miễn trừ người tạo, trang web và các Chi nhánh của ứng dụng này cũng như nhân viên, đại lý và đại diện của họ khỏi mọi trách nhiệm pháp lý, thiệt hại hoặc mất mát. Ứng dụng và máy tính bảng này không phải là thiết bị y tế và không nhằm mục đích sử dụng để chẩn đoán, điều trị, chữa bệnh hoặc ngăn ngừa bất kỳ bệnh nào. Ứng dụng này chưa được FDA đánh giá và không có khiếu nại y tế nào được đưa ra hoặc ngụ ý cho ứng dụng này. Nếu bạn cảm thấy khó chịu hoặc chóng mặt, hãy ngừng sử dụng ứng dụng này. Luôn tham khảo ý kiến ​​bác sĩ trước khi sử dụng bất kỳ sản phẩm nào của chúng tôi.</string>
+    <string name="txt_agree">Đồng ý</string>
+    <string name="txt_disagree">Không đồng ý</string>
+    <string name="txt_later">Hiển thị lại</string>
+    <string name="txt_about">Về</string>
+    <string name="txt_yes">ĐÚNG</string>
+    <string name="txt_warning_clear_playlist">Bạn có chắc chắn muốn xóa danh sách phát hiện tại không?</string>
+    <string name="txt_warning_update_newversion_title">Cập nhật có sẵn</string>
+    <string name="txt_warning_update_newversion">Đã có bản cập nhật. Bạn có muốn cập nhật ứng dụng ngay bây giờ không?\nTrong trường hợp này, bạn không thể cài đặt phiên bản mới. Vui lòng xóa bộ nhớ đệm của ứng dụng Cửa hàng Google Play và thử lại.</string>
+    <string name="txt_downloading_dot">Đang tải xuống…</string>
+    <string name="txt_donot_show_message">Không hiển thị lại thông báo này</string>
+    <string name="txt_now_playing">Đang phát: %1$s</string>
+    <string name="txt_warning_delete_playlist">Bạn có chắc chắn muốn xóa danh sách phát này không?</string>
+
+    <string name="tv_7_days_free">7 ngày\nMiễn phí</string>
+    <string name="tv_7_days_free_limited_time_offer">7 NGÀY MIỄN PHÍ \n Ưu đãi trong thời gian có hạn</string>
+    <string name="tv_free_trial">Dùng thử miễn phí</string>
+    <string name="tv_1_month">1\ntháng</string>
+    <string name="tv_1_year">1\nnăm</string>
+    <string name="tv_message_billing_1">• Mở khóa tất cả bộ sưu tập album Qi Coil</string>
+    <string name="tv_message_billing_2">• Chương trình có thể tùy chỉnh</string>
+    <string name="tv_message_billing_3">• Các chương trình được tải sẵn</string>
+    <string name="tv_subscription_info">THÔNG TIN ĐĂNG KÝ</string>
+    <string name="txt_about_subscribe_1">• Chính sách quyền riêng tư: http://www.tattoobookapp.com/quantumwavebiotechnology/privacy/</string>
+    <string name="txt_about_subscribe_2">• Điều khoản sử dụng: http://www.tattoobookapp.com/quantumwavebiotechnology/terms/</string>
+    <string name="txt_about_subscribe_3">• Bất kỳ phần chưa sử dụng nào trong thời gian dùng thử miễn phí, nếu được cung cấp, sẽ bị mất khi người dùng mua đăng ký ấn bản đó.</string>
+    <string name="tv_back">mặt sau</string>
+    <string name="tv_sub_info_1">• Không được phép hủy đăng ký hiện tại trong thời gian đăng ký đang hoạt động</string>
+    <string name="tv_sub_info_2">• Đăng ký có thể được quản lý bởi người dùng và tính năng tự động gia hạn có thể bị tắt bằng cách đi tới Cài đặt tài khoản của người dùng sau khi mua</string>
+    <string name="tv_sub_info_3">• Đăng ký tự động gia hạn trừ khi tính năng tự động gia hạn bị tắt ít nhất 24 giờ trước khi kết thúc giai đoạn hiện tại</string>
+    <string name="tv_sub_info_4">• Khoản thanh toán sẽ được tính vào Tài khoản Google khi xác nhận mua hàng</string>
+    <string name="tv_sub_info_5">• Dùng thử miễn phí - 7 ngày miễn phí, sau đó là 24,99 mỗi tháng. Giá tương ứng với cùng phân khúc tiền tệ được đặt trong Android Google Play cho các loại tiền tệ khác</string>
+    <string name="tv_price_of_subscription">giá thuê bao:</string>
+    <string name="tv_sub_info_6">• Dùng thử miễn phí 1 tháng 7 ngày</string>
+    <string name="tv_length_of_subscription">Thời lượng đăng ký:</string>
+    <string name="tv_start_free_trial">bắt đầu dùng thử miễn phí</string>
+    <string name="tv_subscription_now">MUA NGAY</string><!--Subscribe-->
+    <string name="tv_activate">Kích hoạt\nBản dùng thử miễn phí của bạn</string>
+    <string name="tv_auto_renewable_subscription_info">Thông tin đăng ký tự động gia hạn:</string>
+    <string name="tv_flash_sale">BÁN FLASH</string>
+    <string name="tv_available_until">&#160;Có sẵn cho đến&#160;</string>
+    <string name="txt_then_trial_price">Sau đó %1$s/tháng</string>
+    <!---->
+
+    <string name="tv_advanced_frequencies">SỰ DUYỀN I</string><!--ABUNDANCE-->
+    <string name="tv_basic_frequencies">NỀN TẢNG</string>
+    <string name="tv_master_frequencies">BẬC THẦY</string>
+    <string name="tv_advanced_meditation_frequencies">TẦN SỐ THIỀN NÂNG CAO \n</string>
+    <string name="tv_advanced_meditation_frequencies_2">TẦN SỐ THIỀN NÂNG CAO</string>
+    <string name="tv_transform_yourself_faster_with_advanced_mind_enhancement_frequencies">Biến đổi bản thân nhanh hơn với tần số nâng cao trí tuệ nâng cao</string>
+    <string name="tv_title_sub_item_1"><![CDATA[→ Tăng cường sóng não và sức mạnh trí óc]]></string>
+    <string name="tv_title_sub_item_2">​Khuyếch đại sức mạnh của bạn để sáng tạo, thể hiện và thu hút sự dồi dào</string>
+    <string name="tv_title_sub_item_3">• Tăng cường sức khỏe</string>
+    <string name="tv_title_sub_item_4">​Hãy nâng cao sự cộng hưởng tinh thần của bạn</string>
+    <string name="tv_title_sub_item_5">​Khám phá những cõi chưa được khám phá của giấc mơ sáng suốt và phép chiếu vào cõi trung giới</string>
+
+    <string name="tv_recurring_billing">Thanh toán định kỳ. Hủy bỏ bất cứ lúc nào.</string>
+    <string name="tv_one_time_payment">Thanh toán một lần</string>
+    <string name="tv_title_subscription_monthly">Đăng ký này tự động gia hạn thêm 1999 mỗi tháng trừ khi đăng ký này bị hủy trong cài đặt tài khoản của bạn trên Google Play ít nhất 24 giờ trước khi kết thúc thời gian dùng thử. Các khoản thanh toán sẽ được tính vào tài khoản Google của bạn khi xác nhận mua hàng. Tài khoản sẽ bị tính phí gia hạn trong vòng 24 giờ trước khi kết thúc giai đoạn hiện tại. Bất kỳ phần chưa sử dụng nào trong thời gian dùng thử miễn phí, nếu được cung cấp, sẽ bị mất khi người dùng mua đăng ký ấn phẩm đó.</string>
+    <string name="tv_title_subscription_lifetime">Các khoản thanh toán sẽ được tính vào tài khoản Google của bạn khi xác nhận mua hàng. Tài khoản sẽ bị tính phí gia hạn trong vòng 24 giờ trước khi kết thúc giai đoạn hiện tại. Bất kỳ phần chưa sử dụng nào trong thời gian dùng thử miễn phí, nếu được cung cấp, sẽ bị mất khi người dùng mua đăng ký ấn phẩm đó. Bằng cách tiếp tục, bạn đồng ý với chúng tôi</string>
+    <string name="tv_link">Điều khoản và Chính sách bảo mật</string>
+    <string name="tv_monthly">hàng tháng</string>
+    <string name="tv_per_month">mỗi tháng</string>
+    <string name="tv_annual">Hàng năm</string>
+    <string name="tv_per_year">mỗi năm</string>
+    <string name="tv_lifetime">trọn đời</string>
+    <string name="tv_pay_once">trả tiền một lần</string>
+    <string name="tv_continue">Tiếp tục</string>
+    <string name="tv_basic_subscription">Đăng ký cần thiết</string>
+    <string name="tv_unlock_meditation_prequencies">MỞ KHÓA TẦN SỐ THIỀN</string>
+    <string name="tv_unlock_meditation_prequencies_2">MỞ KHÓA TẦN SỐ THIỀN</string>
+    <string name="tv_try_7_days_free">Dùng thử 7 ngày miễn phí</string>
+    <!--new-->
+
+    <string name="tv_minutes">PHÚT</string>
+    <string name="tv_seconds">GIÂY</string>
+    <string name="tv_hours">GIỜ</string>
+    <string name="tv_offer_expires_in">Ưu đãi hết hạn sau:</string>
+    <string name="tv__50_off">TIẾT KIỆM 50%</string><!--50% Off-->
+    <string name="tv_unlock_all_34_basic_frequencies_one_time">Mở khóa TẤT CẢ 43 &lt;br/&gt;Tần số thiết yếu &lt;u&gt;FOREVER&lt;/u&gt;</string>
+    <string name="tv_unlock_all_34_basic_frequencies_one_time_yearly">Mở khóa TẤT CẢ 43 \nTần số thiết yếu</string>
+    <string name="tv_unlock_all_34_basic_frequencies">Mở khóa TẤT CẢ 34 tần số thiết yếu </string>
+    <string name="tv_unlock_all_150_advanced_frequencies_one_time">Mở khóa TẤT CẢ 189 &lt;br/&gt;Tần suất dồi dào &lt;u&gt;FOREVER&lt;/u&gt;</string>
+    <string name="tv_unlock_all_150_advanced_frequencies_one_time_yearly">Mở khóa TẤT CẢ 189 \nTần số dồi dào</string>
+    <string name="tv_unlock_all_150_advanced_frequencies">Mở khóa TẤT CẢ 189 \nTần số dồi dào </string>
+    <string name="tv_brainwave_mind_power_enhancement"><![CDATA[Nâng cao sức mạnh tâm trí và sóng não]]></string>
+    <string name="tvcreate_manifest_attract_abundancet"><![CDATA[Tạo, thể hiện và thu hút sự dồi dào]]></string>
+    <string name="tv_improve_overall_health">Cải thiện sức khỏe tổng thể</string>
+    <string name="tv_raise_your_spiritual_resonance">Nâng cao sự cộng hưởng tinh thần của bạn</string>
+    <string name="tv_unlock_34_advanced_frequencies">Mở khóa 43 tần số thiết yếu</string>
+    <string name="tv_buy_now">Mua ngay</string>
+    <string name="tv_current_plan">ĐÃ KÍCH HOẠT</string><!--CURRENT PLAN-->
+    <string name="tv_choose_your_subscription_plan">Chọn gói đăng ký của bạn</string>
+
+    <string name="tv_title_free_1">9 tần số khởi động</string>
+    <string name="tv_title_free_2"><![CDATA[Tập trung & Thiền định]]></string>
+    <string name="tv_title_free_3">Giảm căng thẳng và lo âu</string>
+    <string name="tv_title_free_4"><![CDATA[Ngủ ngon hơn và thư giãn]]></string>
+
+    <string name="tv_title_basic_1">Mở khóa 43 tần số thiết yếu</string>
+    <string name="tv_title_basic_2">Xóa năng lượng tiêu cực</string>
+    <string name="tv_title_basic_3">Tăng cường Thiền</string>
+    <string name="tv_title_basic_4">Giảm căng thẳng &amp; Sự lo lắng</string>
+    <string name="tv_title_basic_7">Tăng cường năng lượng thể chất và tinh thần</string>
+    <string name="tv_title_basic_8">Cải thiện sự tập trung và năng suất</string>
+    <string name="tv_title_basic_9">Học nhanh hơn</string>
+
+    <string name="tv_title_advanced_1">Mở khóa 43 tần số thiết yếu</string>
+    <string name="tv_title_advanced_2">Mở khóa 189 tần số dồi dào</string>
+    <string name="tv_title_advanced_3">Tăng may mắn và sự trùng hợp</string>
+    <string name="tv_title_advanced_4">Khuếch đại sức mạnh biểu hiện của bạn</string>
+    <string name="tv_title_advanced_5">Thiết kế thực tế của bạn</string>
+    <string name="tv_title_advanced_7">Nâng cao trực giác của bạn</string>
+    <string name="tv_title_advanced_8">Mở khóa 189 tần số dồi dào</string>
+    <string name="tv_title_advanced_9">Đánh thức con mắt thứ ba của bạn</string>
+    <string name="tv_title_advanced_10">Thu hút thành công và dồi dào</string>
+
+    <string name="tv_title_advanced2_1">Mở khóa 43 tần số thiết yếu</string>
+    <string name="tv_title_advanced2_2">Mở khóa 189 tần số dồi dào</string>
+    <string name="tv_title_advanced2_3">Mở khóa 261 tần số dồi dào cao hơn</string>
+    <string name="tv_title_advanced2_4">Tăng may mắn và sự trùng hợp</string>
+    <string name="tv_title_advanced2_5">Khuếch đại sức mạnh biểu hiện của bạn</string>
+    <string name="tv_title_advanced2_6">Thiết kế thực tế của bạn</string>
+    <string name="tv_title_advanced2_7">Nâng cao trực giác của bạn</string>
+    <string name="tv_title_advanced2_8">Đánh thức con mắt thứ ba của bạn</string>
+    <string name="tv_title_advanced2_9">Thu hút thành công và dồi dào</string>
+    <string name="tv_title_advanced2_10"><![CDATA[Kích thích tiềm thức và ý thức sâu sắc]]></string>
+    <string name="tv_title_advanced2_11"><![CDATA[Kích thích chữa lành và tăng cường sức sống]]></string>
+    <string name="tv_title_advanced2_12">Cân bằng Luân xa của bạn</string>
+    <string name="tv_title_advanced2_13">Bảo vệ EMF</string>
+
+
+    <string name="tv_reviews">Đánh giá</string>
+    <string name="tv_faq">Câu hỏi thường gặp</string>
+    <string name="tv_education">Giáo dục</string>
+    <string name="tv_qi_coils">Cuộn dây Qi</string>
+    <string name="player_error">Lỗi khi khởi chạy trình phát YouTube: %1$s</string>
+    <string name="tv_purchase_limit">Giới hạn mua: 0/1</string>
+    <string name="tv_yearly_payment_of">Thanh toán hàng năm</string>
+    <string name="tv_title_advanced_6"><![CDATA[Tăng cường và cân bằng trường năng lượng của bạn]]></string>
+    <string name="tv_get_this_huge_deal_before_it_s_gone">Nhận ưu đãi lớn này trước khi nó biến mất!</string>
+
+    <string name="tv_change_password">Thay đổi mật khẩu</string>
+    <string name="tv_help_support">Trợ giúp &amp; Ủng hộ</string>
+
+    <string name="tv_my_custom_playlists">Chương trình tùy chỉnh của tôi</string>
+    <string name="tv_redeem">Chuộc lại</string>
+
+    <string name="tv_title_subscription">Đăng ký tự động gia hạn trừ khi tính năng tự động gia hạn được tắt ít nhất 24 giờ trước khi giai đoạn hiện tại kết thúc. khoản thanh toán được tính vào tài khoản GooglePlay của bạn. Quản lý đăng ký và tắt tự động gia hạn trong cài đặt GooglePlay.</string>
+    <string name="tv_title_subscription_new">Đăng ký này sẽ tự động gia hạn trừ khi tính năng tự động gia hạn bị tắt ít nhất 24 giờ trước khi giai đoạn hiện tại kết thúc. Thanh toán được tính vào tài khoản GooglePlay của bạn. Quản lý đăng ký và tắt tự động gia hạn trong cài đặt tài khoản GooglePlay.</string>
+    <string name="flash_sale_50_off">Giảm giá chớp nhoáng - GIẢM GIÁ 0,5</string>
+    <string name="tv_forgotten_password">&lt;u&gt;Quên mật khẩu?&lt;/u&gt;</string>
+    <string name="tv_link_sign_in">&lt;u&gt; Đăng nhập.&lt;/u&gt;</string>
+    <string name="tv_link_sign_up">&lt;u&gt; Đăng ký.&lt;/u&gt;</string>
+    <string name="tv_signUp">Bạn chưa có tài khoản?</string>
+    <string name="tv_signIn">Đã có tài khoản?</string>
+    <string name="tv_not_worry">Đừng lo lắng! \nChỉ cần nhập địa chỉ email đã đăng ký của bạn bên dưới và chúng tôi sẽ gửi cho bạn email kèm theo hướng dẫn về cách đặt lại mật khẩu của bạn.</string>
+    <string name="tv_sign_up">Đăng ký</string>
+    <string name="tv_email">E-mail</string>
+    <string name="tv_password">Mật khẩu</string>
+    <string name="tv_confirm_password">Xác nhận mật khẩu</string>
+    <string name="tv_get_started">Bắt đầu</string>
+    <string name="tv_sign_in">Đăng nhập</string>
+    <string name="tv_google">Tiếp tục với Google</string>
+    <string name="tv_facebook">Tiếp tục với Facebook</string>
+    <string name="tv_guest">Tiếp tục với tư cách là khách</string>
+    <string name="tv_login">Đăng nhập</string>
+    <string name="txt_forgotten_password">Quên mật khẩu</string>
+    <string name="tv_forgot_password">Quên mật khẩu?</string>
+    <string name="tv_email_address">Địa chỉ email</string>
+    <string name="tv_send_email">Gửi email</string>
+    <string name="tv_old_password">Mật khẩu cũ</string>
+    <string name="tv_new_password">Mật khẩu mới</string>
+    <string name="tv_confirm_new_password">Xác nhận mật khẩu mới</string>
+    <string name="txt_processing">Xử lý</string>
+    <string name="txt_msg_logout">Bạn có chắc chắn muốn đăng xuất không?</string>
+    <string name="txt_msg_deleteuser">Bạn có chắc chắn muốn xóa người dùng?</string>
+    <string name="tv_name">Tên</string>
+    <string name="err_network_available">Vui lòng kiểm tra kết nối mạng!</string>
+    <string name="err_unexpected_exception">Vui lòng thử lại!</string>
+    <string name="err_unexpected_exception_api">Kết nối không thành công. Vui lòng thử lại!</string>
+    <string name="txt_warning_login_fail">Sai email hoặc mật khẩu. Hãy thử lại hoặc chọn Quên mật khẩu để đặt lại.</string>
+    <string name="txt_waiting">Xin vui lòng chờ đợi…</string>
+    <string name="txt_clear_data">Xóa dữ liệu…</string>
+    <string name="txt_email_exist">Email này đã được đăng ký.</string>
+    <string name="tv_err_email_register">Địa chỉ email của bạn không được tìm thấy.</string>
+    <string name="tv_forgot_password_success">Đã đổi mật khẩu thành công!</string>
+    <string name="tv_send_email_success">Email đã được gửi. Kiểm tra email của bạn và mở liên kết để đặt lại mật khẩu của bạn.</string>
+    <string name="tv_unlock_powerful_frequencies">Chọn gói đăng ký của bạn</string><!--Unlock Powerful Frequencies-->
+    <string name="txt_encrypting_message">Chúng tôi đang đồng bộ hóa dữ liệu mới, quá trình này có thể mất chưa đến 10 phút. Vui lòng không thoát khỏi ứng dụng hoặc tắt máy.\nViệc đồng bộ hóa sẽ không tiêu tốn dung lượng mạng.</string>
+    <string name="txt_warning_frequencies_frequencies">Vui lòng đợi trong khi chúng tôi cập nhật tần số. Các tần số đã được khuếch đại và làm lại để mang lại trải nghiệm người dùng tốt hơn.</string>
+    <string name="tv_frequencies">Tần số</string>
+    <string name="tv_albums">Album</string>
+    <string name="tv_programs">Chương trình</string>
+    <string name="tv_higher_abundance">SỰ DUYỀN II</string><!--HIGHER\nABUNDANCE-->
+    <string name="tv_description">Sự miêu tả</string>
+
+    <string name="tv_note_5">• Đạt được hiệu quả hoạt động trí não, khả năng sáng tạo và ý tưởng ở mức cao nhất</string>
+    <string name="tv_note_4">• Tận hưởng sự thư giãn và chữa lành cực độ</string>
+    <string name="tv_note_3">• Cảm thấy được nghỉ ngơi, nạp lại năng lượng, hồi phục</string>
+    <string name="tv_note_2">• Cảm thấy tập trung, thư giãn, vững vàng, tập trung</string>
+    <string name="tv_note_1">• Điều chỉnh sóng não của bạn</string>
+    <string name="tv_create_new">TẠO MỚI</string>
+    <string name="tv_higher_quantum">LƯỢNG LƯỢNG CAO HƠN</string>
+    <string name="tv_search">Tìm kiếm</string>
+    <string name="tv_starter">người mới bắt đầu</string>
+    <string name="tv_duration">Khoảng thời gian</string>
+    <string name="tv_move_up_queue">Di chuyển lên hàng đợi</string>
+    <string name="tv_move_down_queue">Di chuyển xuống hàng đợi</string>
+    <string name="tv_remove">Di dời</string>
+    <string name="tv_added_to_my_custom_playlist">Đã thêm vào Danh sách phát tùy chỉnh của tôi</string>
+    <string name="tv_add_to_program">Thêm vào chương trình</string>
+    <string name="tv_add_to_favorites">Thêm vào mục yêu thích</string>
+    <string name="tv_redownload">Tải xuống lại</string>
+    <string name="tv_favorites">Yêu thích</string>
+    <string name="tv_remove_from_favorite">Xóa khỏi mục yêu thích</string>
+
+    <!--region Delete-->
+    <string name="title_activity_navigation" translatable="false">MainActivity</string>
+    <string name="title_home" translatable="false">Home</string>
+    <string name="title_dashboard" translatable="false">Dashboard</string>
+    <string name="title_notifications" translatable="false">Notifications</string>
+    <string name="title_activity_qwe" translatable="false">MainActivity</string>
+    <!--endregion-->
+
+    <!--Lemeor-->
+    <string name="video_url" translatable="false">https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&amp;playlistId=%1$s&amp;key=%2$s&amp;maxResults=50</string>
+    <string name="flash_sale_colon" translatable="false">:</string>
+    <string name="flash_sale_00" translatable="false">00</string>
+    <string name="some_dot" translatable="false">•</string>
+    <string name="btn_download">Tải xuống</string>
+    <string name="program_favorites">Yêu thích</string>
+    <string name="txt_flash_sale">Giảm giá chớp nhoáng</string>
+    <string name="search_hint">Tìm kiếm</string>
+    <string name="lbl_categories">Thể loại</string>
+    <string name="downloader_quantity">Đang tải xuống (%1$d/%2$d)</string>
+    <string name="downloader_quantity_collapse" translatable="false">%1$d/%2$d</string>
+
+    <string name="tst_download_successful_en" translatable="false">Download successful</string>
+    <string name="tst_download_successful_zh" translatable="false">下载成功</string>
+    <string name="tst_download_successful_es" translatable="false">Descargar exitoso</string>
+    <string name="tst_download_successful_fr" translatable="false">Télécharger réussi</string>
+
+    <string name="inapp_purchase_info">Thanh toán một lần: %1$s</string>
+    <string name="purchase_dialog_btn_month">Tháng</string>
+    <string name="purchase_dialog_btn_annual">Hàng năm</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+
+    <string name="share_message">Tôi đã tìm thấy ứng dụng thiền mới này Qi Coil https://play.google.com/store/apps/details?id=com.Meditation.Sounds.frequency</string>
+    <!-- <string name="facebook_app_id">554730859218975</string> -->
+    <string name="download_error">Lỗi tải xuống</string>
+    <string name="download_error_message">Một số tập tin không thể tải xuống được. Hãy thử lại sau!</string>
+
+    <!-- new text-->
+    <string name="tv_from">Từ</string>
+    <string name="tv_now">Hiện nay</string>
+    <string name="tv_category_name">Tên danh mục</string>
+    <string name="tv_title_trial">Mở khóa tần số lượng tử \n Thiền</string>
+    <string name="tv_trial_package_200">Hơn 200 tần số lượng tử</string>
+    <string name="tv_trial_unlimited_use">Sử dụng không giới hạn</string>
+    <string name="tv_trial_custom_playlists">Danh sách phát tùy chỉnh</string>
+    <string name="tv_trial_free_updates">Cập nhật miễn phí</string>
+    <string name="tv_trial_free_7_days">Dùng thử 7 ngày miễn phí</string>
+    <string name="tv_trial_pay_7_days">59,99 USD mỗi năm sau 7 ngày dùng thử MIỄN PHÍ</string>
+    <string name="tv_downloading">Đang tải xuống</string>
+    <string name="tv_yearly_payment_of_49">Khoản thanh toán hàng năm là $49</string>
+    <string name="tv_fine_tune_hz">Tinh chỉnh Hz</string>
+    <string name="tv_hz">Hz</string>
+    <string name="tv_disclaimer">Tuyên bố từ chối trách nhiệm</string>
+    <string name="tv_unlock_now">MỞ KHÓA NGAY</string>
+    <string name="tv_apply_now">ĐĂNG KÝ NGAY</string>
+    <string name="tv_count_frequencies">%s tần số / 00:03:00</string>
+    <string name="subs_purchase_info">Đăng ký %1$s/tháng hoặc %2$s/năm</string>
+    <string name="error_hz_exceeded">Hz đã vượt quá %1$s</string>
+    <string name="tv_rifes">súng trường</string>
+    <string name="tv_scalars">vô hướng</string>
+    <string name="tv_track">Theo dõi</string>
+    <string name="tv_from_rife">Từ Rife</string>
+    <string name="tv_cus_frequency">Tần số tùy chỉnh</string>
+    <string name="tv_add_rife">Thêm Rife</string>
+    <string name="tv_add_quantum">Thêm lượng tử</string>
+    <string name="tv_error_hz">Hz lớn hơn %1$s và nhỏ hơn %2$s</string>
+    <string name="title_cus_frequency">Thêm tần suất tùy chỉnh mới</string>
+    <string name="tv_fre_hz">Tần số (Hz)</string>
+    <string name="tv_add">Thêm vào</string>
+    <string name="tv_delete">Xóa bỏ</string>
+    <string name="tv_error_playlist_name">Vui lòng nhập tên danh sách phát</string>
+    <string name="tv_track_last_pos">Theo dõi ở vị trí cuối cùng</string>
+    <string name="tv_track_first_pos">Theo dõi ở vị trí đầu tiên</string>
+    <string name="tv_error_back">Vui lòng nhấn BACK lần nữa để thoát!</string>
+    <string name="tv_please_enter_old_pass">Vui lòng nhập Mật khẩu cũ!</string>
+    <string name="tv_err_old_pass_characters">Mật khẩu cũ không được ít hơn 6 ký tự!</string>
+    <string name="tv_please_enter_new_pass">Vui lòng nhập mật khẩu mới!</string>
+    <string name="tv_err_new_pass_characters">Mật khẩu mới không được ít hơn 6 ký tự!</string>
+    <string name="tv_please_enter_confirm_pass">Vui lòng nhập Xác nhận mật khẩu mới!</string>
+    <string name="tv_err_confirm_pass_characters">Xác nhận mật khẩu mới không thể ít hơn 6 ký tự!</string>
+    <string name="tv_please_enter_confirm_new_pass">Vui lòng kiểm tra Xác nhận mật khẩu mới!</string>
+    <string name="tv_please_enter_email">Vui lòng nhập Email!</string>
+    <string name="tv_invalid_email">Email không hợp lệ!</string>
+    <string name="tv_please_enter_pass">Vui lòng nhập Mật khẩu!</string>
+    <string name="tv_download_completed">Tải xuống hoàn tất</string>
+    <string name="tv_new_apk">[APK mới] %1$s</string>
+    <string name="tv_downloading_file">Đang tải xuống tệp…</string>
+    <string name="tv_term_and_privacy">Điều khoản| và |Chính sách quyền riêng tư</string>
+    <string name="tv_err_pass_characters">Mật khẩu không được ít hơn 6 ký tự!</string>
+    <string name="tv_please_enter_confirm_password">Vui lòng nhập Xác nhận mật khẩu!</string>
+    <string name="tv_please_check_confirm_password">Vui lòng kiểm tra Xác nhận mật khẩu!</string>
+    <string name="tv_invalid_email_add">Địa chỉ email của bạn không hợp lệ!</string>
+    <string name="tv_please_enter_name">Vui lòng nhập Tên!</string>
+    <string name="tv_incorrect_old_pass">Mật khẩu cũ không đúng!</string>
+    <string name="tv_empty_list">Danh sách trống</string>
+    <string name="tv_stop">Dừng lại</string>
+    <string name="tv_removed_favorite">Đã xóa khỏi Mục yêu thích</string>
+    <string name="tv_add_favorite">Đã thêm vào mục yêu thích</string>
+    <string name="tv_account_deleted_success">Tài khoản của bạn đã được xóa thành công!</string>
+    <string name="tv_no_purchases_available">Không có giao dịch mua nào</string>
+    <string name="tv_purchases_have_been_restored">Giao dịch mua đã được khôi phục</string>
+    <string name="msg_error_occurred">Đã xảy ra lỗi!</string>
+    <string name="msg_chatting_bot_cookie_policies">Bằng cách trò chuyện với tôi, bạn đồng ý với Chính sách quyền riêng tư và cookie của chúng tôi.</string>
+    <string name="tv_message">Tin nhắn:</string>
+    <string name="tv_master_wong_ai">Trợ lý bác sĩ Qi Ai</string>
+    <string name="tv_silent_scalar_turned_on">Silent Scalar hiện đang được bật</string>
+    <string name="tv_silent_scalar_turned_off">Silent Scalar hiện đang tắt</string>
+    <string name="tv_please_choose_a_frequency_to_play">Vui lòng chọn Tần suất để chơi</string>
+    <string name="tv_there_no_silent_energies">Không có năng lượng Im lặng nào, vui lòng kích hoạt nó.</string>
+    <string name="recent">Gần đây:</string>
+    <string name="you_have_no_program_selected">Bạn chưa chọn chương trình nào</string>
+    <string name="save_schedule">Lưu lịch trình</string>
+    <string name="schedule_on_off">Lên lịch bật/tắt</string>
+    <string name="the_schedule_frequency_is_coming_up">Tần suất theo lịch trình sắp đến. Bạn có muốn chuyển sang nó không?</string>
+    <string name="chat_bot_on_off">BẬT/TẮT Chatbot</string>
+
+    <string name="msg_say_hi_chat" translatable="false">Hi, My name is Dr.Qi, I\'m an AI assistant. How can I help you today? How have you been feeling lately?</string>
+    <string name="msg_error_network_chat" translatable="false">Connect Lost. Please check your internet connection.</string>
+    <string name="lang_en" translatable="false">English</string>
+    <string name="lang_fr" translatable="false">French</string>
+    <string name="lang_zh" translatable="false">China</string>
+    <string name="lang_es" translatable="false">Spanish</string>
+    <string name="lang_ja" translatable="false">Japanese</string>
+    <string name="lang_vi" translatable="false">Vietnamese</string>
+    <string name="lang_de" translatable="false">German</string>
+    <string name="lang_zh_hant" translatable="false">Chinese - Traditional</string>
+    <string name="lang_zh_hans" translatable="false">Chinese - Simplified</string>
+    <string name="lang_hi" translatable="false">Hindi</string>
+    <string name="lang_ar" translatable="false">Arabic</string>
+    <string name="lang_pt" translatable="false">Portuguese</string>
+    <string name="lang_ko" translatable="false">Korean</string>
+    <string name="lang_it" translatable="false">Italian</string>
+    <string name="lang_bn" translatable="false">Bengali</string>
+</resources>

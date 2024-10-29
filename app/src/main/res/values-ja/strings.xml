@@ -1,0 +1,448 @@
+<resources>
+    <string name="facebook_app_id" translatable="false">239929504671619</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb239929504671619</string>
+
+    <string name="action_settings">設定</string>
+
+    <!--region Navigation-->
+    <string name="navigation_lbl_home">家</string>
+    <string name="navigation_lbl_albums">アルバム</string>
+    <string name="navigation_lbl_scalar">サイレント・クォンタム</string>
+    <string name="navigation_lbl_quantum">量子</string>
+    <string name="navigation_lbl_rife">蔓延</string>
+    <string name="navigation_lbl_programs">プログラム</string>
+    <string name="navigation_lbl_videos">動画</string>
+    <string name="navigation_lbl_shop">店</string>
+    <string name="navigation_lbl_options">オプション</string>
+    <!--endregion-->
+
+    <!--region Options-->
+    <string name="options_qi_coil">QIコイルを入手</string>
+    <string name="options_sign_in">サインイン</string>
+    <string name="options_log_out">ログアウト</string>
+    <string name="options_delete_user">ユーザーの削除</string>
+    <string name="profile_lbl_subscription">サブスクリプション</string>
+    <string name="tv_restore_purchase">購入を復元する</string>
+    <string name="profile_lbl_instructions">説明書</string>
+    <string name="profile_lbl_disclaimer">免責事項</string>
+    <string name="profile_lbl_about">について</string>
+    <!--endregion-->
+
+    <string name="btn_play">遊ぶ</string>
+    <string name="btn_add">追加</string>
+
+    <!--region Fetch-->
+    <string name="start_fetching">ファイルの取得を開始します。</string>
+    <string name="start">始める</string>
+    <string name="complete_over" translatable="false">%1$d/%2$d</string>
+    <string name="fetch_done">取得が完了しました。</string>
+    <string name="reset">リセット</string>
+    <string name="game_download_error">エラーが発生したため、ファイルを取得できませんでした。</string>
+    <!--endregion-->
+
+    <!--region Player-->
+    <string name="notification_channel_name">プレーヤーのコントロール</string>
+
+    <string name="play">遊ぶ</string>
+    <string name="pause">一時停止</string>
+    <string name="stop">停止</string>
+    <string name="previous">前の</string>
+    <string name="next">次</string>
+    <!--endregion-->
+
+    <!--region Downloader-->
+    <string name="downloader_utils_eta_sec" translatable="false">%1$ds left</string>
+    <string name="downloader_utils_eta_min" translatable="false">%1$dm %2$ds left</string>
+    <string name="downloader_utils_eta_hrs" translatable="false">%1$dh %2$dm %3$ds left</string>
+    <string name="download_speed_bytes" translatable="false">%1$d B/s</string>
+    <string name="download_speed_kb" translatable="false">%1$s KB/s</string>
+    <string name="download_speed_mb" translatable="false">%1$s MB/s</string>
+    <!--endregion-->
+
+    <string name="total_time">合計時間 %1$s</string>
+
+    <string name="options_version" translatable="false">&#160;v %1$s</string>
+
+    <string name="toast_download_complete">ダウンロード完了！</string>
+    <string name="txt_total_time">合計時間</string>
+    <string name="txt_my_playlists">私のプログラム</string>
+    <string name="txt_share">共有</string>
+    <string name="txt_delete">消去</string>
+    <string name="txt_save">保存</string>
+    <string name="txt_add">追加</string>
+    <string name="txt_create_playlist">プレイリストの作成</string>
+    <string name="txt_edit_playlist">プレイリストの編集</string>
+    <string name="txt_playlist_name">プレイリスト名</string>
+    <string name="txt_ok">わかりました</string>
+    <string name="txt_no">いいえ</string>
+    <string name="txt_enter_password">パスワードを入力してください</string>
+    <string name="txt_plz_enter_playlist_name">プレイリスト名を入力してください</string>
+    <string name="txt_create_playlist_success">プレイリストが正常に作成されました</string>
+    <string name="txt_edit_playlist_name_success">プレイリストの名前が正常に編集されました</string>
+    <string name="txt_delete_playlist_name_success">プレイリストが正常に削除されました</string>
+    <string name="txt_no_songs">周波数がありません</string>
+    <string name="txt_no_result">結果が見つかりませんでした</string>
+    <string name="txt_search_songs">検索頻度</string>
+    <string name="txt_no_playlist">プログラムがありません</string>
+    <string name="txt_no_albums">アルバムがありません</string>
+    <string name="msg_download_data">データをダウンロード中&#8230;お待ちください</string>
+    <string name="msg_error_when_download">データがダウンロードできない！もう一度試してください</string>
+    <string name="txt_try_again">もう一度やり直してください</string>
+    <string name="txt_cancel">キャンセル</string>
+    <string name="msg_coming_soon">近日公開予定&#8230;</string>
+    <string name="msg_add_first_playlist">最初のプレイリストを追加してください</string>
+    <string name="txt_downloading">ダウンロード中</string>
+    <string name="txt_downloaded">ダウンロード中</string>
+    <string name="msg_loading">読み込み中&#8230;</string>
+    <string name="txt_disclaimer_title">免責事項と権利放棄</string>
+    <string name="txt_disclaimer_content">このアプリを使用することにより、適用される法律で許可される範囲で、お客様は、このアプリの作成者、ウェブサイトおよびその関連会社、およびその従業員、代理人および代表者をあらゆる責任、損害、損失から解放するものとします。このアプリとタブレットは医療機器ではなく、病気の診断、治療、治癒、予防を目的としたものではありません。このアプリは FDA による評価を受けておらず、このアプリに関して医学的な主張は行われていない、または暗示されていません。不快感やめまいを感じた場合は、このアプリの使用を中止してください。当社の製品を使用する前に、必ず医師にご相談ください。</string>
+    <string name="txt_agree">同意する</string>
+    <string name="txt_disagree">同意しない</string>
+    <string name="txt_later">もう一度表示</string>
+    <string name="txt_about">について</string>
+    <string name="txt_yes">はい</string>
+    <string name="txt_warning_clear_playlist">現在のプレイリストをクリアしてもよろしいですか?</string>
+    <string name="txt_warning_update_newversion_title">利用可能なアップデート</string>
+    <string name="txt_warning_update_newversion">アップデートが利用可能です。アプリケーションを今すぐ更新しますか?\n場合によっては、新しいバージョンをインストールできません。 Google Play ストア アプリのキャッシュをクリアして、もう一度お試しください。</string>
+    <string name="txt_downloading_dot">ダウンロード中…</string>
+    <string name="txt_donot_show_message">このメッセージを今後表示しないでください</string>
+    <string name="txt_now_playing">プレイ中: %1$s</string>
+    <string name="txt_warning_delete_playlist">このプレイリストを削除してもよろしいですか?</string>
+
+    <string name="tv_7_days_free">7 日間\n無料</string>
+    <string name="tv_7_days_free_limited_time_offer">7 日間無料 \n 期間限定オファー</string>
+    <string name="tv_free_trial">無料トライアル</string>
+    <string name="tv_1_month">1\n月</string>
+    <string name="tv_1_year">1\n年</string>
+    <string name="tv_message_billing_1">• すべての Qi コイルアルバムコレクションのロックを解除</string>
+    <string name="tv_message_billing_2">• カスタマイズ可能なプログラム</string>
+    <string name="tv_message_billing_3">• プリロードされたプログラム</string>
+    <string name="tv_subscription_info">購読情報</string>
+    <string name="txt_about_subscribe_1">• プライバシーポリシー: http://www.tattoobookapp.com/quantumwavebiotechnology/privacy/</string>
+    <string name="txt_about_subscribe_2">• 利用規約: http://www.tattoobookapp.com/quantumwavebiotechnology/terms/</string>
+    <string name="txt_about_subscribe_3">• 無料試用期間の未使用部分は、提供されている場合、ユーザーがその出版物の購読を購入すると失効します。</string>
+    <string name="tv_back">戻る</string>
+    <string name="tv_sub_info_1">• 有効なサブスクリプション期間中は、現在のサブスクリプションをキャンセルすることはできません。</string>
+    <string name="tv_sub_info_2">• サブスクリプションはユーザーが管理でき、購入後にユーザーのアカウント設定に移動することで自動更新をオフにすることができます。</string>
+    <string name="tv_sub_info_3">• 現在の期間が終了する少なくとも 24 時間前に自動更新をオフにしない限り、サブスクリプションは自動的に更新されます。</string>
+    <string name="tv_sub_info_4">• 支払いは購入確認時に Google アカウントに請求されます</string>
+    <string name="tv_sub_info_5">• 無料トライアル - 7 日間無料、その後は月額 24.99。価格は、Android Google Play で他の通貨に設定されている同じプレセグメントに対応しています。</string>
+    <string name="tv_price_of_subscription">サブスクリプションの価格:</string>
+    <string name="tv_sub_info_6">• 1 か月、7 日間の無料トライアル</string>
+    <string name="tv_length_of_subscription">サブスクリプション期間:</string>
+    <string name="tv_start_free_trial">無料トライアルを開始する</string>
+    <string name="tv_subscription_now">今すぐ購入</string><!--Subscribe-->
+    <string name="tv_activate">無料トライアルを\nアクティブ化します</string>
+    <string name="tv_auto_renewable_subscription_info">自動更新可能なサブスクリプション情報:</string>
+    <string name="tv_flash_sale">フラッシュセール</string>
+    <string name="tv_available_until">「まで利用可能」</string>
+    <string name="txt_then_trial_price">その後、%1$s/月</string>
+    <!---->
+
+    <string name="tv_advanced_frequencies">アバンダンス I</string><!--ABUNDANCE-->
+    <string name="tv_basic_frequencies">ベーシック</string>
+    <string name="tv_master_frequencies">マスター</string>
+    <string name="tv_advanced_meditation_frequencies">高度な\n瞑想頻度</string>
+    <string name="tv_advanced_meditation_frequencies_2">高度な瞑想頻度</string>
+    <string name="tv_transform_yourself_faster_with_advanced_mind_enhancement_frequencies">高度なマインド強化周波数で自分自身をより早く変革しましょう</string>
+    <string name="tv_title_sub_item_1"><![CDATA[• 脳波と精神力の強化]]></string>
+    <string name="tv_title_sub_item_2">豊かさを創造し、実現し、引き寄せる力を増幅します。</string>
+    <string name="tv_title_sub_item_3">• 健康の促進</string>
+    <string name="tv_title_sub_item_4">• スピリチュアルな共鳴を高める</string>
+    <string name="tv_title_sub_item_5">• 明晰夢と幽体離脱の未知の領域を探検</string>
+
+    <string name="tv_recurring_billing">定期的な請求。いつでもキャンセルできます。</string>
+    <string name="tv_one_time_payment">1回払い</string>
+    <string name="tv_title_subscription_monthly">このサブスクリプションは、試用期間が終了する少なくとも 24 時間前に Google Play のアカウント設定でキャンセルされない限り、毎月 1999 年に自動的に更新されます。支払いは購入の確認時に Google アカウントに請求されます。現在の期間が終了する 24 時間以内に、アカウントに更新料金が請求されます。無料試用期間の未使用部分は、提供されている場合、ユーザーがその出版物の購読を購入すると失効します。</string>
+    <string name="tv_title_subscription_lifetime">支払いは購入の確認時に Google アカウントに請求されます。現在の期間が終了する 24 時間以内に、アカウントに更新料金が請求されます。無料試用期間の未使用部分は、提供されている場合、ユーザーがその出版物の購読を購入すると失効します。続行すると、次のことに同意したことになります</string>
+    <string name="tv_link">規約とプライバシーポリシー</string>
+    <string name="tv_monthly">毎月</string>
+    <string name="tv_per_month">月あたり</string>
+    <string name="tv_annual">年間</string>
+    <string name="tv_per_year">年間</string>
+    <string name="tv_lifetime">一生</string>
+    <string name="tv_pay_once">一度支払う</string>
+    <string name="tv_continue">続く</string>
+    <string name="tv_basic_subscription">必須のサブスクリプション</string>
+    <string name="tv_unlock_meditation_prequencies">瞑想の周波数を解放する</string>
+    <string name="tv_unlock_meditation_prequencies_2">瞑想の周波数を解放する</string>
+    <string name="tv_try_7_days_free">7日間無料でお試しください</string>
+    <!--new-->
+
+    <string name="tv_minutes">分</string>
+    <string name="tv_seconds">秒</string>
+    <string name="tv_hours">営業時間</string>
+    <string name="tv_offer_expires_in">特典の有効期限:</string>
+    <string name="tv__50_off">50% 節約</string><!--50% Off-->
+    <string name="tv_unlock_all_34_basic_frequencies_one_time">43 個すべての <br/> エッセンシャル 周波数 &lt;u&gt; をすべてロック解除します &lt;/u&gt;</string>
+    <string name="tv_unlock_all_34_basic_frequencies_one_time_yearly">43 個すべての \n必須周波数のロックを解除する</string>
+    <string name="tv_unlock_all_34_basic_frequencies">34 の必須周波数すべてのロックを解除する </string>
+    <string name="tv_unlock_all_150_advanced_frequencies_one_time">189 個すべてのアバンダンス周波数をアンロック &lt;u&gt;FOREVER&lt;/u&gt;</string>
+    <string name="tv_unlock_all_150_advanced_frequencies_one_time_yearly">189 個すべてをアンロック \n豊富な周波数</string>
+    <string name="tv_unlock_all_150_advanced_frequencies">189 個すべてをアンロック \n豊富な周波数 </string>
+    <string name="tv_brainwave_mind_power_enhancement"><![CDATA[脳波と精神力の強化]]></string>
+    <string name="tvcreate_manifest_attract_abundancet"><![CDATA[豊かさを創造、明示し、引き寄せる]]></string>
+    <string name="tv_improve_overall_health">全体的な健康状態を改善する</string>
+    <string name="tv_raise_your_spiritual_resonance">スピリチュアルな共鳴を高める</string>
+    <string name="tv_unlock_34_advanced_frequencies">43 の必須周波数のロックを解除する</string>
+    <string name="tv_buy_now">今すぐ購入</string>
+    <string name="tv_current_plan">活性化されました</string><!--CURRENT PLAN-->
+    <string name="tv_choose_your_subscription_plan">サブスクリプションプランを選択してください</string>
+
+    <string name="tv_title_free_1">9 スターター周波数</string>
+    <string name="tv_title_free_2"><![CDATA[集中と瞑想]]></string>
+    <string name="tv_title_free_3">ストレスと不安の軽減</string>
+    <string name="tv_title_free_4"><![CDATA[より良い睡眠とリラクゼーション]]></string>
+
+    <string name="tv_title_basic_1">43 の必須周波数のロックを解除する</string>
+    <string name="tv_title_basic_2">クリアなネガティブエネルギー</string>
+    <string name="tv_title_basic_3">瞑想を強化する</string>
+    <string name="tv_title_basic_4">ストレスを軽減し、不安</string>
+    <string name="tv_title_basic_7">肉体的および精神的エネルギーを高める</string>
+    <string name="tv_title_basic_8">集中力と生産性を向上させる</string>
+    <string name="tv_title_basic_9">より速く学習する</string>
+
+    <string name="tv_title_advanced_1">43 の必須周波数のロックを解除する</string>
+    <string name="tv_title_advanced_2">189 の豊かな周波数のロックを解除する</string>
+    <string name="tv_title_advanced_3">幸運と偶然の増加</string>
+    <string name="tv_title_advanced_4">具現化の力を増幅する</string>
+    <string name="tv_title_advanced_5">現実をデザインする</string>
+    <string name="tv_title_advanced_7">直観力を高める</string>
+    <string name="tv_title_advanced_8">189 の豊かな周波数のロックを解除する</string>
+    <string name="tv_title_advanced_9">第三の目を目覚めさせましょう</string>
+    <string name="tv_title_advanced_10">成功と豊かさを引き寄せる</string>
+
+    <string name="tv_title_advanced2_1">43 の必須周波数のロックを解除する</string>
+    <string name="tv_title_advanced2_2">189 の豊かな周波数のロックを解除する</string>
+    <string name="tv_title_advanced2_3">261 のより高い豊富な周波数のロックを解除する</string>
+    <string name="tv_title_advanced2_4">幸運と偶然の増加</string>
+    <string name="tv_title_advanced2_5">具現化の力を増幅する</string>
+    <string name="tv_title_advanced2_6">現実をデザインする</string>
+    <string name="tv_title_advanced2_7">直観力を高める</string>
+    <string name="tv_title_advanced2_8">第三の目を目覚めさせましょう</string>
+    <string name="tv_title_advanced2_9">成功と豊かさを引き寄せる</string>
+    <string name="tv_title_advanced2_10"><![CDATA[深い意識と潜在意識の刺激]]></string>
+    <string name="tv_title_advanced2_11"><![CDATA[治癒を刺激し、活力を促進する]]></string>
+    <string name="tv_title_advanced2_12">チャクラのバランスを整える</string>
+    <string name="tv_title_advanced2_13">EMF保護</string>
+
+
+    <string name="tv_reviews">レビュー</string>
+    <string name="tv_faq">よくある質問</string>
+    <string name="tv_education">教育</string>
+    <string name="tv_qi_coils">気コイル</string>
+    <string name="player_error">YouTube プレーヤーの初期化中にエラーが発生しました: %1$s</string>
+    <string name="tv_purchase_limit">購入制限: 0/1</string>
+    <string name="tv_yearly_payment_of">年間の支払い</string>
+    <string name="tv_title_advanced_6"><![CDATA[エネルギーフィールドを強化してバランスをとる]]></string>
+    <string name="tv_get_this_huge_deal_before_it_s_gone">なくなる前にこの高額セールを手に入れましょう!</string>
+
+    <string name="tv_change_password">パスワードを変更する</string>
+    <string name="tv_help_support">ヘルプとサポート</string>
+
+    <string name="tv_my_custom_playlists">私のカスタムプログラム</string>
+    <string name="tv_redeem">償還</string>
+
+    <string name="tv_title_subscription">現在の期間が終了する少なくとも 24 時間前に自動更新をオフにしない限り、サブスクリプションは自動的に更新されます。支払いは GooglePlay アカウントに請求されます。 GooglePlay 設定でサブスクリプションを管理し、自動更新をオフにします。</string>
+    <string name="tv_title_subscription_new">このサブスクリプションは、現在の期間が終了する少なくとも 24 時間前に自動更新をオフにしない限り、自動的に更新されます。お支払いは GooglePlay アカウントに請求されます。 GooglePlay アカウント設定でサブスクリプションを管理し、自動更新をオフにします。</string>
+    <string name="flash_sale_50_off">フラッシュ セール - 0.5 オフ</string>
+    <string name="tv_forgotten_password">&lt;u&gt;パスワードをお忘れですか?&lt;/u&gt;</string>
+    <string name="tv_link_sign_in">&lt;u&gt;サインインします。&lt;/u&gt;</string>
+    <string name="tv_link_sign_up">&lt;u&gt;サインアップしてください。&lt;/u&gt;</string>
+    <string name="tv_signUp">アカウントをお持ちでない場合は、</string>
+    <string name="tv_signIn">すでにアカウントをお持ちですか?</string>
+    <string name="tv_not_worry">心配する必要はありません。 \n登録済みのメール アドレスを以下に入力するだけで、パスワードをリセットする方法を記載したメールが送信されます。</string>
+    <string name="tv_sign_up">サインアップ</string>
+    <string name="tv_email">電子メール</string>
+    <string name="tv_password">パスワード</string>
+    <string name="tv_confirm_password">パスワードを認証する</string>
+    <string name="tv_get_started">始めましょう</string>
+    <string name="tv_sign_in">サインイン</string>
+    <string name="tv_google">Google を続ける</string>
+    <string name="tv_facebook">Facebookを続ける</string>
+    <string name="tv_guest">ゲストとして続行</string>
+    <string name="tv_login">ログイン</string>
+    <string name="txt_forgotten_password">パスワードを忘れた場合</string>
+    <string name="tv_forgot_password">パスワードをお忘れですか？</string>
+    <string name="tv_email_address">電子メールアドレス</string>
+    <string name="tv_send_email">電子メールを送信する</string>
+    <string name="tv_old_password">以前のパスワード</string>
+    <string name="tv_new_password">新しいパスワード</string>
+    <string name="tv_confirm_new_password">新しいパスワードの確認</string>
+    <string name="txt_processing">処理</string>
+    <string name="txt_msg_logout">ログアウトしてもよろしいですか?</string>
+    <string name="txt_msg_deleteuser">ユーザーを削除してもよろしいですか?</string>
+    <string name="tv_name">名前</string>
+    <string name="err_network_available">ネットワーク接続を確認してください。</string>
+    <string name="err_unexpected_exception">もう一度試してください。</string>
+    <string name="err_unexpected_exception_api">接続に失敗しました。もう一度試してください。</string>
+    <string name="txt_warning_login_fail">メールアドレスまたはパスワードが間違っています。もう一度試すか、「パスワードを忘れた場合」を選択してリセットします。</string>
+    <string name="txt_waiting">お待ちください…</string>
+    <string name="txt_clear_data">データをクリア…</string>
+    <string name="txt_email_exist">このEメールはすでに登録されています。</string>
+    <string name="tv_err_email_register">あなたのメールアドレスが見つかりませんでした。</string>
+    <string name="tv_forgot_password_success">パスワードが正常に変更されました。</string>
+    <string name="tv_send_email_success">メールが送信されました。メールを確認し、リンクを開いてパスワードをリセットします。</string>
+    <string name="tv_unlock_powerful_frequencies">サブスクリプションプランを選択してください</string><!--Unlock Powerful Frequencies-->
+    <string name="txt_encrypting_message">新しいデータを同期しています。このプロセスには 10 分もかからない場合があります。アプリケーションを終了したりシャットダウンしないでください。\n同期によってネットワーク容量は消費されません。</string>
+    <string name="txt_warning_frequencies_frequencies">周波数を更新するまでお待ちください。ユーザーエクスペリエンスを向上させるために、周波数が増幅され、リマスターされました。</string>
+    <string name="tv_frequencies">周波数</string>
+    <string name="tv_albums">アルバム</string>
+    <string name="tv_programs">プログラム</string>
+    <string name="tv_higher_abundance">アバンダンス II</string><!--HIGHER\nABUNDANCE-->
+    <string name="tv_description">説明</string>
+
+    <string name="tv_note_5">• 最高の脳パフォーマンス、創造性、アイデアを得る</string>
+    <string name="tv_note_4">• 究極のリラクゼーションと癒しを得る</string>
+    <string name="tv_note_3">• 休息、充電、回復を感じる</string>
+    <string name="tv_note_2">• 集中力、リラックス感、地に足の着いた感覚、中心にある感覚</string>
+    <string name="tv_note_1">• 脳波を調整します</string>
+    <string name="tv_create_new">新規作成</string>
+    <string name="tv_higher_quantum">より高い量子</string>
+    <string name="tv_search">検索</string>
+    <string name="tv_starter">スターター</string>
+    <string name="tv_duration">間隔</string>
+    <string name="tv_move_up_queue">上に移動キュー</string>
+    <string name="tv_move_down_queue">キューを下に移動</string>
+    <string name="tv_remove">取り除く</string>
+    <string name="tv_added_to_my_custom_playlist">私のカスタムプレイリストに追加されました</string>
+    <string name="tv_add_to_program">プログラムに追加</string>
+    <string name="tv_add_to_favorites">お気に入りに追加</string>
+    <string name="tv_redownload">再ダウンロード</string>
+    <string name="tv_favorites">お気に入り</string>
+    <string name="tv_remove_from_favorite">お気に入りから削除</string>
+
+    <!--region Delete-->
+    <string name="title_activity_navigation" translatable="false">MainActivity</string>
+    <string name="title_home" translatable="false">Home</string>
+    <string name="title_dashboard" translatable="false">Dashboard</string>
+    <string name="title_notifications" translatable="false">Notifications</string>
+    <string name="title_activity_qwe" translatable="false">MainActivity</string>
+    <!--endregion-->
+
+    <!--Lemeor-->
+    <string name="video_url" translatable="false">https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&amp;playlistId=%1$s&amp;key=%2$s&amp;maxResults=50</string>
+    <string name="flash_sale_colon" translatable="false">:</string>
+    <string name="flash_sale_00" translatable="false">00</string>
+    <string name="some_dot" translatable="false">•</string>
+    <string name="btn_download">ダウンロード</string>
+    <string name="program_favorites">お気に入り</string>
+    <string name="txt_flash_sale">フラッシュセール</string>
+    <string name="search_hint">検索</string>
+    <string name="lbl_categories">カテゴリー</string>
+    <string name="downloader_quantity">ダウンロード中 (%1$d/%2$d)</string>
+    <string name="downloader_quantity_collapse" translatable="false">%1$d/%2$d</string>
+
+    <string name="tst_download_successful_en" translatable="false">Download successful</string>
+    <string name="tst_download_successful_zh" translatable="false">下载成功</string>
+    <string name="tst_download_successful_es" translatable="false">Descargar exitoso</string>
+    <string name="tst_download_successful_fr" translatable="false">Télécharger réussi</string>
+
+    <string name="inapp_purchase_info">1 回限りの支払い: %1$s</string>
+    <string name="purchase_dialog_btn_month">月</string>
+    <string name="purchase_dialog_btn_annual">年間</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+
+    <string name="share_message">この新しい瞑想アプリ Qi コイルを見つけました https://play.google.com/store/apps/details?id=com.Meditation.Sounds.frequency</string>
+    <!-- <string name="facebook_app_id">554730859218975</string> -->
+    <string name="download_error">ダウンロードエラー</string>
+    <string name="download_error_message">一部ダウンロードできないファイルがあります。後でもう一度試してください。</string>
+
+    <!-- new text-->
+    <string name="tv_from">から</string>
+    <string name="tv_now">今</string>
+    <string name="tv_category_name">カテゴリ名</string>
+    <string name="tv_title_trial">量子のロックを解除 \n 瞑想の周波数</string>
+    <string name="tv_trial_package_200">200以上の量子周波数</string>
+    <string name="tv_trial_unlimited_use">無制限に使用可能</string>
+    <string name="tv_trial_custom_playlists">カスタムプレイリスト</string>
+    <string name="tv_trial_free_updates">無料アップデート</string>
+    <string name="tv_trial_free_7_days">7日間無料でお試しください</string>
+    <string name="tv_trial_pay_7_days">7 日間の無料トライアル後は年間 59.99 ドル</string>
+    <string name="tv_downloading">ダウンロード中</string>
+    <string name="tv_yearly_payment_of_49">年間 49 ドルの支払い</string>
+    <string name="tv_fine_tune_hz">Hzの微調整</string>
+    <string name="tv_hz">Hz</string>
+    <string name="tv_disclaimer">免責事項</string>
+    <string name="tv_unlock_now">今すぐロックを解除</string>
+    <string name="tv_apply_now">今すぐ応募する</string>
+    <string name="tv_count_frequencies">%s 周波数 / 00:03:00</string>
+    <string name="subs_purchase_info">%1$s/月または %2$s/年で購読してください</string>
+    <string name="error_hz_exceeded">Hz を超えています %1$s</string>
+    <string name="tv_rifes">ライフス</string>
+    <string name="tv_scalars">スカラー</string>
+    <string name="tv_track">追跡</string>
+    <string name="tv_from_rife">ライフから</string>
+    <string name="tv_cus_frequency">カスタム周波数</string>
+    <string name="tv_add_rife">ライフを追加</string>
+    <string name="tv_add_quantum">量子の追加</string>
+    <string name="tv_error_hz">Hz は %1$s より大きく、%2$s より小さいです</string>
+    <string name="title_cus_frequency">新しいカスタム周波数を追加</string>
+    <string name="tv_fre_hz">周波数 (Hz)</string>
+    <string name="tv_add">追加</string>
+    <string name="tv_delete">消去</string>
+    <string name="tv_error_playlist_name">プレイリスト名を入力してください</string>
+    <string name="tv_track_last_pos">最後の位置にあるトラック</string>
+    <string name="tv_track_first_pos">最初の位置にあるトラック</string>
+    <string name="tv_error_back">終了するには、もう一度「戻る」をクリックしてください。</string>
+    <string name="tv_please_enter_old_pass">古いパスワードを入力してください。</string>
+    <string name="tv_err_old_pass_characters">古いパスワードは 6 文字未満にすることはできません。</string>
+    <string name="tv_please_enter_new_pass">新しいパスワードを入力してください。</string>
+    <string name="tv_err_new_pass_characters">新しいパスワードは 6 文字未満にすることはできません。</string>
+    <string name="tv_please_enter_confirm_pass">新しいパスワードを確認してください。</string>
+    <string name="tv_err_confirm_pass_characters">新しいパスワードを 6 文字未満にすることはできないことを確認してください。</string>
+    <string name="tv_please_enter_confirm_new_pass">「新しいパスワードを確認する」にチェックを入れてください。</string>
+    <string name="tv_please_enter_email">メールアドレスを入力してください。</string>
+    <string name="tv_invalid_email">無効なメールです!</string>
+    <string name="tv_please_enter_pass">パスワードを入力してください!</string>
+    <string name="tv_download_completed">ダウンロード完了</string>
+    <string name="tv_new_apk">[新しいAPK] %1$s</string>
+    <string name="tv_downloading_file">ファイルをダウンロード中…</string>
+    <string name="tv_term_and_privacy">規約|および |プライバシー ポリシー</string>
+    <string name="tv_err_pass_characters">パスワードは 6 文字未満にすることはできません。</string>
+    <string name="tv_please_enter_confirm_password">確認用のパスワードを入力してください。</string>
+    <string name="tv_please_check_confirm_password">「パスワードの確認」をご確認ください。</string>
+    <string name="tv_invalid_email_add">あなたのメールアドレスは無効です!</string>
+    <string name="tv_please_enter_name">名前を入力してください!</string>
+    <string name="tv_incorrect_old_pass">古いパスワードが間違っています!</string>
+    <string name="tv_empty_list">空のリスト</string>
+    <string name="tv_stop">停止</string>
+    <string name="tv_removed_favorite">お気に入りから削除されました</string>
+    <string name="tv_add_favorite">お気に入りに追加されました</string>
+    <string name="tv_account_deleted_success">アカウントは正常に削除されました。</string>
+    <string name="tv_no_purchases_available">購入できる商品はありません</string>
+    <string name="tv_purchases_have_been_restored">購入が復元されました</string>
+    <string name="msg_error_occurred">エラーが発生しました!</string>
+    <string name="msg_chatting_bot_cookie_policies">私とチャットすると、当社のプライバシーと Cookie ポリシーに同意したことになります。</string>
+    <string name="tv_message">メッセージ：</string>
+    <string name="tv_master_wong_ai">チー・アイ博士助手</string>
+    <string name="tv_silent_scalar_turned_on">Silent Scalar は現在オンになっています</string>
+    <string name="tv_silent_scalar_turned_off">Silent Scalar は現在オフになっています</string>
+    <string name="tv_please_choose_a_frequency_to_play">再生する周波数を選択してください</string>
+    <string name="tv_there_no_silent_energies">サイレントエネルギーはありませんので、アクティブにしてください。</string>
+    <string name="recent">最近の：</string>
+    <string name="you_have_no_program_selected">プログラムが選択されていません</string>
+    <string name="save_schedule">スケジュールの保存</string>
+    <string name="schedule_on_off">スケジュールON/OFF</string>
+    <string name="the_schedule_frequency_is_coming_up">予定の頻度が近づいてきました。切り替えてみませんか?</string>
+    <string name="chat_bot_on_off">チャットボットのON/OFF</string>
+
+    <string name="msg_say_hi_chat" translatable="false">Hi, My name is Dr.Qi, I\'m an AI assistant. How can I help you today? How have you been feeling lately?</string>
+    <string name="msg_error_network_chat" translatable="false">Connect Lost. Please check your internet connection.</string>
+    <string name="lang_en" translatable="false">English</string>
+    <string name="lang_fr" translatable="false">French</string>
+    <string name="lang_zh" translatable="false">China</string>
+    <string name="lang_es" translatable="false">Spanish</string>
+    <string name="lang_ja" translatable="false">Japanese</string>
+    <string name="lang_vi" translatable="false">Vietnamese</string>
+    <string name="lang_de" translatable="false">German</string>
+    <string name="lang_zh_hant" translatable="false">Chinese - Traditional</string>
+    <string name="lang_zh_hans" translatable="false">Chinese - Simplified</string>
+    <string name="lang_hi" translatable="false">Hindi</string>
+    <string name="lang_ar" translatable="false">Arabic</string>
+    <string name="lang_pt" translatable="false">Portuguese</string>
+    <string name="lang_ko" translatable="false">Korean</string>
+    <string name="lang_it" translatable="false">Italian</string>
+    <string name="lang_bn" translatable="false">Bengali</string>
+</resources>
