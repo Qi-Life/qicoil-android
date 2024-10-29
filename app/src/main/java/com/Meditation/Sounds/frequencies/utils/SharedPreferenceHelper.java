@@ -113,8 +113,10 @@ public class SharedPreferenceHelper {
             if (key.equalsIgnoreCase(Constants.KEY_PURCHASED_HIGH_QUANTUM)) {
                 return mSharedPreferences.getBoolean(Constants.KEY_PURCHASED_HIGH_QUANTUM, false) || mSharedPreferences.getBoolean(Constants.KEY_PURCHASED_HIGHER_QUANTUM_DEVICE, false);
             }
+            if (key.equalsIgnoreCase(Constants.PREF_SETTING_CHATBOT_ON_OFF)) {
+                return mSharedPreferences.getBoolean(key, true);
+            }
         }
-
         return mSharedPreferences.getBoolean(key, false);
     }
 

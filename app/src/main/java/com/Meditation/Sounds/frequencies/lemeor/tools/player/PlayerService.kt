@@ -278,8 +278,6 @@ class PlayerService : Service() {
 
         exoPlayer.addListener(exoPlayerListener)
         exoPlayer.repeatMode = REPEAT_MODE_OFF
-
-        //send state
     }
 
     private fun sendData() {

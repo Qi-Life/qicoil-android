@@ -244,7 +244,7 @@ class ProgramDetailFragment : BaseFragment() {
             }
         }
 
-        btnSwitchSchedule.isSelected = SharedPreferenceHelper.getInstance().getInt(Constants.PREF_SCHEDULE_PROGRAM_ID) == programId
+        btnSwitchSchedule.isSelected = SharedPreferenceHelper.getInstance().getInt(Constants.PREF_SCHEDULE_PROGRAM_ID) == programId &&  SharedPreferenceHelper.getInstance().getBool(Constants.PREF_SCHEDULE_PROGRAM_STATUS)
         btnSwitchSchedule.setOnClickListener {
             if (btnSwitchSchedule.isSelected) {
                 SharedPreferenceHelper.getInstance().setInt(Constants.PREF_SCHEDULE_PROGRAM_ID, 0)

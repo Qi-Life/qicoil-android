@@ -9,9 +9,11 @@ import android.os.Build
 import android.text.format.DateFormat
 import android.util.Log
 import com.Meditation.Sounds.frequencies.api.models.GetFlashSaleOutput
+import com.Meditation.Sounds.frequencies.models.event.ScheduleProgramStatusEvent
 import com.Meditation.Sounds.frequencies.services.AlarmReceiver
 import com.Meditation.Sounds.frequencies.services.AlarmsScheduleProgramReceiver
 import com.google.gson.Gson
+import org.greenrobot.eventbus.EventBus
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -211,9 +213,10 @@ class QcAlarmManager {
 
 
         @SuppressLint("SimpleDateFormat")
-        fun setScheduleProgramsAlarms(context: Context) {
+        fun setScheduleProgramsAlarms(context: Context, isFirstOpen: Boolean = false) {
             //clear schedule programs
             clearScheduleProgramsAlarms(context)
+            //start alarm schedule programs
             if (SharedPreferenceHelper.getInstance().getBool(Constants.PREF_SCHEDULE_PROGRAM_STATUS)) {
                 val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
                 val currentTime = Calendar.getInstance()
@@ -242,7 +245,13 @@ class QcAlarmManager {
                 }
 
                 if (calendarMorningStart.before(currentTime)) {
+                    if (calendarMorningEnd.after(currentTime) && isFirstOpen) {
+                        EventBus.getDefault().post(ScheduleProgramStatusEvent(isPlay = true))
+                    }
                     calendarMorningStart.add(Calendar.DAY_OF_YEAR, 1)
+                }
+
+                if (calendarMorningEnd.before(currentTime)) {
                     calendarMorningEnd.add(Calendar.DAY_OF_YEAR, 1)
                 }
 
@@ -305,7 +314,13 @@ class QcAlarmManager {
                 }
 
                 if (calendarAfternoonStart.before(currentTime)) {
+                    if (calendarAfternoonEnd.after(currentTime) && isFirstOpen) {
+                        EventBus.getDefault().post(ScheduleProgramStatusEvent(isPlay = true))
+                    }
                     calendarAfternoonStart.add(Calendar.DAY_OF_YEAR, 1)
+                }
+
+                if (calendarAfternoonEnd.before(currentTime)) {
                     calendarAfternoonEnd.add(Calendar.DAY_OF_YEAR, 1)
                 }
 
@@ -361,14 +376,54 @@ class QcAlarmManager {
             }
         }
 
-        fun isAlarmSet(context: Context, requestCode: Int, intent: Intent): Boolean {
-            val pendingIntent = PendingIntent.getBroadcast(
-                context,
-                requestCode,
-                intent,
-                PendingIntent.FLAG_NO_CREATE or PendingIntent.FLAG_IMMUTABLE
-            )
-            return pendingIntent != null
+        fun playScheduleProgramOpenApp(){
+            val currentTime = Calendar.getInstance()
+            val simpleDateFormat = SimpleDateFormat("ddMMyyyy : HH:mm:ss")
+
+            val hourStartAm = SharedPreferenceHelper.getInstance()
+                .getFloat(Constants.PREF_SCHEDULE_START_TIME_AM, 0f).toInt() / 60
+            val mintStartAm = SharedPreferenceHelper.getInstance()
+                .getFloat(Constants.PREF_SCHEDULE_START_TIME_AM, 0f).toInt() % 60
+
+            val hourEndAm = SharedPreferenceHelper.getInstance()
+                .getFloat(Constants.PREF_SCHEDULE_END_TIME_AM, 0f).toInt() / 60
+            val mintEndAm = SharedPreferenceHelper.getInstance()
+                .getFloat(Constants.PREF_SCHEDULE_END_TIME_AM, 0f).toInt() % 60
+
+
+            val hourStartPm = SharedPreferenceHelper.getInstance()
+                .getFloat(Constants.PREF_SCHEDULE_START_TIME_PM, 0f).toInt() / 60
+            val mintStartPm = SharedPreferenceHelper.getInstance()
+                .getFloat(Constants.PREF_SCHEDULE_START_TIME_PM, 0f).toInt() % 60
+
+            val hourEndPm = SharedPreferenceHelper.getInstance()
+                .getFloat(Constants.PREF_SCHEDULE_END_TIME_PM, 0f).toInt() / 60
+            val mintEndPm = SharedPreferenceHelper.getInstance()
+                .getFloat(Constants.PREF_SCHEDULE_END_TIME_PM, 0f).toInt() % 60
+
+            val calendarMorningStart = Calendar.getInstance().apply {
+                set(Calendar.HOUR_OF_DAY, hourStartAm)
+                set(Calendar.MINUTE, mintStartAm)
+                set(Calendar.SECOND, 0)
+            }
+
+            val calendarMorningEnd = Calendar.getInstance().apply {
+                set(Calendar.HOUR_OF_DAY, hourEndAm)
+                set(Calendar.MINUTE, mintEndAm)
+                set(Calendar.SECOND, 0)
+            }
+
+            val calendarAfternoonStart = Calendar.getInstance().apply {
+                set(Calendar.HOUR_OF_DAY, hourStartPm + 12)
+                set(Calendar.MINUTE, mintStartPm)
+                set(Calendar.SECOND, 0)
+            }
+
+            val calendarAfternoonEnd = Calendar.getInstance().apply {
+                set(Calendar.HOUR_OF_DAY, hourEndPm + 12)
+                set(Calendar.MINUTE, mintEndPm)
+                set(Calendar.SECOND, 0)
+            }
         }
     }
 

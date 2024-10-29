@@ -62,6 +62,7 @@ import com.Meditation.Sounds.frequencies.lemeor.ui.options.change_pass.ChangePas
 import com.Meditation.Sounds.frequencies.lemeor.ui.purchase.new_flow.NewPurchaseActivity
 import com.Meditation.Sounds.frequencies.models.Language
 import com.Meditation.Sounds.frequencies.utils.Constants
+import com.Meditation.Sounds.frequencies.utils.Constants.Companion.PREF_SETTING_CHATBOT_ON_OFF
 import com.Meditation.Sounds.frequencies.utils.Constants.Companion.SKU_RIFE_ADVANCED_MONTHLY
 import com.Meditation.Sounds.frequencies.utils.Constants.Companion.SKU_RIFE_ADVANCED_YEAR_FLASHSALE
 import com.Meditation.Sounds.frequencies.utils.Constants.Companion.SKU_RIFE_HIGHER_ANNUAL_FLASH_SALE
@@ -78,6 +79,7 @@ import com.android.billingclient.api.BillingClientStateListener
 import com.android.billingclient.api.BillingResult
 import com.android.billingclient.api.PurchasesResponseListener
 import kotlinx.android.synthetic.main.fragment_login.spLanguage
+import kotlinx.android.synthetic.main.fragment_new_options.btnSwitchChatbot
 import kotlinx.android.synthetic.main.fragment_new_options.options_about
 import kotlinx.android.synthetic.main.fragment_new_options.options_change_pass
 import kotlinx.android.synthetic.main.fragment_new_options.options_delete_user
@@ -392,6 +394,12 @@ class NewOptionsFragment : BaseFragment() {
             onDeleteUserClick()
         }
 
+        btnSwitchChatbot.isSelected = SharedPreferenceHelper.getInstance().getBool(PREF_SETTING_CHATBOT_ON_OFF)
+        btnSwitchChatbot.setOnClickListener {
+            btnSwitchChatbot.isSelected = !btnSwitchChatbot.isSelected
+            SharedPreferenceHelper.getInstance().setBool(PREF_SETTING_CHATBOT_ON_OFF, btnSwitchChatbot.isSelected)
+        }
+
         options_log_out.setOnClickListener {
             if (Utils.isConnectedToNetwork(requireContext())) {
                 onLogoutClick()
@@ -509,6 +517,7 @@ class NewOptionsFragment : BaseFragment() {
                     })
                 dialog.show()
             }.show()
+
     }
 
     private fun onLogoutSuccess() {
@@ -527,17 +536,17 @@ class NewOptionsFragment : BaseFragment() {
         preference(requireContext()).isLogged = false
         preference(requireContext()).token = null
 
-        SharedPreferenceHelper.getInstance().setBool(Constants.PREF_SCHEDULE_PROGRAM_STATUS, false)
-        SharedPreferenceHelper.getInstance()
-            .setFloat(Constants.PREF_SCHEDULE_START_TIME_AM, 0f)
-        SharedPreferenceHelper.getInstance()
-            .setFloat(Constants.PREF_SCHEDULE_END_TIME_AM, 180f)
-        SharedPreferenceHelper.getInstance()
-            .setFloat(Constants.PREF_SCHEDULE_START_TIME_PM, 540f)
-        SharedPreferenceHelper.getInstance()
-            .setFloat(Constants.PREF_SCHEDULE_END_TIME_PM, 719f)
-
-        SharedPreferenceHelper.getInstance().clearRecentAlbums()
+//        SharedPreferenceHelper.getInstance().setBool(Constants.PREF_SCHEDULE_PROGRAM_STATUS, false)
+//        SharedPreferenceHelper.getInstance()
+//            .setFloat(Constants.PREF_SCHEDULE_START_TIME_AM, 0f)
+//        SharedPreferenceHelper.getInstance()
+//            .setFloat(Constants.PREF_SCHEDULE_END_TIME_AM, 180f)
+//        SharedPreferenceHelper.getInstance()
+//            .setFloat(Constants.PREF_SCHEDULE_START_TIME_PM, 540f)
+//        SharedPreferenceHelper.getInstance()
+//            .setFloat(Constants.PREF_SCHEDULE_END_TIME_PM, 719f)
+//
+//        SharedPreferenceHelper.getInstance().clearRecentAlbums()
 
         val user = PreferenceHelper.getUser(requireContext())
 

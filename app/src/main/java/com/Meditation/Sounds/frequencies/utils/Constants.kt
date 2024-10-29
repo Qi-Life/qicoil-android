@@ -327,6 +327,9 @@ class Constants {
         @JvmField
         val PREF_SCHEDULE_PROGRAM_SYNCED = "PREF_SCHEDULE_PROGRAM_SYNCED"
 
+        @JvmField
+        val PREF_SETTING_CHATBOT_ON_OFF = "PREF_SETTING_CHATBOT_ON_OFF"
+
         var isGuestLogin = false
 
         val optionsHz = arrayListOf(

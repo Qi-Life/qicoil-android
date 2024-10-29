@@ -1,6 +1,7 @@
 package com.Meditation.Sounds.frequencies.lemeor.ui.programs
 
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.Meditation.Sounds.frequencies.lemeor.FAVORITES
@@ -47,6 +48,9 @@ class NewProgramViewModel(private val repository: ProgramRepository) : ViewModel
         repository.update(program)
     }
 
+    fun getPrograms(): LiveData<List<Program>> {
+        return repository.getPrograms()
+    }
 
     @OptIn(DelicateCoroutinesApi::class)
     fun addTrackToProgram(id: Int, list: List<Search>, onDone: (() -> Unit)? = null) {
