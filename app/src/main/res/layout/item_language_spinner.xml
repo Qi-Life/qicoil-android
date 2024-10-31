@@ -19,6 +19,6 @@
         android:layout_gravity="center"
         android:textColor="@color/white"
         android:layout_marginStart="@dimen/indent_8"
-        tools:text="China" />
+        tools:text="China â" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

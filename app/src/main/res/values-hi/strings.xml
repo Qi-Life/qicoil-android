@@ -1,0 +1,393 @@
+<resources>
+    <string name="action_settings">सेटिंग्स</string>
+
+    <!--region Navigation-->
+    <string name="navigation_lbl_home">घर</string>
+    <string name="navigation_lbl_albums">एलबम</string>
+    <string name="navigation_lbl_scalar">साइलेंट क्वांटम</string>
+    <string name="navigation_lbl_quantum">मात्रा</string>
+    <string name="navigation_lbl_rife">व्याप्त</string>
+    <string name="navigation_lbl_programs">कार्यक्रमों</string>
+    <string name="navigation_lbl_videos">वीडियो</string>
+    <string name="navigation_lbl_shop">दुकान</string>
+    <string name="navigation_lbl_options">विकल्प</string>
+    <!--endregion-->
+
+    <!--region Options-->
+    <string name="options_qi_coil">क्यूआई कॉइल प्राप्त करें</string>
+    <string name="options_sign_in">दाखिल करना</string>
+    <string name="options_log_out">लॉग आउट</string>
+    <string name="options_delete_user">उपयोगकर्ता हटाएँ</string>
+    <string name="profile_lbl_subscription">सदस्यता</string>
+    <string name="tv_restore_purchase">पुनःस्थापन क्रय</string>
+    <string name="profile_lbl_instructions">निर्देश</string>
+    <string name="profile_lbl_disclaimer">अस्वीकरण</string>
+    <string name="profile_lbl_about">के बारे में</string>
+    <!--endregion-->
+
+    <string name="btn_play">खेल</string>
+    <string name="btn_add">जोड़ना</string>
+
+    <!--region Fetch-->
+    <string name="start_fetching">फ़ाइलें लाना प्रारंभ करें.</string>
+    <string name="start">शुरू</string>
+    <string name="fetch_done">फ़ेचिंग हो गई.</string>
+    <string name="reset">रीसेट करें</string>
+    <string name="game_download_error">कोई त्रुटि उत्पन्न हुई, फ़ाइलें नहीं मिल सकीं.</string>
+    <!--endregion-->
+
+    <!--region Player-->
+    <string name="notification_channel_name">प्लेयर नियंत्रण</string>
+
+    <string name="play">खेल</string>
+    <string name="pause">विराम</string>
+    <string name="stop">रुकना</string>
+    <string name="previous">पहले का</string>
+    <string name="next">अगला</string>
+    <!--endregion-->
+
+    <string name="total_time">कुल समय %1$s</string>
+
+    <string name="toast_download_complete">डाउनलोड पूर्ण!</string>
+    <string name="txt_total_time">कुल समय</string>
+    <string name="txt_my_playlists">मेरे कार्यक्रम</string>
+    <string name="txt_share">शेयर करना</string>
+    <string name="txt_delete">मिटाना</string>
+    <string name="txt_save">बचाना</string>
+    <string name="txt_add">जोड़ना</string>
+    <string name="txt_create_playlist">प्लेलिस्ट बनाएं</string>
+    <string name="txt_edit_playlist">प्लेलिस्ट संपादित करें</string>
+    <string name="txt_playlist_name">प्लेलिस्ट का नाम</string>
+    <string name="txt_ok">ठीक है</string>
+    <string name="txt_no">नहीं</string>
+    <string name="txt_enter_password">पास वर्ड दर्ज करें</string>
+    <string name="txt_plz_enter_playlist_name">कृपया प्लेलिस्ट का नाम दर्ज करें</string>
+    <string name="txt_create_playlist_success">प्लेलिस्ट सफलतापूर्वक बनाई गई</string>
+    <string name="txt_edit_playlist_name_success">प्लेलिस्ट का नाम सफलतापूर्वक संपादित किया गया</string>
+    <string name="txt_delete_playlist_name_success">प्लेलिस्ट सफलतापूर्वक हटाई गई</string>
+    <string name="txt_no_songs">कोई आवृत्ति नहीं</string>
+    <string name="txt_no_result">कोई परिणाम नहीं मिला</string>
+    <string name="txt_search_songs">आवृत्तियाँ खोजें</string>
+    <string name="txt_no_playlist">कोई कार्यक्रम नहीं</string>
+    <string name="txt_no_albums">कोई एल्बम नहीं</string>
+    <string name="msg_download_data">डेटा डाउनलोड हो रहा है&#8230; कृपया प्रतीक्षा करें</string>
+    <string name="msg_error_when_download">डेटा डाउनलोड नहीं किया जा सकता! कृपया पुन: प्रयास करें</string>
+    <string name="txt_try_again">पुनः प्रयास करें</string>
+    <string name="txt_cancel">रद्द करना</string>
+    <string name="msg_coming_soon">जल्द आ रहा है&#8230;</string>
+    <string name="msg_add_first_playlist">कृपया पहली प्लेलिस्ट जोड़ें</string>
+    <string name="txt_downloading">डाउनलोड</string>
+    <string name="txt_downloaded">डाउनलोड</string>
+    <string name="msg_loading">लोड हो रहा है&#8230;</string>
+    <string name="txt_disclaimer_title">अस्वीकरण और छूट</string>
+    <string name="txt_disclaimer_content">इस ऐप का उपयोग करके, लागू कानून द्वारा अनुमत सीमा तक, आप इस ऐप के निर्माता, वेबसाइट और इसके सहयोगियों, और इसके कर्मचारियों, एजेंटों और प्रतिनिधियों को किसी भी और सभी दायित्व, क्षति या हानि से मुक्त करते हैं। यह ऐप और टैबलेट चिकित्सा उपकरण नहीं हैं, जिनका उपयोग किसी बीमारी के निदान, उपचार, इलाज या रोकथाम के लिए नहीं किया जाता है। इस ऐप का एफडीए द्वारा मूल्यांकन नहीं किया गया है और इस ऐप के लिए कोई चिकित्सा दावा नहीं किया गया है या निहित नहीं है। यदि आपको असुविधा या चक्कर महसूस हो तो इस ऐप का उपयोग बंद कर दें। किसी भी उत्पाद या हमारे उत्पाद का उपयोग करने से पहले हमेशा अपने चिकित्सक से परामर्श करें।</string>
+    <string name="txt_agree">सहमत</string>
+    <string name="txt_disagree">असहमत</string>
+    <string name="txt_later">फिर से दिखाओ</string>
+    <string name="txt_about">के बारे में</string>
+    <string name="txt_yes">हाँ</string>
+    <string name="txt_warning_clear_playlist">क्या आप वाकई वर्तमान प्लेलिस्ट साफ़ करना चाहते हैं?</string>
+    <string name="txt_warning_update_newversion_title">उपलब्ध अद्यतन</string>
+    <string name="txt_warning_update_newversion">एक अपडेट उपलब्ध है। क्या आप अब एप्लिकेशन को अपडेट करना चाहेंगे?\nयदि आप नया संस्करण इंस्टॉल नहीं कर सकते हैं। कृपया Google Play Store ऐप कैश साफ़ करें और पुनः प्रयास करें।</string>
+    <string name="txt_downloading_dot">डाउनलोड हो रहा है…</string>
+    <string name="txt_donot_show_message">इस संदेश को दुबारा मत दिखाना</string>
+    <string name="txt_now_playing">अभी चल रहा है: %1$s</string>
+    <string name="txt_warning_delete_playlist">क्या आप वाकई इस प्लेलिस्ट को हटाना चाहते हैं?</string>
+
+    <string name="tv_7_days_free">7 दिन\nनिःशुल्क</string>
+    <string name="tv_7_days_free_limited_time_offer">7 दिन निःशुल्क \n सीमित समय का ऑफर</string>
+    <string name="tv_free_trial">मुफ्त परीक्षण</string>
+    <string name="tv_1_month">1\nमहीना</string>
+    <string name="tv_1_year">1\nवर्ष</string>
+    <string name="tv_message_billing_1">• सभी क्यूई कॉइल एल्बम संग्रह अनलॉक करें</string>
+    <string name="tv_message_billing_2">• अनुकूलन योग्य कार्यक्रम</string>
+    <string name="tv_message_billing_3">• प्री-लोडेड प्रोग्राम</string>
+    <string name="tv_subscription_info">सदस्यता जानकारी</string>
+    <string name="txt_about_subscribe_1">• गोपनीयता नीति: http://www.tattoobookapp.com/quantumwavebiotechnology/privacy/</string>
+    <string name="txt_about_subscribe_2">• उपयोग की शर्तें: http://www.tattoobookapp.com/quantumwavebiotechnology/terms/</string>
+    <string name="txt_about_subscribe_3">• नि:शुल्क परीक्षण अवधि का कोई भी अप्रयुक्त भाग, यदि प्रस्तावित है, उपयोगकर्ता द्वारा उस प्रकाशन की सदस्यता खरीदने पर जब्त कर लिया जाएगा।</string>
+    <string name="tv_back">पीछे</string>
+    <string name="tv_sub_info_1">• सक्रिय सदस्यता अवधि के दौरान वर्तमान सदस्यता को रद्द करने की अनुमति नहीं है</string>
+    <string name="tv_sub_info_2">• सदस्यता को उपयोगकर्ता द्वारा प्रबंधित किया जा सकता है और खरीदारी के बाद उपयोगकर्ता की खाता सेटिंग में जाकर स्वत: नवीनीकरण बंद किया जा सकता है</string>
+    <string name="tv_sub_info_3">• सदस्यता स्वचालित रूप से नवीनीकृत हो जाती है जब तक कि वर्तमान अवधि के अंत से कम से कम 24 घंटे पहले ऑटो-नवीनीकरण बंद न हो जाए</string>
+    <string name="tv_sub_info_4">• खरीद की पुष्टि पर भुगतान Google खाते से लिया जाएगा</string>
+    <string name="tv_sub_info_5">• नि:शुल्क परीक्षण - 7 दिन निःशुल्क, फिर 24.99 प्रति माह। कीमत उसी पूर्ववर्ती खंड से मेल खाती है, जो अन्य मुद्राओं के लिए एंड्रॉइड Google Play में सेट की गई है</string>
+    <string name="tv_price_of_subscription">सदस्यता की कीमत:</string>
+    <string name="tv_sub_info_6">• 1 महीना, 7 दिन का निःशुल्क परीक्षण</string>
+    <string name="tv_length_of_subscription">सदस्यता की अवधि:</string>
+    <string name="tv_start_free_trial">निशुल्क आजमाइश शुरु करें</string>
+    <string name="tv_subscription_now">अभी खरीदें</string><!--Subscribe-->
+    <string name="tv_activate">अपना नि:शुल्क परीक्षण सक्रिय करें</string>
+    <string name="tv_auto_renewable_subscription_info">स्वतः-नवीकरणीय सदस्यता जानकारी:</string>
+    <string name="tv_flash_sale">तेज़ बिक्री</string>
+    <string name="tv_available_until">&#160;तक उपलब्ध&#160;</string>
+    <string name="txt_then_trial_price">फिर %1$s/माह</string>
+    <!---->
+
+    <string name="tv_advanced_frequencies">प्रचुरता I</string><!--ABUNDANCE-->
+    <string name="tv_basic_frequencies">बुनियादी</string>
+    <string name="tv_master_frequencies">मालिक</string>
+    <string name="tv_advanced_meditation_frequencies">उन्नत ध्यान आवृत्तियाँ</string>
+    <string name="tv_advanced_meditation_frequencies_2">उन्नत ध्यान आवृत्तियाँ</string>
+    <string name="tv_transform_yourself_faster_with_advanced_mind_enhancement_frequencies">उन्नत मानसिक वृद्धि आवृत्तियों के साथ स्वयं को तेजी से बदलें</string>
+    <string name="tv_title_sub_item_1"><![CDATA[• ब्रेनवेव और दिमाग की शक्ति में वृद्धि]]></string>
+    <string name="tv_title_sub_item_2">​• प्रचुरता बनाने, प्रकट करने और आकर्षित करने की अपनी शक्ति को बढ़ाएं</string>
+    <string name="tv_title_sub_item_3">• त्वरित स्वास्थ्य</string>
+    <string name="tv_title_sub_item_4">​• अपनी आध्यात्मिक प्रतिध्वनि को बढ़ाएं</string>
+    <string name="tv_title_sub_item_5">​सुस्पष्ट स्वप्न और सूक्ष्म प्रक्षेपण के अज्ञात क्षेत्रों का अन्वेषण करें</string>
+
+    <string name="tv_recurring_billing">आवर्ती बिलिंग. किसी भी समय रद्द करें.</string>
+    <string name="tv_one_time_payment">एक - बारगी भुगतान</string>
+    <string name="tv_title_subscription_monthly">यह सदस्यता स्वचालित रूप से 1999 प्रति माह के लिए नवीनीकृत हो जाती है जब तक कि इसे परीक्षण अवधि समाप्त होने से कम से कम 24 घंटे पहले Google Play पर आपके खाता सेटिंग्स में रद्द नहीं किया जाता है। खरीदारी की पुष्टि पर भुगतान आपके Google खाते से लिया जाता है। वर्तमान अवधि समाप्त होने से 24 घंटे के भीतर खाते से नवीनीकरण के लिए शुल्क लिया जाता है। नि:शुल्क परीक्षण अवधि का कोई भी अप्रयुक्त भाग, यदि प्रस्तावित है, उपयोगकर्ता द्वारा उस प्रकाशन की सदस्यता खरीदने पर जब्त कर लिया जाएगा।</string>
+    <string name="tv_title_subscription_lifetime">खरीदारी की पुष्टि पर भुगतान आपके Google खाते से लिया जाता है। वर्तमान अवधि समाप्त होने से 24 घंटे के भीतर खाते से नवीनीकरण के लिए शुल्क लिया जाता है। नि:शुल्क परीक्षण अवधि का कोई भी अप्रयुक्त भाग, यदि प्रस्तावित है, उपयोगकर्ता द्वारा उस प्रकाशन की सदस्यता खरीदने पर जब्त कर लिया जाएगा। जारी रखकर, आप हमारी बात से सहमत हैं</string>
+    <string name="tv_link">शर्तें और गोपनीयता नीति</string>
+    <string name="tv_monthly">महीने के</string>
+    <string name="tv_per_month">प्रति महीने</string>
+    <string name="tv_annual">वार्षिक</string>
+    <string name="tv_per_year">प्रति वर्ष</string>
+    <string name="tv_lifetime">जीवनभर</string>
+    <string name="tv_pay_once">एक बार भुगतान करें</string>
+    <string name="tv_continue">जारी रखना</string>
+    <string name="tv_basic_subscription">आवश्यक सदस्यता</string>
+    <string name="tv_unlock_meditation_prequencies">ध्यान आवृत्तियों को अनलॉक करें</string>
+    <string name="tv_unlock_meditation_prequencies_2">ध्यान आवृत्तियों को अनलॉक करें</string>
+    <string name="tv_try_7_days_free">7 दिन निःशुल्क आज़माएँ</string>
+    <!--new-->
+    <string name="tv_minutes">मिनट</string>
+    <string name="tv_seconds">सेकंड</string>
+    <string name="tv_hours">घंटे</string>
+    <string name="tv_offer_expires_in">ऑफ़र इस समय समाप्त हो रहा है:</string>
+    <string name="tv__50_off">50% बचाएं</string><!--50% Off-->
+    <string name="tv_unlock_all_34_basic_frequencies_one_time">सभी 43 &lt;br/&gt;आवश्यक आवृत्तियों को अनलॉक करें &lt;u&gt;हमेशा के लिए&lt;/u&gt;</string>
+    <string name="tv_unlock_all_34_basic_frequencies_one_time_yearly">सभी 43 \nआवश्यक आवृत्तियों को अनलॉक करें</string>
+    <string name="tv_unlock_all_34_basic_frequencies">सभी 34 आवश्यक आवृत्तियों को अनलॉक करें </string>
+    <string name="tv_unlock_all_150_advanced_frequencies_one_time">सभी 189 &lt;br/&gt;प्रचुरता आवृत्तियाँ &lt;u&gt;हमेशा&lt;/u&gt; अनलॉक करें</string>
+    <string name="tv_unlock_all_150_advanced_frequencies_one_time_yearly">सभी 189 \nप्रचुरता आवृत्तियों को अनलॉक करें</string>
+    <string name="tv_unlock_all_150_advanced_frequencies">सभी 189 \nप्रचुरता आवृत्तियों को अनलॉक करें </string>
+    <string name="tv_brainwave_mind_power_enhancement"><![CDATA[ब्रेनवेव और माइंड पावर एन्हांसमेंट]]></string>
+    <string name="tvcreate_manifest_attract_abundancet"><![CDATA[बनाएं, प्रकट करें और प्रचुर मात्रा में आकर्षित करें]]></string>
+    <string name="tv_improve_overall_health">समग्र स्वास्थ्य में सुधार करें</string>
+    <string name="tv_raise_your_spiritual_resonance">अपनी आध्यात्मिक अनुनाद बढ़ाएँ</string>
+    <string name="tv_unlock_34_advanced_frequencies">43 आवश्यक आवृत्तियों को अनलॉक करें</string>
+    <string name="tv_buy_now">अभी खरीदें</string>
+    <string name="tv_current_plan">सक्रिय</string><!--CURRENT PLAN-->
+    <string name="tv_choose_your_subscription_plan">अपनी सदस्यता योजना चुनें</string>
+
+    <string name="tv_title_free_1">9 स्टार्टर आवृत्तियाँ</string>
+    <string name="tv_title_free_2"><![CDATA[फोकस और ध्यान]]></string>
+    <string name="tv_title_free_3">तनाव और चिंता से राहत</string>
+    <string name="tv_title_free_4"><![CDATA[बेहतर नींद और आराम]]></string>
+
+    <string name="tv_title_basic_1">43 आवश्यक आवृत्तियों को अनलॉक करें</string>
+    <string name="tv_title_basic_2">नकारात्मक ऊर्जा साफ़ करें</string>
+    <string name="tv_title_basic_3">ध्यान बढ़ाएँ</string>
+    <string name="tv_title_basic_4">तनाव दूर करें &amp; amp; चिंता</string>
+    <string name="tv_title_basic_7">शारीरिक और मानसिक ऊर्जा को बढ़ावा दें</string>
+    <string name="tv_title_basic_8">फोकस और उत्पादकता में सुधार करें</string>
+    <string name="tv_title_basic_9">तेजी से सीखें</string>
+
+    <string name="tv_title_advanced_1">43 आवश्यक आवृत्तियों को अनलॉक करें</string>
+    <string name="tv_title_advanced_2">189 बहुतायत आवृत्तियों को अनलॉक करें</string>
+    <string name="tv_title_advanced_3">भाग्य और संयोग बढ़ाएँ</string>
+    <string name="tv_title_advanced_4">अपनी अभिव्यक्ति शक्ति को बढ़ाएं</string>
+    <string name="tv_title_advanced_5">अपनी वास्तविकता डिज़ाइन करें</string>
+    <string name="tv_title_advanced_7">अपने अंतर्ज्ञान को बढ़ाएं</string>
+    <string name="tv_title_advanced_8">189 बहुतायत आवृत्तियों को अनलॉक करें</string>
+    <string name="tv_title_advanced_9">अपनी तीसरी आँख को जागृत करें</string>
+    <string name="tv_title_advanced_10">सफलता और प्रचुरता को आकर्षित करें</string>
+
+    <string name="tv_title_advanced2_1">43 आवश्यक आवृत्तियों को अनलॉक करें</string>
+    <string name="tv_title_advanced2_2">189 बहुतायत आवृत्तियों को अनलॉक करें</string>
+    <string name="tv_title_advanced2_3">261 उच्चतर प्रचुरता आवृत्तियों को अनलॉक करें</string>
+    <string name="tv_title_advanced2_4">भाग्य और संयोग बढ़ाएँ</string>
+    <string name="tv_title_advanced2_5">अपनी अभिव्यक्ति शक्ति को बढ़ाएं</string>
+    <string name="tv_title_advanced2_6">अपनी वास्तविकता डिज़ाइन करें</string>
+    <string name="tv_title_advanced2_7">अपने अंतर्ज्ञान को बढ़ाएं</string>
+    <string name="tv_title_advanced2_8">अपनी तीसरी आँख को जागृत करें</string>
+    <string name="tv_title_advanced2_9">सफलता और प्रचुरता को आकर्षित करें</string>
+    <string name="tv_title_advanced2_10"><![CDATA[गहन चेतन और अवचेतन उत्तेजना]]></string>
+    <string name="tv_title_advanced2_11"><![CDATA[उपचार को प्रोत्साहित करें और जीवन शक्ति को बढ़ावा दें]]></string>
+    <string name="tv_title_advanced2_12">अपने चक्रों को संतुलित करें</string>
+    <string name="tv_title_advanced2_13">ईएमएफ संरक्षण</string>
+
+    <string name="tv_reviews">समीक्षा</string>
+    <string name="tv_faq">पूछे जाने वाले प्रश्न</string>
+    <string name="tv_education">शिक्षा</string>
+    <string name="tv_qi_coils">क्यूई कुंडलियाँ</string>
+    <string name="player_error">YouTube प्लेयर आरंभ करने में त्रुटि: %1$s</string>
+    <string name="tv_purchase_limit">खरीद सीमा: 0/1</string>
+    <string name="tv_yearly_payment_of">का वार्षिक भुगतान</string>
+    <string name="tv_title_advanced_6"><![CDATA[अपने ऊर्जा क्षेत्र को मजबूत और संतुलित करें]]></string>
+    <string name="tv_get_this_huge_deal_before_it_s_gone">ख़त्म होने से पहले यह बड़ी डील प्राप्त करें!</string>
+
+    <string name="tv_change_password">पासवर्ड बदलें</string>
+    <string name="tv_help_support">सहायता &amp; amp; सहायता</string>
+
+    <string name="tv_my_custom_playlists">मेरे कस्टम प्रोग्राम</string>
+    <string name="tv_redeem">भुनाना</string>
+
+    <string name="tv_title_subscription">सदस्यता स्वतः नवीनीकृत हो जाती है जब तक कि वर्तमान अवधि समाप्त होने से कम से कम 24 घंटे पहले स्वतः नवीनीकरण बंद न हो जाए। भुगतान आपके GooglePlay खाते से लिया जाता है. सदस्यताएँ प्रबंधित करें और GooglePlay सेटिंग में स्वतः नवीनीकरण बंद करें।</string>
+    <string name="tv_title_subscription_new">यह सदस्यता स्वचालित रूप से नवीनीकृत हो जाती है जब तक कि वर्तमान अवधि समाप्त होने से कम से कम 24 घंटे पहले ऑटो-नवीनीकरण बंद न हो जाए। भुगतान आपके GooglePlay खाते से लिया जाता है. सदस्यताएँ प्रबंधित करें और GooglePlay खाता सेटिंग में स्वतः नवीनीकरण बंद करें।</string>
+    <string name="flash_sale_50_off">फ्लैश सेल - 0.5 की छूट</string>
+    <string name="tv_forgotten_password">&lt;u&gt;पासवर्ड भूल गए?&lt;/u&gt;</string>
+    <string name="tv_link_sign_in">&lt;u&gt; साइन इन करें.&lt;/u&gt;</string>
+    <string name="tv_link_sign_up">&lt;u&gt; साइन अप करें.&lt;/u&gt;</string>
+    <string name="tv_signUp">क्या आपके पास खाता नहीं है?</string>
+    <string name="tv_signIn">पहले से ही एक खाता है?</string>
+    <string name="tv_not_worry">कोइ चिंता नहीं! \nबस नीचे अपना पंजीकृत ईमेल पता दर्ज करें और हम आपको अपना पासवर्ड रीसेट करने के निर्देशों के साथ एक ईमेल भेजेंगे।</string>
+    <string name="tv_sign_up">साइन अप करें</string>
+    <string name="tv_email">ईमेल</string>
+    <string name="tv_password">पासवर्ड</string>
+    <string name="tv_confirm_password">पासवर्ड की पुष्टि कीजिये</string>
+    <string name="tv_get_started">शुरू हो जाओ</string>
+    <string name="tv_sign_in">दाखिल करना</string>
+    <string name="tv_google">Google के साथ जारी रखें</string>
+    <string name="tv_facebook">फेसबुक के साथ जारी रखें</string>
+    <string name="tv_guest">अतिथि के रूप में जारी रखें</string>
+    <string name="tv_login">लॉग इन करें</string>
+    <string name="txt_forgotten_password">पासवर्ड भूल गए</string>
+    <string name="tv_forgot_password">पासवर्ड भूल गए?</string>
+    <string name="tv_email_address">मेल पता</string>
+    <string name="tv_send_email">ईमेल भेजें</string>
+    <string name="tv_old_password">पुराना पासवर्ड</string>
+    <string name="tv_new_password">नया पासवर्ड</string>
+    <string name="tv_confirm_new_password">नए पासवर्ड की पुष्टि करें</string>
+    <string name="txt_processing">प्रसंस्करण</string>
+    <string name="txt_msg_logout">क्या आप लॉग आउट करना चाहते हैं?</string>
+    <string name="txt_msg_deleteuser">क्या आप वाकई उपयोगकर्ता को हटाना चाहते हैं?</string>
+    <string name="tv_name">नाम</string>
+    <string name="err_network_available">कृपया नेटवर्क कनेक्शन जांचें!</string>
+    <string name="err_unexpected_exception">कृपया पुन: प्रयास करें!</string>
+    <string name="err_unexpected_exception_api">कनेक्शन विफल. कृपया पुन: प्रयास करें!</string>
+    <string name="txt_warning_login_fail">ग़लत ईमेल या पासवर्ड. पुनः प्रयास करें या इसे रीसेट करने के लिए भूल गए पासवर्ड का चयन करें।</string>
+    <string name="txt_waiting">कृपया इंतज़ार कीजिए…</string>
+    <string name="txt_clear_data">स्पष्ट डेटा…</string>
+    <string name="txt_email_exist">यह ईमेल पहले से ही पंजीकृत है.</string>
+    <string name="tv_err_email_register">आपका ईमेल पता नहीं मिला.</string>
+    <string name="tv_forgot_password_success">पासवर्ड सफलतापूर्वक बदला गया!</string>
+    <string name="tv_send_email_success">ईमेल भेजा गया. अपना ईमेल जांचें और अपना पासवर्ड रीसेट करने के लिए लिंक खोलें।</string>
+    <string name="tv_unlock_powerful_frequencies">अपनी सदस्यता योजना चुनें</string><!--Unlock Powerful Frequencies-->
+    <string name="txt_encrypting_message">हम नया डेटा सिंक कर रहे हैं, इस प्रक्रिया में 10 मिनट से कम समय लग सकता है। कृपया एप्लिकेशन से बाहर न निकलें या शटडाउन न करें।\nसिंक्रनाइज़ करने से नेटवर्क क्षमता की खपत नहीं होगी।</string>
+    <string name="txt_warning_frequencies_frequencies">जब तक हम फ़्रीक्वेंसी अपडेट कर रहे हैं कृपया प्रतीक्षा करें। बेहतर उपयोगकर्ता अनुभव के लिए आवृत्तियों को बढ़ाया गया और पुनः व्यवस्थित किया गया।</string>
+    <string name="tv_frequencies">आवृत्तियों</string>
+    <string name="tv_albums">एलबम</string>
+    <string name="tv_programs">कार्यक्रमों</string>
+    <string name="tv_higher_abundance">प्रचुरता II</string><!--HIGHER\nABUNDANCE-->
+    <string name="tv_description">विवरण</string>
+
+    <string name="tv_note_5">• चरम मस्तिष्क प्रदर्शन, रचनात्मकता और विचार प्राप्त करें</string>
+    <string name="tv_note_4">• अत्यंत विश्राम और उपचार प्राप्त करें</string>
+    <string name="tv_note_3">• आराम, तरोताजा, स्वस्थ महसूस करें</string>
+    <string name="tv_note_2">• केंद्रित, तनावमुक्त, ज़मीनी, केंद्रित महसूस करें</string>
+    <string name="tv_note_1">• आपके मस्तिष्क की तरंगों को व्यवस्थित करता है</string>
+    <string name="tv_create_new">नया निर्माण</string>
+    <string name="tv_higher_quantum">उच्च मात्रा</string>
+    <string name="tv_search">खोज</string>
+    <string name="tv_starter">स्टार्टर</string>
+    <string name="tv_duration">अवधि</string>
+    <string name="tv_move_up_queue">कतार ऊपर ले जाएँ</string>
+    <string name="tv_move_down_queue">कतार को नीचे ले जाएँ</string>
+    <string name="tv_remove">निकालना</string>
+    <string name="tv_added_to_my_custom_playlist">मेरी कस्टम प्लेलिस्ट में जोड़ा गया</string>
+    <string name="tv_add_to_program">प्रोग्राम में जोड़ें</string>
+    <string name="tv_add_to_favorites">पसंदीदा में जोड़े</string>
+    <string name="tv_redownload">पुनः डाउनलोड करें</string>
+    <string name="tv_favorites">पसंदीदा</string>
+    <string name="tv_remove_from_favorite">पसंदीदा से हटाएँ</string>
+
+    <!--Lemeor-->
+    <string name="btn_download">डाउनलोड करना</string>
+    <string name="program_favorites">पसंदीदा</string>
+    <string name="txt_flash_sale">तेज़ बिक्री</string>
+    <string name="search_hint">खोज</string>
+    <string name="lbl_categories">श्रेणियाँ</string>
+    <string name="downloader_quantity">डाउनलोड हो रहा है (%1$d/%2$d)</string>
+
+    <string name="inapp_purchase_info">एकमुश्त भुगतान: %1$s</string>
+    <string name="purchase_dialog_btn_month">महीना</string>
+    <string name="purchase_dialog_btn_annual">वार्षिक</string>
+
+    <string name="share_message">मुझे यह नया ध्यान ऐप क्यूई कॉइल https://play.google.com/store/apps/details?id=com.Medition.Sounds.frequences मिला</string>
+    <!-- <string name="facebook_app_id">554730859218975</string> -->
+    <string name="download_error">डाउनलोड त्रुटि</string>
+    <string name="download_error_message">कुछ फ़ाइलें जिन्हें डाउनलोड नहीं किया जा सकता. बाद में पुन: प्रयास!</string>
+
+    <!-- new text-->
+    <string name="tv_from">से</string>
+    <string name="tv_now">अब</string>
+    <string name="tv_category_name">श्रेणी नाम</string>
+    <string name="tv_title_trial">क्वांटम \n ध्यान आवृत्तियों को अनलॉक करें</string>
+    <string name="tv_trial_package_200">200+ क्वांटम आवृत्तियाँ</string>
+    <string name="tv_trial_unlimited_use">असीमित उपयोग</string>
+    <string name="tv_trial_custom_playlists">कस्टम प्लेलिस्ट</string>
+    <string name="tv_trial_free_updates">मुफ़्त अपडेट</string>
+    <string name="tv_trial_free_7_days">7 दिन निःशुल्क आज़माएँ</string>
+    <string name="tv_trial_pay_7_days">मुफ़्त 7-दिवसीय परीक्षण के बाद $59.99 प्रति वर्ष</string>
+    <string name="tv_downloading">डाउनलोड</string>
+    <string name="tv_yearly_payment_of_49">$49 का वार्षिक भुगतान</string>
+    <string name="tv_fine_tune_hz">फाइन ट्यून हर्ट्ज़</string>
+    <string name="tv_hz">हर्ट्ज</string>
+    <string name="tv_disclaimer">अस्वीकरण</string>
+    <string name="tv_unlock_now">अभी अनलॉक करें</string>
+    <string name="tv_apply_now">अभी अप्लाई करें</string>
+    <string name="tv_count_frequencies">%s आवृत्तियाँ / 00:03:00</string>
+    <string name="subs_purchase_info">%1$s/माह या %2$s/वर्ष के लिए सदस्यता लें</string>
+    <string name="error_hz_exceeded">हर्ट्ज़ %1$s से अधिक हो गया है</string>
+    <string name="tv_rifes">राइफ़्स</string>
+    <string name="tv_scalars">स्केलर</string>
+    <string name="tv_track">रास्ता</string>
+    <string name="tv_from_rife">राइफ़ से</string>
+    <string name="tv_cus_frequency">कस्टम आवृत्तियाँ</string>
+    <string name="tv_add_rife">रिफ़ जोड़ें</string>
+    <string name="tv_add_quantum">क्वांटम जोड़ें</string>
+    <string name="tv_error_hz">हर्ट्ज़ %1$s से अधिक और %2$s से कम है</string>
+    <string name="title_cus_frequency">नई कस्टम फ़्रीक्वेंसी जोड़ें</string>
+    <string name="tv_fre_hz">आवृत्तियाँ (हर्ट्ज)</string>
+    <string name="tv_add">जोड़ना</string>
+    <string name="tv_delete">मिटाना</string>
+    <string name="tv_error_playlist_name">कृपया प्लेलिस्ट का नाम दर्ज करें</string>
+    <string name="tv_track_last_pos">अंतिम स्थिति में ट्रैक करें</string>
+    <string name="tv_track_first_pos">प्रथम स्थान पर ट्रैक</string>
+    <string name="tv_error_back">बाहर निकलने के लिए कृपया दोबारा वापस क्लिक करें!</string>
+    <string name="tv_please_enter_old_pass">कृपया पुराना पासवर्ड दर्ज करें!</string>
+    <string name="tv_err_old_pass_characters">पुराना पासवर्ड 6 अक्षर से कम नहीं हो सकता!</string>
+    <string name="tv_please_enter_new_pass">कृपया नया पासवर्ड दर्ज करें!</string>
+    <string name="tv_err_new_pass_characters">नया पासवर्ड 6 अक्षर से कम नहीं हो सकता!</string>
+    <string name="tv_please_enter_confirm_pass">कृपया नए पासवर्ड की पुष्टि करें दर्ज करें!</string>
+    <string name="tv_err_confirm_pass_characters">नये पासवर्ड की पुष्टि 6 अक्षरों से कम नहीं हो सकती!</string>
+    <string name="tv_please_enter_confirm_new_pass">कृपया नए पासवर्ड की पुष्टि करें जांचें!</string>
+    <string name="tv_please_enter_email">कृपया ईमेल दर्ज करें!</string>
+    <string name="tv_invalid_email">अमान्य ईमेल!</string>
+    <string name="tv_please_enter_pass">कृपया पासवर्ड दर्ज करें!</string>
+    <string name="tv_download_completed">पूरा डाउनलोड</string>
+    <string name="tv_new_apk">[नया एपीके] %1$s</string>
+    <string name="tv_downloading_file">फ़ाइलें डाउनलोड हो रही हैं…</string>
+    <string name="tv_term_and_privacy">शर्तें| और |गोपनीयता नीति</string>
+    <string name="tv_err_pass_characters">पासवर्ड 6 अक्षरों से कम नहीं हो सकता!</string>
+    <string name="tv_please_enter_confirm_password">कृपया पासवर्ड की पुष्टि करें दर्ज करें!</string>
+    <string name="tv_please_check_confirm_password">कृपया पासवर्ड की पुष्टि करें जांचें!</string>
+    <string name="tv_invalid_email_add">आपका ईमेल पता अमान्य है!</string>
+    <string name="tv_please_enter_name">कृपया नाम दर्ज करें!</string>
+    <string name="tv_incorrect_old_pass">पुराना पासवर्ड गलत है!</string>
+    <string name="tv_empty_list">खाली सूची</string>
+    <string name="tv_stop">रुकना</string>
+    <string name="tv_removed_favorite">पसंदीदा से हटाया गया</string>
+    <string name="tv_add_favorite">पसंदीदा में जोड़ा गया</string>
+    <string name="tv_account_deleted_success">आपका खाता सफलतापूर्वक हटा दिया गया!</string>
+    <string name="tv_no_purchases_available">कोई खरीदारी उपलब्ध नहीं है</string>
+    <string name="tv_purchases_have_been_restored">खरीदारी बहाल कर दी गई है</string>
+    <string name="msg_error_occurred">त्रुटि हुई!</string>
+    <string name="msg_chatting_bot_cookie_policies">मेरे साथ चैट करके, आप हमारी गोपनीयता और कुकी नीतियों से सहमत होते हैं।</string>
+    <string name="tv_message">संदेश:</string>
+    <string name="tv_master_wong_ai">डॉ. क्यूई ऐ सहायक</string>
+    <string name="tv_silent_scalar_turned_on">साइलेंट स्केलर वर्तमान में चालू है</string>
+    <string name="tv_silent_scalar_turned_off">साइलेंट स्केलर फिलहाल बंद है</string>
+    <string name="tv_please_choose_a_frequency_to_play">कृपया खेलने के लिए एक आवृत्ति चुनें</string>
+    <string name="tv_there_no_silent_energies">कोई मूक ऊर्जा नहीं है, कृपया इसे सक्रिय करें।</string>
+    <string name="recent">हाल ही का:</string>
+    <string name="you_have_no_program_selected">आपका कोई प्रोग्राम चयनित नहीं है</string>
+    <string name="save_schedule">शेड्यूल सहेजें</string>
+    <string name="schedule_on_off">शेड्यूल चालू/बंद करें</string>
+    <string name="the_schedule_frequency_is_coming_up">निर्धारित आवृत्ति आ रही है. क्या आप इस पर स्विच करना चाहेंगे?</string>
+    <string name="chat_bot_on_off">चैटबॉट चालू/बंद</string>
+</resources>

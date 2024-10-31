@@ -1,0 +1,394 @@
+<resources>
+    <string name="action_settings">إعدادات</string>
+
+    <!--region Navigation-->
+    <string name="navigation_lbl_home">بيت</string>
+    <string name="navigation_lbl_albums">الألبومات</string>
+    <string name="navigation_lbl_scalar">الكم الصامت</string>
+    <string name="navigation_lbl_quantum">الكم</string>
+    <string name="navigation_lbl_rife">منتشر</string>
+    <string name="navigation_lbl_programs">البرامج</string>
+    <string name="navigation_lbl_videos">فيديوهات</string>
+    <string name="navigation_lbl_shop">محل</string>
+    <string name="navigation_lbl_options">خيارات</string>
+    <!--endregion-->
+
+    <!--region Options-->
+    <string name="options_qi_coil">احصل على ملف QI</string>
+    <string name="options_sign_in">تسجيل الدخول</string>
+    <string name="options_log_out">تسجيل الخروج</string>
+    <string name="options_delete_user">حذف المستخدم</string>
+    <string name="profile_lbl_subscription">الاشتراك</string>
+    <string name="tv_restore_purchase">استعادة الشراء</string>
+    <string name="profile_lbl_instructions">تعليمات</string>
+    <string name="profile_lbl_disclaimer">تنصل</string>
+    <string name="profile_lbl_about">عن</string>
+    <!--endregion-->
+
+    <string name="btn_play">يلعب</string>
+    <string name="btn_add">يضيف</string>
+
+    <!--region Fetch-->
+    <string name="start_fetching">ابدأ في جلب الملفات.</string>
+    <string name="start">يبدأ</string>
+    <string name="fetch_done">تم الجلب.</string>
+    <string name="reset">إعادة ضبط</string>
+    <string name="game_download_error">حدث خطأ، لا يمكن الحصول على الملفات.</string>
+    <!--endregion-->
+
+    <!--region Player-->
+    <string name="notification_channel_name">ضوابط اللاعب</string>
+
+    <string name="play">يلعب</string>
+    <string name="pause">يوقف</string>
+    <string name="stop">قف</string>
+    <string name="previous">سابق</string>
+    <string name="next">التالي</string>
+    <!--endregion-->
+
+    <string name="total_time">إجمالي الوقت %1$s</string>
+
+    <string name="toast_download_complete">اكتمل التنزيل!</string>
+    <string name="txt_total_time">الوقت الإجمالي</string>
+    <string name="txt_my_playlists">برامجي</string>
+    <string name="txt_share">يشارك</string>
+    <string name="txt_delete">يمسح</string>
+    <string name="txt_save">يحفظ</string>
+    <string name="txt_add">يضيف</string>
+    <string name="txt_create_playlist">إنشاء قائمة التشغيل</string>
+    <string name="txt_edit_playlist">تحرير قائمة التشغيل</string>
+    <string name="txt_playlist_name">اسم قائمة التشغيل</string>
+    <string name="txt_ok">نعم</string>
+    <string name="txt_no">لا</string>
+    <string name="txt_enter_password">أدخل كلمة المرور</string>
+    <string name="txt_plz_enter_playlist_name">الرجاء إدخال اسم قائمة التشغيل</string>
+    <string name="txt_create_playlist_success">تم إنشاء قائمة التشغيل بنجاح</string>
+    <string name="txt_edit_playlist_name_success">تم تعديل اسم قائمة التشغيل بنجاح</string>
+    <string name="txt_delete_playlist_name_success">تم حذف قائمة التشغيل بنجاح</string>
+    <string name="txt_no_songs">لا ترددات</string>
+    <string name="txt_no_result">لم يتم العثور على نتائج</string>
+    <string name="txt_search_songs">ترددات البحث</string>
+    <string name="txt_no_playlist">لا توجد برامج</string>
+    <string name="txt_no_albums">لا توجد ألبومات</string>
+    <string name="msg_download_data">تنزيل البيانات&#8230; انتظر من فضلك</string>
+    <string name="msg_error_when_download">لا يمكن تنزيل البيانات! يرجى المحاولة مرة أخرى</string>
+    <string name="txt_try_again">حاول ثانية</string>
+    <string name="txt_cancel">يلغي</string>
+    <string name="msg_coming_soon">قريبا&#8230;</string>
+    <string name="msg_add_first_playlist">الرجاء إضافة قائمة التشغيل الأولى</string>
+    <string name="txt_downloading">جارٍ التنزيل</string>
+    <string name="txt_downloaded">جارٍ التنزيل</string>
+    <string name="msg_loading">جاري التحميل&#8230;</string>
+    <string name="txt_disclaimer_title">إخلاء المسؤولية والتنازل</string>
+    <string name="txt_disclaimer_content">باستخدام هذا التطبيق، إلى الحد الذي يسمح به القانون المعمول به، فإنك تعفي منشئ هذا التطبيق وموقعه الإلكتروني والشركات التابعة له وموظفيه ووكلائه وممثليه من أي مسؤولية أو ضرر أو خسارة. هذا التطبيق والجهاز اللوحي ليسا أجهزة طبية ولا يُقصد استخدامها لتشخيص أي مرض أو علاجه أو علاجه أو الوقاية منه. لم يتم تقييم هذا التطبيق من قبل إدارة الغذاء والدواء (FDA) ولم يتم تقديم أي مطالبات طبية أو ضمنية بخصوص هذا التطبيق. إذا شعرت بعدم الراحة أو الدوخة، توقف عن استخدام هذا التطبيق. استشر طبيبك دائمًا قبل استخدام أي من منتجاتنا.</string>
+    <string name="txt_agree">يوافق</string>
+    <string name="txt_disagree">لا أوافق</string>
+    <string name="txt_later">اعرض مرة أخرى</string>
+    <string name="txt_about">عن</string>
+    <string name="txt_yes">نعم</string>
+    <string name="txt_warning_clear_playlist">هل أنت متأكد أنك تريد مسح قائمة التشغيل الحالية؟</string>
+    <string name="txt_warning_update_newversion_title">التحديث متاح</string>
+    <string name="txt_warning_update_newversion">يتوفر تحديث. هل ترغب في تحديث التطبيق الآن؟\nفي حالة عدم تمكنك من تثبيت الإصدار الجديد. يرجى مسح ذاكرة التخزين المؤقت لتطبيق متجر Google Play والمحاولة مرة أخرى.</string>
+    <string name="txt_downloading_dot">جارٍ التنزيل…</string>
+    <string name="txt_donot_show_message">لا تظهر هذه الرسالة مرة أخرى</string>
+    <string name="txt_now_playing">التشغيل الآن: %1$s</string>
+    <string name="txt_warning_delete_playlist">هل أنت متأكد أنك تريد حذف قائمة التشغيل هذه؟</string>
+
+    <string name="tv_7_days_free">7 أيام\nمجانًا</string>
+    <string name="tv_7_days_free_limited_time_offer">7 أيام مجانية \n عرض لفترة محدودة</string>
+    <string name="tv_free_trial">تجربة مجانية</string>
+    <string name="tv_1_month">1\nشهر</string>
+    <string name="tv_1_year">1\nسنة</string>
+    <string name="tv_message_billing_1">• فتح جميع ألبومات مجموعة Qi Coil</string>
+    <string name="tv_message_billing_2">• برامج قابلة للتخصيص</string>
+    <string name="tv_message_billing_3">• البرامج المحملة مسبقاً</string>
+    <string name="tv_subscription_info">معلومات الاشتراك</string>
+    <string name="txt_about_subscribe_1">• سياسة الخصوصية: http://www.tattoobookapp.com/quantumwavebiotechnology/privacy/</string>
+    <string name="txt_about_subscribe_2">• شروط الاستخدام: http://www.tattoobookapp.com/quantumwavebiotechnology/terms/</string>
+    <string name="txt_about_subscribe_3">• سيتم مصادرة أي جزء غير مستخدم من الفترة التجريبية المجانية، إذا تم عرضه، عندما يشتري المستخدم اشتراكًا في هذا المنشور.</string>
+    <string name="tv_back">خلف</string>
+    <string name="tv_sub_info_1">• لا يسمح بإلغاء الاشتراك الحالي خلال فترة الاشتراك النشط</string>
+    <string name="tv_sub_info_2">• قد تتم إدارة الاشتراكات من قبل المستخدم وقد يتم إيقاف التجديد التلقائي من خلال الانتقال إلى إعدادات حساب المستخدم بعد الشراء</string>
+    <string name="tv_sub_info_3">• يتم تجديد الاشتراك تلقائيًا ما لم يتم إيقاف التجديد التلقائي قبل 24 ساعة على الأقل من نهاية الفترة الحالية</string>
+    <string name="tv_sub_info_4">• سيتم فرض الدفع على حساب Google عند تأكيد الشراء</string>
+    <string name="tv_sub_info_5">• تجربة مجانية - 7 أيام مجانية، ثم 24.99 دولارًا شهريًا. السعر يتوافق مع نفس الشريحة السابقة، والتي تم تحديدها في Android Google Play للعملات الأخرى</string>
+    <string name="tv_price_of_subscription">سعر الاشتراك :</string>
+    <string name="tv_sub_info_6">• تجربة مجانية لمدة شهر و7 أيام</string>
+    <string name="tv_length_of_subscription">مدة الاشتراك:</string>
+    <string name="tv_start_free_trial">ابدأ التجربة المجانية</string>
+    <string name="tv_subscription_now">اشتري الآن</string><!--Subscribe-->
+    <string name="tv_activate">قم بتنشيط\nالنسخة التجريبية المجانية</string>
+    <string name="tv_auto_renewable_subscription_info">معلومات الاشتراك القابلة للتجديد التلقائي:</string>
+    <string name="tv_flash_sale">بيع فلاش</string>
+    <string name="tv_available_until">&#160;متاح حتى&#160;</string>
+    <string name="txt_then_trial_price">ثم %1$s/الشهر</string>
+    <!---->
+
+    <string name="tv_advanced_frequencies">الوفرة I</string><!--ABUNDANCE-->
+    <string name="tv_basic_frequencies">أساسي</string>
+    <string name="tv_master_frequencies">يتقن</string>
+    <string name="tv_advanced_meditation_frequencies">ترددات التأمل \n المتقدمة</string>
+    <string name="tv_advanced_meditation_frequencies_2">ترددات التأمل المتقدمة</string>
+    <string name="tv_transform_yourself_faster_with_advanced_mind_enhancement_frequencies">قم بتحويل نفسك بشكل أسرع مع ترددات تعزيز العقل المتقدمة</string>
+    <string name="tv_title_sub_item_1"><![CDATA[• تعزيز الموجات الدماغية وقوة العقل]]></string>
+    <string name="tv_title_sub_item_2">​• عزز قدرتك على خلق الوفرة وإظهارها وجذبها</string>
+    <string name="tv_title_sub_item_3">• تسارع الصحة</string>
+    <string name="tv_title_sub_item_4">​ • ارفع رنينك الروحي</string>
+    <string name="tv_title_sub_item_5">​​ • اكتشف عوالم مجهولة من الحلم الواضح والإسقاط النجمي</string>
+
+    <string name="tv_recurring_billing">الفواتير المتكررة. إلغاء في أي وقت.</string>
+    <string name="tv_one_time_payment">الدفع لمرة واحدة</string>
+    <string name="tv_title_subscription_monthly">يتم تجديد هذا الاشتراك تلقائيًا لعام 1999 شهريًا ما لم يتم إلغاؤه في إعدادات حسابك على Google Play قبل 24 ساعة على الأقل من نهاية الفترة التجريبية. يتم تحميل المدفوعات على حساب Google الخاص بك عند تأكيد الشراء. يتم تحميل الحساب للتجديد خلال 24 ساعة قبل نهاية الفترة الحالية. سيتم مصادرة أي جزء غير مستخدم من الفترة التجريبية المجانية، إذا تم عرضه، عندما يشتري المستخدم اشتراكًا في هذا المنشور.</string>
+    <string name="tv_title_subscription_lifetime">يتم تحميل المدفوعات على حساب Google الخاص بك عند تأكيد الشراء. يتم تحميل الحساب للتجديد خلال 24 ساعة قبل نهاية الفترة الحالية. سيتم مصادرة أي جزء غير مستخدم من الفترة التجريبية المجانية، إذا تم عرضه، عندما يشتري المستخدم اشتراكًا في هذا المنشور. من خلال الاستمرار، فإنك توافق على لدينا</string>
+    <string name="tv_link">الشروط وسياسة الخصوصية</string>
+    <string name="tv_monthly">شهريا</string>
+    <string name="tv_per_month">كل شهر</string>
+    <string name="tv_annual">سنوي</string>
+    <string name="tv_per_year">كل سنة</string>
+    <string name="tv_lifetime">حياة</string>
+    <string name="tv_pay_once">ادفع مرة واحدة</string>
+    <string name="tv_continue">يكمل</string>
+    <string name="tv_basic_subscription">الاشتراك الأساسي</string>
+    <string name="tv_unlock_meditation_prequencies">فتح ترددات التأمل</string>
+    <string name="tv_unlock_meditation_prequencies_2">فتح ترددات التأمل</string>
+    <string name="tv_try_7_days_free">جرب 7 أيام مجانية</string>
+    <!--new-->
+
+    <string name="tv_minutes">دقائق</string>
+    <string name="tv_seconds">ثواني</string>
+    <string name="tv_hours">ساعات</string>
+    <string name="tv_offer_expires_in">تنتهي صلاحية العرض في:</string>
+    <string name="tv__50_off">وفر 50%</string><!--50% Off-->
+    <string name="tv_unlock_all_34_basic_frequencies_one_time">فتح جميع الترددات الـ 43 &lt;br/&gt;الترددات الأساسية &lt;u&gt;للأبد&lt;/u&gt;</string>
+    <string name="tv_unlock_all_34_basic_frequencies_one_time_yearly">فتح كافة الترددات الـ 43 الأساسية</string>
+    <string name="tv_unlock_all_34_basic_frequencies">فتح جميع الترددات الأساسية الـ 34 </string>
+    <string name="tv_unlock_all_150_advanced_frequencies_one_time">فتح جميع ترددات الوفرة الـ 189 &lt;br/&gt;&lt;u&gt;للأبد&lt;/u&gt;</string>
+    <string name="tv_unlock_all_150_advanced_frequencies_one_time_yearly">فتح كافة الترددات الـ 189\nالوفيرة</string>
+    <string name="tv_unlock_all_150_advanced_frequencies">فتح كافة الترددات الـ 189\nالوفيرة </string>
+    <string name="tv_brainwave_mind_power_enhancement"><![CDATA[تعزيز الفكرة الرائعة وقدرة العقل]]></string>
+    <string name="tvcreate_manifest_attract_abundancet"><![CDATA[إنشاء وإظهار وجذب الوفرة]]></string>
+    <string name="tv_improve_overall_health">تحسين الصحة العامة</string>
+    <string name="tv_raise_your_spiritual_resonance">ارفع رنينك الروحي</string>
+    <string name="tv_unlock_34_advanced_frequencies">فتح 43 الترددات الأساسية</string>
+    <string name="tv_buy_now">اشتري الآن</string>
+    <string name="tv_current_plan">تم التنشيط</string><!--CURRENT PLAN-->
+    <string name="tv_choose_your_subscription_plan">اختر خطة الاشتراك الخاصة بك</string>
+
+    <string name="tv_title_free_1">9 ترددات البداية</string>
+    <string name="tv_title_free_2"><![CDATA[التركيز والتأمل]]></string>
+    <string name="tv_title_free_3">تخفيف التوتر والقلق</string>
+    <string name="tv_title_free_4"><![CDATA[نوم واسترخاء أفضل]]></string>
+
+    <string name="tv_title_basic_1">فتح 43 الترددات الأساسية</string>
+    <string name="tv_title_basic_2">مسح الطاقة السلبية</string>
+    <string name="tv_title_basic_3">تعزيز التأمل</string>
+    <string name="tv_title_basic_4">تخفيف التوتر &amp; قلق</string>
+    <string name="tv_title_basic_7">تعزيز الطاقة البدنية والعقلية</string>
+    <string name="tv_title_basic_8">تحسين التركيز والإنتاجية</string>
+    <string name="tv_title_basic_9">تعلم بشكل أسرع</string>
+
+    <string name="tv_title_advanced_1">فتح 43 الترددات الأساسية</string>
+    <string name="tv_title_advanced_2">فتح 189 ترددات الوفرة</string>
+    <string name="tv_title_advanced_3">زيادة الحظ والمصادفات</string>
+    <string name="tv_title_advanced_4">تضخيم قوة المظهر الخاص بك</string>
+    <string name="tv_title_advanced_5">صمم واقعك</string>
+    <string name="tv_title_advanced_7">تعزيز الحدس الخاص بك</string>
+    <string name="tv_title_advanced_8">فتح 189 ترددات الوفرة</string>
+    <string name="tv_title_advanced_9">أيقظ عينك الثالثة</string>
+    <string name="tv_title_advanced_10">جذب النجاح والوفرة</string>
+
+    <string name="tv_title_advanced2_1">فتح 43 الترددات الأساسية</string>
+    <string name="tv_title_advanced2_2">فتح 189 ترددات الوفرة</string>
+    <string name="tv_title_advanced2_3">فتح 261 ترددات وفرة أعلى</string>
+    <string name="tv_title_advanced2_4">زيادة الحظ والمصادفات</string>
+    <string name="tv_title_advanced2_5">تضخيم قوة المظهر الخاص بك</string>
+    <string name="tv_title_advanced2_6">صمم واقعك</string>
+    <string name="tv_title_advanced2_7">تعزيز الحدس الخاص بك</string>
+    <string name="tv_title_advanced2_8">أيقظ عينك الثالثة</string>
+    <string name="tv_title_advanced2_9">جذب النجاح والوفرة</string>
+    <string name="tv_title_advanced2_10"><![CDATA[تحفيز الوعي العميق واللاوعي]]></string>
+    <string name="tv_title_advanced2_11"><![CDATA[تحفيز الشفاء وتعزيز الحيوية]]></string>
+    <string name="tv_title_advanced2_12">توازن الشاكرات الخاصة بك</string>
+    <string name="tv_title_advanced2_13">حماية المجالات الكهرومغناطيسية</string>
+
+    <string name="tv_reviews">التعليقات</string>
+    <string name="tv_faq">الأسئلة الشائعة</string>
+    <string name="tv_education">تعليم</string>
+    <string name="tv_qi_coils">ملفات تشى</string>
+    <string name="player_error">خطأ في تهيئة مشغل YouTube: %1$s</string>
+    <string name="tv_purchase_limit">حد الشراء: 0/1</string>
+    <string name="tv_yearly_payment_of">الدفع السنوي</string>
+    <string name="tv_title_advanced_6"><![CDATA[تقوية وموازنة مجال الطاقة الخاص بك]]></string>
+    <string name="tv_get_this_huge_deal_before_it_s_gone">احصل على هذه الصفقة الضخمة قبل أن تختفي!</string>
+
+    <string name="tv_change_password">تغيير كلمة المرور</string>
+    <string name="tv_help_support">مساعدة وأمبير. يدعم</string>
+
+    <string name="tv_my_custom_playlists">برامجي المخصصة</string>
+    <string name="tv_redeem">يسترد</string>
+
+    <string name="tv_title_subscription">يتم تجديد الاشتراك تلقائيًا ما لم يتم إيقاف التجديد التلقائي قبل 24 ساعة على الأقل من انتهاء الفترة الحالية. يتم تحميل الدفع على حساب GooglePlay الخاص بك. إدارة الاشتراكات وإيقاف التجديد التلقائي في إعدادات GooglePlay.</string>
+    <string name="tv_title_subscription_new">يتم تجديد هذا الاشتراك تلقائيًا ما لم يتم إيقاف التجديد التلقائي قبل 24 ساعة على الأقل من انتهاء الفترة الحالية. يتم تحميل الدفع على حساب GooglePlay الخاص بك. إدارة الاشتراكات وإيقاف التجديد التلقائي في إعدادات حساب GooglePlay.</string>
+    <string name="flash_sale_50_off">بيع فلاش - خصم 0.5</string>
+    <string name="tv_forgotten_password">&lt;u&gt;هل نسيت كلمة المرور؟&lt;/u&gt;</string>
+    <string name="tv_link_sign_in">&lt;u&gt; تسجيل الدخول.&lt;/u&gt;</string>
+    <string name="tv_link_sign_up">&lt;u&gt; قم بالتسجيل.&lt;/u&gt;</string>
+    <string name="tv_signUp">ليس لديك حساب؟</string>
+    <string name="tv_signIn">هل لديك حساب بالفعل؟</string>
+    <string name="tv_not_worry">لا داعي للقلق! \nفقط أدخل عنوان بريدك الإلكتروني المسجل أدناه وسنرسل إليك بريدًا إلكترونيًا يتضمن تعليمات حول كيفية إعادة تعيين كلمة المرور الخاصة بك.</string>
+    <string name="tv_sign_up">اشتراك</string>
+    <string name="tv_email">بريد إلكتروني</string>
+    <string name="tv_password">كلمة المرور</string>
+    <string name="tv_confirm_password">تأكيد كلمة المرور</string>
+    <string name="tv_get_started">ابدأ</string>
+    <string name="tv_sign_in">تسجيل الدخول</string>
+    <string name="tv_google">تواصل مع جوجل</string>
+    <string name="tv_facebook">تواصل مع الفيسبوك</string>
+    <string name="tv_guest">الاستمرار كضيف</string>
+    <string name="tv_login">تسجيل الدخول</string>
+    <string name="txt_forgotten_password">نسيت كلمة المرور</string>
+    <string name="tv_forgot_password">هل نسيت كلمة السر؟</string>
+    <string name="tv_email_address">عنوان البريد الإلكتروني</string>
+    <string name="tv_send_email">إرسال البريد الإلكتروني</string>
+    <string name="tv_old_password">كلمة المرور القديمة</string>
+    <string name="tv_new_password">كلمة المرور الجديدة</string>
+    <string name="tv_confirm_new_password">تأكيد كلمة المرور الجديدة</string>
+    <string name="txt_processing">يعالج</string>
+    <string name="txt_msg_logout">هل أنت متأكد أنك تريد تسجيل الخروج؟</string>
+    <string name="txt_msg_deleteuser">هل أنت متأكد أنك تريد حذف المستخدم؟</string>
+    <string name="tv_name">اسم</string>
+    <string name="err_network_available">الرجاء التحقق من اتصال الشبكة!</string>
+    <string name="err_unexpected_exception">يرجى المحاولة مرة أخرى!</string>
+    <string name="err_unexpected_exception_api">فشل الاتصال. يرجى المحاولة مرة أخرى!</string>
+    <string name="txt_warning_login_fail">البريد الإلكتروني أو كلمة المرور خاطئة. حاول مرة أخرى أو حدد "نسيت كلمة المرور" لإعادة تعيينها.</string>
+    <string name="txt_waiting">من فضلك انتظر…</string>
+    <string name="txt_clear_data">مسح البيانات…</string>
+    <string name="txt_email_exist">عنوان البريد الإلكترونى هذا مسجل بالفعل.</string>
+    <string name="tv_err_email_register">لم يتم العثور على عنوان البريد الإلكتروني الخاص بك.</string>
+    <string name="tv_forgot_password_success">تم تغيير كلمة المرور بنجاح!</string>
+    <string name="tv_send_email_success">تم إرسال البريد الإلكتروني. تحقق من بريدك الإلكتروني وافتح الرابط لإعادة تعيين كلمة المرور الخاصة بك.</string>
+    <string name="tv_unlock_powerful_frequencies">اختر خطة الاشتراك الخاصة بك</string><!--Unlock Powerful Frequencies-->
+    <string name="txt_encrypting_message">نحن نقوم بمزامنة البيانات الجديدة، وقد تستغرق هذه العملية أقل من 10 دقائق. الرجاء عدم الخروج من التطبيق أو إيقاف التشغيل.\nلن تستهلك المزامنة سعة الشبكة.</string>
+    <string name="txt_warning_frequencies_frequencies">يرجى الانتظار بينما نقوم بتحديث الترددات. تم تضخيم الترددات وإعادة صياغتها لتجربة مستخدم أفضل.</string>
+    <string name="tv_frequencies">الترددات</string>
+    <string name="tv_albums">الألبومات</string>
+    <string name="tv_programs">البرامج</string>
+    <string name="tv_higher_abundance">الوفرة II</string><!--HIGHER\nABUNDANCE-->
+    <string name="tv_description">وصف</string>
+
+    <string name="tv_note_5">• الحصول على ذروة أداء الدماغ والإبداع والأفكار</string>
+    <string name="tv_note_4">• احصل على الاسترخاء والشفاء الفائقين</string>
+    <string name="tv_note_3">• اشعر بالراحة، وإعادة الشحن، والتعافي</string>
+    <string name="tv_note_2">• اشعر بالتركيز، والاسترخاء، والثبات، والتمركز</string>
+    <string name="tv_note_1">• يضبط موجات دماغك</string>
+    <string name="tv_create_new">إنشاء جديد</string>
+    <string name="tv_higher_quantum">كمية أعلى</string>
+    <string name="tv_search">يبحث</string>
+    <string name="tv_starter">بداية</string>
+    <string name="tv_duration">مدة</string>
+    <string name="tv_move_up_queue">تحريك قائمة الانتظار لأعلى</string>
+    <string name="tv_move_down_queue">نقل إلى أسفل قائمة الانتظار</string>
+    <string name="tv_remove">يزيل</string>
+    <string name="tv_added_to_my_custom_playlist">تمت الإضافة إلى قائمة التشغيل المخصصة الخاصة بي</string>
+    <string name="tv_add_to_program">إضافة إلى البرنامج</string>
+    <string name="tv_add_to_favorites">أضف إلى المفضلة</string>
+    <string name="tv_redownload">إعادة التنزيل</string>
+    <string name="tv_favorites">المفضلة</string>
+    <string name="tv_remove_from_favorite">إزالة من المفضلة</string>
+
+    <!--Lemeor-->
+    <string name="btn_download">تحميل</string>
+    <string name="program_favorites">المفضلة</string>
+    <string name="txt_flash_sale">بيع فلاش</string>
+    <string name="search_hint">يبحث</string>
+    <string name="lbl_categories">فئات</string>
+    <string name="downloader_quantity">جارٍ التنزيل (%1$d/%2$d)</string>
+
+    <string name="inapp_purchase_info">دفعة لمرة واحدة بقيمة: %1$s</string>
+    <string name="purchase_dialog_btn_month">شهر</string>
+    <string name="purchase_dialog_btn_annual">سنوي</string>
+
+    <string name="share_message">لقد وجدت تطبيق التأمل الجديد Qi Coil https://play.google.com/store/apps/details?id=com.Meditation.Sounds.frequeency</string>
+    <!-- <string name="facebook_app_id">554730859218975</string> -->
+    <string name="download_error">خطأ في التنزيل</string>
+    <string name="download_error_message">بعض الملفات التي لا يمكن تحميلها. حاول مرة أخرى لاحقا!</string>
+
+    <!-- new text-->
+    <string name="tv_from">من</string>
+    <string name="tv_now">الآن</string>
+    <string name="tv_category_name">اسم الفئة</string>
+    <string name="tv_title_trial">فتح ترددات التأمل الكم\n</string>
+    <string name="tv_trial_package_200">200+ ترددات الكم</string>
+    <string name="tv_trial_unlimited_use">استخدام غير محدود</string>
+    <string name="tv_trial_custom_playlists">قوائم التشغيل المخصصة</string>
+    <string name="tv_trial_free_updates">تحديثات مجانية</string>
+    <string name="tv_trial_free_7_days">جرب 7 أيام مجانًا</string>
+    <string name="tv_trial_pay_7_days">59.99 دولارًا سنويًا بعد الإصدار التجريبي المجاني لمدة 7 أيام</string>
+    <string name="tv_downloading">جارٍ التنزيل</string>
+    <string name="tv_yearly_payment_of_49">القسط السنوي 49 دولار</string>
+    <string name="tv_fine_tune_hz">ضبط دقيق هرتز</string>
+    <string name="tv_hz">هرتز</string>
+    <string name="tv_disclaimer">تنصل</string>
+    <string name="tv_unlock_now">افتح الآن</string>
+    <string name="tv_apply_now">قدم الآن</string>
+    <string name="tv_count_frequencies">ترددات %s / 00:03:00</string>
+    <string name="subs_purchase_info">اشترك لمدة %1$s/الشهر أو %2$s/السنة</string>
+    <string name="error_hz_exceeded">تم تجاوز الهرتز %1$s</string>
+    <string name="tv_rifes">رايفس</string>
+    <string name="tv_scalars">العددية</string>
+    <string name="tv_track">مسار</string>
+    <string name="tv_from_rife">من رايف</string>
+    <string name="tv_cus_frequency">الترددات المخصصة</string>
+    <string name="tv_add_rife">أضف رايف</string>
+    <string name="tv_add_quantum">أضف الكم</string>
+    <string name="tv_error_hz">الهرتز أكبر من %1$s وأقل من %2$s</string>
+    <string name="title_cus_frequency">إضافة تردد مخصص جديد</string>
+    <string name="tv_fre_hz">الترددات (هرتز)</string>
+    <string name="tv_add">يضيف</string>
+    <string name="tv_delete">يمسح</string>
+    <string name="tv_error_playlist_name">الرجاء إدخال اسم قائمة التشغيل</string>
+    <string name="tv_track_last_pos">المسار في المركز الأخير</string>
+    <string name="tv_track_first_pos">المسار في المركز الأول</string>
+    <string name="tv_error_back">الرجاء النقر فوق "الرجوع" مرة أخرى للخروج!</string>
+    <string name="tv_please_enter_old_pass">الرجاء إدخال كلمة المرور القديمة!</string>
+    <string name="tv_err_old_pass_characters">كلمة المرور القديمة لا يمكن أن تكون أقل من 6 أحرف!</string>
+    <string name="tv_please_enter_new_pass">الرجاء إدخال كلمة المرور الجديدة!</string>
+    <string name="tv_err_new_pass_characters">كلمة المرور الجديدة لا يمكن أن تكون أقل من 6 أحرف!</string>
+    <string name="tv_please_enter_confirm_pass">الرجاء إدخال تأكيد كلمة المرور الجديدة!</string>
+    <string name="tv_err_confirm_pass_characters">تأكيد كلمة المرور الجديدة لا يمكن أن تكون أقل من 6 أحرف!</string>
+    <string name="tv_please_enter_confirm_new_pass">يرجى التحقق من تأكيد كلمة المرور الجديدة!</string>
+    <string name="tv_please_enter_email">الرجاء إدخال البريد الإلكتروني!</string>
+    <string name="tv_invalid_email">البريد الإلكتروني غير صالح!</string>
+    <string name="tv_please_enter_pass">الرجاء إدخال كلمة المرور!</string>
+    <string name="tv_download_completed">اكتمل التنزيل</string>
+    <string name="tv_new_apk">[ملف APK جديد] %1$s</string>
+    <string name="tv_downloading_file">جارٍ تنزيل الملفات…</string>
+    <string name="tv_term_and_privacy">الشروط| و |سياسة الخصوصية</string>
+    <string name="tv_err_pass_characters">كلمة المرور لا يمكن أن تكون أقل من 6 أحرف!</string>
+    <string name="tv_please_enter_confirm_password">الرجاء إدخال تأكيد كلمة المرور!</string>
+    <string name="tv_please_check_confirm_password">يرجى التحقق من تأكيد كلمة المرور!</string>
+    <string name="tv_invalid_email_add">عنوان بريدك الإلكتروني غير صالح!</string>
+    <string name="tv_please_enter_name">الرجاء إدخال الاسم!</string>
+    <string name="tv_incorrect_old_pass">كلمة المرور القديمة غير صحيحة!</string>
+    <string name="tv_empty_list">قائمة فارغة</string>
+    <string name="tv_stop">قف</string>
+    <string name="tv_removed_favorite">تمت الإزالة من المفضلة</string>
+    <string name="tv_add_favorite">تمت الإضافة إلى المفضلة</string>
+    <string name="tv_account_deleted_success">تم حذف حسابك بنجاح!</string>
+    <string name="tv_no_purchases_available">لا توجد مشتريات متاحة</string>
+    <string name="tv_purchases_have_been_restored">تمت استعادة المشتريات</string>
+    <string name="msg_error_occurred">حدث خطأ!</string>
+    <string name="msg_chatting_bot_cookie_policies">من خلال الدردشة معي، فإنك توافق على سياسات الخصوصية وملفات تعريف الارتباط الخاصة بنا.</string>
+    <string name="tv_message">رسالة:</string>
+    <string name="tv_master_wong_ai">مساعد الدكتور تشي آي</string>
+    <string name="tv_silent_scalar_turned_on">Silent Scalar قيد التشغيل حاليًا</string>
+    <string name="tv_silent_scalar_turned_off">Silent Scalar متوقف حاليًا</string>
+    <string name="tv_please_choose_a_frequency_to_play">الرجاء اختيار تردد للعب</string>
+    <string name="tv_there_no_silent_energies">لا توجد طاقات صامتة يرجى تفعيلها.</string>
+    <string name="recent">مؤخرًا:</string>
+    <string name="you_have_no_program_selected">ليس لديك أي برنامج محدد</string>
+    <string name="save_schedule">حفظ الجدول الزمني</string>
+    <string name="schedule_on_off">جدولة تشغيل/إيقاف</string>
+    <string name="the_schedule_frequency_is_coming_up">التردد المقرر قادم. هل ترغب في التبديل إليه؟</string>
+    <string name="chat_bot_on_off">تشغيل/إيقاف تشغيل Chatbot</string>
+</resources>

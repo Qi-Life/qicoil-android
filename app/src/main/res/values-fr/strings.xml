@@ -348,4 +348,10 @@
     <string name="tv_silent_scalar_turned_off">Le scalaire silencieux est actuellement désactivé</string>
     <string name="tv_please_choose_a_frequency_to_play">Veuillez choisir une Fréquence pour jouer</string>
     <string name="tv_there_no_silent_energies">Il n\'y a pas d\'énergies silencieuses, veuillez les activer.</string>
+    <string name="recent">Récente:</string>
+    <string name="you_have_no_program_selected">Vous n\'avez aucun programme sélectionné</string>
+    <string name="save_schedule">Enregistrer le calendrier</string>
+    <string name="schedule_on_off">Programmer ON/OFF</string>
+    <string name="the_schedule_frequency_is_coming_up">La fréquence programmée arrive bientôt. Souhaitez-vous y passer ?</string>
+    <string name="chat_bot_on_off">Chatbot activé/désactivé</string>
 </resources>

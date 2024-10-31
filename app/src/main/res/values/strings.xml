@@ -431,18 +431,18 @@
     <string name="msg_say_hi_chat" translatable="false">Hi, My name is Dr.Qi, I\'m an AI assistant. How can I help you today? How have you been feeling lately?</string>
     <string name="msg_error_network_chat" translatable="false">Connect Lost. Please check your internet connection.</string>
     <string name="lang_en" translatable="false">English</string>
-    <string name="lang_fr" translatable="false">French</string>
-    <string name="lang_zh" translatable="false">China</string>
-    <string name="lang_es" translatable="false">Spanish</string>
-    <string name="lang_ja" translatable="false">Japanese</string>
-    <string name="lang_vi" translatable="false">Vietnamese</string>
-    <string name="lang_de" translatable="false">German</string>
-    <string name="lang_zh_hant" translatable="false">Chinese - Traditional</string>
-    <string name="lang_zh_hans" translatable="false">Chinese - Simplified</string>
-    <string name="lang_hi" translatable="false">Hindi</string>
-    <string name="lang_ar" translatable="false">Arabic</string>
-    <string name="lang_pt" translatable="false">Portuguese</string>
-    <string name="lang_ko" translatable="false">Korean</string>
-    <string name="lang_it" translatable="false">Italian</string>
-    <string name="lang_bn" translatable="false">Bengali</string>
+    <string name="lang_fr" translatable="false">Français - French</string>
+<!--    <string name="lang_zh" translatable="false">China</string>-->
+    <string name="lang_es" translatable="false">Español - Spanish</string>
+    <string name="lang_ja" translatable="false">日本語 - Japanese</string>
+    <string name="lang_vi" translatable="false">Việt Nam - Vietnamese</string>
+    <string name="lang_de" translatable="false">Deutsch - German</string>
+    <string name="lang_zh_hant" translatable="false">繁體中文 - Chinese Traditional</string>
+    <string name="lang_zh_hans" translatable="false">简体中文 - Chinese Simplified</string>
+    <string name="lang_hi" translatable="false">हिंदी - Hindi</string>
+    <string name="lang_ar" translatable="false">العربية - Arabic</string>
+    <string name="lang_pt" translatable="false">Português- Portuguese</string>
+    <string name="lang_ko" translatable="false">한국어 - Korean</string>
+    <string name="lang_it" translatable="false">Italiano - Italian</string>
+    <string name="lang_bn" translatable="false">বাংলা - Bengali</string>
 </resources>

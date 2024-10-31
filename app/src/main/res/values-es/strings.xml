@@ -347,4 +347,10 @@
     <string name="tv_silent_scalar_turned_off">El escalar silencioso está actualmente desactivado</string>
     <string name="tv_please_choose_a_frequency_to_play">Por favor, seleccione una Frecuencia para reproducir</string>
     <string name="tv_there_no_silent_energies">No hay energías silenciosas, por favor actívalas.</string>
+    <string name="recent">Reciente:</string>
+    <string name="you_have_no_program_selected">No tienes ningún programa seleccionado</string>
+    <string name="save_schedule">Guardar horario</string>
+    <string name="schedule_on_off">Programar encendido/apagado</string>
+    <string name="the_schedule_frequency_is_coming_up">La frecuencia programada se acerca. ¿Te gustaría cambiarla?</string>
+    <string name="chat_bot_on_off">Chatbot encendido y apagado</string>
 </resources>
