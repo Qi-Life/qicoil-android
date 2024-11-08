@@ -23,7 +23,7 @@
             android:layout_height="@dimen/height_repeat_button"
             android:layout_marginVertical="8dp"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/indent_24"
             android:adjustViewBounds="true"
             android:src="@drawable/ic_silent_scalar_off"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -103,6 +103,11 @@
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <View
+        android:id="@+id/view_space_when_slient_quantum_gone"
+        android:layout_width="0dp"
+        android:layout_height="0dp"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -151,8 +156,8 @@
         android:gravity="center"
         android:orientation="horizontal"
         android:paddingVertical="@dimen/indent_16"
-        android:paddingStart="@dimen/indent_8"
-        android:paddingEnd="@dimen/indent_8">
+        android:paddingStart="@dimen/indent_16"
+        android:paddingEnd="@dimen/indent_24">
 
         <com.github.siyamed.shapeimageview.RoundedImageView
             android:id="@+id/track_image"
@@ -205,17 +210,6 @@
         </LinearLayout>
 
         <ImageView
-            android:id="@+id/player_repeat"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/height_repeat_button"
-            android:adjustViewBounds="true"
-            android:src="@drawable/ic_repeat_all_disable"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/player_shuffle"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="ContentDescription" />
-
-        <ImageView
             android:id="@+id/player_previous"
             android:layout_width="@dimen/height_small_icon"
             android:layout_height="@dimen/height_small_icon"
@@ -232,7 +226,7 @@
             android:id="@+id/player_play"
             android:layout_width="@dimen/height_top_icon"
             android:layout_height="@dimen/height_top_icon"
-            android:layout_marginEnd="10dp"
+            android:layout_marginEnd="@dimen/indent_16"
             android:src="@drawable/ic_play_song_disable"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/player_next"
@@ -241,26 +235,36 @@
 
         <ImageView
             android:id="@+id/player_next"
-            android:layout_width="@dimen/height_small_icon"
-            android:layout_height="@dimen/height_small_icon"
-            android:layout_marginEnd="10dp"
+            android:layout_width="@dimen/height_button_player_default"
+            android:layout_height="@dimen/height_button_player_default"
+            android:layout_marginEnd="@dimen/indent_16"
             android:src="@drawable/ic_next_song_new_disable"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/player_shuffle"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/player_shuffle"
+            android:layout_width="@dimen/height_button_player_default"
+            android:layout_height="@dimen/height_button_player_default"
+            android:layout_marginEnd="@dimen/indent_20"
+            android:src="@drawable/ic_shuffle_new_off_disbale"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/player_repeat"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="ContentDescription" />
 
         <ImageView
-            android:id="@+id/player_shuffle"
-            android:layout_width="@dimen/height_medium_icon"
-            android:layout_height="@dimen/height_medium_icon"
-            android:layout_marginStart="@dimen/height_medium_icon"
-            android:layout_marginEnd="@dimen/height_medium_icon"
-            android:src="@drawable/ic_shuffle"
-            android:visibility="gone"
+            android:id="@+id/player_repeat"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/height_repeat_button"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_repeat_all_disable"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="ContentDescription" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

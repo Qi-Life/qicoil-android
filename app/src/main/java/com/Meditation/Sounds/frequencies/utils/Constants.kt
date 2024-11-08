@@ -330,6 +330,9 @@ class Constants {
         @JvmField
         val PREF_SETTING_CHATBOT_ON_OFF = "PREF_SETTING_CHATBOT_ON_OFF"
 
+        @JvmField
+        val PREF_SETTING_ADVANCE_SCALAR_ON_OFF = "PREF_SETTING_ADVANCE_SCALAR_ON_OFF"
+
         var isGuestLogin = false
 
         val optionsHz = arrayListOf(

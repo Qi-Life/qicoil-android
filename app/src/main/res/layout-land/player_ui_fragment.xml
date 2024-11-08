@@ -54,13 +54,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_weight="1"
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -68,22 +67,22 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="horizontal"
+                android:paddingVertical="5dp"
                 android:paddingStart="@dimen/indent_8"
-                android:paddingEnd="@dimen/indent_8"
-                android:paddingBottom="@dimen/indent_4">
+                android:paddingEnd="@dimen/indent_8">
 
 
                 <com.github.siyamed.shapeimageview.RoundedImageView
                     android:id="@+id/track_image"
                     android:layout_width="@dimen/height_repeat_button"
                     android:layout_height="@dimen/height_repeat_button"
-                    app:siBorderColor="@color/track_name_background"
-                    app:siBorderWidth="0dp"
-                    app:siRadius="5dp"
                     android:src="@drawable/ic_album_default_small"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:siBorderColor="@color/track_name_background"
+                    app:siBorderWidth="0dp"
+                    app:siRadius="5dp" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -104,9 +103,9 @@
                         android:paddingEnd="@dimen/indent_8"
                         android:singleLine="true"
                         android:textAllCaps="true"
-                        android:visibility="gone"
                         android:textColor="@android:color/white"
                         android:textSize="16sp"
+                        android:visibility="gone"
                         font:fontText="fonts/BebasNeue_Bold.otf"
                         tools:text="Track name" />
 
@@ -126,12 +125,12 @@
                 <ImageView
                     android:id="@+id/player_repeat"
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/height_repeat_button"
-                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                    android:layout_height="@dimen/height_button_player_default"
+                    android:layout_marginEnd="@dimen/indent_20"
                     android:adjustViewBounds="true"
                     android:src="@drawable/ic_repeat_all_disable"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/player_shuffle"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="ContentDescription" />
 
@@ -152,7 +151,7 @@
                     android:id="@+id/player_play"
                     android:layout_width="@dimen/height_top_icon"
                     android:layout_height="@dimen/height_top_icon"
-                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                    android:layout_marginEnd="@dimen/indent_10"
                     android:src="@drawable/ic_play_song_disable"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/player_next"
@@ -161,49 +160,47 @@
 
                 <ImageView
                     android:id="@+id/player_next"
-                    android:layout_width="@dimen/height_small_icon"
-                    android:layout_height="@dimen/height_small_icon"
-                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                    android:layout_width="@dimen/height_button_player_default"
+                    android:layout_height="@dimen/height_button_player_default"
+                    android:layout_marginEnd="@dimen/indent_10"
                     android:src="@drawable/ic_next_song_new_disable"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/player_repeat"
+                    app:layout_constraintEnd_toStartOf="@+id/player_shuffle"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="ContentDescription" />
 
                 <ImageView
                     android:id="@+id/player_shuffle"
-                    android:layout_width="@dimen/height_medium_icon"
-                    android:layout_height="@dimen/height_medium_icon"
+                    android:layout_width="@dimen/height_button_player_default"
+                    android:layout_height="@dimen/height_button_player_default"
                     android:layout_marginStart="@dimen/height_medium_icon"
-                    android:layout_marginEnd="@dimen/height_medium_icon"
-                    android:src="@drawable/ic_shuffle"
-                    android:visibility="gone"
+                    android:layout_marginEnd="@dimen/indent_10"
+                    android:src="@drawable/ic_shuffle_new_off_disbale"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/player_repeat"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="ContentDescription" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/viewPlayerScalar"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:paddingHorizontal="@dimen/indent_54"
             android:background="#1868AD">
 
             <ImageView
                 android:id="@+id/player_play_scalar"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/height_repeat_button"
-                android:layout_marginStart="@dimen/activity_horizontal_margin"
-                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_height="@dimen/height_button_player_default"
                 android:adjustViewBounds="true"
                 android:src="@drawable/ic_silent_scalar_off"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="ContentDescription" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <com.Meditation.Sounds.frequencies.views.RippleScalarPlay
                 android:id="@+id/view_scalar_status_playing"
@@ -211,8 +208,8 @@
                 android:layout_height="50dp"
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/player_play_scalar"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toStartOf="@+id/player_play_scalar"
+                app:layout_constraintTop_toBottomOf="@+id/player_play_scalar" />
 
             <View
                 android:id="@+id/view_scalar_status_stoping"
@@ -231,17 +228,18 @@
                 android:id="@+id/tv_scalar_play_status"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="-10dp"
-                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="-20dp"
                 android:ellipsize="marquee"
+                android:singleLine="true"
+                android:layout_marginBottom="5dp"
                 android:paddingStart="@dimen/indent_8"
-                android:paddingEnd="@dimen/indent_8"
                 android:text="@string/tv_there_no_silent_energies"
                 android:textColor="@android:color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:textSize="10sp"
+                app:layout_constraintBottom_toBottomOf="@+id/view_scalar_status_playing"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/view_scalar_status_playing"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="@+id/view_scalar_status_playing" />
 
             <LinearLayout
                 android:id="@+id/view_album_scalar"
@@ -250,19 +248,19 @@
                 android:layout_marginStart="-10dp"
                 android:gravity="center_vertical"
                 android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/view_scalar_status_playing"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/view_scalar_status_playing"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="@+id/view_scalar_status_playing">
 
                 <com.github.siyamed.shapeimageview.RoundedImageView
                     android:id="@+id/track_image_scalar"
-                    android:layout_width="@dimen/height_repeat_button"
-                    android:layout_height="@dimen/height_repeat_button"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_album_default_small"
                     app:siBorderColor="@color/transparent"
                     app:siBorderWidth="0dp"
-                    app:siRadius="5dp"
-                    android:src="@drawable/ic_album_default_small" />
+                    app:siRadius="5dp" />
 
                 <TextView
                     android:id="@+id/track_name_scalar"
@@ -274,8 +272,17 @@
                     android:paddingEnd="@dimen/indent_8"
                     android:singleLine="true"
                     android:textColor="@android:color/white"
+                    android:textSize="10sp"
                     tools:text="Track name" />
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/view_space_when_slient_quantum_gone"
+            android:layout_width="0dp"
+            android:layout_weight="0.23"
+            android:visibility="gone"
+            android:layout_height="1dp"/>
+
     </LinearLayout>
 </LinearLayout>

@@ -132,11 +132,13 @@ import com.Meditation.Sounds.frequencies.lemeor.ui.videos.NewVideosFragment
 import com.Meditation.Sounds.frequencies.models.event.ScheduleProgramProgressEvent
 import com.Meditation.Sounds.frequencies.models.event.ScheduleProgramStatusEvent
 import com.Meditation.Sounds.frequencies.models.event.SyncDataEvent
+import com.Meditation.Sounds.frequencies.models.event.UpdateViewSilentQuantumEvent
 import com.Meditation.Sounds.frequencies.services.worker.DailyWorker
 import com.Meditation.Sounds.frequencies.tasks.BaseTask
 import com.Meditation.Sounds.frequencies.tasks.GetFlashSaleTask
 import com.Meditation.Sounds.frequencies.utils.Combined5LiveData
 import com.Meditation.Sounds.frequencies.utils.Constants
+import com.Meditation.Sounds.frequencies.utils.Constants.Companion.PREF_SETTING_ADVANCE_SCALAR_ON_OFF
 import com.Meditation.Sounds.frequencies.utils.Constants.Companion.PREF_SETTING_CHATBOT_ON_OFF
 import com.Meditation.Sounds.frequencies.utils.CopyAssets.copyAssetFolder
 import com.Meditation.Sounds.frequencies.utils.FlowSearch
@@ -363,14 +365,14 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
 //                    Player.REPEAT_MODE_ONE -> showMode("Repeat One")
 //                }
 //            }
-            if (event?.javaClass == PlayerShuffle::class.java) {
-                val shuffle = event as PlayerShuffle
-                if (shuffle.it) {
-                    showMode("Shuffle On")
-                } else {
-                    showMode("Shuffle Off")
-                }
-            }
+//            if (event?.javaClass == PlayerShuffle::class.java) {
+//                val shuffle = event as PlayerShuffle
+//                if (shuffle.it) {
+//                    showMode("Shuffle On")
+//                } else {
+//                    showMode("Shuffle Off")
+//                }
+//            }
         }
     }
 
@@ -402,6 +404,11 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
     @Subscribe(threadMode = ThreadMode.MAIN_ORDERED)
     fun onScheduleProgramProgressEvent(event: ScheduleProgramProgressEvent?) {
         QcAlarmManager.setScheduleProgramsAlarms(this@NavigationActivity)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN_ORDERED)
+    fun onUpdateViewSilentQuantumEvent(event: UpdateViewSilentQuantumEvent) {
+        updateTabScalarQuantum()
     }
 
     private fun fetchAndPlayProgram() {
@@ -618,6 +625,8 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         observeChatViewModel()
 
         initChatAdapter()
+
+        updateTabScalarQuantum()
 
         if (BuildConfig.IS_FREE) {
             copyAssetsFiles()
@@ -958,6 +967,14 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                 supportFragmentManager.beginTransaction().remove(playerUI!!).commitNow()
             }
             null
+        }
+    }
+
+    private fun updateTabScalarQuantum(){
+        if (SharedPreferenceHelper.getInstance().getBool(PREF_SETTING_ADVANCE_SCALAR_ON_OFF)) {
+            navigation_scalar.visibility = View.VISIBLE
+        } else {
+            navigation_scalar.visibility = View.GONE
         }
     }
 

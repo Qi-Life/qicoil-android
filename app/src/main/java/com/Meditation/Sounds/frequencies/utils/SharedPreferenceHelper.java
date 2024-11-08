@@ -116,6 +116,9 @@ public class SharedPreferenceHelper {
             if (key.equalsIgnoreCase(Constants.PREF_SETTING_CHATBOT_ON_OFF)) {
                 return mSharedPreferences.getBoolean(key, true);
             }
+            if (key.equalsIgnoreCase(Constants.PREF_SETTING_ADVANCE_SCALAR_ON_OFF)) {
+                return mSharedPreferences.getBoolean(key, true);
+            }
         }
         return mSharedPreferences.getBoolean(key, false);
     }

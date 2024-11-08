@@ -12,12 +12,11 @@
 
     <ImageView
         android:id="@+id/album_back"
-        android:layout_width="@dimen/height_button_cancel_dialog"
-        android:layout_height="@dimen/height_button_cancel_dialog"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_gravity="top|end"
-        android:layout_margin="@dimen/margin_item_5"
+        android:layout_margin="@dimen/indent_16"
         android:contentDescription="@null"
-        android:padding="5dp"
         android:src="@drawable/ic_close" />
 
     <androidx.core.widget.NestedScrollView
@@ -33,7 +32,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_item_5"
-                android:layout_marginRight="@dimen/margin_item_5"
+                android:paddingEnd="@dimen/margin_item_5"
                 android:layout_marginBottom="@dimen/margin_item_5"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
@@ -85,7 +84,7 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.2"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
@@ -95,37 +94,30 @@
                     android:layout_gravity="center">
 
                     <View
-                        android:layout_width="wrap_content"
+                        android:id="@+id/view_space_silent_quantum"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"/>
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/album_play"
                         android:layout_width="wrap_content"
-                        android:layout_height="38dp"
+                        android:layout_height="@dimen/height_repeat_button"
                         android:layout_marginVertical="@dimen/indent_16"
                         android:adjustViewBounds="true"
                         android:textColor="@android:color/white"
                         app:srcCompat="@drawable/ic_play_detail" />
 
-                    <View
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/album_add_scalar"
                         android:layout_width="wrap_content"
-                        android:layout_height="38dp"
+                        android:layout_marginStart="@dimen/indent_20"
+                        android:layout_height="@dimen/height_repeat_button"
+                        android:layout_marginEnd="@dimen/indent_16"
                         android:layout_marginVertical="@dimen/indent_16"
                         android:adjustViewBounds="true"
                         android:textColor="@android:color/white"
                         app:srcCompat="@drawable/ic_play_scalar_detail" />
-
-                    <View
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
 
                     <ImageView
                         android:id="@+id/track_options"

@@ -21,11 +21,18 @@
             android:layout_marginLeft="@dimen/indent_8"
             android:layout_marginTop="@dimen/indent_16"
             android:layout_marginRight="@dimen/indent_8"
-            android:layout_marginBottom="@dimen/indent_32"
+            android:layout_marginBottom="@dimen/indent_24"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_large_17"
             font:fontText="fonts/MyriadPro_Semibold.otf"
             tools:text="Marvin Dela Cruz" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btnAdvancedMode"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/bg_advance_mode_scalar"/>
 
         <LinearLayout
             android:id="@+id/options_flash_sale"

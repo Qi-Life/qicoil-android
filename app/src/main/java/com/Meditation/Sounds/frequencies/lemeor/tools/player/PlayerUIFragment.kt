@@ -36,7 +36,11 @@ import com.Meditation.Sounds.frequencies.lemeor.ui.albums.detail.NewAlbumDetailF
 import com.Meditation.Sounds.frequencies.lemeor.ui.base.NewBaseFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.main.NavigationActivity
 import com.Meditation.Sounds.frequencies.lemeor.ui.programs.detail.ProgramDetailFragment
+import com.Meditation.Sounds.frequencies.models.event.UpdateViewSilentQuantumEvent
 import com.Meditation.Sounds.frequencies.utils.Constants
+import com.Meditation.Sounds.frequencies.utils.Constants.Companion.PREF_SETTING_ADVANCE_SCALAR_ON_OFF
+import com.Meditation.Sounds.frequencies.utils.SharedPreferenceHelper
+import com.Meditation.Sounds.frequencies.utils.Utils
 import com.google.android.exoplayer2.Player
 import kotlinx.android.synthetic.main.player_ui_fragment.player_next
 import kotlinx.android.synthetic.main.player_ui_fragment.player_play
@@ -57,6 +61,7 @@ import kotlinx.android.synthetic.main.player_ui_fragment.viewPlayerScalar
 import kotlinx.android.synthetic.main.player_ui_fragment.view_album_scalar
 import kotlinx.android.synthetic.main.player_ui_fragment.view_scalar_status_playing
 import kotlinx.android.synthetic.main.player_ui_fragment.view_scalar_status_stoping
+import kotlinx.android.synthetic.main.player_ui_fragment.view_space_when_slient_quantum_gone
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -89,18 +94,37 @@ class PlayerUIFragment : NewBaseFragment() {
                         )
                     }
                     player_next?.setImageResource(R.drawable.ic_next_song_new)
+
+                    val orientation = resources.configuration.orientation
                     when (repeat) {
                         Player.REPEAT_MODE_OFF -> {
-                            player_repeat?.setImageResource(R.drawable.ic_repeat_off)
+                            if (Utils.isTablet(requireContext()) && orientation == Configuration.ORIENTATION_LANDSCAPE && viewPlayerScalar.visibility == View.VISIBLE) {
+                                player_repeat.setImageResource(R.drawable.ic_repeat_land_off)
+                            } else {
+                                player_repeat.setImageResource(R.drawable.ic_repeat_off)
+                            }
                         }
 
                         Player.REPEAT_MODE_ONE -> {
-                            player_repeat?.setImageResource(R.drawable.ic_repeat_one)
+                            if (Utils.isTablet(requireContext()) && orientation == Configuration.ORIENTATION_LANDSCAPE && viewPlayerScalar.visibility == View.VISIBLE) {
+                                player_repeat.setImageResource(R.drawable.ic_repeat_land_one)
+                            } else {
+                                player_repeat.setImageResource(R.drawable.ic_repeat_one)
+                            }
                         }
 
                         Player.REPEAT_MODE_ALL -> {
-                            player_repeat?.setImageResource(R.drawable.ic_repeat_all)
+                            if (Utils.isTablet(requireContext()) && orientation == Configuration.ORIENTATION_LANDSCAPE && viewPlayerScalar.visibility == View.VISIBLE) {
+                                player_repeat.setImageResource(R.drawable.ic_repeat_land_all)
+                            } else {
+                                player_repeat.setImageResource(R.drawable.ic_repeat_all)
+                            }
                         }
+                    }
+                    if (!shuffle) {
+                        player_shuffle.setImageResource(R.drawable.ic_shuffle_new_off)
+                    } else {
+                        player_shuffle.setImageResource(R.drawable.ic_shuffle_new_on)
                     }
                 }
             }
@@ -258,12 +282,25 @@ class PlayerUIFragment : NewBaseFragment() {
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onUpdateViewSilentQuantumEvent(event: UpdateViewSilentQuantumEvent) {
+        updateViewPlayerScalar()
+        updateViewWhenRotation()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         playerInit()
         setListeners()
+        updateViewPlayerScalar()
         if (isScreenRotation) {
             updateViewWhenRotation()
+        }
+        val orientation = resources.configuration.orientation
+        if (Utils.isTablet(requireContext()) && orientation == Configuration.ORIENTATION_LANDSCAPE && viewPlayerScalar.visibility == View.VISIBLE) {
+            player_repeat.setImageResource(R.drawable.ic_repeat_land_all_disable)
+        } else {
+            player_repeat.setImageResource(R.drawable.ic_repeat_all_disable)
         }
     }
 
@@ -493,32 +530,47 @@ class PlayerUIFragment : NewBaseFragment() {
         }
 
         player_shuffle.setOnClickListener {
-            if (!shuffle) {
-                shuffle = true
-                player_shuffle.setImageResource(R.drawable.ic_shuffle_selected)
-            } else {
-                shuffle = false
-                player_shuffle.setImageResource(R.drawable.ic_shuffle)
+            if (trackList?.isNotEmpty() == true) {
+                if (!shuffle) {
+                    shuffle = true
+                    player_shuffle.setImageResource(R.drawable.ic_shuffle_new_on)
+                } else {
+                    shuffle = false
+                    player_shuffle.setImageResource(R.drawable.ic_shuffle_new_off)
+                }
+                EventBus.getDefault().post(PlayerShuffle(shuffle))
             }
-            EventBus.getDefault().post(PlayerShuffle(shuffle))
         }
 
         player_repeat.setOnClickListener {
             if (trackList?.isNotEmpty() == true) {
+                val orientation = resources.configuration.orientation
                 when (repeat) {
                     Player.REPEAT_MODE_OFF -> {
                         repeat = Player.REPEAT_MODE_ONE
-                        player_repeat.setImageResource(R.drawable.ic_repeat_one)
+                        if (Utils.isTablet(requireContext()) && orientation == Configuration.ORIENTATION_LANDSCAPE && viewPlayerScalar.visibility == View.VISIBLE) {
+                            player_repeat.setImageResource(R.drawable.ic_repeat_land_one)
+                        } else {
+                            player_repeat.setImageResource(R.drawable.ic_repeat_one)
+                        }
                     }
 
                     Player.REPEAT_MODE_ONE -> {
                         repeat = Player.REPEAT_MODE_ALL
-                        player_repeat.setImageResource(R.drawable.ic_repeat_all)
+                        if (Utils.isTablet(requireContext()) && orientation == Configuration.ORIENTATION_LANDSCAPE && viewPlayerScalar.visibility == View.VISIBLE) {
+                            player_repeat.setImageResource(R.drawable.ic_repeat_land_all)
+                        } else {
+                            player_repeat.setImageResource(R.drawable.ic_repeat_all)
+                        }
                     }
 
                     Player.REPEAT_MODE_ALL -> {
                         repeat = Player.REPEAT_MODE_OFF
-                        player_repeat.setImageResource(R.drawable.ic_repeat_off)
+                        if (Utils.isTablet(requireContext()) && orientation == Configuration.ORIENTATION_LANDSCAPE && viewPlayerScalar.visibility == View.VISIBLE) {
+                            player_repeat.setImageResource(R.drawable.ic_repeat_land_off)
+                        } else {
+                            player_repeat.setImageResource(R.drawable.ic_repeat_off)
+                        }
                     }
                 }
                 EventBus.getDefault().post(PlayerRepeat(repeat))
@@ -535,17 +587,30 @@ class PlayerUIFragment : NewBaseFragment() {
     private fun updateViewWhenRotation() {
         isScreenRotation = false
         if (trackList?.isNotEmpty() == true) {
+            val orientation = resources.configuration.orientation
             when (repeat) {
                 Player.REPEAT_MODE_OFF -> {
-                    player_repeat.setImageResource(R.drawable.ic_repeat_off)
+                    if (Utils.isTablet(requireContext()) && orientation == Configuration.ORIENTATION_LANDSCAPE && viewPlayerScalar.visibility == View.VISIBLE) {
+                        player_repeat.setImageResource(R.drawable.ic_repeat_land_off)
+                    } else {
+                        player_repeat.setImageResource(R.drawable.ic_repeat_off)
+                    }
                 }
 
                 Player.REPEAT_MODE_ONE -> {
-                    player_repeat.setImageResource(R.drawable.ic_repeat_one)
+                    if (Utils.isTablet(requireContext()) && orientation == Configuration.ORIENTATION_LANDSCAPE && viewPlayerScalar.visibility == View.VISIBLE) {
+                        player_repeat.setImageResource(R.drawable.ic_repeat_land_one)
+                    } else {
+                        player_repeat.setImageResource(R.drawable.ic_repeat_one)
+                    }
                 }
 
                 Player.REPEAT_MODE_ALL -> {
-                    player_repeat.setImageResource(R.drawable.ic_repeat_all)
+                    if (Utils.isTablet(requireContext()) && orientation == Configuration.ORIENTATION_LANDSCAPE && viewPlayerScalar.visibility == View.VISIBLE) {
+                        player_repeat.setImageResource(R.drawable.ic_repeat_land_all)
+                    } else {
+                        player_repeat.setImageResource(R.drawable.ic_repeat_all)
+                    }
                 }
             }
             player_next?.setImageResource(R.drawable.ic_next_song_new)
@@ -563,6 +628,11 @@ class PlayerUIFragment : NewBaseFragment() {
                         R.drawable.ic_play_song
                     )
                 )
+            }
+            if (!shuffle) {
+                player_shuffle.setImageResource(R.drawable.ic_shuffle_new_off)
+            } else {
+                player_shuffle.setImageResource(R.drawable.ic_shuffle_new_on)
             }
         }
 
@@ -603,6 +673,18 @@ class PlayerUIFragment : NewBaseFragment() {
                 handlerDisplayAlbum.removeCallbacks(runnableDisplayAlbum)
                 view_album_scalar.visibility = View.GONE
                 tv_scalar_play_status.text = getString(R.string.tv_silent_scalar_turned_off)
+            }
+
+            if (SharedPreferenceHelper.getInstance().getBool(PREF_SETTING_ADVANCE_SCALAR_ON_OFF)) {
+                viewPlayerScalar.visibility = View.VISIBLE
+                view_space_when_slient_quantum_gone.visibility = View.GONE
+            } else {
+                viewPlayerScalar.visibility = View.GONE
+                view_space_when_slient_quantum_gone.visibility = View.VISIBLE
+                if (playingScalar) {
+                    mediaScalarController?.transportControls?.pause()
+                    playListScalar.clear()
+                }
             }
         }
     }
