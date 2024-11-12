@@ -323,6 +323,8 @@ class Constants {
         @JvmField
         val PREF_SCHEDULE_PROGRAM_ID = "PREF_SCHEDULE_PROGRAM_ID"
         @JvmField
+        val PREF_SCHEDULE_PROGRAM = "PREF_SCHEDULE_PROGRAM"
+        @JvmField
         val PREF_SCHEDULE_PROGRAM_NAME = "PREF_SCHEDULE_PROGRAM_NAME"
         @JvmField
         val PREF_SCHEDULE_PROGRAM_SYNCED = "PREF_SCHEDULE_PROGRAM_SYNCED"

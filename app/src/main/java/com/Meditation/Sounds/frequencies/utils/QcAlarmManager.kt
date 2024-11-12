@@ -9,6 +9,8 @@ import android.os.Build
 import android.text.format.DateFormat
 import android.util.Log
 import com.Meditation.Sounds.frequencies.api.models.GetFlashSaleOutput
+import com.Meditation.Sounds.frequencies.lemeor.isPlayProgram
+import com.Meditation.Sounds.frequencies.lemeor.playProgramId
 import com.Meditation.Sounds.frequencies.models.event.ScheduleProgramStatusEvent
 import com.Meditation.Sounds.frequencies.services.AlarmReceiver
 import com.Meditation.Sounds.frequencies.services.AlarmsScheduleProgramReceiver
@@ -213,7 +215,8 @@ class QcAlarmManager {
 
 
         @SuppressLint("SimpleDateFormat")
-        fun setScheduleProgramsAlarms(context: Context, isFirstOpen: Boolean = false) {
+        fun setScheduleProgramsAlarms(context: Context) {
+            var isProgramPlayed = false
             //clear schedule programs
             clearScheduleProgramsAlarms(context)
             //start alarm schedule programs
@@ -245,7 +248,8 @@ class QcAlarmManager {
                 }
 
                 if (calendarMorningStart.before(currentTime)) {
-                    if (calendarMorningEnd.after(currentTime) && isFirstOpen) {
+                    if (calendarMorningEnd.after(currentTime)) {
+                        isProgramPlayed = true
                         EventBus.getDefault().post(ScheduleProgramStatusEvent(isPlay = true))
                     }
                     calendarMorningStart.add(Calendar.DAY_OF_YEAR, 1)
@@ -314,7 +318,8 @@ class QcAlarmManager {
                 }
 
                 if (calendarAfternoonStart.before(currentTime)) {
-                    if (calendarAfternoonEnd.after(currentTime) && isFirstOpen) {
+                    if (calendarAfternoonEnd.after(currentTime)) {
+                        isProgramPlayed = true
                         EventBus.getDefault().post(ScheduleProgramStatusEvent(isPlay = true))
                     }
                     calendarAfternoonStart.add(Calendar.DAY_OF_YEAR, 1)
@@ -358,6 +363,11 @@ class QcAlarmManager {
                     alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendarAfternoonEnd.timeInMillis, stopPendingIntentAfternoon)
                 } else {
                     alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendarAfternoonEnd.timeInMillis, stopPendingIntentAfternoon)
+                }
+
+                //check stop current program
+                if (!isProgramPlayed && isPlayProgram && playProgramId == SharedPreferenceHelper.getInstance().getInt(Constants.PREF_SCHEDULE_PROGRAM_ID)) {
+                    EventBus.getDefault().post(ScheduleProgramStatusEvent(isPlay = false, isHidePlayer = true))
                 }
             }
         }

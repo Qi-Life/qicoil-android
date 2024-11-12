@@ -86,21 +86,21 @@
         android:textColor="@color/text_color_schedule"
         android:textSize="@dimen/text_size_small"
         app:fontText="fonts/HelveticaNeue_Regular.otf"
-        app:layout_constraintStart_toStartOf="@+id/tvScheduleOnOff"
-        app:layout_constraintTop_toBottomOf="@+id/tvScheduleOnOff" />
+        app:layout_constraintStart_toStartOf="@+id/tvSwitchSchedule"
+        app:layout_constraintTop_toBottomOf="@+id/tvSwitchSchedule" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/btnSwitchSchedule"
         android:layout_width="60dp"
         android:layout_height="25dp"
         android:layout_marginStart="7dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tvScheduleOnOff"
-        app:layout_constraintStart_toEndOf="@+id/tvScheduleOnOff"
-        app:layout_constraintTop_toTopOf="@+id/tvScheduleOnOff"
+        app:layout_constraintBottom_toBottomOf="@+id/tvSwitchSchedule"
+        app:layout_constraintStart_toEndOf="@+id/tvSwitchSchedule"
+        app:layout_constraintTop_toTopOf="@+id/tvSwitchSchedule"
         app:srcCompat="@drawable/bg_switch_schedule" />
 
     <com.Meditation.Sounds.frequencies.views.CustomFontTextView
-        android:id="@+id/tvScheduleOnOff"
+        android:id="@+id/tvSwitchSchedule"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"

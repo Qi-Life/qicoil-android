@@ -280,6 +280,14 @@ class PlayerUIFragment : NewBaseFragment() {
                     mediaController?.transportControls?.pause()
                 }
         }
+
+        if (event is String && event == "play player") {
+            if (mediaController != null)
+                if (!playing) {
+                    isUserPaused = false
+                    mediaController?.transportControls?.play()
+                }
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

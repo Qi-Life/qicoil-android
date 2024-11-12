@@ -78,7 +78,6 @@ import com.Meditation.Sounds.frequencies.lemeor.data.utils.ViewModelFactory
 import com.Meditation.Sounds.frequencies.lemeor.duration
 import com.Meditation.Sounds.frequencies.lemeor.getSaveDir
 import com.Meditation.Sounds.frequencies.lemeor.hideKeyboard
-import com.Meditation.Sounds.frequencies.lemeor.isChatBotHided
 import com.Meditation.Sounds.frequencies.lemeor.isPlayAlbum
 import com.Meditation.Sounds.frequencies.lemeor.isPlayProgram
 import com.Meditation.Sounds.frequencies.lemeor.isTrackAdd
@@ -104,7 +103,6 @@ import com.Meditation.Sounds.frequencies.lemeor.tools.downloader.DownloaderActiv
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.MusicRepository
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.PlayerSelected
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.PlayerService
-import com.Meditation.Sounds.frequencies.lemeor.tools.player.PlayerShuffle
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.PlayerUIFragment
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.ScalarPlayerService
 import com.Meditation.Sounds.frequencies.lemeor.trackList
@@ -379,7 +377,9 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
     @Subscribe(threadMode = ThreadMode.MAIN_ORDERED)
     fun onAlarmsScheduleProgramEvent(event: ScheduleProgramStatusEvent?) {
         if (event?.isPlay == true && SharedPreferenceHelper.getInstance().getInt(Constants.PREF_SCHEDULE_PROGRAM_ID) != 0) {
-            if ((isPlayAlbum || (playProgramId != SharedPreferenceHelper.getInstance().getInt(Constants.PREF_SCHEDULE_PROGRAM_ID) && isPlayProgram)) && !isUserPaused) {
+            if ((isPlayAlbum || (playProgramId != SharedPreferenceHelper.getInstance()
+                    .getInt(Constants.PREF_SCHEDULE_PROGRAM_ID) && isPlayProgram)) && !isUserPaused
+            ) {
                 val dialogBuilder =
                     androidx.appcompat.app.AlertDialog.Builder(this@NavigationActivity)
                 dialogBuilder.setMessage(getString(R.string.the_schedule_frequency_is_coming_up))
@@ -389,15 +389,24 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                         fetchAndPlayProgram()
                     }.show()
             } else {
-                if (playProgramId == SharedPreferenceHelper.getInstance().getInt(Constants.PREF_SCHEDULE_PROGRAM_ID) && isPlayProgram) {
-                    if (isUserPaused) {
-                        clearDataPlayer()
-                    }
+//                if (playProgramId == SharedPreferenceHelper.getInstance().getInt(Constants.PREF_SCHEDULE_PROGRAM_ID) && isPlayProgram) {
+//                    if (isUserPaused) {
+//                        clearDataPlayer()
+//                    }
+//                }
+                if (!isPlayProgram) {
+                    fetchAndPlayProgram()
+                } else {
+                    EventBus.getDefault().post("play player")
                 }
-                fetchAndPlayProgram()
             }
         } else {
             EventBus.getDefault().post("pause player")
+            if (event?.isHidePlayer == true && playListScalar.isEmpty()) {
+                clearDataPlayer()
+                isUserPaused = false
+                hidePlayerUI()
+            }
         }
     }
 
@@ -414,7 +423,10 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
     private fun fetchAndPlayProgram() {
         isPlayProgram = false
         isUserPaused = false
-        mProgramDetailViewModel.program(SharedPreferenceHelper.getInstance().getInt(Constants.PREF_SCHEDULE_PROGRAM_ID)).observe(this@NavigationActivity) {
+//        val program = PreferenceHelper.getScheduleProgram(this@NavigationActivity)
+        mProgramDetailViewModel.program(
+            SharedPreferenceHelper.getInstance().getInt(Constants.PREF_SCHEDULE_PROGRAM_ID)
+        ).observe(this@NavigationActivity) {
             if (it != null && it.id != 0 && !isPlayProgram) {
                 val tracks: ArrayList<Search> = ArrayList()
                 mProgramDetailViewModel.convertData(it) { list ->
@@ -675,11 +687,11 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         }
 
         btnHideChatBot.setOnClickListener {
-            isChatBotHided = true
             viewIntroChatBot.clearAnimation()
             btnStartChatBot.visibility = View.GONE
             viewIntroChatBot.visibility = View.GONE
             btnHideChatBot.visibility = View.GONE
+            SharedPreferenceHelper.getInstance().setBool(PREF_SETTING_CHATBOT_ON_OFF, false)
         }
 
         btnAddProgram.setOnClickListener {
@@ -692,8 +704,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
             if (it.isNotEmpty() && isStartScheduleProgram) {
                 isStartScheduleProgram = false
                 QcAlarmManager.setScheduleProgramsAlarms(
-                    this@NavigationActivity,
-                    isFirstOpen = true
+                    this@NavigationActivity
                 )
             }
         }
@@ -970,7 +981,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         }
     }
 
-    private fun updateTabScalarQuantum(){
+    private fun updateTabScalarQuantum() {
         if (SharedPreferenceHelper.getInstance().getBool(PREF_SETTING_ADVANCE_SCALAR_ON_OFF)) {
             navigation_scalar.visibility = View.VISIBLE
         } else {
@@ -1523,7 +1534,8 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         if (fragment is NewProgramFragment && isTrackAdd) {
             isHide = true
         }
-        if (SharedPreferenceHelper.getInstance().getBool(PREF_SETTING_CHATBOT_ON_OFF) && !isChatBotHided && !isHide && (fragment is NewScalarFragment
+        if (SharedPreferenceHelper.getInstance()
+                .getBool(PREF_SETTING_CHATBOT_ON_OFF) && !isHide && (fragment is NewScalarFragment
                     || fragment is TiersPagerFragment
                     || fragment is NewRifeFragment
                     || fragment is NewProgramFragment
@@ -1741,7 +1753,6 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         playRife = null
         max.value = 0
         duration.value = 0
-        isChatBotHided = false
     }
 
     private fun playPrograms(tracks: ArrayList<Any>, programId: Int) {

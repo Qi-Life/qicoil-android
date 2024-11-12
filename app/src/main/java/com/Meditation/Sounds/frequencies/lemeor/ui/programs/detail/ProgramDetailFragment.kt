@@ -39,6 +39,7 @@ import com.Meditation.Sounds.frequencies.lemeor.positionFor
 import com.Meditation.Sounds.frequencies.lemeor.programName
 import com.Meditation.Sounds.frequencies.lemeor.rifeBackProgram
 import com.Meditation.Sounds.frequencies.lemeor.selectedNaviFragment
+import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper
 import com.Meditation.Sounds.frequencies.lemeor.tools.downloader.DownloadService
 import com.Meditation.Sounds.frequencies.lemeor.tools.downloader.DownloaderActivity
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.MusicRepository
@@ -249,9 +250,11 @@ class ProgramDetailFragment : BaseFragment() {
             if (btnSwitchSchedule.isSelected) {
                 SharedPreferenceHelper.getInstance().setInt(Constants.PREF_SCHEDULE_PROGRAM_ID, 0)
                 SharedPreferenceHelper.getInstance().set(Constants.PREF_SCHEDULE_PROGRAM_NAME, "")
+                PreferenceHelper.saveScheduleProgram(requireContext(), null)
             } else {
                 SharedPreferenceHelper.getInstance().setInt(Constants.PREF_SCHEDULE_PROGRAM_ID, programId)
                 SharedPreferenceHelper.getInstance().set(Constants.PREF_SCHEDULE_PROGRAM_NAME, program?.name)
+                PreferenceHelper.saveScheduleProgram(requireContext(), program)
             }
             btnSwitchSchedule.isSelected = !btnSwitchSchedule.isSelected
             SharedPreferenceHelper.getInstance().setBool(Constants.PREF_SCHEDULE_PROGRAM_STATUS, btnSwitchSchedule.isSelected)

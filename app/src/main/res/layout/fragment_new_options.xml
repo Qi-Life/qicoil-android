@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:font="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="@dimen/indent_8"
+    android:paddingBottom="@dimen/padding_bottom_list"
     android:background="@drawable/rounded_dark_blue_background"
-    tools:context=".lemeor.ui.options.NewOptionsFragment">
+    android:clipToPadding="false"
+    android:fillViewport="true"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:adjustViewBounds="true"
-            android:src="@drawable/bg_advance_mode_scalar"/>
+            android:src="@drawable/bg_advance_mode_scalar" />
 
         <LinearLayout
             android:id="@+id/options_flash_sale"
@@ -219,10 +223,10 @@
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/btnSwitchChatbot"
-                        app:srcCompat="@drawable/bg_switch_schedule"
                         android:layout_width="60dp"
                         android:layout_height="25dp"
-                        android:layout_marginStart="7dp" />
+                        android:layout_marginStart="7dp"
+                        app:srcCompat="@drawable/bg_switch_schedule" />
                 </LinearLayout>
 
                 <TextView
@@ -277,4 +281,4 @@
                 android:textStyle="bold" />
         </RelativeLayout>
     </LinearLayout>
-</RelativeLayout>
+</androidx.core.widget.NestedScrollView>

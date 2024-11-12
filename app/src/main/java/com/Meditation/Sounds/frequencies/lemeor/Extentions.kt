@@ -72,8 +72,6 @@ var isUserPaused = false
 var playListScalar: ArrayList<Scalar> = arrayListOf()
 var playScalar: Scalar? = null
 
-var isChatBotHided = false
-
 fun loadImage(context: Context, imageView: ImageView, album: Album) {
     val assetsPath = "file:///android_asset/albums/" + album.image
     if (album.category_id == 44 && !Utils.isConnectedToNetwork(context)) {

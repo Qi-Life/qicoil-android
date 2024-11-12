@@ -128,7 +128,7 @@
             android:id="@+id/action_rife"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_navigation_rife"
+            android:src="@drawable/ic_add_rife"
             fab:fab_colorNormal="@color/color_icon_fab"
             android:paddingBottom="15dp"
             fab:fab_colorPressed="@color/color_icon_fab"

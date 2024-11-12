@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.Meditation.Sounds.frequencies.BuildConfig
 import com.Meditation.Sounds.frequencies.lemeor.data.model.HomeResponse
+import com.Meditation.Sounds.frequencies.lemeor.data.model.Program
 import com.Meditation.Sounds.frequencies.lemeor.data.model.User
 import com.google.gson.Gson
 
@@ -17,6 +18,7 @@ object PreferenceHelper {
     private const val IS_LOGGED = "is_logged"
     private const val TOKEN = "token"
     private const val USER = "user"
+    private const val SCHEDULE_PROGRAMS = "schedule_program"
     private const val LANGUAGE = "language"
     private const val HOME_RESPONSE = "home_response"
 
@@ -153,6 +155,22 @@ object PreferenceHelper {
     fun saveLastHomeResponse(context: Context, homeResponse: HomeResponse?) {
         preference(context).homeResponse = Gson().toJson(homeResponse)
     }
+
+    fun getScheduleProgram(context: Context): Program? {
+        return Gson().fromJson(preference(context).scheduleProgram, Program::class.java)
+    }
+
+    fun saveScheduleProgram(context: Context, program: Program?) {
+        preference(context).scheduleProgram = Gson().toJson(program)
+    }
+
+    private var SharedPreferences.scheduleProgram
+        get() = getString(SCHEDULE_PROGRAMS, "")
+        set(value) {
+            editMe {
+                it.putString(SCHEDULE_PROGRAMS, value)
+            }
+        }
 
     private var SharedPreferences.homeResponse
         get() = getString(HOME_RESPONSE, "")

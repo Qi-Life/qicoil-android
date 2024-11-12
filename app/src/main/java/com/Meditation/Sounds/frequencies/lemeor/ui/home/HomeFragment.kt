@@ -33,6 +33,7 @@ import kotlinx.android.synthetic.main.fragment_home.tvProgramName
 import kotlinx.android.synthetic.main.fragment_home.tvSaveSchedule
 import kotlinx.android.synthetic.main.fragment_home.tvScheduleTimeAm
 import kotlinx.android.synthetic.main.fragment_home.tvScheduleTimePm
+import kotlinx.android.synthetic.main.fragment_home.tvSwitchSchedule
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -162,6 +163,10 @@ class HomeFragment : BaseFragment() {
         imvSaveSchedule.setOnClickListener {
             syncScheduleTime()
         }
+
+        tvSaveSchedule.setOnClickListener {
+            imvSaveSchedule.performClick()
+        }
     }
 
     private fun setDataTime() {
@@ -243,6 +248,10 @@ class HomeFragment : BaseFragment() {
             }
             SharedPreferenceHelper.getInstance()
                 .setBool(Constants.PREF_SCHEDULE_PROGRAM_STATUS, btnSwitchSchedule.isSelected)
+        }
+
+        tvSwitchSchedule.setOnClickListener {
+            btnSwitchSchedule.performClick()
         }
     }
 
