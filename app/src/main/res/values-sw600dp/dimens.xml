@@ -34,7 +34,7 @@
     <dimen name="text_size_30">37sp</dimen>
     <dimen name="text_size_40">47sp</dimen>
 
-    <dimen name="height_top_icon">80dp</dimen>
+    <dimen name="height_top_icon">100dp</dimen>
     <dimen name="padding_top_icon">9dp</dimen>
     <dimen name="margin_left_top_icon">28dp</dimen>
     <dimen name="height_medium_icon">43dp</dimen>
@@ -92,5 +92,5 @@
     <dimen name="height_recent_albums">250dp</dimen>
     <dimen name="radius_recent_albums">10dp</dimen>
 
-    <dimen name="height_button_player_default">45dp</dimen>
+    <dimen name="height_button_player_default">50dp</dimen>
 </resources>

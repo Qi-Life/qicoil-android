@@ -427,6 +427,7 @@
     <string name="schedule_on_off">Schedule ON/off</string>
     <string name="the_schedule_frequency_is_coming_up">The scheduled frequency is coming up. Would you like to switch to it?</string>
     <string name="chat_bot_on_off">Chatbot ON/OFF</string>
+    <string name="frequency">Frequency</string>
 
     <string name="msg_say_hi_chat" translatable="false">Hi, My name is Dr.Qi, I\'m an AI assistant. How can I help you today? How have you been feeling lately?</string>
     <string name="msg_error_network_chat" translatable="false">Connect Lost. Please check your internet connection.</string>

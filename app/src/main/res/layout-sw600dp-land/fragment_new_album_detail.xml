@@ -33,11 +33,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_item_5"
-                android:paddingEnd="@dimen/margin_item_5"
                 android:layout_marginBottom="@dimen/margin_item_5"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingEnd="@dimen/margin_item_5">
 
                 <com.github.siyamed.shapeimageview.RoundedImageView
                     android:id="@+id/album_image"
@@ -97,8 +97,8 @@
                     <View
                         android:id="@+id/view_space_silent_quantum"
                         android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/album_play"
@@ -136,10 +136,39 @@
                         tools:ignore="ContentDescription" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/indent_25"
+                        android:layout_height="wrap_content"
+                        android:text="#"
+                        android:textColor="@color/item_selected" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/frequency"
+                        android:textColor="@color/item_selected" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/indent_10"
+                        android:layout_marginEnd="@dimen/indent_60"
+                        android:text="@string/tv_duration"
+                        android:textColor="@color/item_selected" />
+                </LinearLayout>
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/album_tracks_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/indent_8"
                     android:overScrollMode="never"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:listitem="@layout/item_album_track" />

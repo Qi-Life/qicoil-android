@@ -85,8 +85,9 @@
                     app:siRadius="5dp" />
 
                 <LinearLayout
+                    android:id="@+id/view_album_info"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:gravity="center_vertical"
                     android:orientation="vertical"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -230,7 +231,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="-20dp"
                 android:ellipsize="marquee"
-                android:singleLine="true"
                 android:layout_marginBottom="5dp"
                 android:paddingStart="@dimen/indent_8"
                 android:text="@string/tv_there_no_silent_energies"
