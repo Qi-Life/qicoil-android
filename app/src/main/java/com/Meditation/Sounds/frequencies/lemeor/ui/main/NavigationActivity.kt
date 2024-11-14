@@ -87,6 +87,7 @@ import com.Meditation.Sounds.frequencies.lemeor.playAlbumId
 import com.Meditation.Sounds.frequencies.lemeor.playListScalar
 import com.Meditation.Sounds.frequencies.lemeor.playProgramId
 import com.Meditation.Sounds.frequencies.lemeor.playRife
+import com.Meditation.Sounds.frequencies.lemeor.playingScalar
 import com.Meditation.Sounds.frequencies.lemeor.selectedNaviFragment
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper.isFirstSync
@@ -1009,6 +1010,26 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         }
     }
 
+    fun onQuantumSelect() {
+        if (mViewGroupCurrent == navigation_albums && supportFragmentManager.fragments.lastOrNull() is NewAlbumDetailFragment) {
+            var fragment = selectedNaviFragment
+            if (fragment == null) {
+                fragment = TiersPagerFragment()
+            }
+            supportFragmentManager.beginTransaction().setCustomAnimations(
+                R.anim.trans_left_to_right_in,
+                R.anim.trans_left_to_right_out,
+                R.anim.trans_right_to_left_in,
+                R.anim.trans_right_to_left_out
+            ).replace(R.id.nav_host_fragment, fragment, fragment.javaClass.simpleName).commit()
+        }
+        navigation_albums.onSelected {
+            closeSearch()
+            search_layout.visibility = View.VISIBLE
+            setFragmentBackAnimation(TiersPagerFragment())
+        }
+    }
+
     private fun View.onSelected(listener: () -> Unit) {
         if (mViewGroupCurrent != this) {
             mViewGroupCurrent?.isSelected = false
@@ -1017,7 +1038,6 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
             listener.invoke()
         }
     }
-
 
     //region SEARCH
     private fun initSearch() {
@@ -1746,6 +1766,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         isPlayProgram = false
         isPlayAlbum = false
         playListScalar.clear()
+        playingScalar = false
         trackList?.clear()
         currentPosition.postValue(0)
         currentTrack.value = null

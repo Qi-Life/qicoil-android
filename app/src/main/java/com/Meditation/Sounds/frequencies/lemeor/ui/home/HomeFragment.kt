@@ -3,14 +3,9 @@ package com.Meditation.Sounds.frequencies.lemeor.ui.home
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
-import android.view.MotionEvent
 import android.view.View
-import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.Meditation.Sounds.frequencies.R
 import com.Meditation.Sounds.frequencies.feature.base.BaseFragment
 import com.Meditation.Sounds.frequencies.lemeor.data.api.RetrofitBuilder
@@ -240,13 +235,17 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun setDataTime() {
-        startTimeAm = SharedPreferenceHelper.getInstance().getFloat(Constants.PREF_SCHEDULE_START_TIME_AM, 0f)
+        startTimeAm =
+            SharedPreferenceHelper.getInstance().getFloat(Constants.PREF_SCHEDULE_START_TIME_AM, 0f)
 
-        stopTimeAm = SharedPreferenceHelper.getInstance().getFloat(Constants.PREF_SCHEDULE_END_TIME_AM, 180f)
+        stopTimeAm =
+            SharedPreferenceHelper.getInstance().getFloat(Constants.PREF_SCHEDULE_END_TIME_AM, 180f)
 
-        startTimePm = SharedPreferenceHelper.getInstance().getFloat(Constants.PREF_SCHEDULE_START_TIME_PM, 540f)
+        startTimePm = SharedPreferenceHelper.getInstance()
+            .getFloat(Constants.PREF_SCHEDULE_START_TIME_PM, 540f)
 
-        stopTimePm = SharedPreferenceHelper.getInstance().getFloat(Constants.PREF_SCHEDULE_END_TIME_PM, 719f)
+        stopTimePm =
+            SharedPreferenceHelper.getInstance().getFloat(Constants.PREF_SCHEDULE_END_TIME_PM, 719f)
     }
 
     private fun syncScheduleTime() {

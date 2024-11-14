@@ -3,6 +3,7 @@ package com.Meditation.Sounds.frequencies.lemeor.ui.options
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
@@ -45,6 +46,7 @@ import com.Meditation.Sounds.frequencies.lemeor.data.utils.ViewModelFactory
 import com.Meditation.Sounds.frequencies.lemeor.hashMapTiers
 import com.Meditation.Sounds.frequencies.lemeor.isPlayAlbum
 import com.Meditation.Sounds.frequencies.lemeor.isPlayProgram
+import com.Meditation.Sounds.frequencies.lemeor.playingScalar
 import com.Meditation.Sounds.frequencies.lemeor.showAlert
 import com.Meditation.Sounds.frequencies.lemeor.tools.HudHelper
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper
@@ -100,6 +102,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 
 const val REQUEST_CODE_AUTH = 2222
@@ -129,6 +133,22 @@ class NewOptionsFragment : BaseFragment() {
 
     override fun addListener() {
 
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN_ORDERED)
+    fun onScalarOnOffStatusEventEvent(event: ScalarPlayerStatus) {
+        updateViewAdvancedSilent()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        EventBus.getDefault().register(this)
+    }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        EventBus.getDefault().unregister(this)
     }
 
     private fun initUI() {
@@ -363,6 +383,8 @@ class NewOptionsFragment : BaseFragment() {
             })
         }
 
+        updateViewAdvancedSilent()
+
         btnAdvancedMode.isSelected = SharedPreferenceHelper.getInstance().getBool(PREF_SETTING_ADVANCE_SCALAR_ON_OFF)
         btnAdvancedMode.setOnClickListener {
             btnAdvancedMode.isSelected = !btnAdvancedMode.isSelected
@@ -484,6 +506,16 @@ class NewOptionsFragment : BaseFragment() {
             options_log_out.visibility = View.VISIBLE
             options_change_pass.visibility = View.VISIBLE
             options_sign_in.visibility = View.GONE
+        }
+    }
+
+    private fun updateViewAdvancedSilent() {
+        if (playingScalar) {
+            btnAdvancedMode.isEnabled = false
+            btnAdvancedMode.setImageResource(R.drawable.bg_advance_mode_scalar_disable)
+        } else {
+            btnAdvancedMode.isEnabled = true
+            btnAdvancedMode.setImageResource(R.drawable.bg_advance_mode_scalar)
         }
     }
 

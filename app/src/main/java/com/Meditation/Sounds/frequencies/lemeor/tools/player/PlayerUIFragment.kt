@@ -30,6 +30,7 @@ import com.Meditation.Sounds.frequencies.lemeor.loadImageScalar
 import com.Meditation.Sounds.frequencies.lemeor.max
 import com.Meditation.Sounds.frequencies.lemeor.playListScalar
 import com.Meditation.Sounds.frequencies.lemeor.playProgramId
+import com.Meditation.Sounds.frequencies.lemeor.playingScalar
 import com.Meditation.Sounds.frequencies.lemeor.programName
 import com.Meditation.Sounds.frequencies.lemeor.trackList
 import com.Meditation.Sounds.frequencies.lemeor.ui.albums.detail.NewAlbumDetailFragment
@@ -58,6 +59,7 @@ import kotlinx.android.synthetic.main.player_ui_fragment.track_position
 import kotlinx.android.synthetic.main.player_ui_fragment.track_title
 import kotlinx.android.synthetic.main.player_ui_fragment.tv_scalar_play_status
 import kotlinx.android.synthetic.main.player_ui_fragment.viewPlayerScalar
+import kotlinx.android.synthetic.main.player_ui_fragment.view_album_info
 import kotlinx.android.synthetic.main.player_ui_fragment.view_album_scalar
 import kotlinx.android.synthetic.main.player_ui_fragment.view_scalar_status_playing
 import kotlinx.android.synthetic.main.player_ui_fragment.view_scalar_status_stoping
@@ -179,7 +181,6 @@ class PlayerUIFragment : NewBaseFragment() {
         }
     }
     private var playerServiceBinderScalar: ScalarPlayerService.PlayerServiceBinder? = null
-    private var playingScalar: Boolean = false
     private var mediaScalarController: MediaControllerCompat? = null
     private var callbackScalar: MediaControllerCompat.Callback =
         object : MediaControllerCompat.Callback() {
@@ -590,6 +591,16 @@ class PlayerUIFragment : NewBaseFragment() {
                 (activity as NavigationActivity).onScalarSelect()
             }
         }
+
+        view_album_info.setOnClickListener {
+            if (trackList == null || trackList?.isEmpty() == true) {
+                (activity as NavigationActivity).onQuantumSelect()
+            }
+        }
+
+        track_image.setOnClickListener {
+            view_album_info.performClick()
+        }
     }
 
     private fun updateViewWhenRotation() {
@@ -691,6 +702,7 @@ class PlayerUIFragment : NewBaseFragment() {
                 view_space_when_slient_quantum_gone.visibility = View.VISIBLE
                 if (playingScalar) {
                     mediaScalarController?.transportControls?.pause()
+                    playingScalar = false
                     playListScalar.clear()
                 }
             }

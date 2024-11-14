@@ -1,13 +1,17 @@
 package com.Meditation.Sounds.frequencies.lemeor.ui.programs.detail
 
+import android.Manifest
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.KeyEvent
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.Meditation.Sounds.frequencies.R
@@ -21,6 +25,7 @@ import com.Meditation.Sounds.frequencies.lemeor.data.api.RetrofitBuilder
 import com.Meditation.Sounds.frequencies.lemeor.data.database.DataBase
 import com.Meditation.Sounds.frequencies.lemeor.data.database.dao.ProgramDao
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Program
+import com.Meditation.Sounds.frequencies.lemeor.data.model.Scalar
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Search
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Track
 import com.Meditation.Sounds.frequencies.lemeor.data.remote.ApiHelper
@@ -33,8 +38,10 @@ import com.Meditation.Sounds.frequencies.lemeor.isPlayAlbum
 import com.Meditation.Sounds.frequencies.lemeor.isPlayProgram
 import com.Meditation.Sounds.frequencies.lemeor.isTrackAdd
 import com.Meditation.Sounds.frequencies.lemeor.playAlbumId
+import com.Meditation.Sounds.frequencies.lemeor.playListScalar
 import com.Meditation.Sounds.frequencies.lemeor.playProgramId
 import com.Meditation.Sounds.frequencies.lemeor.playRife
+import com.Meditation.Sounds.frequencies.lemeor.playScalar
 import com.Meditation.Sounds.frequencies.lemeor.positionFor
 import com.Meditation.Sounds.frequencies.lemeor.programName
 import com.Meditation.Sounds.frequencies.lemeor.rifeBackProgram
@@ -46,6 +53,7 @@ import com.Meditation.Sounds.frequencies.lemeor.tools.player.MusicRepository
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.PlayerRepeat
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.PlayerSelected
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.PlayerService
+import com.Meditation.Sounds.frequencies.lemeor.tools.player.ScalarPlayerService
 import com.Meditation.Sounds.frequencies.lemeor.trackList
 import com.Meditation.Sounds.frequencies.lemeor.typeBack
 import com.Meditation.Sounds.frequencies.lemeor.ui.albums.detail.NewAlbumDetailFragment
@@ -55,6 +63,7 @@ import com.Meditation.Sounds.frequencies.lemeor.ui.programs.NewProgramFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.programs.NewProgramViewModel
 import com.Meditation.Sounds.frequencies.lemeor.ui.programs.dialog.FrequenciesDialogFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.programs.search.AddProgramsFragment
+import com.Meditation.Sounds.frequencies.lemeor.ui.scalar.ScalarDownloadService
 import com.Meditation.Sounds.frequencies.models.event.ScheduleProgramProgressEvent
 import com.Meditation.Sounds.frequencies.services.AlarmsScheduleProgramReceiver
 import com.Meditation.Sounds.frequencies.utils.Constants
@@ -63,6 +72,7 @@ import com.Meditation.Sounds.frequencies.utils.SharedPreferenceHelper
 import com.Meditation.Sounds.frequencies.utils.Utils
 import com.Meditation.Sounds.frequencies.utils.isNotString
 import com.Meditation.Sounds.frequencies.views.ItemLastOffsetBottomDecoration
+import kotlinx.android.synthetic.main.fragment_program_detail.action_add_silent_quantum
 import kotlinx.android.synthetic.main.fragment_program_detail.action_frequencies
 import kotlinx.android.synthetic.main.fragment_program_detail.action_quantum
 import kotlinx.android.synthetic.main.fragment_program_detail.action_rife
@@ -103,13 +113,18 @@ class ProgramDetailFragment : BaseFragment() {
 
     private val programTrackAdapter by lazy {
         ProgramTrackAdapter(
-            onClickItem = { _, index ->
+            onClickItem = { item, index ->
                 isMultiPlay = false
-                play(tracks.map { it.obj } as ArrayList<Any>)
-                Handler(Looper.getMainLooper()).postDelayed({
-                    EventBus.getDefault().post(PlayerSelected(index))
-                    timeDelay = 200L
-                }, timeDelay)
+                if (item.obj is Scalar) {
+                    playScalar = item.obj as Scalar
+                    playAndDownloadScalar(item.obj as Scalar)
+                } else {
+                    play(tracks.filter { it.obj !is Scalar }.map { it.obj } as ArrayList<Any>)
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        EventBus.getDefault().post(PlayerSelected(index))
+                        timeDelay = 200L
+                    }, timeDelay)
+                }
             },
             onClickOptions = { item ->
                 positionFor = item.id
@@ -203,7 +218,15 @@ class ProgramDetailFragment : BaseFragment() {
             if (list.isNotEmpty()) {
                 playOrDownload(list)
             }
-            play(tracks.map { it.obj } as ArrayList<Any>)
+            play(tracks.filter { it.obj !is Scalar }.map { it.obj } as ArrayList<Any>)
+           val listScalars = tracks.filter { it.obj is Scalar }.map { it.obj as Scalar } as ArrayList<Scalar>
+            if (listScalars.isNotEmpty()) {
+                playScalar = listScalars.last()
+                playListScalar.addAll(listScalars)
+                playAndDownloadScalar(listScalars.last())
+
+            }
+
             programTrackAdapter.setSelectedItem(tracks.first())
             EventBus.getDefault().post(PlayerSelected(0))
         }
@@ -235,6 +258,16 @@ class ProgramDetailFragment : BaseFragment() {
                 m.dismiss()
                 isFirst = true
             }).showAllowingStateLoss(childFragmentManager)
+        }
+
+        action_add_silent_quantum.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.trans_right_to_left_in, R.anim.trans_right_to_left_out)
+                .replace(
+                    R.id.nav_host_fragment,
+                    AddProgramsFragment.newInstance(programId, isSilentQuantum = 2),
+                    AddProgramsFragment.newInstance(programId).javaClass.simpleName
+                ).commit()
         }
 
         mViewModel.program(programId).observe(viewLifecycleOwner) {
@@ -438,6 +471,70 @@ class ProgramDetailFragment : BaseFragment() {
             }
         }
     }
+
+    private fun playAndDownloadScalar(scalar: Scalar) {
+        if (Utils.isConnectedToNetwork(requireContext())) {
+            CoroutineScope(Dispatchers.IO).launch {
+                val file = File(getSaveDir(requireContext(), scalar.audio_file, scalar.audio_folder))
+                val preloaded =
+                    File(getPreloadedSaveDir(requireContext(), scalar.audio_file, scalar.audio_folder))
+                if (!file.exists() && !preloaded.exists()) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        if (ContextCompat.checkSelfPermission(
+                                requireActivity(), Manifest.permission.READ_MEDIA_IMAGES
+                            ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+                                requireActivity(), Manifest.permission.READ_MEDIA_AUDIO
+                            ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+                                requireActivity(), Manifest.permission.READ_MEDIA_VIDEO
+                            ) == PackageManager.PERMISSION_GRANTED
+                        ) {
+                            ScalarDownloadService.startService(context = requireContext(), scalar)
+                        } else {
+                            ActivityCompat.requestPermissions(
+                                requireActivity(), arrayOf(
+                                    Manifest.permission.READ_MEDIA_IMAGES,
+                                    Manifest.permission.READ_MEDIA_AUDIO,
+                                    Manifest.permission.READ_MEDIA_VIDEO
+                                ), 1001
+                            )
+                        }
+                    } else {
+                        if (ContextCompat.checkSelfPermission(
+                                requireActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE
+                            ) == PackageManager.PERMISSION_GRANTED
+                        ) {
+                            ScalarDownloadService.startService(context = requireContext(), scalar)
+                        } else {
+                            ActivityCompat.requestPermissions(
+                                requireActivity(),
+                                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                                1001
+                            )
+                        }
+                    }
+                }
+            }
+        } else {
+            Toast.makeText(
+                requireContext(), getString(R.string.err_network_available), Toast.LENGTH_SHORT
+            ).show()
+        }
+        playStopScalar("ADD_REMOVE")
+    }
+
+    private fun playStopScalar(actionScalar: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val playIntent = Intent(context, ScalarPlayerService::class.java).apply {
+                    action = actionScalar
+                }
+                requireActivity().startService(playIntent)
+            } catch (_: Exception) {
+            }
+            CoroutineScope(Dispatchers.Main).launch { (activity as NavigationActivity).showPlayerUI() }
+        }
+    }
+
 
     private fun resetDataMyService(tracks: ArrayList<Any>) {
         CoroutineScope(Dispatchers.IO).launch {

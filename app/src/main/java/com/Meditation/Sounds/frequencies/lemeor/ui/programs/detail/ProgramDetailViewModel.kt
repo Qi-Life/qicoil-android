@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Album
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Program
+import com.Meditation.Sounds.frequencies.lemeor.data.model.Scalar
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Search
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Track
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.MusicRepository
@@ -26,6 +27,10 @@ class ProgramDetailViewModel(private val repository: ProgramDetailRepository) : 
 
     suspend fun getAlbumById(id: Int, categoryId: Int): Album? {
         return repository.getAlbumById(id, categoryId)
+    }
+
+    suspend fun getScalarById(id: Int): Scalar? {
+        return repository.getScalarById(id)
     }
 
 
@@ -72,25 +77,34 @@ class ProgramDetailViewModel(private val repository: ProgramDetailRepository) : 
 
     }
 
-    private fun createSearchFromString(s: String, index: Int): Search? {
-        return try {
-            val listNum = s.split("|")
-            val id = listNum.first().toDouble()
-            val num = listNum.last().toDouble()
-            Search(
-                index, MusicRepository.Frequency(
-                    index,
-                    "",
-                    (abs(num)).toFloat(),
-                    -index,
-                    index,
-                    false,
-                    0,
-                    0,
+    private suspend fun createSearchFromString(s: String, index: Int): Search? {
+        return if (s.contains("-scalar")) {
+            withContext(Dispatchers.IO) {
+                val scalar = getScalarById(s.replace("-scalar", "").toInt())
+                scalar?.let {
+                    Search(index, it)
+                }
+            }
+        } else {
+            try {
+                val listNum = s.split("|")
+                val id = listNum.first().toDouble()
+                val num = listNum.last().toDouble()
+                Search(
+                    index, MusicRepository.Frequency(
+                        index,
+                        "",
+                        (abs(num)).toFloat(),
+                        -index,
+                        index,
+                        false,
+                        0,
+                        0,
+                    )
                 )
-            )
-        } catch (_: Exception) {
-            null
+            } catch (_: Exception) {
+                null
+            }
         }
     }
 }

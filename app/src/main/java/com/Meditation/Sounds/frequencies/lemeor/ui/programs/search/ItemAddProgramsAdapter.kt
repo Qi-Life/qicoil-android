@@ -11,9 +11,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.Meditation.Sounds.frequencies.R
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Rife
+import com.Meditation.Sounds.frequencies.lemeor.data.model.Scalar
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Search
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Track
 import com.Meditation.Sounds.frequencies.lemeor.loadImage
+import com.Meditation.Sounds.frequencies.lemeor.loadImageScalar
 import com.Meditation.Sounds.frequencies.lemeor.ui.purchase.new_flow.NewPurchaseActivity
 import com.Meditation.Sounds.frequencies.lemeor.ui.purchase.new_flow.PurchaseItemAlbumWebView
 import kotlinx.android.synthetic.main.item_add_programs.view.cbItem
@@ -22,6 +24,7 @@ import kotlinx.android.synthetic.main.item_add_programs.view.imgView
 import kotlinx.android.synthetic.main.item_add_programs.view.imgViewAlbum
 import kotlinx.android.synthetic.main.item_add_programs.view.tvDes
 import kotlinx.android.synthetic.main.item_add_programs.view.tvName
+import kotlinx.android.synthetic.main.scalar_album_item.view.image
 
 class ItemAddProgramsAdapter(
     private val onSelected: (Search) -> Unit,
@@ -94,6 +97,27 @@ class ItemAddProgramsAdapter(
                             }
                         }
                         cbItem.visibility = View.INVISIBLE
+                    }
+                } else if (item.obj is Scalar) {
+                    val r = item.obj as Scalar
+                    imgViewAlbum.visibility = View.GONE
+                    imgLock.visibility = View.GONE
+                    imgView.visibility = View.VISIBLE
+//                    imgView.setBackgroundDrawable(context.getDrawable(R.drawable.ic_navigation_scalar))
+                    loadImageScalar(context, imgView, r)
+                    tvName.text = r.name.trim()
+                    tvDes.text = context.getString(R.string.tv_from_silent_quantum)
+                    itemView.setOnClickListener {
+                        if (item in mListSelected) {
+                            mListSelected.remove(item)
+                        } else {
+                            mListSelected.add(item)
+                        }
+                        cbItem.isChecked = item in mListSelected
+                        onSelected.invoke(item)
+                    }
+                    cbItem.setOnClickListener {
+                        itemView.performClick()
                     }
                 }
                 cbItem.isChecked = item in mListSelected

@@ -69,6 +69,7 @@ var selectedNaviFragment: Fragment? = null
 var isUserPaused = false
 
 //scalar
+var playingScalar: Boolean = false
 var playListScalar: ArrayList<Scalar> = arrayListOf()
 var playScalar: Scalar? = null
 

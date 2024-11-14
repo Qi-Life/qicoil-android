@@ -9,15 +9,18 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.Meditation.Sounds.frequencies.R
+import com.Meditation.Sounds.frequencies.lemeor.data.model.Scalar
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Search
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Track
 import com.Meditation.Sounds.frequencies.lemeor.loadImage
+import com.Meditation.Sounds.frequencies.lemeor.loadImageScalar
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.MusicRepository
 import kotlinx.android.synthetic.main.item_program_track.view.divider
 import kotlinx.android.synthetic.main.item_program_track.view.item_album_name
 import kotlinx.android.synthetic.main.item_program_track.view.item_track_image
 import kotlinx.android.synthetic.main.item_program_track.view.item_track_name
 import kotlinx.android.synthetic.main.item_program_track.view.item_track_options
+import kotlinx.android.synthetic.main.scalar_album_item.view.image
 
 class ProgramTrackAdapter(
     private val onClickItem: (item: Search, index: Int) -> Unit,
@@ -72,6 +75,12 @@ class ProgramTrackAdapter(
                 f.isSelected = position == selectedItem?.id
                 updateUIForFrequency(f)
             }
+
+            is Scalar -> {
+                val f = item.obj as Scalar
+                f.isSelected = position == selectedItem?.id
+                updateUIForScalar(f)
+            }
         }
     }
 
@@ -107,6 +116,22 @@ class ProgramTrackAdapter(
         item_track_image.setImageResource(R.drawable.frequency_v2)
         item_track_name.text = context.getString(R.string.navigation_lbl_rife)
         item_album_name.text = frequency.frequency.toString()
+    }
+
+    private fun View.updateUIForScalar(scalar: Scalar) {
+        item_track_name.setTextColor(
+            ContextCompat.getColor(
+                context, if (scalar.isSelected) R.color.colorPrimary else android.R.color.white
+            )
+        )
+        item_album_name.setTextColor(
+            ContextCompat.getColor(
+                context, if (scalar.isSelected) R.color.colorPrimary else android.R.color.white
+            )
+        )
+        loadImageScalar(context, item_track_image, scalar)
+        item_track_name.text = context.getString(R.string.navigation_lbl_scalar)
+        item_album_name.text = scalar.name
     }
 
     @SuppressLint("NotifyDataSetChanged")

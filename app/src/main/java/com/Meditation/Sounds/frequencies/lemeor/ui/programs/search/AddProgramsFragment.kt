@@ -42,6 +42,10 @@ class AddProgramsFragment : BaseFragment() {
         arguments?.getInt(ARG_IS_RIFE)
             ?: 0
     }
+
+    private val isSilentQuantum: Int by lazy {
+        arguments?.getInt(ARG_IS_SILENT_QUANTUM) ?: 0
+    }
     private var page = 0
     private lateinit var mViewModel: HomeViewModel
     private lateinit var mNewProgramViewModel: NewProgramViewModel
@@ -54,7 +58,11 @@ class AddProgramsFragment : BaseFragment() {
     }
 
     override fun initComponents() {
-        page = isRife
+        page = if (isSilentQuantum > 1) {
+            isSilentQuantum
+        } else {
+            isRife
+        }
         mViewModel = ViewModelProvider(
             this, ViewModelFactory(
                 ApiHelper(RetrofitBuilder(requireContext()).apiService),
@@ -149,12 +157,14 @@ class AddProgramsFragment : BaseFragment() {
     companion object {
         const val ARG_PROGRAM_ID = "arg_program"
         const val ARG_IS_RIFE = "arg_is_rife"
+        const val ARG_IS_SILENT_QUANTUM = "arg_is_silent_quantum"
 
         @JvmStatic
-        fun newInstance(id: Int, isRife: Int = 0) = AddProgramsFragment().apply {
+        fun newInstance(id: Int, isRife: Int = 0, isSilentQuantum: Int = 0) = AddProgramsFragment().apply {
             arguments = Bundle().apply {
                 putInt(ARG_PROGRAM_ID, id)
                 putInt(ARG_IS_RIFE, isRife)
+                putInt(ARG_IS_SILENT_QUANTUM, isSilentQuantum)
             }
         }
     }

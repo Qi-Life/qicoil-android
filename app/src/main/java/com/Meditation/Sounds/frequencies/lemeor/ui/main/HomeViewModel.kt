@@ -56,6 +56,8 @@ class HomeViewModel(private val repository: HomeRepository, private val db: Data
 
     fun getListRife() = repository.getListRife()
 
+    fun getListScalar() = repository.getListScalar()
+
     fun setSearchKeyword(
             key: String,
             idPager: Int,
@@ -74,6 +76,7 @@ class HomeViewModel(private val repository: HomeRepository, private val db: Data
                     val list = arrayListOf<Triple<String, List<Search>, Boolean>>()
                     list.add(Triple(context.getString(R.string.tv_track), s, it.first().third))
                     list.add(Triple(context.getString(R.string.navigation_lbl_rife), it.last().second, it.last().third))
+                    list.add(Triple(context.getString(R.string.navigation_lbl_scalar), it.last().second, it.last().third))
                     onSearch.invoke(list)
                 }
             } else if (idPager == 1) {
@@ -86,7 +89,7 @@ class HomeViewModel(private val repository: HomeRepository, private val db: Data
                     }
                     val list = arrayListOf<Triple<String, List<Search>, Boolean>>()
                     list.add(Triple(context.getString(R.string.tv_track), it.first().second, it.first().third))
-                    list.add(Triple(context.getString(R.string.navigation_lbl_rife), s, it.last().third))
+                    list.add(Triple(context.getString(R.string.navigation_lbl_scalar), s, it.last().third))
                     onSearch.invoke(list)
                 }
             }
@@ -98,6 +101,7 @@ class HomeViewModel(private val repository: HomeRepository, private val db: Data
         val list = arrayListOf<Triple<String, List<Search>, Boolean>>()
         list.add(Triple(context.getString(R.string.tv_track), arrayListOf(), true))
         list.add(Triple(context.getString(R.string.navigation_lbl_rife), arrayListOf(), true))
+        list.add(Triple(context.getString(R.string.navigation_lbl_scalar), arrayListOf(), true))
         var index = 0
         getListTrack().observe(owner) { listT ->
             CoroutineScope(Dispatchers.IO).launch {
@@ -133,6 +137,22 @@ class HomeViewModel(private val repository: HomeRepository, private val db: Data
             }
             list.lastOrNull()?.let { firstItem ->
                 list[1] = Triple(firstItem.first, listIR, listIR.isEmpty())
+            }
+            _pairData.value = list
+            _searchState.value = list
+        }
+
+        getListScalar().observe(owner) { listR ->
+            val listIR = listR.mapNotNull { parcelable ->
+                val scalar = parcelable as? Scalar
+                if (scalar != null) {
+                    Search(++index, scalar)
+                } else {
+                    null
+                }
+            }
+            list.lastOrNull()?.let { firstItem ->
+                list[2] = Triple(firstItem.first, listIR, listIR.isEmpty())
             }
             _pairData.value = list
             _searchState.value = list
