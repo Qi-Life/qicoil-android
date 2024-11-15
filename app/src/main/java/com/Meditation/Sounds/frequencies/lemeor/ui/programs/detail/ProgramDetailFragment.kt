@@ -1,6 +1,7 @@
 package com.Meditation.Sounds.frequencies.lemeor.ui.programs.detail
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -65,9 +66,7 @@ import com.Meditation.Sounds.frequencies.lemeor.ui.programs.dialog.FrequenciesDi
 import com.Meditation.Sounds.frequencies.lemeor.ui.programs.search.AddProgramsFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.scalar.ScalarDownloadService
 import com.Meditation.Sounds.frequencies.models.event.ScheduleProgramProgressEvent
-import com.Meditation.Sounds.frequencies.services.AlarmsScheduleProgramReceiver
 import com.Meditation.Sounds.frequencies.utils.Constants
-import com.Meditation.Sounds.frequencies.utils.QcAlarmManager
 import com.Meditation.Sounds.frequencies.utils.SharedPreferenceHelper
 import com.Meditation.Sounds.frequencies.utils.Utils
 import com.Meditation.Sounds.frequencies.utils.isNotString
@@ -218,17 +217,21 @@ class ProgramDetailFragment : BaseFragment() {
             if (list.isNotEmpty()) {
                 playOrDownload(list)
             }
+            //play freg
             play(tracks.filter { it.obj !is Scalar }.map { it.obj } as ArrayList<Any>)
-           val listScalars = tracks.filter { it.obj is Scalar }.map { it.obj as Scalar } as ArrayList<Scalar>
-            if (listScalars.isNotEmpty()) {
-                playScalar = listScalars.last()
-                playListScalar.addAll(listScalars)
-                playAndDownloadScalar(listScalars.last())
-
-            }
-
             programTrackAdapter.setSelectedItem(tracks.first())
             EventBus.getDefault().post(PlayerSelected(0))
+
+            //play scalar
+            val listScalars =
+                tracks.filter { it.obj is Scalar }.map { it.obj as Scalar } as ArrayList<Scalar>
+            if (listScalars.isNotEmpty()) {
+                playScalar = listScalars.last()
+                listScalars.removeLast()
+                playListScalar.clear()
+                playListScalar.addAll(listScalars)
+                playAndDownloadScalar(listScalars.last())
+            }
         }
 
         action_rife.setOnClickListener {
@@ -278,19 +281,24 @@ class ProgramDetailFragment : BaseFragment() {
             }
         }
 
-        btnSwitchSchedule.isSelected = SharedPreferenceHelper.getInstance().getInt(Constants.PREF_SCHEDULE_PROGRAM_ID) == programId &&  SharedPreferenceHelper.getInstance().getBool(Constants.PREF_SCHEDULE_PROGRAM_STATUS)
+        btnSwitchSchedule.isSelected = SharedPreferenceHelper.getInstance()
+            .getInt(Constants.PREF_SCHEDULE_PROGRAM_ID) == programId && SharedPreferenceHelper.getInstance()
+            .getBool(Constants.PREF_SCHEDULE_PROGRAM_STATUS)
         btnSwitchSchedule.setOnClickListener {
             if (btnSwitchSchedule.isSelected) {
                 SharedPreferenceHelper.getInstance().setInt(Constants.PREF_SCHEDULE_PROGRAM_ID, 0)
                 SharedPreferenceHelper.getInstance().set(Constants.PREF_SCHEDULE_PROGRAM_NAME, "")
                 PreferenceHelper.saveScheduleProgram(requireContext(), null)
             } else {
-                SharedPreferenceHelper.getInstance().setInt(Constants.PREF_SCHEDULE_PROGRAM_ID, programId)
-                SharedPreferenceHelper.getInstance().set(Constants.PREF_SCHEDULE_PROGRAM_NAME, program?.name)
+                SharedPreferenceHelper.getInstance()
+                    .setInt(Constants.PREF_SCHEDULE_PROGRAM_ID, programId)
+                SharedPreferenceHelper.getInstance()
+                    .set(Constants.PREF_SCHEDULE_PROGRAM_NAME, program?.name)
                 PreferenceHelper.saveScheduleProgram(requireContext(), program)
             }
             btnSwitchSchedule.isSelected = !btnSwitchSchedule.isSelected
-            SharedPreferenceHelper.getInstance().setBool(Constants.PREF_SCHEDULE_PROGRAM_STATUS, btnSwitchSchedule.isSelected)
+            SharedPreferenceHelper.getInstance()
+                .setBool(Constants.PREF_SCHEDULE_PROGRAM_STATUS, btnSwitchSchedule.isSelected)
             EventBus.getDefault().post(ScheduleProgramProgressEvent)
         }
     }
@@ -475,9 +483,16 @@ class ProgramDetailFragment : BaseFragment() {
     private fun playAndDownloadScalar(scalar: Scalar) {
         if (Utils.isConnectedToNetwork(requireContext())) {
             CoroutineScope(Dispatchers.IO).launch {
-                val file = File(getSaveDir(requireContext(), scalar.audio_file, scalar.audio_folder))
+                val file =
+                    File(getSaveDir(requireContext(), scalar.audio_file, scalar.audio_folder))
                 val preloaded =
-                    File(getPreloadedSaveDir(requireContext(), scalar.audio_file, scalar.audio_folder))
+                    File(
+                        getPreloadedSaveDir(
+                            requireContext(),
+                            scalar.audio_file,
+                            scalar.audio_folder
+                        )
+                    )
                 if (!file.exists() && !preloaded.exists()) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                         if (ContextCompat.checkSelfPermission(
@@ -522,6 +537,7 @@ class ProgramDetailFragment : BaseFragment() {
         playStopScalar("ADD_REMOVE")
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun playStopScalar(actionScalar: String) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
@@ -533,6 +549,10 @@ class ProgramDetailFragment : BaseFragment() {
             }
             CoroutineScope(Dispatchers.Main).launch { (activity as NavigationActivity).showPlayerUI() }
         }
+
+        Handler().postDelayed({
+            programTrackAdapter.notifyDataSetChanged()
+        }, 300)
     }
 
 

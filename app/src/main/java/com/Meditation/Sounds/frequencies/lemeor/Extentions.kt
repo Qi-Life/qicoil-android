@@ -275,11 +275,13 @@ internal fun Fragment.hideKeyboard() {
     imm.hideSoftInputFromWindow(currentFocusView.windowToken, 0)
 }
 
-
 fun convertSecondsToTime(seconds: Long): String {
     val hours = seconds / 3600
     val minutes = (seconds % 3600) / 60
     val remainingSeconds = seconds % 60
-
     return String.format("%02d:%02d:%02d", hours, minutes, remainingSeconds)
+}
+
+fun <T> List<T>.secondOrNull(): T? {
+    return if (this.size > 1) this[1] else null
 }

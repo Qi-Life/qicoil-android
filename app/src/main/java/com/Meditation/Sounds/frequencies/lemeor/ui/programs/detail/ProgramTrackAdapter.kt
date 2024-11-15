@@ -14,13 +14,15 @@ import com.Meditation.Sounds.frequencies.lemeor.data.model.Search
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Track
 import com.Meditation.Sounds.frequencies.lemeor.loadImage
 import com.Meditation.Sounds.frequencies.lemeor.loadImageScalar
+import com.Meditation.Sounds.frequencies.lemeor.playListScalar
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.MusicRepository
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_program_track.view.divider
 import kotlinx.android.synthetic.main.item_program_track.view.item_album_name
 import kotlinx.android.synthetic.main.item_program_track.view.item_track_image
 import kotlinx.android.synthetic.main.item_program_track.view.item_track_name
 import kotlinx.android.synthetic.main.item_program_track.view.item_track_options
-import kotlinx.android.synthetic.main.scalar_album_item.view.image
+import kotlinx.android.synthetic.main.item_program_track.view.item_track_scalar_status
 
 class ProgramTrackAdapter(
     private val onClickItem: (item: Search, index: Int) -> Unit,
@@ -56,7 +58,9 @@ class ProgramTrackAdapter(
                 onClickOptions.invoke(item)
             }
             itemView.setOnClickListener {
-                setSelectedItem(item)
+                if (item.obj !is Scalar) {
+                    setSelectedItem(item)
+                }
                 onClickItem.invoke(item, layoutPosition)
             }
         }
@@ -78,13 +82,14 @@ class ProgramTrackAdapter(
 
             is Scalar -> {
                 val f = item.obj as Scalar
-                f.isSelected = position == selectedItem?.id
+//                f.isSelected = position == selectedItem?.id
                 updateUIForScalar(f)
             }
         }
     }
 
     private fun View.updateUIForTrack(track: Track) {
+        item_track_scalar_status.visibility = View.GONE
         item_track_name.setTextColor(
             ContextCompat.getColor(
                 context, if (track.isSelected) R.color.colorPrimary else android.R.color.white
@@ -103,6 +108,7 @@ class ProgramTrackAdapter(
     }
 
     private fun View.updateUIForFrequency(frequency: MusicRepository.Frequency) {
+        item_track_scalar_status.visibility = View.GONE
         item_track_name.setTextColor(
             ContextCompat.getColor(
                 context, if (frequency.isSelected) R.color.colorPrimary else android.R.color.white
@@ -132,6 +138,16 @@ class ProgramTrackAdapter(
         loadImageScalar(context, item_track_image, scalar)
         item_track_name.text = context.getString(R.string.navigation_lbl_scalar)
         item_album_name.text = scalar.name
+
+        if (playListScalar.contains(scalar)) {
+            Glide.with(context)
+                .asGif()
+                .load(R.drawable.ic_scalar_playing)
+                .into(item_track_scalar_status)
+            item_track_scalar_status.visibility = View.VISIBLE
+        } else {
+            item_track_scalar_status.visibility = View.GONE
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")

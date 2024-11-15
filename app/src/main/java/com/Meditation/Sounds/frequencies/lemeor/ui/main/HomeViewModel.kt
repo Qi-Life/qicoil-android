@@ -21,6 +21,7 @@ import com.Meditation.Sounds.frequencies.lemeor.data.model.Status
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Track
 import com.Meditation.Sounds.frequencies.lemeor.data.utils.Resource
 import com.Meditation.Sounds.frequencies.lemeor.data.utils.getErrorMsg
+import com.Meditation.Sounds.frequencies.lemeor.secondOrNull
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper
 import com.Meditation.Sounds.frequencies.models.ProgramSchedule
 import com.google.gson.Gson
@@ -65,32 +66,51 @@ class HomeViewModel(private val repository: HomeRepository, private val db: Data
             onSearch: (List<Triple<String, List<Search>, Boolean>>) -> Unit,
     ) {
         try {
-            if (idPager == 0) {
-                _searchState.value?.let {
-                    val s = it.first().second.filter { item ->
-                        return@filter if (item.obj is Track) {
-                            val track = item.obj as Track
-                            track.name.lowercase().contains(key.lowercase())
-                        } else false
+            when (idPager) {
+                0 -> {
+                    _searchState.value?.let {
+                        val s = it.first().second.filter { item ->
+                            return@filter if (item.obj is Track) {
+                                val track = item.obj as Track
+                                track.name.lowercase().contains(key.lowercase())
+                            } else false
+                        }
+                        val list = arrayListOf<Triple<String, List<Search>, Boolean>>()
+                        list.add(Triple(context.getString(R.string.tv_track), s, it.first().third))
+                        list.add(Triple(context.getString(R.string.navigation_lbl_rife), it.secondOrNull()?.second ?: arrayListOf(), it.secondOrNull()?.third ?: false))
+                        list.add(Triple(context.getString(R.string.navigation_lbl_scalar), it.last().second, it.last().third))
+                        onSearch.invoke(list)
                     }
-                    val list = arrayListOf<Triple<String, List<Search>, Boolean>>()
-                    list.add(Triple(context.getString(R.string.tv_track), s, it.first().third))
-                    list.add(Triple(context.getString(R.string.navigation_lbl_rife), it.last().second, it.last().third))
-                    list.add(Triple(context.getString(R.string.navigation_lbl_scalar), it.last().second, it.last().third))
-                    onSearch.invoke(list)
                 }
-            } else if (idPager == 1) {
-                _searchState.value?.let {
-                    val s = it.last().second.filter { item ->
-                        return@filter if (item.obj is Rife) {
-                            val track = item.obj as Rife
-                            track.title.lowercase().contains(key.lowercase())
-                        } else false
+                1 -> {
+                    _searchState.value?.let {
+                        val s = it.secondOrNull()?.second?.filter { item ->
+                            return@filter if (item.obj is Rife) {
+                                val track = item.obj as Rife
+                                track.title.lowercase().contains(key.lowercase())
+                            } else false
+                        }
+                        val list = arrayListOf<Triple<String, List<Search>, Boolean>>()
+                        list.add(Triple(context.getString(R.string.tv_track), it.first().second, it.first().third))
+                        list.add(Triple(context.getString(R.string.navigation_lbl_rife), s ?: arrayListOf(), it.secondOrNull()?.third ?: false))
+                        list.add(Triple(context.getString(R.string.navigation_lbl_scalar), it.last().second, it.last().third))
+                        onSearch.invoke(list)
                     }
-                    val list = arrayListOf<Triple<String, List<Search>, Boolean>>()
-                    list.add(Triple(context.getString(R.string.tv_track), it.first().second, it.first().third))
-                    list.add(Triple(context.getString(R.string.navigation_lbl_scalar), s, it.last().third))
-                    onSearch.invoke(list)
+                }
+                2 -> {
+                    _searchState.value?.let {
+                        val s = it.last().second.filter { item ->
+                            return@filter if (item.obj is Scalar) {
+                                val track = item.obj as Scalar
+                                track.name.lowercase().contains(key.lowercase())
+                            } else false
+                        }
+                        val list = arrayListOf<Triple<String, List<Search>, Boolean>>()
+                        list.add(Triple(context.getString(R.string.tv_track), it.first().second, it.first().third))
+                        list.add(Triple(context.getString(R.string.navigation_lbl_rife), it.secondOrNull()?.second ?: arrayListOf(), it.secondOrNull()?.third ?: false))
+                        list.add(Triple(context.getString(R.string.navigation_lbl_scalar), s, it.last().third))
+                        onSearch.invoke(list)
+                    }
                 }
             }
         } catch (_: Exception) {
