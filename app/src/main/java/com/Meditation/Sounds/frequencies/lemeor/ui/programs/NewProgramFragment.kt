@@ -24,13 +24,15 @@ import com.Meditation.Sounds.frequencies.lemeor.data.model.Program
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Track
 import com.Meditation.Sounds.frequencies.lemeor.data.remote.ApiHelper
 import com.Meditation.Sounds.frequencies.lemeor.data.utils.ViewModelFactory
+import com.Meditation.Sounds.frequencies.lemeor.isPlayProgram
 import com.Meditation.Sounds.frequencies.lemeor.isTrackAdd
+import com.Meditation.Sounds.frequencies.lemeor.playProgramId
 import com.Meditation.Sounds.frequencies.lemeor.rifeBackProgram
+import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper
 import com.Meditation.Sounds.frequencies.lemeor.trackIdForProgram
 import com.Meditation.Sounds.frequencies.lemeor.typeBack
 import com.Meditation.Sounds.frequencies.lemeor.ui.albums.detail.NewAlbumDetailFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.main.HomeViewModel
-import com.Meditation.Sounds.frequencies.lemeor.ui.main.NavigationActivity
 import com.Meditation.Sounds.frequencies.lemeor.ui.main.UpdateTrack
 import com.Meditation.Sounds.frequencies.lemeor.ui.programs.detail.ProgramDetailFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.purchase.new_flow.NewPurchaseActivity
@@ -84,7 +86,6 @@ class NewProgramFragment : BaseFragment() {
     private var handlerProgress = Handler()
     private var runnableProgress = Runnable {
         EventBus.getDefault().post(ScheduleProgramProgressEvent)
-        SharedPreferenceHelper.getInstance().setBool(Constants.PREF_SCHEDULE_PROGRAM_SYNCED, true)
         setDataTime()
         updateViewSaveSchedule()
     }
@@ -236,8 +237,7 @@ class NewProgramFragment : BaseFragment() {
             }
 
             override fun onDeleteItem(program: Program, i: Int) {
-                val alertDialog = AlertMessageDialog(
-                    requireContext(),
+                val alertDialog = AlertMessageDialog(requireContext(),
                     object : AlertMessageDialog.IOnSubmitListener {
                         override fun submit() {
                             CoroutineScope(Dispatchers.IO).launch {
@@ -248,12 +248,21 @@ class NewProgramFragment : BaseFragment() {
                                 } catch (_: Exception) {
                                     mViewModel.udpate(
                                         program.copy(
-                                            deleted = true,
-                                            updated_at = Date().time
+                                            deleted = true, updated_at = Date().time
                                         )
                                     )
                                 }
                             }
+
+                            if (program.id == SharedPreferenceHelper.getInstance().getInt(Constants.PREF_SCHEDULE_PROGRAM_ID)) {
+                                if (isPlayProgram && playProgramId == SharedPreferenceHelper.getInstance().getInt(Constants.PREF_SCHEDULE_PROGRAM_ID)) {
+                                    EventBus.getDefault().post("clear player")
+                                }
+                                SharedPreferenceHelper.getInstance().setInt(Constants.PREF_SCHEDULE_PROGRAM_ID, 0)
+                                SharedPreferenceHelper.getInstance().set(Constants.PREF_SCHEDULE_PROGRAM_NAME, "")
+                                PreferenceHelper.saveScheduleProgram(requireContext(), null)
+                            }
+
                             Toast.makeText(
                                 requireContext(),
                                 requireContext().getString(R.string.txt_delete_playlist_name_success),
@@ -270,17 +279,63 @@ class NewProgramFragment : BaseFragment() {
 
         btnSwitchSchedule.setOnClickListener {
             btnSwitchSchedule.isSelected = !btnSwitchSchedule.isSelected
+            SharedPreferenceHelper.getInstance()
+                .setBool(Constants.PREF_SCHEDULE_PROGRAM_STATUS, btnSwitchSchedule.isSelected)
             if (btnSwitchSchedule.isSelected) {
                 QcAlarmManager.setScheduleProgramsAlarms(requireContext())
             } else {
+                EventBus.getDefault().post(ScheduleProgramStatusEvent(isPlay = false, isHidePlayer = true))
                 QcAlarmManager.clearScheduleProgramsAlarms(requireContext())
             }
-            SharedPreferenceHelper.getInstance()
-                .setBool(Constants.PREF_SCHEDULE_PROGRAM_STATUS, btnSwitchSchedule.isSelected)
+            updateViewProgram()
         }
 
         tvSwitchSchedule.setOnClickListener {
             btnSwitchSchedule.performClick()
+        }
+
+        tvProgramName.setOnClickListener {
+            if (PreferenceHelper.getScheduleProgram(requireContext()) != null) {
+                if (isTrackAdd && trackIdForProgram != (Constants.defaultHz - 1).toString()) {
+                    val db = DataBase.getInstance(requireContext())
+                    val programDao = db.programDao()
+                    CoroutineScope(Dispatchers.IO).launch {
+                        try {
+                            val programRoom = programDao.getProgramById(PreferenceHelper.getScheduleProgram(requireContext())?.id ?: 0)
+                            programRoom?.let { p ->
+                                p.records.add(trackIdForProgram)
+                                programDao.updateProgram(p.copy(updated_at = Date().time))
+                                if (p.user_id.isNotEmpty()) {
+                                    try {
+                                        mViewModel.updateTrackToProgram(
+                                            UpdateTrack(
+                                                track_id = listOf(trackIdForProgram),
+                                                id = p.id,
+                                                track_type = if (trackIdForProgram.isNotString()) "mp3" else "rife",
+                                                request_type = "add",
+                                                is_favorite = (p.name.uppercase() == FAVORITES.uppercase() && p.favorited)
+                                            )
+                                        )
+                                    } catch (_: Exception) {
+                                    }
+                                }
+                            }
+                        } catch (_: Exception) {
+                        }
+                    }
+                }
+
+                parentFragmentManager.beginTransaction().setCustomAnimations(
+                    R.anim.trans_right_to_left_in,
+                    R.anim.trans_right_to_left_out,
+                    R.anim.trans_left_to_right_in,
+                    R.anim.trans_left_to_right_out
+                ).replace(
+                    R.id.nav_host_fragment,
+                    ProgramDetailFragment.newInstance(PreferenceHelper.getScheduleProgram(requireContext())?.id ?: 0),
+                    ProgramDetailFragment().javaClass.simpleName
+                ).commit()
+            }
         }
     }
 
@@ -331,8 +386,6 @@ class NewProgramFragment : BaseFragment() {
 
         programs_recycler_view.adapter = mProgramAdapter
 
-
-
         updateViewSaveSchedule()
         setDataTime()
 
@@ -357,6 +410,7 @@ class NewProgramFragment : BaseFragment() {
                     handlerProgress.removeCallbacks(runnableProgress)
                     handlerProgress.postDelayed(runnableProgress, 1000)
                 }
+                updateViewSaveSchedule()
             }
 
             override fun onStartTrackingTouch(view: RangeSeekBar?, isLeft: Boolean) {
@@ -396,6 +450,7 @@ class NewProgramFragment : BaseFragment() {
                     handlerProgress.removeCallbacks(runnableProgress)
                     handlerProgress.postDelayed(runnableProgress, 1000)
                 }
+                updateViewSaveSchedule()
             }
 
             override fun onStartTrackingTouch(view: RangeSeekBar?, isLeft: Boolean) {
@@ -419,8 +474,7 @@ class NewProgramFragment : BaseFragment() {
         }
 
         imvSaveSchedule.setOnClickListener {
-            AlertDialog.Builder(mContext)
-                .setTitle(R.string.app_name)
+            AlertDialog.Builder(mContext).setTitle(R.string.app_name)
                 .setMessage(R.string.txt_confirm_save_schedule)
                 .setPositiveButton(R.string.txt_yes) { _, _ ->
                     syncScheduleTime()
@@ -451,9 +505,6 @@ class NewProgramFragment : BaseFragment() {
     private fun syncScheduleTime() {
         if (requireActivity().isNetworkAvailable()) {
             CoroutineScope(Dispatchers.IO).launch {
-                SharedPreferenceHelper.getInstance()
-                    .setBool(Constants.PREF_SCHEDULE_PROGRAM_SYNCED, false)
-                updateViewSaveSchedule()
                 try {
                     val input = ProgramSchedule(
                         startTimeAm = Math.round(
@@ -471,6 +522,30 @@ class NewProgramFragment : BaseFragment() {
                         ) / 10.0f
                     )
                     mHomeViewModel.updateProgramScheduleTime(input)
+
+                    //server
+                    SharedPreferenceHelper.getInstance().setFloat(
+                        Constants.PREF_SCHEDULE_START_TIME_AM_API,
+                        SharedPreferenceHelper.getInstance()
+                            .getFloat(Constants.PREF_SCHEDULE_START_TIME_AM, 0f)
+                    )
+                    SharedPreferenceHelper.getInstance().setFloat(
+                        Constants.PREF_SCHEDULE_END_TIME_AM_API,
+                        SharedPreferenceHelper.getInstance()
+                            .getFloat(Constants.PREF_SCHEDULE_END_TIME_AM, 180f)
+                    )
+
+                    SharedPreferenceHelper.getInstance().setFloat(
+                        Constants.PREF_SCHEDULE_START_TIME_PM_API,
+                        SharedPreferenceHelper.getInstance()
+                            .getFloat(Constants.PREF_SCHEDULE_START_TIME_PM, 540f)
+                    )
+                    SharedPreferenceHelper.getInstance().setFloat(
+                        Constants.PREF_SCHEDULE_END_TIME_PM_API,
+                        SharedPreferenceHelper.getInstance()
+                            .getFloat(Constants.PREF_SCHEDULE_END_TIME_PM, 719f)
+                    )
+                    updateViewSaveSchedule()
                 } catch (_: Exception) {
 
                 }
@@ -493,12 +568,35 @@ class NewProgramFragment : BaseFragment() {
         }
         btnSwitchSchedule.isSelected =
             SharedPreferenceHelper.getInstance().getBool(Constants.PREF_SCHEDULE_PROGRAM_STATUS)
+
+        if (btnSwitchSchedule.isSelected) {
+            sbRangeScheduleTimeAm.isEnabled = true
+        } else {
+            sbRangeScheduleTimeAm.isEnabled = false
+        }
     }
 
     private fun updateViewSaveSchedule() {
-        tvSaveSchedule.isEnabled =
-            SharedPreferenceHelper.getInstance().getBool(Constants.PREF_SCHEDULE_PROGRAM_SYNCED)
-        imvSaveSchedule.isEnabled =
-            SharedPreferenceHelper.getInstance().getBool(Constants.PREF_SCHEDULE_PROGRAM_SYNCED)
+        val isSaveEnable = SharedPreferenceHelper.getInstance().getFloat(
+            Constants.PREF_SCHEDULE_START_TIME_AM, 0f
+        ) != SharedPreferenceHelper.getInstance().getFloat(
+            Constants.PREF_SCHEDULE_START_TIME_AM_API,
+            0f
+        ) || SharedPreferenceHelper.getInstance().getFloat(
+            Constants.PREF_SCHEDULE_END_TIME_AM, 180f
+        ) != SharedPreferenceHelper.getInstance().getFloat(
+            Constants.PREF_SCHEDULE_END_TIME_AM_API,
+            0f
+        ) || SharedPreferenceHelper.getInstance().getFloat(
+            Constants.PREF_SCHEDULE_START_TIME_PM, 540f
+        ) != SharedPreferenceHelper.getInstance().getFloat(
+            Constants.PREF_SCHEDULE_START_TIME_PM_API, 0f
+        ) || SharedPreferenceHelper.getInstance().getFloat(
+            Constants.PREF_SCHEDULE_END_TIME_PM, 719f
+        ) != SharedPreferenceHelper.getInstance()
+            .getFloat(Constants.PREF_SCHEDULE_END_TIME_PM_API, 0f)
+
+        tvSaveSchedule?.isEnabled = isSaveEnable
+        imvSaveSchedule?.isEnabled = isSaveEnable
     }
 }

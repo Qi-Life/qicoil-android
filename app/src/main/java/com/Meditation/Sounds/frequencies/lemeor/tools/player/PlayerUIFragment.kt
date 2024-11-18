@@ -289,6 +289,15 @@ class PlayerUIFragment : NewBaseFragment() {
                     mediaController?.transportControls?.play()
                 }
         }
+
+        if (event is String && event == "clear player") {
+            if (mediaController != null)
+                if (playing) {
+                    isUserPaused = true
+                    mediaController?.transportControls?.pause()
+                }
+            setPlayerDefaultDisable()
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -497,7 +506,7 @@ class PlayerUIFragment : NewBaseFragment() {
     }
 
     private fun playerInit() {
-        if (trackList?.isEmpty() == true){
+        if (trackList?.isEmpty() == true) {
             currentPosition.postValue(0)
         }
         player_play.setOnClickListener {
@@ -674,6 +683,22 @@ class PlayerUIFragment : NewBaseFragment() {
                     R.drawable.ic_silent_scalar_on
                 )
             )
+        }
+    }
+
+    private fun setPlayerDefaultDisable() {
+        trackList?.clear()
+        track_image.setImageResource(R.drawable.ic_album_default_small)
+        track_name.text = getString(R.string.tv_please_choose_a_frequency_to_play)
+        track_title.visibility = View.GONE
+        player_play.setImageResource(R.drawable.ic_play_song_disable)
+        player_next.setImageResource(R.drawable.ic_next_song_new_disable)
+        player_shuffle.setImageResource(R.drawable.ic_shuffle_new_off_disbale)
+        val orientation = resources.configuration.orientation
+        if (Utils.isTablet(requireContext()) && orientation == Configuration.ORIENTATION_LANDSCAPE && viewPlayerScalar.visibility == View.VISIBLE) {
+            player_repeat.setImageResource(R.drawable.ic_repeat_land_all_disable)
+        } else {
+            player_repeat.setImageResource(R.drawable.ic_repeat_all_disable)
         }
     }
 

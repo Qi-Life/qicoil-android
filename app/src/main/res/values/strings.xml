@@ -431,6 +431,7 @@
     <string name="add_silent_quantum">Add Silent Quantum</string>
     <string name="tv_from_silent_quantum">From Silent Quantum</string>
     <string name="txt_confirm_save_schedule">Are you sure you want save schedule?</string>
+    <string name="txt_confirm_delete_frequencies">Are your sure you want to delete this frequencies?</string>
 
     <string name="msg_say_hi_chat" translatable="false">Hi, My name is Dr.Qi, I\'m an AI assistant. How can I help you today? How have you been feeling lately?</string>
     <string name="msg_error_network_chat" translatable="false">Connect Lost. Please check your internet connection.</string>

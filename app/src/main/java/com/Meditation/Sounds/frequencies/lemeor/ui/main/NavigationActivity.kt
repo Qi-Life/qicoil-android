@@ -88,6 +88,7 @@ import com.Meditation.Sounds.frequencies.lemeor.playListScalar
 import com.Meditation.Sounds.frequencies.lemeor.playProgramId
 import com.Meditation.Sounds.frequencies.lemeor.playRife
 import com.Meditation.Sounds.frequencies.lemeor.playingScalar
+import com.Meditation.Sounds.frequencies.lemeor.programName
 import com.Meditation.Sounds.frequencies.lemeor.selectedNaviFragment
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper.isFirstSync
@@ -137,6 +138,7 @@ import com.Meditation.Sounds.frequencies.tasks.BaseTask
 import com.Meditation.Sounds.frequencies.tasks.GetFlashSaleTask
 import com.Meditation.Sounds.frequencies.utils.Combined5LiveData
 import com.Meditation.Sounds.frequencies.utils.Constants
+import com.Meditation.Sounds.frequencies.utils.Constants.Companion.PREF_SCHEDULE_PROGRAM_NAME
 import com.Meditation.Sounds.frequencies.utils.Constants.Companion.PREF_SETTING_ADVANCE_SCALAR_ON_OFF
 import com.Meditation.Sounds.frequencies.utils.Constants.Companion.PREF_SETTING_CHATBOT_ON_OFF
 import com.Meditation.Sounds.frequencies.utils.CopyAssets.copyAssetFolder
@@ -378,9 +380,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
     @Subscribe(threadMode = ThreadMode.MAIN_ORDERED)
     fun onAlarmsScheduleProgramEvent(event: ScheduleProgramStatusEvent?) {
         if (event?.isPlay == true && SharedPreferenceHelper.getInstance().getInt(Constants.PREF_SCHEDULE_PROGRAM_ID) != 0) {
-            if ((isPlayAlbum || (playProgramId != SharedPreferenceHelper.getInstance()
-                    .getInt(Constants.PREF_SCHEDULE_PROGRAM_ID) && isPlayProgram)) && !isUserPaused
-            ) {
+            if ((isPlayAlbum || (playProgramId != SharedPreferenceHelper.getInstance().getInt(Constants.PREF_SCHEDULE_PROGRAM_ID) && isPlayProgram && !event.isSkipQuestion)) && !isUserPaused) {
                 val dialogBuilder =
                     androidx.appcompat.app.AlertDialog.Builder(this@NavigationActivity)
                 dialogBuilder.setMessage(getString(R.string.the_schedule_frequency_is_coming_up))
@@ -395,18 +395,20 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
 //                        clearDataPlayer()
 //                    }
 //                }
-                if (!isPlayProgram) {
+                if (!isPlayProgram || playProgramId != SharedPreferenceHelper.getInstance().getInt(Constants.PREF_SCHEDULE_PROGRAM_ID)) {
                     fetchAndPlayProgram()
                 } else {
                     EventBus.getDefault().post("play player")
                 }
             }
         } else {
-            EventBus.getDefault().post("pause player")
-            if (event?.isHidePlayer == true && playListScalar.isEmpty()) {
-                clearDataPlayer()
-                isUserPaused = false
-                hidePlayerUI()
+            if (!isPlayAlbum) {
+                EventBus.getDefault().post("pause player")
+                if (event?.isHidePlayer == true && playListScalar.isEmpty()) {
+                    clearDataPlayer()
+                    isUserPaused = false
+                    hidePlayerUI()
+                }
             }
         }
     }
@@ -422,27 +424,30 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
     }
 
     private fun fetchAndPlayProgram() {
+        var isPlaySync = true
         isPlayProgram = false
         isUserPaused = false
 //        val program = PreferenceHelper.getScheduleProgram(this@NavigationActivity)
-        mProgramDetailViewModel.program(
-            SharedPreferenceHelper.getInstance().getInt(Constants.PREF_SCHEDULE_PROGRAM_ID)
-        ).observe(this@NavigationActivity) {
-            if (it != null && it.id != 0 && !isPlayProgram) {
-                val tracks: ArrayList<Search> = ArrayList()
-                mProgramDetailViewModel.convertData(it) { list ->
-                    tracks.clear()
-                    tracks.addAll(list)
-                    if (currentTrack.value != null) {
-                        val track = currentTrack.value
-                        if (track is MusicRepository.Track) {
-                            tracks.firstOrNull {
-                                (it.obj is Track) && it.id == track.trackId
+        mProgramDetailViewModel.program(SharedPreferenceHelper.getInstance().getInt(Constants.PREF_SCHEDULE_PROGRAM_ID)).observe(this@NavigationActivity) {
+            if (isPlaySync) {
+                isPlaySync = false
+                programName = SharedPreferenceHelper.getInstance().get(PREF_SCHEDULE_PROGRAM_NAME)
+                if (it != null && it.id != 0 && !isPlayProgram) {
+                    val tracks: ArrayList<Search> = ArrayList()
+                    mProgramDetailViewModel.convertData(it) { list ->
+                        tracks.clear()
+                        tracks.addAll(list)
+                        if (currentTrack.value != null) {
+                            val track = currentTrack.value
+                            if (track is MusicRepository.Track) {
+                                tracks.firstOrNull {
+                                    (it.obj is Track) && it.id == track.trackId
+                                }
                             }
                         }
+                        playPrograms(tracks.map { it.obj } as ArrayList<Any>, it.id)
+                        EventBus.getDefault().post(PlayerSelected(0))
                     }
-                    playPrograms(tracks.map { it.obj } as ArrayList<Any>, it.id)
-                    EventBus.getDefault().post(PlayerSelected(0))
                 }
             }
         }

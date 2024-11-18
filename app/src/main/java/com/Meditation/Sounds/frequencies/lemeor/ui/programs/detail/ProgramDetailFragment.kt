@@ -3,12 +3,14 @@ package com.Meditation.Sounds.frequencies.lemeor.ui.programs.detail
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
+import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.KeyEvent
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -38,6 +40,7 @@ import com.Meditation.Sounds.frequencies.lemeor.isMultiPlay
 import com.Meditation.Sounds.frequencies.lemeor.isPlayAlbum
 import com.Meditation.Sounds.frequencies.lemeor.isPlayProgram
 import com.Meditation.Sounds.frequencies.lemeor.isTrackAdd
+import com.Meditation.Sounds.frequencies.lemeor.isUserPaused
 import com.Meditation.Sounds.frequencies.lemeor.playAlbumId
 import com.Meditation.Sounds.frequencies.lemeor.playListScalar
 import com.Meditation.Sounds.frequencies.lemeor.playProgramId
@@ -51,9 +54,9 @@ import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper
 import com.Meditation.Sounds.frequencies.lemeor.tools.downloader.DownloadService
 import com.Meditation.Sounds.frequencies.lemeor.tools.downloader.DownloaderActivity
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.MusicRepository
-import com.Meditation.Sounds.frequencies.lemeor.tools.player.PlayerRepeat
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.PlayerSelected
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.PlayerService
+import com.Meditation.Sounds.frequencies.lemeor.tools.player.PlayerService.Companion.musicRepository
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.ScalarPlayerService
 import com.Meditation.Sounds.frequencies.lemeor.trackList
 import com.Meditation.Sounds.frequencies.lemeor.typeBack
@@ -66,6 +69,7 @@ import com.Meditation.Sounds.frequencies.lemeor.ui.programs.dialog.FrequenciesDi
 import com.Meditation.Sounds.frequencies.lemeor.ui.programs.search.AddProgramsFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.scalar.ScalarDownloadService
 import com.Meditation.Sounds.frequencies.models.event.ScheduleProgramProgressEvent
+import com.Meditation.Sounds.frequencies.models.event.ScheduleProgramStatusEvent
 import com.Meditation.Sounds.frequencies.utils.Constants
 import com.Meditation.Sounds.frequencies.utils.SharedPreferenceHelper
 import com.Meditation.Sounds.frequencies.utils.Utils
@@ -139,6 +143,13 @@ class ProgramDetailFragment : BaseFragment() {
                     startActivityForResult(
                         PopActivity.newIntent(
                             requireContext(), f.frequency.toDouble()
+                        ), 1002
+                    )
+                } else if (item.obj is Scalar) {
+                    val t = item.obj as Scalar
+                    startActivityForResult(
+                        PopActivity.newIntent(
+                            requireContext(), t.id.toDouble()
                         ), 1002
                     )
                 }
@@ -299,7 +310,8 @@ class ProgramDetailFragment : BaseFragment() {
             btnSwitchSchedule.isSelected = !btnSwitchSchedule.isSelected
             SharedPreferenceHelper.getInstance()
                 .setBool(Constants.PREF_SCHEDULE_PROGRAM_STATUS, btnSwitchSchedule.isSelected)
-            EventBus.getDefault().post(ScheduleProgramProgressEvent)
+            EventBus.getDefault()
+                .post(ScheduleProgramStatusEvent(isPlay = true, isSkipQuestion = true))
         }
     }
 
@@ -618,77 +630,100 @@ class ProgramDetailFragment : BaseFragment() {
             val programDao = db.programDao()
             val trackDao = db.trackDao()
 
-            val activity = activity as NavigationActivity
-            isPlayAlbum = false
-            isPlayProgram = false
-            activity.hidePlayerUI()
+             if (action.equals("track_remove")) {
+                AlertDialog.Builder(requireActivity()).setTitle(R.string.app_name)
+                    .setMessage(R.string.txt_confirm_delete_frequencies)
+                    .setPositiveButton(R.string.txt_yes) { _, _ ->
+//                        val activity = activity as NavigationActivity
+//                        isPlayAlbum = false
+//                        isPlayProgram = false
+//                        activity.hidePlayerUI()
+                        val currentItemIndex = musicRepository?.currentItemIndex
 
-            CoroutineScope(Dispatchers.IO).launch {
-                val list = program?.records ?: arrayListOf()
-
-                when {
-                    action.equals("track_move_up") -> {
-                        if (positionFor == 0) {
-                            CoroutineScope(Dispatchers.Main).launch {
-                                Toast.makeText(
-                                    requireContext(),
-                                    getString(R.string.tv_track_first_pos),
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                            return@launch
-                        }
-                        moveTrack(list, true, programDao)
-                    }
-
-                    action.equals("track_move_down") -> {
-                        if (positionFor == list.size - 1) {
-                            CoroutineScope(Dispatchers.Main).launch {
-                                Toast.makeText(
-                                    requireContext(),
-                                    getString(R.string.tv_track_last_pos),
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                            return@launch
-                        }
-                        moveTrack(list, false, programDao)
-                    }
-
-                    action.equals("track_remove") -> {
-                        positionFor?.let { pos ->
-                            mTracks?.get(pos)?.let { item ->
-                                if (item is Track) {
-                                    item.id.let { it1 ->
-                                        trackDao.isTrackFavorite(
-                                            false, it1
-                                        )
-                                    }
-                                }
-                            }
-                            val trackId = list[pos]
-                            list.removeAt(pos)
-                            program?.records = list
-                            program?.let {
-                                programDao.updateProgram(it.copy(updated_at = Date().time))
-                                if (it.user_id.isNotEmpty()) {
-                                    try {
-                                        mNewProgramViewModel.updateTrackToProgram(
-                                            UpdateTrack(
-                                                track_id = listOf(trackId),
-                                                id = it.id,
-                                                track_type = if (trackId.isNotString()) "mp3" else "rife",
-                                                request_type = "remove",
-                                                is_favorite = (it.name.uppercase() == FAVORITES.uppercase() && it.favorited)
+                        CoroutineScope(Dispatchers.IO).launch {
+                            val list = program?.records ?: arrayListOf()
+                            positionFor?.let { pos ->
+                                mTracks?.get(pos)?.let { item ->
+                                    if (item is Track) {
+                                        item.id.let { it1 ->
+                                            trackDao.isTrackFavorite(
+                                                false, it1
                                             )
-                                        )
-                                    } catch (_: Exception) {
+                                        }
                                     }
+                                }
+                                val trackId = list[pos]
+                                list.removeAt(pos)
+                                program?.records = list
+                                program?.let {
+                                    programDao.updateProgram(it.copy(updated_at = Date().time))
+                                    if (it.user_id.isNotEmpty()) {
+                                        try {
+                                            mNewProgramViewModel.updateTrackToProgram(
+                                                UpdateTrack(
+                                                    track_id = listOf(trackId),
+                                                    id = it.id,
+                                                    track_type = if (trackId.isNotString()) "mp3" else "rife",
+                                                    request_type = "remove",
+                                                    is_favorite = (it.name.uppercase() == FAVORITES.uppercase() && it.favorited)
+                                                )
+                                            )
+                                        } catch (_: Exception) {
+                                        }
+                                    }
+                                }
+
+                                if (currentItemIndex == pos && isPlayProgram && program?.id == playProgramId) {
+                                    play(tracks.filter { it.obj !is Scalar }.map { it.obj } as ArrayList<Any>)
+                                    Handler(Looper.getMainLooper()).postDelayed({
+                                        EventBus.getDefault().post(PlayerSelected(pos))
+                                        timeDelay = 200L
+                                    }, timeDelay)
                                 }
                             }
                         }
-                    }
-                }
+                    }.setNegativeButton(R.string.txt_no) { _, _ ->
+
+                    }.show()
+
+            } else {
+                 val activity = activity as NavigationActivity
+                 isPlayAlbum = false
+                 isPlayProgram = false
+                 activity.hidePlayerUI()
+
+                 CoroutineScope(Dispatchers.IO).launch {
+                     val list = program?.records ?: arrayListOf()
+                     when {
+                         action.equals("track_move_up") -> {
+                             if (positionFor == 0) {
+                                 CoroutineScope(Dispatchers.Main).launch {
+                                     Toast.makeText(
+                                         requireContext(),
+                                         getString(R.string.tv_track_first_pos),
+                                         Toast.LENGTH_SHORT
+                                     ).show()
+                                 }
+                                 return@launch
+                             }
+                             moveTrack(list, true, programDao)
+                         }
+
+                         action.equals("track_move_down") -> {
+                             if (positionFor == list.size - 1) {
+                                 CoroutineScope(Dispatchers.Main).launch {
+                                     Toast.makeText(
+                                         requireContext(),
+                                         getString(R.string.tv_track_last_pos),
+                                         Toast.LENGTH_SHORT
+                                     ).show()
+                                 }
+                                 return@launch
+                             }
+                             moveTrack(list, false, programDao)
+                         }
+                     }
+                 }
             }
         }
     }
