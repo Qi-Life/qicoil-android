@@ -10,7 +10,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.KeyEvent
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -37,6 +36,7 @@ import com.Meditation.Sounds.frequencies.lemeor.getConvertedTime
 import com.Meditation.Sounds.frequencies.lemeor.getPreloadedSaveDir
 import com.Meditation.Sounds.frequencies.lemeor.getSaveDir
 import com.Meditation.Sounds.frequencies.lemeor.isMultiPlay
+import com.Meditation.Sounds.frequencies.lemeor.isNoReloadCurrentTrackIndex
 import com.Meditation.Sounds.frequencies.lemeor.isPlayAlbum
 import com.Meditation.Sounds.frequencies.lemeor.isPlayProgram
 import com.Meditation.Sounds.frequencies.lemeor.isTrackAdd
@@ -46,6 +46,7 @@ import com.Meditation.Sounds.frequencies.lemeor.playListScalar
 import com.Meditation.Sounds.frequencies.lemeor.playProgramId
 import com.Meditation.Sounds.frequencies.lemeor.playRife
 import com.Meditation.Sounds.frequencies.lemeor.playScalar
+import com.Meditation.Sounds.frequencies.lemeor.playingScalar
 import com.Meditation.Sounds.frequencies.lemeor.positionFor
 import com.Meditation.Sounds.frequencies.lemeor.programName
 import com.Meditation.Sounds.frequencies.lemeor.rifeBackProgram
@@ -54,6 +55,7 @@ import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper
 import com.Meditation.Sounds.frequencies.lemeor.tools.downloader.DownloadService
 import com.Meditation.Sounds.frequencies.lemeor.tools.downloader.DownloaderActivity
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.MusicRepository
+import com.Meditation.Sounds.frequencies.lemeor.tools.player.PlayerPlayAction
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.PlayerSelected
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.PlayerService
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.PlayerService.Companion.musicRepository
@@ -68,9 +70,8 @@ import com.Meditation.Sounds.frequencies.lemeor.ui.programs.NewProgramViewModel
 import com.Meditation.Sounds.frequencies.lemeor.ui.programs.dialog.FrequenciesDialogFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.programs.search.AddProgramsFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.scalar.ScalarDownloadService
-import com.Meditation.Sounds.frequencies.models.event.ScheduleProgramProgressEvent
-import com.Meditation.Sounds.frequencies.models.event.ScheduleProgramStatusEvent
 import com.Meditation.Sounds.frequencies.utils.Constants
+import com.Meditation.Sounds.frequencies.utils.QcAlarmManager
 import com.Meditation.Sounds.frequencies.utils.SharedPreferenceHelper
 import com.Meditation.Sounds.frequencies.utils.Utils
 import com.Meditation.Sounds.frequencies.utils.isNotString
@@ -122,9 +123,11 @@ class ProgramDetailFragment : BaseFragment() {
                     playScalar = item.obj as Scalar
                     playAndDownloadScalar(item.obj as Scalar)
                 } else {
-                    play(tracks.filter { it.obj !is Scalar }.map { it.obj } as ArrayList<Any>)
+                    val listTracks =
+                        tracks.filter { it.obj !is Scalar }.map { it.obj } as ArrayList<Any>
+                    play(listTracks)
                     Handler(Looper.getMainLooper()).postDelayed({
-                        EventBus.getDefault().post(PlayerSelected(index))
+                        EventBus.getDefault().post(PlayerSelected(listTracks.indexOf(item.obj)))
                         timeDelay = 200L
                     }, timeDelay)
                 }
@@ -157,6 +160,7 @@ class ProgramDetailFragment : BaseFragment() {
             },
         )
     }
+
     private val itemDecoration by lazy {
         ItemLastOffsetBottomDecoration(resources.getDimensionPixelOffset(R.dimen.dp_70))
     }
@@ -176,6 +180,10 @@ class ProgramDetailFragment : BaseFragment() {
                 } catch (_: Exception) {
                 }
             }
+        }
+
+        if (event is String && event == "clear player") {
+            programTrackAdapter.setSelectedItem(null)
         }
     }
 
@@ -228,10 +236,16 @@ class ProgramDetailFragment : BaseFragment() {
             if (list.isNotEmpty()) {
                 playOrDownload(list)
             }
+
             //play freg
-            play(tracks.filter { it.obj !is Scalar }.map { it.obj } as ArrayList<Any>)
-            programTrackAdapter.setSelectedItem(tracks.first())
-            EventBus.getDefault().post(PlayerSelected(0))
+            val listFreg = tracks.filter { it.obj !is Scalar }.map { it.obj } as ArrayList<Any>
+            if (listFreg.isNotEmpty()) {
+                play(listFreg)
+                programTrackAdapter.setSelectedItem(tracks.first { it.obj !is Scalar })
+                EventBus.getDefault().post(PlayerSelected(0))
+            } else {
+                EventBus.getDefault().post("clear player")
+            }
 
             //play scalar
             val listScalars =
@@ -242,6 +256,15 @@ class ProgramDetailFragment : BaseFragment() {
                 playListScalar.clear()
                 playListScalar.addAll(listScalars)
                 playAndDownloadScalar(listScalars.last())
+            } else {
+                //clear scalar
+                if (playListScalar.isNotEmpty()) {
+                    val lastScalar = playListScalar.last()
+                    playScalar = null
+                    playListScalar.clear()
+                    playingScalar = false
+                    playAndDownloadScalar(lastScalar)
+                }
             }
         }
 
@@ -310,8 +333,7 @@ class ProgramDetailFragment : BaseFragment() {
             btnSwitchSchedule.isSelected = !btnSwitchSchedule.isSelected
             SharedPreferenceHelper.getInstance()
                 .setBool(Constants.PREF_SCHEDULE_PROGRAM_STATUS, btnSwitchSchedule.isSelected)
-            EventBus.getDefault()
-                .post(ScheduleProgramStatusEvent(isPlay = true, isSkipQuestion = true))
+            QcAlarmManager.setScheduleProgramsAlarms(requireContext())
         }
     }
 
@@ -372,6 +394,7 @@ class ProgramDetailFragment : BaseFragment() {
             )
             mTracks?.clear()
             mTracks?.addAll(tracks.map { it.obj })
+
             if (currentTrack.value != null) {
                 val track = currentTrack.value
                 if (track is MusicRepository.Track) {
@@ -386,10 +409,13 @@ class ProgramDetailFragment : BaseFragment() {
             program_play.text = getString(R.string.btn_play)
 
             currentTrackIndex.observe(viewLifecycleOwner) {
-                val t = tracks.firstOrNull { item -> item.id == it }
-                t?.let { item ->
-                    if (playProgramId == programId) {
-                        programTrackAdapter.setSelectedItem(item)
+                val allTracks = tracks.filter { it.obj !is Scalar }
+                if (allTracks.isNotEmpty() && allTracks.getOrNull(it) != null ) {
+                    val t = tracks.firstOrNull { item -> item.obj == allTracks[it].obj }
+                    t?.let { item ->
+                        if (playProgramId == programId) {
+                            programTrackAdapter.setSelectedItem(item)
+                        }
                     }
                 }
             }
@@ -562,7 +588,7 @@ class ProgramDetailFragment : BaseFragment() {
             CoroutineScope(Dispatchers.Main).launch { (activity as NavigationActivity).showPlayerUI() }
         }
 
-        Handler().postDelayed({
+        Handler(Looper.getMainLooper()).postDelayed({
             programTrackAdapter.notifyDataSetChanged()
         }, 300)
     }
@@ -630,7 +656,7 @@ class ProgramDetailFragment : BaseFragment() {
             val programDao = db.programDao()
             val trackDao = db.trackDao()
 
-             if (action.equals("track_remove")) {
+            if (action.equals("track_remove")) {
                 AlertDialog.Builder(requireActivity()).setTitle(R.string.app_name)
                     .setMessage(R.string.txt_confirm_delete_frequencies)
                     .setPositiveButton(R.string.txt_yes) { _, _ ->
@@ -640,45 +666,83 @@ class ProgramDetailFragment : BaseFragment() {
 //                        activity.hidePlayerUI()
                         val currentItemIndex = musicRepository?.currentItemIndex
 
-                        CoroutineScope(Dispatchers.IO).launch {
-                            val list = program?.records ?: arrayListOf()
-                            positionFor?.let { pos ->
-                                mTracks?.get(pos)?.let { item ->
-                                    if (item is Track) {
-                                        item.id.let { it1 ->
-                                            trackDao.isTrackFavorite(
-                                                false, it1
-                                            )
-                                        }
-                                    }
-                                }
-                                val trackId = list[pos]
-                                list.removeAt(pos)
-                                program?.records = list
-                                program?.let {
-                                    programDao.updateProgram(it.copy(updated_at = Date().time))
-                                    if (it.user_id.isNotEmpty()) {
-                                        try {
-                                            mNewProgramViewModel.updateTrackToProgram(
-                                                UpdateTrack(
-                                                    track_id = listOf(trackId),
-                                                    id = it.id,
-                                                    track_type = if (trackId.isNotString()) "mp3" else "rife",
-                                                    request_type = "remove",
-                                                    is_favorite = (it.name.uppercase() == FAVORITES.uppercase() && it.favorited)
-                                                )
-                                            )
-                                        } catch (_: Exception) {
-                                        }
-                                    }
-                                }
+                        if (isPlayProgram && playProgramId == program?.id) {
+                            isNoReloadCurrentTrackIndex = true
+                        }
 
-                                if (currentItemIndex == pos && isPlayProgram && program?.id == playProgramId) {
-                                    play(tracks.filter { it.obj !is Scalar }.map { it.obj } as ArrayList<Any>)
-                                    Handler(Looper.getMainLooper()).postDelayed({
-                                        EventBus.getDefault().post(PlayerSelected(pos))
-                                        timeDelay = 200L
-                                    }, timeDelay)
+                        mViewModel.checkProgramData(program) { l ->
+                            val list = ArrayList(l)
+                            CoroutineScope(Dispatchers.IO).launch {
+                                positionFor?.let { pos ->
+                                    mTracks?.get(pos)?.let { item ->
+                                        if (item is Track) {
+                                            item.id.let { it1 ->
+                                                trackDao.isTrackFavorite(
+                                                    false, it1
+                                                )
+                                            }
+                                        }
+                                    }
+                                    var isTrackScalar = false
+                                    val trackId = list[pos]
+                                    if (trackId.contains("-scalar")) {
+                                        isTrackScalar = true
+                                        val scalarId = trackId.replace("-scalar", "")
+                                        val scalarPlaying = playListScalar.firstOrNull { it.id == scalarId }
+                                        if (scalarPlaying != null) {
+                                            playScalar = scalarPlaying
+                                            playAndDownloadScalar(scalarPlaying)
+                                        }
+                                    }
+                                    list.removeAt(pos)
+                                    program?.records = list
+                                    program?.let {
+                                        programDao.updateProgram(it.copy(updated_at = Date().time))
+                                        if (it.user_id.isNotEmpty()) {
+                                            try {
+                                                mNewProgramViewModel.updateTrackToProgram(
+                                                    UpdateTrack(
+                                                        track_id = listOf(trackId),
+                                                        id = it.id,
+                                                        track_type = if (trackId.isNotString()) "mp3" else "rife",
+                                                        request_type = "remove",
+                                                        is_favorite = (it.name.uppercase() == FAVORITES.uppercase() && it.favorited)
+                                                    )
+                                                )
+                                            } catch (_: Exception) {
+                                            }
+                                        }
+                                    }
+
+                                    //handle player when track removed
+                                    if (isPlayProgram && playProgramId == program?.id) {
+                                        mViewModel.convertData(program!!) { list ->
+                                            if (list.none { it.obj !is Scalar }) {
+                                                EventBus.getDefault().post("clear player")
+                                            } else {
+                                                isNoReloadCurrentTrackIndex = true
+                                                if (currentItemIndex == pos) {
+                                                    if (!isUserPaused) {
+                                                        play(tracks.filter { it.obj !is Scalar }
+                                                            .map { it.obj } as ArrayList<Any>)
+                                                        Handler(Looper.getMainLooper()).postDelayed({
+                                                            EventBus.getDefault()
+                                                                .post(PlayerSelected(pos))
+                                                            timeDelay = 200L
+                                                        }, timeDelay)
+                                                    }
+                                                    EventBus.getDefault().post(PlayerPlayAction)
+                                                } else if ((currentItemIndex ?: 0) > pos) {
+                                                    if (!isTrackScalar) {
+                                                        musicRepository?.currentItemIndex = (musicRepository?.currentItemIndex ?: 0) - 1
+                                                    }
+                                                    EventBus.getDefault().post(PlayerPlayAction)
+                                                } else {
+                                                    EventBus.getDefault().post(PlayerPlayAction)
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -687,43 +751,43 @@ class ProgramDetailFragment : BaseFragment() {
                     }.show()
 
             } else {
-                 val activity = activity as NavigationActivity
-                 isPlayAlbum = false
-                 isPlayProgram = false
-                 activity.hidePlayerUI()
+                val activity = activity as NavigationActivity
+                isPlayAlbum = false
+                isPlayProgram = false
+                activity.hidePlayerUI()
 
-                 CoroutineScope(Dispatchers.IO).launch {
-                     val list = program?.records ?: arrayListOf()
-                     when {
-                         action.equals("track_move_up") -> {
-                             if (positionFor == 0) {
-                                 CoroutineScope(Dispatchers.Main).launch {
-                                     Toast.makeText(
-                                         requireContext(),
-                                         getString(R.string.tv_track_first_pos),
-                                         Toast.LENGTH_SHORT
-                                     ).show()
-                                 }
-                                 return@launch
-                             }
-                             moveTrack(list, true, programDao)
-                         }
+                CoroutineScope(Dispatchers.IO).launch {
+                    val list = program?.records ?: arrayListOf()
+                    when {
+                        action.equals("track_move_up") -> {
+                            if (positionFor == 0) {
+                                CoroutineScope(Dispatchers.Main).launch {
+                                    Toast.makeText(
+                                        requireContext(),
+                                        getString(R.string.tv_track_first_pos),
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                                return@launch
+                            }
+                            moveTrack(list, true, programDao)
+                        }
 
-                         action.equals("track_move_down") -> {
-                             if (positionFor == list.size - 1) {
-                                 CoroutineScope(Dispatchers.Main).launch {
-                                     Toast.makeText(
-                                         requireContext(),
-                                         getString(R.string.tv_track_last_pos),
-                                         Toast.LENGTH_SHORT
-                                     ).show()
-                                 }
-                                 return@launch
-                             }
-                             moveTrack(list, false, programDao)
-                         }
-                     }
-                 }
+                        action.equals("track_move_down") -> {
+                            if (positionFor == list.size - 1) {
+                                CoroutineScope(Dispatchers.Main).launch {
+                                    Toast.makeText(
+                                        requireContext(),
+                                        getString(R.string.tv_track_last_pos),
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                                return@launch
+                            }
+                            moveTrack(list, false, programDao)
+                        }
+                    }
+                }
             }
         }
     }

@@ -32,6 +32,7 @@ import com.Meditation.Sounds.frequencies.lemeor.playListScalar
 import com.Meditation.Sounds.frequencies.lemeor.playProgramId
 import com.Meditation.Sounds.frequencies.lemeor.playingScalar
 import com.Meditation.Sounds.frequencies.lemeor.programName
+import com.Meditation.Sounds.frequencies.lemeor.tools.player.PlayerService.Companion.musicRepository
 import com.Meditation.Sounds.frequencies.lemeor.trackList
 import com.Meditation.Sounds.frequencies.lemeor.ui.albums.detail.NewAlbumDetailFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.base.NewBaseFragment
@@ -296,7 +297,9 @@ class PlayerUIFragment : NewBaseFragment() {
                     isUserPaused = true
                     mediaController?.transportControls?.pause()
                 }
-            setPlayerDefaultDisable()
+            Handler().postDelayed({
+                setPlayerDefaultDisable()
+            }, 500)
         }
     }
 
@@ -304,6 +307,15 @@ class PlayerUIFragment : NewBaseFragment() {
     fun onUpdateViewSilentQuantumEvent(event: UpdateViewSilentQuantumEvent) {
         updateViewPlayerScalar()
         updateViewWhenRotation()
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onUpdatePlayerPlayEvent(event: PlayerPlayAction) {
+        musicRepository?.getCurrent()
+        if (playing) {
+            playing = false
+            player_play.performClick()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -686,6 +698,7 @@ class PlayerUIFragment : NewBaseFragment() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setPlayerDefaultDisable() {
         trackList?.clear()
         track_image.setImageResource(R.drawable.ic_album_default_small)
@@ -700,6 +713,9 @@ class PlayerUIFragment : NewBaseFragment() {
         } else {
             player_repeat.setImageResource(R.drawable.ic_repeat_all_disable)
         }
+        track_position.text = "00:00"
+        track_duration.text = "00:00"
+        seekBar.progress = 0
     }
 
     private fun updateViewPlayerScalar() {

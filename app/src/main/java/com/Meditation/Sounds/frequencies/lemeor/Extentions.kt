@@ -67,6 +67,7 @@ var hashMapTiers: HashMap<Int, Int> = HashMap()
 var selectedNaviFragment: Fragment? = null
 
 var isUserPaused = false
+var isNoReloadCurrentTrackIndex = false
 
 //scalar
 var playingScalar: Boolean = false

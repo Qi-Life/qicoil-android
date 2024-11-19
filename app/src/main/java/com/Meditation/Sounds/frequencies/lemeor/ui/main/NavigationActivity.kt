@@ -402,7 +402,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                 }
             }
         } else {
-            if (!isPlayAlbum) {
+            if (!isPlayAlbum && playProgramId == SharedPreferenceHelper.getInstance().getInt(Constants.PREF_SCHEDULE_PROGRAM_ID)) {
                 EventBus.getDefault().post("pause player")
                 if (event?.isHidePlayer == true && playListScalar.isEmpty()) {
                     clearDataPlayer()

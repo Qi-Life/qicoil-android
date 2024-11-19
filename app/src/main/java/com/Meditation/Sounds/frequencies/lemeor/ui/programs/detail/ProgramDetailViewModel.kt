@@ -33,6 +33,29 @@ class ProgramDetailViewModel(private val repository: ProgramDetailRepository) : 
         return repository.getScalarById(id)
     }
 
+    fun checkProgramData(program: Program?, onResult: (List<String>) -> Unit) {
+        val searchResults = arrayListOf<String>()
+        viewModelScope.launch(Dispatchers.IO) {
+            program?.records?.forEachIndexed { index, s ->
+                when (val value = s.doubleOrString()) {
+                    is Double -> {
+                        if (createSearchFromDouble(value, index) != null) {
+                            searchResults.add(s)
+                        }
+                    }
+                    is String -> {
+                        if (createSearchFromString(value, index) != null) {
+                            searchResults.add(s)
+                        }
+                    }
+                    else -> searchResults.add("")
+                }
+            }
+            withContext(Dispatchers.Main) {
+                onResult.invoke(searchResults)
+            }
+        }
+    }
 
     fun convertData(program: Program, onResult: (List<Search>) -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -44,6 +67,9 @@ class ProgramDetailViewModel(private val repository: ProgramDetailRepository) : 
                 }
             }
             withContext(Dispatchers.Main) {
+                searchResults.forEachIndexed { index, item ->
+                    item.id = index
+                }
                 onResult.invoke(searchResults)
             }
         }

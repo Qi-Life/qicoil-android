@@ -155,7 +155,7 @@ class HomeViewModel(private val repository: HomeRepository, private val db: Data
                     null
                 }
             }
-            list.lastOrNull()?.let { firstItem ->
+            list.secondOrNull()?.let { firstItem ->
                 list[1] = Triple(firstItem.first, listIR, listIR.isEmpty())
             }
             _pairData.value = list

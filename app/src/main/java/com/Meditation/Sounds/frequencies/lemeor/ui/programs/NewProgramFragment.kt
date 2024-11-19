@@ -571,8 +571,14 @@ class NewProgramFragment : BaseFragment() {
 
         if (btnSwitchSchedule.isSelected) {
             sbRangeScheduleTimeAm.isEnabled = true
+            sbRangeScheduleTimePm.isEnabled = true
+            sbRangeScheduleTimeAm.progressDrawableId = R.drawable.progress
+            sbRangeScheduleTimePm.progressDrawableId = R.drawable.progress
         } else {
             sbRangeScheduleTimeAm.isEnabled = false
+            sbRangeScheduleTimePm.isEnabled = false
+            sbRangeScheduleTimeAm.progressDrawableId = R.drawable.progress_disable
+            sbRangeScheduleTimePm.progressDrawableId = R.drawable.progress_disable
         }
     }
 
