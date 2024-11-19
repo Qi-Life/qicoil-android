@@ -312,9 +312,11 @@ class PlayerUIFragment : NewBaseFragment() {
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onUpdatePlayerPlayEvent(event: PlayerPlayAction) {
         musicRepository?.getCurrent()
-        if (playing) {
-            playing = false
-            player_play.performClick()
+        if (event.isLastPlaying) {
+//            if (playing) {
+//                playing = false
+//                player_play.performClick()
+//            }
         }
     }
 

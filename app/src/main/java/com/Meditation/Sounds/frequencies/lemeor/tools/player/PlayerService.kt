@@ -341,8 +341,8 @@ class PlayerService : Service() {
         MediaButtonReceiver.handleIntent(mediaSession, intent)
         try {
             if (intent?.hasExtra(EXTRA_PLAYLIST) == true) {
-                progressTimer.cancel()
-                progressTimer.purge()
+//                progressTimer.cancel()
+//                progressTimer.purge()
 //            val trackList =
 //                intent.getParcelableArrayListExtra<MusicRepository.Music>(EXTRA_PLAYLIST)
                 trackList?.let {

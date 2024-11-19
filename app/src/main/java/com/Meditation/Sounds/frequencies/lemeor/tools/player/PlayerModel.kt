@@ -5,4 +5,4 @@ data class PlayerRepeat(val type: Int)
 data class PlayerSeek(val position: Int)
 data class PlayerSelected(val position: Int?)
 data class ScalarPlayerStatus(val isPlaying: Boolean = true)
-object PlayerPlayAction
+data class PlayerPlayAction(val isLastPlaying: Boolean = false)

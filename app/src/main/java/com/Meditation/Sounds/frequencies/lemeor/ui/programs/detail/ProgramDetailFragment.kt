@@ -46,7 +46,6 @@ import com.Meditation.Sounds.frequencies.lemeor.playListScalar
 import com.Meditation.Sounds.frequencies.lemeor.playProgramId
 import com.Meditation.Sounds.frequencies.lemeor.playRife
 import com.Meditation.Sounds.frequencies.lemeor.playScalar
-import com.Meditation.Sounds.frequencies.lemeor.playingScalar
 import com.Meditation.Sounds.frequencies.lemeor.positionFor
 import com.Meditation.Sounds.frequencies.lemeor.programName
 import com.Meditation.Sounds.frequencies.lemeor.rifeBackProgram
@@ -251,18 +250,19 @@ class ProgramDetailFragment : BaseFragment() {
             val listScalars =
                 tracks.filter { it.obj is Scalar }.map { it.obj as Scalar } as ArrayList<Scalar>
             if (listScalars.isNotEmpty()) {
-                playScalar = listScalars.last()
+                val lastScalar = listScalars.last()
+                playScalar = lastScalar
                 listScalars.removeLast()
                 playListScalar.clear()
                 playListScalar.addAll(listScalars)
-                playAndDownloadScalar(listScalars.last())
+                playAndDownloadScalar(lastScalar)
             } else {
                 //clear scalar
                 if (playListScalar.isNotEmpty()) {
                     val lastScalar = playListScalar.last()
-                    playScalar = null
-                    playListScalar.clear()
-                    playingScalar = false
+                    playScalar = lastScalar
+//                    playListScalar.clear()
+//                    playingScalar = false
                     playAndDownloadScalar(lastScalar)
                 }
             }
@@ -690,8 +690,7 @@ class ProgramDetailFragment : BaseFragment() {
                                         val scalarId = trackId.replace("-scalar", "")
                                         val scalarPlaying = playListScalar.firstOrNull { it.id == scalarId }
                                         if (scalarPlaying != null) {
-                                            playScalar = scalarPlaying
-                                            playAndDownloadScalar(scalarPlaying)
+                                            removeScalar(scalarPlaying)
                                         }
                                     }
                                     list.removeAt(pos)
@@ -723,22 +722,22 @@ class ProgramDetailFragment : BaseFragment() {
                                                 isNoReloadCurrentTrackIndex = true
                                                 if (currentItemIndex == pos) {
                                                     if (!isUserPaused) {
-                                                        play(tracks.filter { it.obj !is Scalar }
-                                                            .map { it.obj } as ArrayList<Any>)
-                                                        Handler(Looper.getMainLooper()).postDelayed({
-                                                            EventBus.getDefault()
-                                                                .post(PlayerSelected(pos))
-                                                            timeDelay = 200L
-                                                        }, timeDelay)
+//                                                        play(tracks.filter { it.obj !is Scalar }
+//                                                            .map { it.obj } as ArrayList<Any>)
+//                                                        Handler(Looper.getMainLooper()).postDelayed({
+//                                                            EventBus.getDefault()
+//                                                                .post(PlayerSelected(pos))
+//                                                            timeDelay = 200L
+//                                                        }, timeDelay)
                                                     }
-                                                    EventBus.getDefault().post(PlayerPlayAction)
+                                                    EventBus.getDefault().post(PlayerPlayAction(isLastPlaying = true))
                                                 } else if ((currentItemIndex ?: 0) > pos) {
                                                     if (!isTrackScalar) {
                                                         musicRepository?.currentItemIndex = (musicRepository?.currentItemIndex ?: 0) - 1
                                                     }
-                                                    EventBus.getDefault().post(PlayerPlayAction)
+                                                    EventBus.getDefault().post(PlayerPlayAction())
                                                 } else {
-                                                    EventBus.getDefault().post(PlayerPlayAction)
+                                                    EventBus.getDefault().post(PlayerPlayAction())
                                                 }
                                             }
                                         }
@@ -806,6 +805,32 @@ class ProgramDetailFragment : BaseFragment() {
             it.records = list as java.util.ArrayList<String>
             programDao.updateProgram(it.copy(updated_at = Date().time))
         }
+    }
+
+    private fun removeScalar(scalarRemove: Scalar){
+        Handler(Looper.getMainLooper()).postDelayed({
+            if (playListScalar.size == 1) {
+                val lastScalar = playListScalar.last()
+                playScalar = lastScalar
+//                playListScalar.clear()
+//                playingScalar = false
+                playAndDownloadScalar(lastScalar)
+            } else {
+                val listScalars = ArrayList(playListScalar)
+                listScalars.remove(scalarRemove)
+                playListScalar.clear()
+                val lastScalar = listScalars.last()
+                playScalar = lastScalar
+                listScalars.removeLast()
+                playListScalar.addAll(listScalars)
+                if (listScalars.isNotEmpty()) {
+                    playAndDownloadScalar(listScalars.last())
+                } else {
+                    playAndDownloadScalar(lastScalar)
+                }
+            }
+
+        }, 1000L)
     }
 
     companion object {
