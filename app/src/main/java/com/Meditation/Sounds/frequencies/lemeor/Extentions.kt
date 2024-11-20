@@ -1,5 +1,6 @@
 package com.Meditation.Sounds.frequencies.lemeor
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
 import android.os.Environment
@@ -19,12 +20,15 @@ import com.Meditation.Sounds.frequencies.lemeor.data.model.Track
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.MusicRepository
 import com.Meditation.Sounds.frequencies.utils.Constants
+import com.Meditation.Sounds.frequencies.utils.QcAlarmManager
+import com.Meditation.Sounds.frequencies.utils.SharedPreferenceHelper
 import com.Meditation.Sounds.frequencies.utils.Utils
 import com.Meditation.Sounds.frequencies.views.CustomFontEditText
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.signature.ObjectKey
+import kotlinx.android.synthetic.main.fragment_new_program.btnSwitchSchedule
 import java.io.File
 import java.io.IOException
 import java.net.URI
@@ -224,15 +228,33 @@ fun getTempFile(context: Context, trackName: String, albumName: String): String 
 
 }
 
+@SuppressLint("DefaultLocale")
 fun getConvertedTime(millis: Long): String {
     val second: Long = millis / 1000 % 60
     val minute: Long = millis / (1000 * 60) % 60
     val hour: Long = millis / (1000 * 60 * 60) % 24
-
     return if (hour > 0) {
         String.format("%02d:%02d:%02d", hour, minute, second)
     } else {
         String.format("%02d:%02d", minute, second)
+    }
+}
+
+fun Context.checkSchedulePlaying(onResult: ()  -> Unit){
+    if (isPlayProgram
+        && playProgramId == SharedPreferenceHelper.getInstance().getInt(Constants.PREF_SCHEDULE_PROGRAM_ID)
+        && SharedPreferenceHelper.getInstance().getBool(Constants.PREF_SCHEDULE_PROGRAM_STATUS)
+        && QcAlarmManager.isCurrentTimeInRange()) {
+        val dialogBuilder = AlertDialog.Builder(this)
+        dialogBuilder.setMessage(getString(R.string.txt_confirm_turn_off_before_switching_on_another))
+            .setCancelable(false)
+            .setNegativeButton(getString(R.string.txt_no), null)
+            .setPositiveButton(getString(R.string.txt_yes)) { _, _ ->
+                SharedPreferenceHelper.getInstance().setBool(Constants.PREF_SCHEDULE_PROGRAM_STATUS, false)
+                onResult.invoke()
+            }.show()
+    } else {
+        onResult.invoke()
     }
 }
 

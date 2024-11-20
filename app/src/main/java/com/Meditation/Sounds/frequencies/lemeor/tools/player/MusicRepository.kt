@@ -11,17 +11,17 @@ class MusicRepository<T>(private val data: List<T>) {
     private val maxIndex = data.size - 1
     var currentItemIndex = 0
 
-    fun getNext(): T {
+    fun getNext(): T? {
         if (currentItemIndex == maxIndex) currentItemIndex = 0 else currentItemIndex++
         return getCurrent()
     }
 
-    fun getPrevious(): T {
+    fun getPrevious(): T? {
         if (currentItemIndex == 0) currentItemIndex = maxIndex else currentItemIndex--
         return getCurrent()
     }
 
-    fun getRandom(): T {
+    fun getRandom(): T? {
         val random = Random().nextInt(maxIndex + 1)
         if (currentItemIndex != random) {
             currentItemIndex = random
@@ -29,7 +29,10 @@ class MusicRepository<T>(private val data: List<T>) {
         return getCurrent()
     }
 
-    fun getCurrent(): T {
+    fun getCurrent(): T? {
+        if (data.isEmpty()) {
+            return null
+        }
         if (currentItemIndex <= data.size - 1) {
             currentTrack.value = data[currentItemIndex]
             currentTrackIndex.value = currentItemIndex

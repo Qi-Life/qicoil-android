@@ -385,7 +385,8 @@ class QcAlarmManager {
             }
         }
 
-        private fun isConditionTimeEndAutoPlayPrograms() : Boolean{
+        @SuppressLint("SimpleDateFormat")
+        private fun isConditionTimeEndAutoPlayPrograms() : Boolean {
             val currentTime = Calendar.getInstance()
             val dateFormat = SimpleDateFormat("dd-MM-yyyy HH:mm")
 
@@ -412,6 +413,57 @@ class QcAlarmManager {
             }
 
             return dateFormat.format(currentTime.time) == dateFormat.format(calendarMorningEnd.time) || dateFormat.format(currentTime.time) == dateFormat.format(calendarAfternoonEnd.time)
+        }
+
+        fun isCurrentTimeInRange(): Boolean {
+            val currentTime = Calendar.getInstance()
+
+            val hourStartAm = SharedPreferenceHelper.getInstance()
+                .getFloat(Constants.PREF_SCHEDULE_START_TIME_AM, 0f).toInt() / 60
+            val mintStartAm = SharedPreferenceHelper.getInstance()
+                .getFloat(Constants.PREF_SCHEDULE_START_TIME_AM, 0f).toInt() % 60
+
+            val hourEndAm = SharedPreferenceHelper.getInstance()
+                .getFloat(Constants.PREF_SCHEDULE_END_TIME_AM, 0f).toInt() / 60
+            val mintEndAm = SharedPreferenceHelper.getInstance()
+                .getFloat(Constants.PREF_SCHEDULE_END_TIME_AM, 0f).toInt() % 60
+
+            val calendarMorningStart = Calendar.getInstance().apply {
+                set(Calendar.HOUR_OF_DAY, hourStartAm)
+                set(Calendar.MINUTE, mintStartAm)
+                set(Calendar.SECOND, 0)
+            }
+
+            val calendarMorningEnd = Calendar.getInstance().apply {
+                set(Calendar.HOUR_OF_DAY, hourEndAm)
+                set(Calendar.MINUTE, mintEndAm)
+                set(Calendar.SECOND, 0)
+            }
+
+            val hourStartPm = SharedPreferenceHelper.getInstance()
+                .getFloat(Constants.PREF_SCHEDULE_START_TIME_PM, 0f).toInt() / 60
+            val mintStartPm = SharedPreferenceHelper.getInstance()
+                .getFloat(Constants.PREF_SCHEDULE_START_TIME_PM, 0f).toInt() % 60
+
+            val hourEndPm = SharedPreferenceHelper.getInstance()
+                .getFloat(Constants.PREF_SCHEDULE_END_TIME_PM, 0f).toInt() / 60
+            val mintEndPm = SharedPreferenceHelper.getInstance()
+                .getFloat(Constants.PREF_SCHEDULE_END_TIME_PM, 0f).toInt() % 60
+
+            val calendarAfternoonStart = Calendar.getInstance().apply {
+                set(Calendar.HOUR_OF_DAY, hourStartPm + 12)
+                set(Calendar.MINUTE, mintStartPm)
+                set(Calendar.SECOND, 0)
+            }
+
+            val calendarAfternoonEnd = Calendar.getInstance().apply {
+                set(Calendar.HOUR_OF_DAY, hourEndPm + 12)
+                set(Calendar.MINUTE, mintEndPm)
+                set(Calendar.SECOND, 0)
+            }
+
+            return (currentTime.after(calendarMorningStart) && currentTime.before(calendarMorningEnd)) ||
+                    (currentTime.after(calendarAfternoonStart) && currentTime.before(calendarAfternoonEnd))
         }
     }
 

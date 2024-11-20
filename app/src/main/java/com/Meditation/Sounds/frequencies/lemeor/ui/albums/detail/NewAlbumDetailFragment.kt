@@ -14,6 +14,7 @@ import com.Meditation.Sounds.frequencies.R
 import com.Meditation.Sounds.frequencies.feature.base.BaseFragment
 import com.Meditation.Sounds.frequencies.lemeor.albumIdBackProgram
 import com.Meditation.Sounds.frequencies.lemeor.categoryIdBackProgram
+import com.Meditation.Sounds.frequencies.lemeor.checkSchedulePlaying
 import com.Meditation.Sounds.frequencies.lemeor.convertSecondsToTime
 import com.Meditation.Sounds.frequencies.lemeor.currentTrack
 import com.Meditation.Sounds.frequencies.lemeor.currentTrackIndex
@@ -310,6 +311,9 @@ class NewAlbumDetailFragment : BaseFragment() {
 
         album_play.setOnClickListener {
             if (tracks.isNotEmpty()) {
+//                requireContext().checkSchedulePlaying {
+//
+//                }
                 playAndDownload(this)
             }
         }

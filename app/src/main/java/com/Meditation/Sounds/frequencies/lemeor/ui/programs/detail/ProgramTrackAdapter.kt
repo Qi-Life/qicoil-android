@@ -9,12 +9,14 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.Meditation.Sounds.frequencies.R
+import com.Meditation.Sounds.frequencies.lemeor.data.model.Program
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Scalar
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Search
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Track
 import com.Meditation.Sounds.frequencies.lemeor.loadImage
 import com.Meditation.Sounds.frequencies.lemeor.loadImageScalar
 import com.Meditation.Sounds.frequencies.lemeor.playListScalar
+import com.Meditation.Sounds.frequencies.lemeor.playProgramId
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.MusicRepository
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_program_track.view.divider
@@ -29,6 +31,7 @@ class ProgramTrackAdapter(
     private val onClickOptions: (item: Search) -> Unit
 ) : ListAdapter<Search, ProgramTrackAdapter.ViewHolder>(SearchDiffCallback()) {
     private var selectedItem: Search? = null
+    private var program: Program? = null
     var isMy = false
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -82,7 +85,6 @@ class ProgramTrackAdapter(
 
             is Scalar -> {
                 val f = item.obj as Scalar
-//                f.isSelected = position == selectedItem?.id
                 updateUIForScalar(f)
             }
         }
@@ -139,7 +141,7 @@ class ProgramTrackAdapter(
         item_track_name.text = context.getString(R.string.navigation_lbl_scalar)
         item_album_name.text = scalar.name
 
-        if (playListScalar.contains(scalar)) {
+        if (playListScalar.contains(scalar) && playProgramId == program?.id) {
             Glide.with(context)
                 .asGif()
                 .load(R.drawable.ic_scalar_playing)
@@ -148,6 +150,12 @@ class ProgramTrackAdapter(
         } else {
             item_track_scalar_status.visibility = View.GONE
         }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun setProgram(pr: Program){
+        program = pr
+        notifyDataSetChanged()
     }
 
     @SuppressLint("NotifyDataSetChanged")

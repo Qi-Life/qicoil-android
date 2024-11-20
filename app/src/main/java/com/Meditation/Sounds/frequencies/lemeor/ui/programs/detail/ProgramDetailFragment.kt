@@ -69,6 +69,7 @@ import com.Meditation.Sounds.frequencies.lemeor.ui.programs.NewProgramViewModel
 import com.Meditation.Sounds.frequencies.lemeor.ui.programs.dialog.FrequenciesDialogFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.programs.search.AddProgramsFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.scalar.ScalarDownloadService
+import com.Meditation.Sounds.frequencies.models.event.ScheduleProgramStatusEvent
 import com.Meditation.Sounds.frequencies.utils.Constants
 import com.Meditation.Sounds.frequencies.utils.QcAlarmManager
 import com.Meditation.Sounds.frequencies.utils.SharedPreferenceHelper
@@ -133,27 +134,33 @@ class ProgramDetailFragment : BaseFragment() {
             },
             onClickOptions = { item ->
                 positionFor = item.id
-                if (item.obj is Track) {
-                    val t = item.obj as Track
-                    startActivityForResult(
-                        PopActivity.newIntent(
-                            requireContext(), t.id.toDouble()
-                        ), 1002
-                    )
-                } else if (item.obj is MusicRepository.Frequency) {
-                    val f = item.obj as MusicRepository.Frequency
-                    startActivityForResult(
-                        PopActivity.newIntent(
-                            requireContext(), f.frequency.toDouble()
-                        ), 1002
-                    )
-                } else if (item.obj is Scalar) {
-                    val t = item.obj as Scalar
-                    startActivityForResult(
-                        PopActivity.newIntent(
-                            requireContext(), t.id.toDouble()
-                        ), 1002
-                    )
+                when (item.obj) {
+                    is Track -> {
+                        val t = item.obj as Track
+                        startActivityForResult(
+                            PopActivity.newIntent(
+                                requireContext(), t.id.toDouble()
+                            ), 1002
+                        )
+                    }
+
+                    is MusicRepository.Frequency -> {
+                        val f = item.obj as MusicRepository.Frequency
+                        startActivityForResult(
+                            PopActivity.newIntent(
+                                requireContext(), f.frequency.toDouble()
+                            ), 1002
+                        )
+                    }
+
+                    is Scalar -> {
+                        val t = item.obj as Scalar
+                        startActivityForResult(
+                            PopActivity.newIntent(
+                                requireContext(), t.id.toDouble()
+                            ), 1002
+                        )
+                    }
                 }
 
             },
@@ -320,9 +327,14 @@ class ProgramDetailFragment : BaseFragment() {
             .getBool(Constants.PREF_SCHEDULE_PROGRAM_STATUS)
         btnSwitchSchedule.setOnClickListener {
             if (btnSwitchSchedule.isSelected) {
+                if (!isPlayAlbum && isPlayProgram && (playProgramId == SharedPreferenceHelper.getInstance().getInt(Constants.PREF_SCHEDULE_PROGRAM_ID))) {
+                    playListScalar.clear()
+                    programTrackAdapter.setSelectedItem(null)
+                }
                 SharedPreferenceHelper.getInstance().setInt(Constants.PREF_SCHEDULE_PROGRAM_ID, 0)
                 SharedPreferenceHelper.getInstance().set(Constants.PREF_SCHEDULE_PROGRAM_NAME, "")
                 PreferenceHelper.saveScheduleProgram(requireContext(), null)
+                EventBus.getDefault().post(ScheduleProgramStatusEvent(isPlay = false, isHidePlayer = true, isClearScheduleProgram = true))
             } else {
                 SharedPreferenceHelper.getInstance()
                     .setInt(Constants.PREF_SCHEDULE_PROGRAM_ID, programId)
@@ -377,7 +389,7 @@ class ProgramDetailFragment : BaseFragment() {
     private fun initView(program: Program) {
         program_name.text = program.name
         programName = program.name
-
+        programTrackAdapter.setProgram(program)
         mViewModel.convertData(program) { list ->
             if (tracks.size != list.size && isPlayProgram && playProgramId == program.id) {
                 isFirst = false
@@ -410,7 +422,7 @@ class ProgramDetailFragment : BaseFragment() {
 
             currentTrackIndex.observe(viewLifecycleOwner) {
                 val allTracks = tracks.filter { it.obj !is Scalar }
-                if (allTracks.isNotEmpty() && allTracks.getOrNull(it) != null ) {
+                if (allTracks.isNotEmpty() && allTracks.getOrNull(it) != null) {
                     val t = tracks.firstOrNull { item -> item.obj == allTracks[it].obj }
                     t?.let { item ->
                         if (playProgramId == programId) {
@@ -593,7 +605,6 @@ class ProgramDetailFragment : BaseFragment() {
         }, 300)
     }
 
-
     private fun resetDataMyService(tracks: ArrayList<Any>) {
         CoroutineScope(Dispatchers.IO).launch {
             val data = tracks.mapNotNull { t ->
@@ -660,17 +671,13 @@ class ProgramDetailFragment : BaseFragment() {
                 AlertDialog.Builder(requireActivity()).setTitle(R.string.app_name)
                     .setMessage(R.string.txt_confirm_delete_frequencies)
                     .setPositiveButton(R.string.txt_yes) { _, _ ->
-//                        val activity = activity as NavigationActivity
-//                        isPlayAlbum = false
-//                        isPlayProgram = false
-//                        activity.hidePlayerUI()
                         val currentItemIndex = musicRepository?.currentItemIndex
-
-                        if (isPlayProgram && playProgramId == program?.id) {
-                            isNoReloadCurrentTrackIndex = true
-                        }
-
                         mViewModel.checkProgramData(program) { l ->
+
+                            if (isPlayProgram && playProgramId == program?.id && currentItemIndex != l.size - 1) {
+                                isNoReloadCurrentTrackIndex = true
+                            }
+
                             val list = ArrayList(l)
                             CoroutineScope(Dispatchers.IO).launch {
                                 positionFor?.let { pos ->
@@ -688,7 +695,8 @@ class ProgramDetailFragment : BaseFragment() {
                                     if (trackId.contains("-scalar")) {
                                         isTrackScalar = true
                                         val scalarId = trackId.replace("-scalar", "")
-                                        val scalarPlaying = playListScalar.firstOrNull { it.id == scalarId }
+                                        val scalarPlaying =
+                                            playListScalar.firstOrNull { it.id == scalarId }
                                         if (scalarPlaying != null) {
                                             removeScalar(scalarPlaying)
                                         }
@@ -719,21 +727,26 @@ class ProgramDetailFragment : BaseFragment() {
                                             if (list.none { it.obj !is Scalar }) {
                                                 EventBus.getDefault().post("clear player")
                                             } else {
-                                                isNoReloadCurrentTrackIndex = true
                                                 if (currentItemIndex == pos) {
                                                     if (!isUserPaused) {
-//                                                        play(tracks.filter { it.obj !is Scalar }
-//                                                            .map { it.obj } as ArrayList<Any>)
-//                                                        Handler(Looper.getMainLooper()).postDelayed({
-//                                                            EventBus.getDefault()
-//                                                                .post(PlayerSelected(pos))
-//                                                            timeDelay = 200L
-//                                                        }, timeDelay)
+                                                        play(tracks.filter { it.obj !is Scalar }
+                                                            .map { it.obj } as ArrayList<Any>)
+                                                        Handler(Looper.getMainLooper()).postDelayed(
+                                                            {
+                                                                EventBus.getDefault()
+                                                                    .post(PlayerSelected(pos))
+                                                                timeDelay = 200L
+                                                            },
+                                                            timeDelay
+                                                        )
                                                     }
-                                                    EventBus.getDefault().post(PlayerPlayAction(isLastPlaying = true))
+                                                    EventBus.getDefault()
+                                                        .post(PlayerPlayAction(isLastPlaying = true))
                                                 } else if ((currentItemIndex ?: 0) > pos) {
                                                     if (!isTrackScalar) {
-                                                        musicRepository?.currentItemIndex = (musicRepository?.currentItemIndex ?: 0) - 1
+                                                        musicRepository?.currentItemIndex =
+                                                            (musicRepository?.currentItemIndex
+                                                                ?: 0) - 1
                                                     }
                                                     EventBus.getDefault().post(PlayerPlayAction())
                                                 } else {
@@ -807,7 +820,7 @@ class ProgramDetailFragment : BaseFragment() {
         }
     }
 
-    private fun removeScalar(scalarRemove: Scalar){
+    private fun removeScalar(scalarRemove: Scalar) {
         Handler(Looper.getMainLooper()).postDelayed({
             if (playListScalar.size == 1) {
                 val lastScalar = playListScalar.last()

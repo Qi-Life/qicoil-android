@@ -1,6 +1,7 @@
 package com.Meditation.Sounds.frequencies.lemeor.ui.main
 
 
+import android.Manifest
 import android.Manifest.permission.READ_MEDIA_AUDIO
 import android.Manifest.permission.READ_MEDIA_IMAGES
 import android.Manifest.permission.READ_MEDIA_VIDEO
@@ -76,6 +77,7 @@ import com.Meditation.Sounds.frequencies.lemeor.data.remote.ApiHelper
 import com.Meditation.Sounds.frequencies.lemeor.data.utils.Resource
 import com.Meditation.Sounds.frequencies.lemeor.data.utils.ViewModelFactory
 import com.Meditation.Sounds.frequencies.lemeor.duration
+import com.Meditation.Sounds.frequencies.lemeor.getPreloadedSaveDir
 import com.Meditation.Sounds.frequencies.lemeor.getSaveDir
 import com.Meditation.Sounds.frequencies.lemeor.hideKeyboard
 import com.Meditation.Sounds.frequencies.lemeor.isPlayAlbum
@@ -87,6 +89,7 @@ import com.Meditation.Sounds.frequencies.lemeor.playAlbumId
 import com.Meditation.Sounds.frequencies.lemeor.playListScalar
 import com.Meditation.Sounds.frequencies.lemeor.playProgramId
 import com.Meditation.Sounds.frequencies.lemeor.playRife
+import com.Meditation.Sounds.frequencies.lemeor.playScalar
 import com.Meditation.Sounds.frequencies.lemeor.playingScalar
 import com.Meditation.Sounds.frequencies.lemeor.programName
 import com.Meditation.Sounds.frequencies.lemeor.selectedNaviFragment
@@ -387,6 +390,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                     .setCancelable(false)
                     .setNegativeButton(getString(R.string.txt_no), null)
                     .setPositiveButton(getString(R.string.txt_yes)) { _, _ ->
+                        playListScalar.clear()
                         fetchAndPlayProgram()
                     }.show()
             } else {
@@ -402,7 +406,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                 }
             }
         } else {
-            if (!isPlayAlbum && playProgramId == SharedPreferenceHelper.getInstance().getInt(Constants.PREF_SCHEDULE_PROGRAM_ID)) {
+            if (!isPlayAlbum && (playProgramId == SharedPreferenceHelper.getInstance().getInt(Constants.PREF_SCHEDULE_PROGRAM_ID) || event?.isClearScheduleProgram == true)) {
                 EventBus.getDefault().post("pause player")
                 if (event?.isHidePlayer == true && playListScalar.isEmpty()) {
                     clearDataPlayer()
@@ -445,8 +449,32 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                                 }
                             }
                         }
-                        playPrograms(tracks.map { it.obj } as ArrayList<Any>, it.id)
-                        EventBus.getDefault().post(PlayerSelected(0))
+
+                        //play program
+                        val allPrograms = tracks.filter { it.obj !is Scalar }
+                        if (allPrograms.isNotEmpty()) {
+                            playPrograms(allPrograms.map { it.obj } as ArrayList<Any>, it.id)
+                            EventBus.getDefault().post(PlayerSelected(0))
+                        }
+
+                        //play scalar
+                        val listScalars =
+                            tracks.filter { it.obj is Scalar }.map { it.obj as Scalar } as ArrayList<Scalar>
+                        if (listScalars.isNotEmpty()) {
+                            val lastScalar = listScalars.last()
+                            playScalar = lastScalar
+                            listScalars.removeLast()
+                            playListScalar.clear()
+                            playListScalar.addAll(listScalars)
+                            playAndDownloadScalar(lastScalar)
+                        } else {
+                            //clear scalar
+                            if (playListScalar.isNotEmpty()) {
+                                val lastScalar = playListScalar.last()
+                                playScalar = lastScalar
+                                playAndDownloadScalar(lastScalar)
+                            }
+                        }
                     }
                 }
             }
@@ -1036,12 +1064,12 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
     }
 
     private fun View.onSelected(listener: () -> Unit) {
-        if (mViewGroupCurrent != this) {
-            mViewGroupCurrent?.isSelected = false
-            mViewGroupCurrent = this
-            mViewGroupCurrent?.isSelected = true
-            listener.invoke()
-        }
+//        if (mViewGroupCurrent != this) {
+        mViewGroupCurrent?.isSelected = false
+        mViewGroupCurrent = this
+        mViewGroupCurrent?.isSelected = true
+        listener.invoke()
+//        }
     }
 
     //region SEARCH
@@ -1833,6 +1861,77 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
             CoroutineScope(Dispatchers.Main).launch {
                 showPlayerUI()
             }
+        }
+    }
+
+    private fun playAndDownloadScalar(scalar: Scalar) {
+        if (Utils.isConnectedToNetwork(this@NavigationActivity)) {
+            CoroutineScope(Dispatchers.IO).launch {
+                val file =
+                    File(getSaveDir(this@NavigationActivity, scalar.audio_file, scalar.audio_folder))
+                val preloaded =
+                    File(
+                        getPreloadedSaveDir(
+                            this@NavigationActivity,
+                            scalar.audio_file,
+                            scalar.audio_folder
+                        )
+                    )
+                if (!file.exists() && !preloaded.exists()) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        if (ContextCompat.checkSelfPermission(
+                                this@NavigationActivity, Manifest.permission.READ_MEDIA_IMAGES
+                            ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+                                this@NavigationActivity, Manifest.permission.READ_MEDIA_AUDIO
+                            ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+                                this@NavigationActivity, Manifest.permission.READ_MEDIA_VIDEO
+                            ) == PackageManager.PERMISSION_GRANTED
+                        ) {
+                            ScalarDownloadService.startService(context = this@NavigationActivity, scalar)
+                        } else {
+                            ActivityCompat.requestPermissions(
+                                this@NavigationActivity, arrayOf(
+                                    Manifest.permission.READ_MEDIA_IMAGES,
+                                    Manifest.permission.READ_MEDIA_AUDIO,
+                                    Manifest.permission.READ_MEDIA_VIDEO
+                                ), 1001
+                            )
+                        }
+                    } else {
+                        if (ContextCompat.checkSelfPermission(
+                                this@NavigationActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE
+                            ) == PackageManager.PERMISSION_GRANTED
+                        ) {
+                            ScalarDownloadService.startService(context = this@NavigationActivity, scalar)
+                        } else {
+                            ActivityCompat.requestPermissions(
+                                this@NavigationActivity,
+                                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                                1001
+                            )
+                        }
+                    }
+                }
+            }
+        } else {
+            Toast.makeText(
+                this@NavigationActivity, getString(R.string.err_network_available), Toast.LENGTH_SHORT
+            ).show()
+        }
+        playStopScalar("ADD_REMOVE")
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun playStopScalar(actionScalar: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val playIntent = Intent(this@NavigationActivity, ScalarPlayerService::class.java).apply {
+                    action = actionScalar
+                }
+                this@NavigationActivity.startService(playIntent)
+            } catch (_: Exception) {
+            }
+            CoroutineScope(Dispatchers.Main).launch { showPlayerUI() }
         }
     }
 
