@@ -135,13 +135,13 @@ import com.Meditation.Sounds.frequencies.lemeor.ui.videos.NewVideosFragment
 import com.Meditation.Sounds.frequencies.models.event.ScheduleProgramProgressEvent
 import com.Meditation.Sounds.frequencies.models.event.ScheduleProgramStatusEvent
 import com.Meditation.Sounds.frequencies.models.event.SyncDataEvent
+import com.Meditation.Sounds.frequencies.models.event.UpdateSwitchQuantumEvent
 import com.Meditation.Sounds.frequencies.models.event.UpdateViewSilentQuantumEvent
 import com.Meditation.Sounds.frequencies.services.worker.DailyWorker
 import com.Meditation.Sounds.frequencies.tasks.BaseTask
 import com.Meditation.Sounds.frequencies.tasks.GetFlashSaleTask
 import com.Meditation.Sounds.frequencies.utils.Combined5LiveData
 import com.Meditation.Sounds.frequencies.utils.Constants
-import com.Meditation.Sounds.frequencies.utils.Constants.Companion.PREF_SCHEDULE_PROGRAM_NAME
 import com.Meditation.Sounds.frequencies.utils.Constants.Companion.PREF_SETTING_ADVANCE_SCALAR_ON_OFF
 import com.Meditation.Sounds.frequencies.utils.Constants.Companion.PREF_SETTING_CHATBOT_ON_OFF
 import com.Meditation.Sounds.frequencies.utils.CopyAssets.copyAssetFolder
@@ -156,7 +156,6 @@ import com.tonyodev.fetch2core.isNetworkAvailable
 import kotlinx.android.synthetic.main.activity_navigation.album_search
 import kotlinx.android.synthetic.main.activity_navigation.album_search_clear
 import kotlinx.android.synthetic.main.activity_navigation.bg_mode
-import kotlinx.android.synthetic.main.activity_navigation.btnAddProgram
 import kotlinx.android.synthetic.main.activity_navigation.btnHideChatBot
 import kotlinx.android.synthetic.main.activity_navigation.btnStartChatBot
 import kotlinx.android.synthetic.main.activity_navigation.flash_sale
@@ -382,8 +381,8 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
 
     @Subscribe(threadMode = ThreadMode.MAIN_ORDERED)
     fun onAlarmsScheduleProgramEvent(event: ScheduleProgramStatusEvent?) {
-        if (event?.isPlay == true && SharedPreferenceHelper.getInstance().getInt(Constants.PREF_SCHEDULE_PROGRAM_ID) != 0) {
-            if ((isPlayAlbum || (playProgramId != SharedPreferenceHelper.getInstance().getInt(Constants.PREF_SCHEDULE_PROGRAM_ID) && isPlayProgram && !event.isSkipQuestion)) && !isUserPaused) {
+        if (event?.isPlay == true && PreferenceHelper.getScheduleProgram(this@NavigationActivity) != null) {
+            if ((isPlayAlbum || (playProgramId != PreferenceHelper.getScheduleProgram(this@NavigationActivity)?.id && isPlayProgram && !event.isSkipQuestion)) && !isUserPaused) {
                 val dialogBuilder =
                     androidx.appcompat.app.AlertDialog.Builder(this@NavigationActivity)
                 dialogBuilder.setMessage(getString(R.string.the_schedule_frequency_is_coming_up))
@@ -394,21 +393,16 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                         fetchAndPlayProgram()
                     }.show()
             } else {
-//                if (playProgramId == SharedPreferenceHelper.getInstance().getInt(Constants.PREF_SCHEDULE_PROGRAM_ID) && isPlayProgram) {
-//                    if (isUserPaused) {
-//                        clearDataPlayer()
-//                    }
-//                }
-                if (!isPlayProgram || playProgramId != SharedPreferenceHelper.getInstance().getInt(Constants.PREF_SCHEDULE_PROGRAM_ID)) {
+                if (!isPlayProgram || playProgramId != PreferenceHelper.getScheduleProgram(this@NavigationActivity)?.id) {
                     fetchAndPlayProgram()
                 } else {
                     EventBus.getDefault().post("play player")
                 }
             }
         } else {
-            if (!isPlayAlbum && (playProgramId == SharedPreferenceHelper.getInstance().getInt(Constants.PREF_SCHEDULE_PROGRAM_ID) || event?.isClearScheduleProgram == true)) {
+            if (!isPlayAlbum && (playProgramId == PreferenceHelper.getScheduleProgram(this@NavigationActivity)?.id || event?.isClearScheduleProgram == true)) {
                 EventBus.getDefault().post("pause player")
-                if (event?.isHidePlayer == true && playListScalar.isEmpty()) {
+                if (event?.isHidePlayer == true) {
                     clearDataPlayer()
                     isUserPaused = false
                     hidePlayerUI()
@@ -431,11 +425,13 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         var isPlaySync = true
         isPlayProgram = false
         isUserPaused = false
-//        val program = PreferenceHelper.getScheduleProgram(this@NavigationActivity)
-        mProgramDetailViewModel.program(SharedPreferenceHelper.getInstance().getInt(Constants.PREF_SCHEDULE_PROGRAM_ID)).observe(this@NavigationActivity) {
+        mProgramDetailViewModel.program(
+            PreferenceHelper.getScheduleProgram(this@NavigationActivity)?.id ?: 0
+        ).observe(this@NavigationActivity) {
             if (isPlaySync) {
                 isPlaySync = false
-                programName = SharedPreferenceHelper.getInstance().get(PREF_SCHEDULE_PROGRAM_NAME)
+                programName =
+                    PreferenceHelper.getScheduleProgram(this@NavigationActivity)?.name ?: ""
                 if (it != null && it.id != 0 && !isPlayProgram) {
                     val tracks: ArrayList<Search> = ArrayList()
                     mProgramDetailViewModel.convertData(it) { list ->
@@ -459,7 +455,8 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
 
                         //play scalar
                         val listScalars =
-                            tracks.filter { it.obj is Scalar }.map { it.obj as Scalar } as ArrayList<Scalar>
+                            tracks.filter { it.obj is Scalar }
+                                .map { it.obj as Scalar } as ArrayList<Scalar>
                         if (listScalars.isNotEmpty()) {
                             val lastScalar = listScalars.last()
                             playScalar = lastScalar
@@ -475,6 +472,8 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                                 playAndDownloadScalar(lastScalar)
                             }
                         }
+
+                        EventBus.getDefault().post(UpdateSwitchQuantumEvent(program = it))
                     }
                 }
             }
@@ -728,10 +727,6 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
             SharedPreferenceHelper.getInstance().setBool(PREF_SETTING_CHATBOT_ON_OFF, false)
         }
 
-        btnAddProgram.setOnClickListener {
-            navigation_programs.performClick()
-        }
-
         orientationChangesUI(resources.configuration.orientation)
 
         mNewProgramViewModel.getPrograms().observe(this@NavigationActivity) {
@@ -817,10 +812,10 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
 
         mChatBotViewModel = ViewModelProvider(this)[ChatBotViewModel::class.java]
 
-        navigation_home.onSelected {
+        navigation_albums.onSelected {
             closeSearch()
             search_layout.visibility = View.VISIBLE
-            setFragment(HomeFragment())
+            setFragment(TiersPagerFragment())
         }
 
         flash_sale.visibility = View.GONE //At the request of the client
@@ -1036,10 +1031,12 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                 R.anim.trans_right_to_left_out
             ).replace(R.id.nav_host_fragment, fragment, fragment.javaClass.simpleName).commit()
         }
-        navigation_scalar.onSelected {
-            closeSearch()
-            search_layout.visibility = View.VISIBLE
-            setFragmentBackAnimation(NewScalarFragment())
+        if (mViewGroupCurrent != navigation_scalar) {
+            navigation_scalar.onSelected {
+                closeSearch()
+                search_layout.visibility = View.VISIBLE
+                setFragmentBackAnimation(NewScalarFragment())
+            }
         }
     }
 
@@ -1608,12 +1605,6 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
             viewIntroChatBot.visibility = View.GONE
             btnHideChatBot.visibility = View.GONE
         }
-
-        if (fragment is HomeFragment) {
-            btnAddProgram.visibility = View.VISIBLE
-        } else {
-            btnAddProgram.visibility = View.GONE
-        }
     }
 
     private fun initChatAdapter() {
@@ -1868,7 +1859,13 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         if (Utils.isConnectedToNetwork(this@NavigationActivity)) {
             CoroutineScope(Dispatchers.IO).launch {
                 val file =
-                    File(getSaveDir(this@NavigationActivity, scalar.audio_file, scalar.audio_folder))
+                    File(
+                        getSaveDir(
+                            this@NavigationActivity,
+                            scalar.audio_file,
+                            scalar.audio_folder
+                        )
+                    )
                 val preloaded =
                     File(
                         getPreloadedSaveDir(
@@ -1887,7 +1884,10 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                                 this@NavigationActivity, Manifest.permission.READ_MEDIA_VIDEO
                             ) == PackageManager.PERMISSION_GRANTED
                         ) {
-                            ScalarDownloadService.startService(context = this@NavigationActivity, scalar)
+                            ScalarDownloadService.startService(
+                                context = this@NavigationActivity,
+                                scalar
+                            )
                         } else {
                             ActivityCompat.requestPermissions(
                                 this@NavigationActivity, arrayOf(
@@ -1902,7 +1902,10 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                                 this@NavigationActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE
                             ) == PackageManager.PERMISSION_GRANTED
                         ) {
-                            ScalarDownloadService.startService(context = this@NavigationActivity, scalar)
+                            ScalarDownloadService.startService(
+                                context = this@NavigationActivity,
+                                scalar
+                            )
                         } else {
                             ActivityCompat.requestPermissions(
                                 this@NavigationActivity,
@@ -1915,7 +1918,9 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
             }
         } else {
             Toast.makeText(
-                this@NavigationActivity, getString(R.string.err_network_available), Toast.LENGTH_SHORT
+                this@NavigationActivity,
+                getString(R.string.err_network_available),
+                Toast.LENGTH_SHORT
             ).show()
         }
         playStopScalar("ADD_REMOVE")
@@ -1925,9 +1930,10 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
     private fun playStopScalar(actionScalar: String) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val playIntent = Intent(this@NavigationActivity, ScalarPlayerService::class.java).apply {
-                    action = actionScalar
-                }
+                val playIntent =
+                    Intent(this@NavigationActivity, ScalarPlayerService::class.java).apply {
+                        action = actionScalar
+                    }
                 this@NavigationActivity.startService(playIntent)
             } catch (_: Exception) {
             }

@@ -9,7 +9,9 @@ import android.os.Build
 import android.util.Log
 import com.Meditation.Sounds.frequencies.api.models.GetFlashSaleOutput
 import com.Meditation.Sounds.frequencies.lemeor.isPlayProgram
+import com.Meditation.Sounds.frequencies.lemeor.isUserPaused
 import com.Meditation.Sounds.frequencies.lemeor.playProgramId
+import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper
 import com.Meditation.Sounds.frequencies.models.event.ScheduleProgramStatusEvent
 import com.Meditation.Sounds.frequencies.services.AlarmReceiver
 import com.Meditation.Sounds.frequencies.services.AlarmsScheduleProgramReceiver
@@ -365,8 +367,11 @@ class QcAlarmManager {
                 }
 
                 //check stop current program
-                if (!isProgramPlayed && isPlayProgram && playProgramId == SharedPreferenceHelper.getInstance().getInt(Constants.PREF_SCHEDULE_PROGRAM_ID)) {
-                    EventBus.getDefault().post(ScheduleProgramStatusEvent(isPlay = false, isHidePlayer = true))
+                if (!isProgramPlayed && isPlayProgram && playProgramId == PreferenceHelper.getScheduleProgram(context)?.id) {
+                    if (isUserPaused) {
+                        EventBus.getDefault().post("play player")
+                    }
+//                    EventBus.getDefault().post(ScheduleProgramStatusEvent(isPlay = false, isHidePlayer = true))
                 }
             }
         }

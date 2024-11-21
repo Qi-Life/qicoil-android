@@ -417,8 +417,8 @@
     <string name="msg_chatting_bot_cookie_policies">By chatting with me, you agree to our Privacy and Cookie Policies.</string>
     <string name="tv_message">Message:</string>
     <string name="tv_master_wong_ai">Dr. Qi Ai assistant</string>
-    <string name="tv_silent_scalar_turned_on">Silent Scalar is currently turned on</string>
-    <string name="tv_silent_scalar_turned_off">Silent Scalar is currently turned off</string>
+    <string name="tv_silent_scalar_turned_on">Silent Quantum is currently turned on</string>
+    <string name="tv_silent_scalar_turned_off">Silent Quantum is currently turned off</string>
     <string name="tv_please_choose_a_frequency_to_play">Please choose a Frequency to play</string>
     <string name="tv_there_no_silent_energies">There are no Silent energies, please active it.</string>
     <string name="recent">Recent:</string>

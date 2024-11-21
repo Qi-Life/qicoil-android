@@ -1,6 +1,7 @@
 package com.Meditation.Sounds.frequencies.lemeor.ui.programs.search
 
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
@@ -15,10 +16,11 @@ import com.Meditation.Sounds.frequencies.lemeor.data.remote.ApiHelper
 import com.Meditation.Sounds.frequencies.lemeor.data.utils.ViewModelFactory
 import com.Meditation.Sounds.frequencies.lemeor.hideKeyboard
 import com.Meditation.Sounds.frequencies.lemeor.ui.main.HomeViewModel
-import com.Meditation.Sounds.frequencies.lemeor.ui.main.NavigationActivity
 import com.Meditation.Sounds.frequencies.lemeor.ui.programs.NewProgramViewModel
 import com.Meditation.Sounds.frequencies.lemeor.ui.programs.detail.ProgramDetailFragment
+import com.Meditation.Sounds.frequencies.utils.Constants.Companion.PREF_SETTING_ADVANCE_SCALAR_ON_OFF
 import com.Meditation.Sounds.frequencies.utils.FlowSearch
+import com.Meditation.Sounds.frequencies.utils.SharedPreferenceHelper
 import com.Meditation.Sounds.frequencies.utils.safeOnClickListener
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_add_programs.btnAdd
@@ -56,6 +58,7 @@ class AddProgramsFragment : BaseFragment() {
             listSelected.addAll(it)
         }
     }
+    private var isFirstLoad = true
 
     override fun initComponents() {
         page = if (isSilentQuantum > 1) {
@@ -125,22 +128,33 @@ class AddProgramsFragment : BaseFragment() {
         viewPager.isUserInputEnabled = false
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
-                page = position
-                searchHint.setText("")
-                searchHint.clearFocus()
-                hideKeyboard(requireContext(), searchHint)
+                if (!isFirstLoad) {
+                    page = position
+                    searchHint.setText("")
+                    searchHint.clearFocus()
+                    hideKeyboard(requireContext(), searchHint)
+                }
                 super.onPageSelected(position)
             }
         })
     }
 
-    private fun resetData(list: List<Triple<String, List<Search>, Boolean>>) {
+    @Suppress("DEPRECATION")
+    private fun resetData(l: List<Triple<String, List<Search>, Boolean>>) {
+        val list = ArrayList(l)
+        val isSilentEnable = SharedPreferenceHelper.getInstance().getBool(PREF_SETTING_ADVANCE_SCALAR_ON_OFF)
+        if (!isSilentEnable) {
+            list.removeLast()
+        }
         adapter.setListContents(list)
         TabLayoutMediator(tabs, viewPager) { tab, position ->
             tab.text = list[position].first
         }.attach()
-        tabs.selectTab(tabs.getTabAt(page))
-        viewPager.currentItem = page
+        Handler().postDelayed({
+            tabs.selectTab(tabs.getTabAt(page))
+            viewPager.setCurrentItem(page, false)
+            isFirstLoad = false
+        }, 500L)
     }
 
     private fun onBackPressed() {
@@ -160,12 +174,13 @@ class AddProgramsFragment : BaseFragment() {
         const val ARG_IS_SILENT_QUANTUM = "arg_is_silent_quantum"
 
         @JvmStatic
-        fun newInstance(id: Int, isRife: Int = 0, isSilentQuantum: Int = 0) = AddProgramsFragment().apply {
-            arguments = Bundle().apply {
-                putInt(ARG_PROGRAM_ID, id)
-                putInt(ARG_IS_RIFE, isRife)
-                putInt(ARG_IS_SILENT_QUANTUM, isSilentQuantum)
+        fun newInstance(id: Int, isRife: Int = 0, isSilentQuantum: Int = 0) =
+            AddProgramsFragment().apply {
+                arguments = Bundle().apply {
+                    putInt(ARG_PROGRAM_ID, id)
+                    putInt(ARG_IS_RIFE, isRife)
+                    putInt(ARG_IS_SILENT_QUANTUM, isSilentQuantum)
+                }
             }
-        }
     }
 }

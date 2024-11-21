@@ -242,7 +242,7 @@ fun getConvertedTime(millis: Long): String {
 
 fun Context.checkSchedulePlaying(onResult: ()  -> Unit){
     if (isPlayProgram
-        && playProgramId == SharedPreferenceHelper.getInstance().getInt(Constants.PREF_SCHEDULE_PROGRAM_ID)
+        && playProgramId == PreferenceHelper.getScheduleProgram(this)?.id
         && SharedPreferenceHelper.getInstance().getBool(Constants.PREF_SCHEDULE_PROGRAM_STATUS)
         && QcAlarmManager.isCurrentTimeInRange()) {
         val dialogBuilder = AlertDialog.Builder(this)

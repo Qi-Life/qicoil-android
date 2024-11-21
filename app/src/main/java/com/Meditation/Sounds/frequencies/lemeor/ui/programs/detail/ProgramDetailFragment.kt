@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.KeyEvent
+import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -70,7 +71,9 @@ import com.Meditation.Sounds.frequencies.lemeor.ui.programs.dialog.FrequenciesDi
 import com.Meditation.Sounds.frequencies.lemeor.ui.programs.search.AddProgramsFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.scalar.ScalarDownloadService
 import com.Meditation.Sounds.frequencies.models.event.ScheduleProgramStatusEvent
+import com.Meditation.Sounds.frequencies.models.event.UpdateSwitchQuantumEvent
 import com.Meditation.Sounds.frequencies.utils.Constants
+import com.Meditation.Sounds.frequencies.utils.Constants.Companion.PREF_SETTING_ADVANCE_SCALAR_ON_OFF
 import com.Meditation.Sounds.frequencies.utils.QcAlarmManager
 import com.Meditation.Sounds.frequencies.utils.SharedPreferenceHelper
 import com.Meditation.Sounds.frequencies.utils.Utils
@@ -117,12 +120,23 @@ class ProgramDetailFragment : BaseFragment() {
 
     private val programTrackAdapter by lazy {
         ProgramTrackAdapter(
-            onClickItem = { item, index ->
+            onClickItem = { item, _ ->
+                if (playProgramId != programId) {
+                    //clear scalar
+                    if (playListScalar.isNotEmpty()) {
+                        val lastScalar = playListScalar.last()
+                        playScalar = lastScalar
+                        playAndDownloadScalar(lastScalar)
+                    }
+                }
                 isMultiPlay = false
                 if (item.obj is Scalar) {
+                    //play scalar
+                    playProgramId = programId
                     playScalar = item.obj as Scalar
                     playAndDownloadScalar(item.obj as Scalar)
                 } else {
+                    //play quantum
                     val listTracks =
                         tracks.filter { it.obj !is Scalar }.map { it.obj } as ArrayList<Any>
                     play(listTracks)
@@ -191,6 +205,13 @@ class ProgramDetailFragment : BaseFragment() {
         if (event is String && event == "clear player") {
             programTrackAdapter.setSelectedItem(null)
         }
+
+        if (event is UpdateSwitchQuantumEvent) {
+            if (event.program?.id != programId) {
+                isFirst = true
+                programTrackAdapter.setSelectedItem(null)
+            }
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -216,6 +237,10 @@ class ProgramDetailFragment : BaseFragment() {
         program_tracks_recycler.apply {
             adapter = programTrackAdapter
             addItemDecoration(itemDecoration)
+        }
+
+        if (!SharedPreferenceHelper.getInstance().getBool(PREF_SETTING_ADVANCE_SCALAR_ON_OFF)) {
+            action_add_silent_quantum.visibility = View.GONE
         }
 
         view?.isFocusableInTouchMode = true
@@ -254,23 +279,25 @@ class ProgramDetailFragment : BaseFragment() {
             }
 
             //play scalar
-            val listScalars =
-                tracks.filter { it.obj is Scalar }.map { it.obj as Scalar } as ArrayList<Scalar>
-            if (listScalars.isNotEmpty()) {
-                val lastScalar = listScalars.last()
-                playScalar = lastScalar
-                listScalars.removeLast()
-                playListScalar.clear()
-                playListScalar.addAll(listScalars)
-                playAndDownloadScalar(lastScalar)
-            } else {
-                //clear scalar
-                if (playListScalar.isNotEmpty()) {
-                    val lastScalar = playListScalar.last()
+            if (SharedPreferenceHelper.getInstance().getBool(PREF_SETTING_ADVANCE_SCALAR_ON_OFF)) {
+                val listScalars =
+                    tracks.filter { it.obj is Scalar && (it.obj as Scalar).is_free == 1}.map { it.obj as Scalar } as ArrayList<Scalar>
+                if (listScalars.isNotEmpty()) {
+                    val lastScalar = listScalars.last()
                     playScalar = lastScalar
+                    listScalars.removeLast()
+                    playListScalar.clear()
+                    playListScalar.addAll(listScalars)
+                    playAndDownloadScalar(lastScalar)
+                } else {
+                    //clear scalar
+                    if (playListScalar.isNotEmpty()) {
+                        val lastScalar = playListScalar.last()
+                        playScalar = lastScalar
 //                    playListScalar.clear()
 //                    playingScalar = false
-                    playAndDownloadScalar(lastScalar)
+                        playAndDownloadScalar(lastScalar)
+                    }
                 }
             }
         }
@@ -322,29 +349,25 @@ class ProgramDetailFragment : BaseFragment() {
             }
         }
 
-        btnSwitchSchedule.isSelected = SharedPreferenceHelper.getInstance()
-            .getInt(Constants.PREF_SCHEDULE_PROGRAM_ID) == programId && SharedPreferenceHelper.getInstance()
-            .getBool(Constants.PREF_SCHEDULE_PROGRAM_STATUS)
+        btnSwitchSchedule.isSelected =
+            PreferenceHelper.getScheduleProgram(requireContext())?.id == programId && SharedPreferenceHelper.getInstance()
+                .getBool(Constants.PREF_SCHEDULE_PROGRAM_STATUS)
         btnSwitchSchedule.setOnClickListener {
             if (btnSwitchSchedule.isSelected) {
-                if (!isPlayAlbum && isPlayProgram && (playProgramId == SharedPreferenceHelper.getInstance().getInt(Constants.PREF_SCHEDULE_PROGRAM_ID))) {
+                isFirst = true
+                if (!isPlayAlbum && isPlayProgram && playProgramId == PreferenceHelper.getScheduleProgram(requireContext())?.id && QcAlarmManager.isCurrentTimeInRange()) {
                     playListScalar.clear()
                     programTrackAdapter.setSelectedItem(null)
                 }
-                SharedPreferenceHelper.getInstance().setInt(Constants.PREF_SCHEDULE_PROGRAM_ID, 0)
-                SharedPreferenceHelper.getInstance().set(Constants.PREF_SCHEDULE_PROGRAM_NAME, "")
                 PreferenceHelper.saveScheduleProgram(requireContext(), null)
-                EventBus.getDefault().post(ScheduleProgramStatusEvent(isPlay = false, isHidePlayer = true, isClearScheduleProgram = true))
+                if (QcAlarmManager.isCurrentTimeInRange()) {
+                    EventBus.getDefault().post(ScheduleProgramStatusEvent(isPlay = false, isHidePlayer = true, isClearScheduleProgram = true))
+                }
             } else {
-                SharedPreferenceHelper.getInstance()
-                    .setInt(Constants.PREF_SCHEDULE_PROGRAM_ID, programId)
-                SharedPreferenceHelper.getInstance()
-                    .set(Constants.PREF_SCHEDULE_PROGRAM_NAME, program?.name)
                 PreferenceHelper.saveScheduleProgram(requireContext(), program)
             }
             btnSwitchSchedule.isSelected = !btnSwitchSchedule.isSelected
-            SharedPreferenceHelper.getInstance()
-                .setBool(Constants.PREF_SCHEDULE_PROGRAM_STATUS, btnSwitchSchedule.isSelected)
+            SharedPreferenceHelper.getInstance().setBool(Constants.PREF_SCHEDULE_PROGRAM_STATUS, btnSwitchSchedule.isSelected)
             QcAlarmManager.setScheduleProgramsAlarms(requireContext())
         }
     }

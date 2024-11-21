@@ -1,15 +1,22 @@
 package com.Meditation.Sounds.frequencies.lemeor.ui.programs
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import com.Meditation.Sounds.frequencies.R
@@ -21,27 +28,36 @@ import com.Meditation.Sounds.frequencies.lemeor.data.api.RetrofitBuilder
 import com.Meditation.Sounds.frequencies.lemeor.data.database.DataBase
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Album
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Program
+import com.Meditation.Sounds.frequencies.lemeor.data.model.Scalar
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Track
 import com.Meditation.Sounds.frequencies.lemeor.data.remote.ApiHelper
 import com.Meditation.Sounds.frequencies.lemeor.data.utils.ViewModelFactory
+import com.Meditation.Sounds.frequencies.lemeor.getPreloadedSaveDir
+import com.Meditation.Sounds.frequencies.lemeor.getSaveDir
 import com.Meditation.Sounds.frequencies.lemeor.isPlayProgram
 import com.Meditation.Sounds.frequencies.lemeor.isTrackAdd
+import com.Meditation.Sounds.frequencies.lemeor.playListScalar
 import com.Meditation.Sounds.frequencies.lemeor.playProgramId
+import com.Meditation.Sounds.frequencies.lemeor.playScalar
 import com.Meditation.Sounds.frequencies.lemeor.rifeBackProgram
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper
+import com.Meditation.Sounds.frequencies.lemeor.tools.player.ScalarPlayerService
 import com.Meditation.Sounds.frequencies.lemeor.trackIdForProgram
 import com.Meditation.Sounds.frequencies.lemeor.typeBack
 import com.Meditation.Sounds.frequencies.lemeor.ui.albums.detail.NewAlbumDetailFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.main.HomeViewModel
+import com.Meditation.Sounds.frequencies.lemeor.ui.main.NavigationActivity
 import com.Meditation.Sounds.frequencies.lemeor.ui.main.UpdateTrack
 import com.Meditation.Sounds.frequencies.lemeor.ui.programs.detail.ProgramDetailFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.purchase.new_flow.NewPurchaseActivity
+import com.Meditation.Sounds.frequencies.lemeor.ui.scalar.ScalarDownloadService
 import com.Meditation.Sounds.frequencies.models.ProgramSchedule
 import com.Meditation.Sounds.frequencies.models.event.ScheduleProgramProgressEvent
 import com.Meditation.Sounds.frequencies.models.event.ScheduleProgramStatusEvent
 import com.Meditation.Sounds.frequencies.utils.Constants
 import com.Meditation.Sounds.frequencies.utils.QcAlarmManager
 import com.Meditation.Sounds.frequencies.utils.SharedPreferenceHelper
+import com.Meditation.Sounds.frequencies.utils.Utils
 import com.Meditation.Sounds.frequencies.utils.isNotString
 import com.Meditation.Sounds.frequencies.utils.loadImageWithGif
 import com.Meditation.Sounds.frequencies.views.AlertMessageDialog
@@ -71,6 +87,7 @@ import kotlinx.coroutines.withContext
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import java.io.File
 import java.util.Date
 
 class NewProgramFragment : BaseFragment() {
@@ -88,6 +105,9 @@ class NewProgramFragment : BaseFragment() {
         EventBus.getDefault().post(ScheduleProgramProgressEvent)
         setDataTime()
         updateViewSaveSchedule()
+        if (!QcAlarmManager.isCurrentTimeInRange() && isPlayProgram && playProgramId == PreferenceHelper.getScheduleProgram(requireContext())?.id) {
+            EventBus.getDefault().post(ScheduleProgramStatusEvent(isPlay = false, isHidePlayer = true))
+        }
     }
 
 
@@ -254,13 +274,18 @@ class NewProgramFragment : BaseFragment() {
                                 }
                             }
 
-                            if (program.id == SharedPreferenceHelper.getInstance().getInt(Constants.PREF_SCHEDULE_PROGRAM_ID)) {
-                                if (isPlayProgram && playProgramId == SharedPreferenceHelper.getInstance().getInt(Constants.PREF_SCHEDULE_PROGRAM_ID)) {
+                            if (program.id == PreferenceHelper.getScheduleProgram(requireContext())?.id) {
+                                if (isPlayProgram && playProgramId == PreferenceHelper.getScheduleProgram(requireContext())?.id) {
                                     EventBus.getDefault().post("clear player")
+                                    //clear scalar
+                                    if (playListScalar.isNotEmpty()) {
+                                        val lastScalar = playListScalar.last()
+                                        playScalar = lastScalar
+                                        playAndDownloadScalar(lastScalar)
+                                    }
                                 }
-                                SharedPreferenceHelper.getInstance().setInt(Constants.PREF_SCHEDULE_PROGRAM_ID, 0)
-                                SharedPreferenceHelper.getInstance().set(Constants.PREF_SCHEDULE_PROGRAM_NAME, "")
                                 PreferenceHelper.saveScheduleProgram(requireContext(), null)
+                                updateViewProgram()
                             }
 
                             Toast.makeText(
@@ -279,8 +304,7 @@ class NewProgramFragment : BaseFragment() {
 
         btnSwitchSchedule.setOnClickListener {
             btnSwitchSchedule.isSelected = !btnSwitchSchedule.isSelected
-            SharedPreferenceHelper.getInstance()
-                .setBool(Constants.PREF_SCHEDULE_PROGRAM_STATUS, btnSwitchSchedule.isSelected)
+            SharedPreferenceHelper.getInstance().setBool(Constants.PREF_SCHEDULE_PROGRAM_STATUS, btnSwitchSchedule.isSelected)
             if (btnSwitchSchedule.isSelected) {
                 QcAlarmManager.setScheduleProgramsAlarms(requireContext())
             } else {
@@ -296,35 +320,6 @@ class NewProgramFragment : BaseFragment() {
 
         tvProgramName.setOnClickListener {
             if (PreferenceHelper.getScheduleProgram(requireContext()) != null) {
-                if (isTrackAdd && trackIdForProgram != (Constants.defaultHz - 1).toString()) {
-                    val db = DataBase.getInstance(requireContext())
-                    val programDao = db.programDao()
-                    CoroutineScope(Dispatchers.IO).launch {
-                        try {
-                            val programRoom = programDao.getProgramById(PreferenceHelper.getScheduleProgram(requireContext())?.id ?: 0)
-                            programRoom?.let { p ->
-                                p.records.add(trackIdForProgram)
-                                programDao.updateProgram(p.copy(updated_at = Date().time))
-                                if (p.user_id.isNotEmpty()) {
-                                    try {
-                                        mViewModel.updateTrackToProgram(
-                                            UpdateTrack(
-                                                track_id = listOf(trackIdForProgram),
-                                                id = p.id,
-                                                track_type = if (trackIdForProgram.isNotString()) "mp3" else "rife",
-                                                request_type = "add",
-                                                is_favorite = (p.name.uppercase() == FAVORITES.uppercase() && p.favorited)
-                                            )
-                                        )
-                                    } catch (_: Exception) {
-                                    }
-                                }
-                            }
-                        } catch (_: Exception) {
-                        }
-                    }
-                }
-
                 parentFragmentManager.beginTransaction().setCustomAnimations(
                     R.anim.trans_right_to_left_in,
                     R.anim.trans_right_to_left_out,
@@ -467,8 +462,7 @@ class NewProgramFragment : BaseFragment() {
             SharedPreferenceHelper.getInstance().getFloat(Constants.PREF_SCHEDULE_END_TIME_PM, 719f)
         )
         btnDeleteProgramName.setOnClickListener {
-            SharedPreferenceHelper.getInstance().setInt(Constants.PREF_SCHEDULE_PROGRAM_ID, 0)
-            SharedPreferenceHelper.getInstance().set(Constants.PREF_SCHEDULE_PROGRAM_NAME, "")
+            PreferenceHelper.saveScheduleProgram(requireContext(), null)
             QcAlarmManager.clearScheduleProgramsAlarms(requireContext())
             updateViewProgram()
         }
@@ -558,9 +552,8 @@ class NewProgramFragment : BaseFragment() {
     }
 
     private fun updateViewProgram() {
-        if (SharedPreferenceHelper.getInstance().getInt(Constants.PREF_SCHEDULE_PROGRAM_ID) != 0) {
-            tvProgramName.text =
-                SharedPreferenceHelper.getInstance().get(Constants.PREF_SCHEDULE_PROGRAM_NAME)
+        if (PreferenceHelper.getScheduleProgram(requireContext()) != null) {
+            tvProgramName.text = PreferenceHelper.getScheduleProgram(requireContext())?.name
             btnDeleteProgramName.visibility = View.VISIBLE
         } else {
             tvProgramName.text = getString(R.string.you_have_no_program_selected)
@@ -604,5 +597,76 @@ class NewProgramFragment : BaseFragment() {
 
         tvSaveSchedule?.isEnabled = isSaveEnable
         imvSaveSchedule?.isEnabled = isSaveEnable
+    }
+
+    private fun playAndDownloadScalar(scalar: Scalar) {
+        if (Utils.isConnectedToNetwork(requireContext())) {
+            CoroutineScope(Dispatchers.IO).launch {
+                val file =
+                    File(getSaveDir(requireContext(), scalar.audio_file, scalar.audio_folder))
+                val preloaded =
+                    File(
+                        getPreloadedSaveDir(
+                            requireContext(),
+                            scalar.audio_file,
+                            scalar.audio_folder
+                        )
+                    )
+                if (!file.exists() && !preloaded.exists()) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        if (ContextCompat.checkSelfPermission(
+                                requireActivity(), Manifest.permission.READ_MEDIA_IMAGES
+                            ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+                                requireActivity(), Manifest.permission.READ_MEDIA_AUDIO
+                            ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+                                requireActivity(), Manifest.permission.READ_MEDIA_VIDEO
+                            ) == PackageManager.PERMISSION_GRANTED
+                        ) {
+                            ScalarDownloadService.startService(context = requireContext(), scalar)
+                        } else {
+                            ActivityCompat.requestPermissions(
+                                requireActivity(), arrayOf(
+                                    Manifest.permission.READ_MEDIA_IMAGES,
+                                    Manifest.permission.READ_MEDIA_AUDIO,
+                                    Manifest.permission.READ_MEDIA_VIDEO
+                                ), 1001
+                            )
+                        }
+                    } else {
+                        if (ContextCompat.checkSelfPermission(
+                                requireActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE
+                            ) == PackageManager.PERMISSION_GRANTED
+                        ) {
+                            ScalarDownloadService.startService(context = requireContext(), scalar)
+                        } else {
+                            ActivityCompat.requestPermissions(
+                                requireActivity(),
+                                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                                1001
+                            )
+                        }
+                    }
+                }
+            }
+        } else {
+            Toast.makeText(
+                requireContext(), getString(R.string.err_network_available), Toast.LENGTH_SHORT
+            ).show()
+        }
+        playStopScalar("ADD_REMOVE")
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun playStopScalar(actionScalar: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val playIntent = Intent(context, ScalarPlayerService::class.java).apply {
+                    action = actionScalar
+                }
+                requireActivity().startService(playIntent)
+            } catch (_: Exception) {
+            }
+            CoroutineScope(Dispatchers.Main).launch { (activity as NavigationActivity).showPlayerUI() }
+        }
     }
 }

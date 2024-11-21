@@ -55,7 +55,7 @@ class ScalarAlbumsAdapter(
             holder.itemView.lock.visibility = View.GONE
         }
 
-        if (playListScalar.contains(scalar)) {
+        if (playListScalar.contains(scalar) && scalar.is_free == 1) {
             holder.itemView.viewPlayingAnimation.startAnimation()
         } else {
             holder.itemView.viewPlayingAnimation.clearAnimation()

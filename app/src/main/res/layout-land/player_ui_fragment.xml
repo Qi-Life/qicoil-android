@@ -189,7 +189,6 @@
             android:id="@+id/viewPlayerScalar"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:paddingHorizontal="@dimen/indent_54"
             android:background="#1868AD">
 
             <ImageView
@@ -198,6 +197,7 @@
                 android:layout_height="@dimen/height_button_player_default"
                 android:adjustViewBounds="true"
                 android:src="@drawable/ic_silent_scalar_off"
+                android:layout_marginHorizontal="@dimen/indent_54"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -232,6 +232,7 @@
                 android:layout_marginStart="-20dp"
                 android:ellipsize="marquee"
                 android:layout_marginBottom="5dp"
+                android:singleLine="true"
                 android:paddingStart="@dimen/indent_8"
                 android:text="@string/tv_there_no_silent_energies"
                 android:textColor="@android:color/white"

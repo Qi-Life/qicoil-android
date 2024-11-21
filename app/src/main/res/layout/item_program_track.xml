@@ -20,6 +20,21 @@
         app:layout_constraintVertical_bias="0.0"
         tools:ignore="ContentDescription" />
 
+    <com.github.siyamed.shapeimageview.RoundedImageView
+        android:id="@+id/image_lock"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#80000000"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/item_track_image"
+        app:layout_constraintEnd_toEndOf="@+id/item_track_image"
+        app:layout_constraintStart_toStartOf="@+id/item_track_image"
+        app:layout_constraintTop_toTopOf="@+id/item_track_image"
+        app:siBorderColor="@color/transparent"
+        app:siBorderWidth="0dp"
+        app:siRadius="@dimen/corner_radius_album"
+        app:siSquare="true" />
+
     <TextView
         android:id="@+id/item_track_name"
         android:layout_width="wrap_content"
@@ -57,10 +72,10 @@
         android:layout_height="30dp"
         android:paddingStart="@dimen/indent_16"
         android:src="@drawable/ic_scalar_playing"
-        app:layout_constraintTop_toTopOf="@+id/item_track_options"
         app:layout_constraintBottom_toBottomOf="@+id/item_track_options"
         app:layout_constraintEnd_toStartOf="@+id/item_track_options"
-        tools:ignore="ContentDescription"/>
+        app:layout_constraintTop_toTopOf="@+id/item_track_options"
+        tools:ignore="ContentDescription" />
 
     <ImageView
         android:id="@+id/item_track_options"

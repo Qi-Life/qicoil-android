@@ -163,7 +163,7 @@ class HomeViewModel(private val repository: HomeRepository, private val db: Data
         }
 
         getListScalar().observe(owner) { listR ->
-            val listIR = listR.mapNotNull { parcelable ->
+            val listIR = listR.filter { it.is_free == 1 }.mapNotNull { parcelable ->
                 val scalar = parcelable as? Scalar
                 if (scalar != null) {
                     Search(++index, scalar)
