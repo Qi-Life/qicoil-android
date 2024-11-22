@@ -74,6 +74,7 @@ import com.Meditation.Sounds.frequencies.models.event.ScheduleProgramStatusEvent
 import com.Meditation.Sounds.frequencies.models.event.UpdateSwitchQuantumEvent
 import com.Meditation.Sounds.frequencies.utils.Constants
 import com.Meditation.Sounds.frequencies.utils.Constants.Companion.PREF_SETTING_ADVANCE_SCALAR_ON_OFF
+import com.Meditation.Sounds.frequencies.utils.PlayerUtils
 import com.Meditation.Sounds.frequencies.utils.QcAlarmManager
 import com.Meditation.Sounds.frequencies.utils.SharedPreferenceHelper
 import com.Meditation.Sounds.frequencies.utils.Utils
@@ -124,9 +125,7 @@ class ProgramDetailFragment : BaseFragment() {
                 if (playProgramId != programId) {
                     //clear scalar
                     if (playListScalar.isNotEmpty()) {
-                        val lastScalar = playListScalar.last()
-                        playScalar = lastScalar
-                        playAndDownloadScalar(lastScalar)
+                        PlayerUtils.clearPlayerSilentQuantum(requireContext())
                     }
                 }
                 isMultiPlay = false
@@ -292,11 +291,7 @@ class ProgramDetailFragment : BaseFragment() {
                 } else {
                     //clear scalar
                     if (playListScalar.isNotEmpty()) {
-                        val lastScalar = playListScalar.last()
-                        playScalar = lastScalar
-//                    playListScalar.clear()
-//                    playingScalar = false
-                        playAndDownloadScalar(lastScalar)
+                        PlayerUtils.clearPlayerSilentQuantum(requireContext())
                     }
                 }
             }

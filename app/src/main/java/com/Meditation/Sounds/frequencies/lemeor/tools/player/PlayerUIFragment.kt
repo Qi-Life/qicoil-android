@@ -294,7 +294,7 @@ class PlayerUIFragment : NewBaseFragment() {
         if (event is String && event == "clear player") {
             if (mediaController != null)
                 if (playing) {
-                    isUserPaused = true
+//                    isUserPaused = true
                     mediaController?.transportControls?.pause()
                 }
             Handler().postDelayed({
@@ -327,12 +327,13 @@ class PlayerUIFragment : NewBaseFragment() {
         updateViewPlayerScalar()
         if (isScreenRotation) {
             updateViewWhenRotation()
-        }
-        val orientation = resources.configuration.orientation
-        if (Utils.isTablet(requireContext()) && orientation == Configuration.ORIENTATION_LANDSCAPE && viewPlayerScalar.visibility == View.VISIBLE) {
-            player_repeat.setImageResource(R.drawable.ic_repeat_land_all_disable)
         } else {
-            player_repeat.setImageResource(R.drawable.ic_repeat_all_disable)
+            val orientation = resources.configuration.orientation
+            if (Utils.isTablet(requireContext()) && orientation == Configuration.ORIENTATION_LANDSCAPE && viewPlayerScalar.visibility == View.VISIBLE) {
+                player_repeat.setImageResource(R.drawable.ic_repeat_land_all_disable)
+            } else {
+                player_repeat.setImageResource(R.drawable.ic_repeat_all_disable)
+            }
         }
     }
 

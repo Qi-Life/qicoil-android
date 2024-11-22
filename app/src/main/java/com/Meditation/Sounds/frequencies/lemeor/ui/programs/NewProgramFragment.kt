@@ -55,6 +55,7 @@ import com.Meditation.Sounds.frequencies.models.ProgramSchedule
 import com.Meditation.Sounds.frequencies.models.event.ScheduleProgramProgressEvent
 import com.Meditation.Sounds.frequencies.models.event.ScheduleProgramStatusEvent
 import com.Meditation.Sounds.frequencies.utils.Constants
+import com.Meditation.Sounds.frequencies.utils.PlayerUtils
 import com.Meditation.Sounds.frequencies.utils.QcAlarmManager
 import com.Meditation.Sounds.frequencies.utils.SharedPreferenceHelper
 import com.Meditation.Sounds.frequencies.utils.Utils
@@ -279,9 +280,7 @@ class NewProgramFragment : BaseFragment() {
                                     EventBus.getDefault().post("clear player")
                                     //clear scalar
                                     if (playListScalar.isNotEmpty()) {
-                                        val lastScalar = playListScalar.last()
-                                        playScalar = lastScalar
-                                        playAndDownloadScalar(lastScalar)
+                                        PlayerUtils.clearPlayerSilentQuantum(requireContext())
                                     }
                                 }
                                 PreferenceHelper.saveScheduleProgram(requireContext(), null)
@@ -597,76 +596,5 @@ class NewProgramFragment : BaseFragment() {
 
         tvSaveSchedule?.isEnabled = isSaveEnable
         imvSaveSchedule?.isEnabled = isSaveEnable
-    }
-
-    private fun playAndDownloadScalar(scalar: Scalar) {
-        if (Utils.isConnectedToNetwork(requireContext())) {
-            CoroutineScope(Dispatchers.IO).launch {
-                val file =
-                    File(getSaveDir(requireContext(), scalar.audio_file, scalar.audio_folder))
-                val preloaded =
-                    File(
-                        getPreloadedSaveDir(
-                            requireContext(),
-                            scalar.audio_file,
-                            scalar.audio_folder
-                        )
-                    )
-                if (!file.exists() && !preloaded.exists()) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                        if (ContextCompat.checkSelfPermission(
-                                requireActivity(), Manifest.permission.READ_MEDIA_IMAGES
-                            ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
-                                requireActivity(), Manifest.permission.READ_MEDIA_AUDIO
-                            ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
-                                requireActivity(), Manifest.permission.READ_MEDIA_VIDEO
-                            ) == PackageManager.PERMISSION_GRANTED
-                        ) {
-                            ScalarDownloadService.startService(context = requireContext(), scalar)
-                        } else {
-                            ActivityCompat.requestPermissions(
-                                requireActivity(), arrayOf(
-                                    Manifest.permission.READ_MEDIA_IMAGES,
-                                    Manifest.permission.READ_MEDIA_AUDIO,
-                                    Manifest.permission.READ_MEDIA_VIDEO
-                                ), 1001
-                            )
-                        }
-                    } else {
-                        if (ContextCompat.checkSelfPermission(
-                                requireActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE
-                            ) == PackageManager.PERMISSION_GRANTED
-                        ) {
-                            ScalarDownloadService.startService(context = requireContext(), scalar)
-                        } else {
-                            ActivityCompat.requestPermissions(
-                                requireActivity(),
-                                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                                1001
-                            )
-                        }
-                    }
-                }
-            }
-        } else {
-            Toast.makeText(
-                requireContext(), getString(R.string.err_network_available), Toast.LENGTH_SHORT
-            ).show()
-        }
-        playStopScalar("ADD_REMOVE")
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    private fun playStopScalar(actionScalar: String) {
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val playIntent = Intent(context, ScalarPlayerService::class.java).apply {
-                    action = actionScalar
-                }
-                requireActivity().startService(playIntent)
-            } catch (_: Exception) {
-            }
-            CoroutineScope(Dispatchers.Main).launch { (activity as NavigationActivity).showPlayerUI() }
-        }
     }
 }

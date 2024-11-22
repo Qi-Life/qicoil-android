@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.Meditation.Sounds.frequencies.R
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Album
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Track
+import com.Meditation.Sounds.frequencies.utils.PlayerUtils
 import kotlinx.android.synthetic.main.item_album_track.view.imv_playing
 import kotlinx.android.synthetic.main.item_album_track.view.item_album_name
 import kotlinx.android.synthetic.main.item_album_track.view.item_track_duration
@@ -59,8 +60,10 @@ class AlbumTrackAdapter(
             }
 
             itemView.setOnClickListener {
-                setSelectedItem(item)
-                onClickItem.invoke(item, position, album?.isDownloaded ?: false)
+                PlayerUtils.checkSchedulePlaying(itemView.context) {
+                    setSelectedItem(item)
+                    onClickItem.invoke(item, position, album?.isDownloaded ?: false)
+                }
             }
         }
     }

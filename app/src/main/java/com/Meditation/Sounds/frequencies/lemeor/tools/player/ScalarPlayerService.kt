@@ -87,6 +87,7 @@ class ScalarPlayerService : Service() {
         intent?.let {
             when (it.action) {
                 "ADD_REMOVE" -> addMusic()
+                "CLEAR" -> stopMusic()
             }
         }
         return START_STICKY
@@ -159,6 +160,21 @@ class ScalarPlayerService : Service() {
                 }
             }
         }
+    }
+
+    private fun stopMusic() {
+        playScalar = null
+        playListScalar.clear()
+        scalarSources.clear()
+        mediaSession.isActive = false
+        mediaSession.setPlaybackState(
+            stateBuilder.setState(
+                PlaybackStateCompat.STATE_STOPPED,
+                PlaybackStateCompat.PLAYBACK_POSITION_UNKNOWN,
+                1f
+            ).build()
+        )
+        currentState = PlaybackStateCompat.STATE_STOPPED
     }
 
     private fun buildMediaSource(uri: Uri): MediaSource {

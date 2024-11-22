@@ -2,6 +2,7 @@ package com.Meditation.Sounds.frequencies.lemeor.ui.albums.detail
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -14,7 +15,6 @@ import com.Meditation.Sounds.frequencies.R
 import com.Meditation.Sounds.frequencies.feature.base.BaseFragment
 import com.Meditation.Sounds.frequencies.lemeor.albumIdBackProgram
 import com.Meditation.Sounds.frequencies.lemeor.categoryIdBackProgram
-import com.Meditation.Sounds.frequencies.lemeor.checkSchedulePlaying
 import com.Meditation.Sounds.frequencies.lemeor.convertSecondsToTime
 import com.Meditation.Sounds.frequencies.lemeor.currentTrack
 import com.Meditation.Sounds.frequencies.lemeor.currentTrackIndex
@@ -53,6 +53,7 @@ import com.Meditation.Sounds.frequencies.lemeor.ui.rife.NewRifeViewModel
 import com.Meditation.Sounds.frequencies.lemeor.ui.scalar.NewScalarFragment
 import com.Meditation.Sounds.frequencies.utils.Constants
 import com.Meditation.Sounds.frequencies.utils.Constants.Companion.PREF_SETTING_ADVANCE_SCALAR_ON_OFF
+import com.Meditation.Sounds.frequencies.utils.PlayerUtils
 import com.Meditation.Sounds.frequencies.utils.SharedPreferenceHelper
 import com.Meditation.Sounds.frequencies.utils.Utils
 import com.Meditation.Sounds.frequencies.utils.firstIndexOrNull
@@ -248,6 +249,18 @@ class NewAlbumDetailFragment : BaseFragment() {
         EventBus.getDefault().unregister(this)
     }
 
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        if (fragmentManager != null) {
+            fragmentManager?.beginTransaction()?.detach(this)?.commitAllowingStateLoss()
+        }
+        super.onConfigurationChanged(newConfig)
+        if (fragmentManager != null) {
+            fragmentManager?.beginTransaction()?.attach(this)?.commitAllowingStateLoss()
+        }
+    }
+
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onEvent(event: Any?) {
         event?.let { ev ->
@@ -311,10 +324,9 @@ class NewAlbumDetailFragment : BaseFragment() {
 
         album_play.setOnClickListener {
             if (tracks.isNotEmpty()) {
-//                requireContext().checkSchedulePlaying {
-//
-//                }
-                playAndDownload(this)
+                PlayerUtils.checkSchedulePlaying(requireContext()) {
+                    playAndDownload(this)
+                }
             }
         }
         album_add_scalar.setOnClickListener {
@@ -361,7 +373,9 @@ class NewAlbumDetailFragment : BaseFragment() {
         tvDescription.text = description
         album_play.setOnClickListener {
             if (getFrequency().isNotEmpty()) {
-                play()
+                PlayerUtils.checkSchedulePlaying(requireContext()) {
+                    play()
+                }
             }
         }
         album_add_scalar.setOnClickListener {

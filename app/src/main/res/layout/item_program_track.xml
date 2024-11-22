@@ -24,7 +24,7 @@
         android:id="@+id/image_lock"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="#80000000"
+        android:background="#BF000000"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/item_track_image"
         app:layout_constraintEnd_toEndOf="@+id/item_track_image"

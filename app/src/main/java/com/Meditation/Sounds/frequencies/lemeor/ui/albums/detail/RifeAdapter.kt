@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.Meditation.Sounds.frequencies.R
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.MusicRepository
+import com.Meditation.Sounds.frequencies.utils.PlayerUtils
 import kotlinx.android.synthetic.main.item_album_track.view.imv_playing
 import kotlinx.android.synthetic.main.item_album_track.view.item_album_name
 import kotlinx.android.synthetic.main.item_album_track.view.item_track_duration
@@ -51,8 +52,10 @@ class RifeAdapter(
             })
 
             itemView.setOnClickListener {
-                setSelectedItem(item)
-                onClickItem.invoke(item, position)
+                PlayerUtils.checkSchedulePlaying(itemView.context) {
+                    setSelectedItem(item)
+                    onClickItem.invoke(item, position)
+                }
             }
 
             itemView.item_track_options.setOnClickListener { onClickOptions.invoke(item, position) }
