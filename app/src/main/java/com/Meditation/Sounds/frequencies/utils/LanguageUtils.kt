@@ -101,11 +101,22 @@ class LanguageUtils {
 
         fun changeLanguage(context: Context, codeLanguage: String) {
             PreferenceHelper.preference(context).codeLanguage = codeLanguage
-            val locale = Locale(codeLanguage)
-            Locale.setDefault(locale)
-            val otherLanguages = getLanguages(context).filter { it.code != codeLanguage }
-                .joinToString(",") { it.code }
-            AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags("$codeLanguage,$otherLanguages"))
+            if (codeLanguage == "zh-rTW") {
+                val locale = Locale("zh", "TW")
+                Locale.setDefault(locale)
+                AppCompatDelegate.setApplicationLocales(LocaleListCompat.getDefault())
+            } else if (codeLanguage == "zh-rCN") {
+                val locale = Locale("zh", "CN")
+                Locale.setDefault(locale)
+                AppCompatDelegate.setApplicationLocales(LocaleListCompat.getDefault())
+            } else {
+                val locale = Locale(codeLanguage)
+                Locale.setDefault(locale)
+                val otherLanguages = getLanguages(context).filter { it.code != codeLanguage }
+                    .joinToString(",") { it.code }
+                AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags("$codeLanguage,$otherLanguages"))
+            }
+
         }
     }
 }
