@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="action_settings">Ajustes</string>
+    <string name="navigation_lbl_home">Hogar</string>
     <string name="navigation_lbl_albums">Álbumes</string>
     <string name="navigation_lbl_scalar">Cuántico silencioso</string>
     <string name="navigation_lbl_quantum">Cuántico</string>
@@ -359,4 +360,6 @@
     <string name="txt_confirm_save_schedule">¿Estás segura de que quieres guardar el horario?</string>
     <string name="txt_confirm_delete_frequencies">¿Estás seguro de que deseas eliminar estas frecuencias?</string>
     <string name="txt_confirm_turn_off_before_switching_on_another">Debes desactivar el programa antes de activar otro. ¿Quieres desactivarlo?</string>
+    <string name="time_schedule_am">%1$s luz a %2$s luz</string>
+    <string name="time_schedule_pm">%1$s tarde a %2$s tarde</string>
 </resources>

@@ -6,8 +6,8 @@
     <string name="navigation_lbl_home">Trang chủ</string>
     <string name="navigation_lbl_albums">Album</string>
     <string name="navigation_lbl_scalar">Lượng tử im lặng</string>
-    <string name="navigation_lbl_quantum">lượng tử</string>
-    <string name="navigation_lbl_rife">đầy rẫy</string>
+    <string name="navigation_lbl_quantum">Lượng tử</string>
+    <string name="navigation_lbl_rife">Đầy rẫy</string>
     <string name="navigation_lbl_programs">Chương trình</string>
     <string name="navigation_lbl_videos">Video</string>
     <string name="navigation_lbl_shop">Cửa hàng</string>
@@ -392,4 +392,14 @@
     <string name="schedule_on_off">Lên lịch bật/tắt</string>
     <string name="the_schedule_frequency_is_coming_up">Tần suất theo lịch trình sắp đến. Bạn có muốn chuyển sang nó không?</string>
     <string name="chat_bot_on_off">BẬT/TẮT Chatbot</string>
+    <string name="frequency">Tính thường xuyên</string>
+    <string name="add_silent_quantum">Thêm lượng tử im lặng</string>
+    <string name="tv_from_silent_quantum">Từ lượng tử im lặng</string>
+    <string name="txt_confirm_save_schedule">Bạn có chắc chắn muốn lưu lịch biểu không?</string>
+    <string name="txt_confirm_delete_frequencies">Bạn có chắc chắn muốn xóa tần số này không?</string>
+    <string name="txt_confirm_turn_off_before_switching_on_another">Bạn cần tắt lịch trước khi bật lịch khác. Bạn có muốn tắt không?</string>
+    <string name="time_schedule_am">%1$s Sáng tới %2$s Sáng</string>
+    <string name="time_schedule_pm">%1$s Chiều tới %2$s Chiều</string>
+    <string name="advanced_mode_off">Tắt chế độ nâng cao</string>
+    <string name="advanced_mode_on">Bật chế độ nâng cao</string>
 </resources>

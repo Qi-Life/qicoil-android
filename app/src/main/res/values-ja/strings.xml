@@ -394,4 +394,14 @@
     <string name="schedule_on_off">スケジュールON/OFF</string>
     <string name="the_schedule_frequency_is_coming_up">予定の頻度が近づいてきました。切り替えてみませんか?</string>
     <string name="chat_bot_on_off">チャットボットのON/OFF</string>
+    <string name="frequency">頻度</string>
+    <string name="add_silent_quantum">サイレント・クォンタムの追加</string>
+    <string name="tv_from_silent_quantum">サイレント・クォンタムより</string>
+    <string name="txt_confirm_save_schedule">スケジュールを保存してもよろしいですか?</string>
+    <string name="txt_confirm_delete_frequencies">この周波数を削除してもよろしいですか?</string>
+    <string name="txt_confirm_turn_off_before_switching_on_another">別のスケジュールをオンにする前に、スケジュールをオフにする必要があります。電源を切りますか?</string>
+    <string name="time_schedule_am">%1$s 午前から %2$s 午前</string>
+    <string name="time_schedule_pm">%1$s 午後から %2$s 午後</string>
+    <string name="advanced_mode_off">アドバンストモードオフ</string>
+    <string name="advanced_mode_on">アドバンストモードオン</string>
 </resources>

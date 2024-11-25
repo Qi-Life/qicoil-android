@@ -387,4 +387,12 @@
     <string name="schedule_on_off">সময়সূচী চালু/বন্ধ</string>
     <string name="the_schedule_frequency_is_coming_up">নির্ধারিত ফ্রিকোয়েন্সি আসছে। আপনি কি এটিতে সুইচ করতে চান?</string>
     <string name="chat_bot_on_off">চ্যাটবট চালু/বন্ধ</string>
+    <string name="frequency">ফ্রিকোয়েন্সি</string>
+    <string name="add_silent_quantum">সাইলেন্ট কোয়ান্টাম যোগ করুন</string>
+    <string name="tv_from_silent_quantum">সাইলেন্ট কোয়ান্টাম থেকে</string>
+    <string name="txt_confirm_save_schedule">আপনি কি নিশ্চিত যে আপনি সময়সূচী সংরক্ষণ করতে চান?</string>
+    <string name="txt_confirm_delete_frequencies">আপনি কি নিশ্চিত আপনি এই ফ্রিকোয়েন্সি মুছে ফেলতে চান?</string>
+    <string name="txt_confirm_turn_off_before_switching_on_another">অন্যটি চালু করার আগে আপনাকে সময়সূচীটি বন্ধ করতে হবে। আপনি কি বন্ধ করতে চান?</string>
+    <string name="time_schedule_am">%1$s AM থেকে %2$s AM</string>
+    <string name="time_schedule_pm">%1$s PM থেকে %2$s PM</string>
 </resources>

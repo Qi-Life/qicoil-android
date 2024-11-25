@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.Meditation.Sounds.frequencies.BuildConfig
 import com.Meditation.Sounds.frequencies.R
@@ -98,6 +99,7 @@ import kotlinx.android.synthetic.main.fragment_new_options.options_restore_purch
 import kotlinx.android.synthetic.main.fragment_new_options.options_sign_in
 import kotlinx.android.synthetic.main.fragment_new_options.options_subscription
 import kotlinx.android.synthetic.main.fragment_new_options.options_user_name
+import kotlinx.android.synthetic.main.fragment_new_options.tvAdvancedModeTitle
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -384,11 +386,11 @@ class NewOptionsFragment : BaseFragment() {
         }
 
         updateViewAdvancedSilent()
-
         btnAdvancedMode.isSelected = SharedPreferenceHelper.getInstance().getBool(PREF_SETTING_ADVANCE_SCALAR_ON_OFF)
         btnAdvancedMode.setOnClickListener {
             btnAdvancedMode.isSelected = !btnAdvancedMode.isSelected
             SharedPreferenceHelper.getInstance().setBool(PREF_SETTING_ADVANCE_SCALAR_ON_OFF, btnAdvancedMode.isSelected)
+            updateViewAdvancedSilent()
             EventBus.getDefault().post(UpdateViewSilentQuantumEvent)
         }
 
@@ -510,12 +512,14 @@ class NewOptionsFragment : BaseFragment() {
     }
 
     private fun updateViewAdvancedSilent() {
+        val advanceMode = SharedPreferenceHelper.getInstance().getBool(PREF_SETTING_ADVANCE_SCALAR_ON_OFF)
+        tvAdvancedModeTitle.text = if (advanceMode) getString(R.string.advanced_mode_on) else getString(R.string.advanced_mode_off)
         if (playingScalar) {
             btnAdvancedMode.isEnabled = false
-            btnAdvancedMode.setImageResource(R.drawable.bg_advance_mode_scalar_disable)
+            tvAdvancedModeTitle.setTextColor(ContextCompat.getColor(requireContext(), R.color.color_greyB))
         } else {
             btnAdvancedMode.isEnabled = true
-            btnAdvancedMode.setImageResource(R.drawable.bg_advance_mode_scalar)
+            tvAdvancedModeTitle.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_press))
         }
     }
 

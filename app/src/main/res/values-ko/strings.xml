@@ -385,5 +385,12 @@
     <string name="schedule_on_off">예약 ON/OFF</string>
     <string name="the_schedule_frequency_is_coming_up">예정된 빈도가 다가오고 있습니다. 그것으로 전환하시겠습니까?</string>
     <string name="chat_bot_on_off">챗봇 ON/OFF</string>
-    
+    <string name="frequency">빈도</string>
+    <string name="add_silent_quantum">사일런트 퀀텀 추가</string>
+    <string name="tv_from_silent_quantum">사일런트 퀀텀에서</string>
+    <string name="txt_confirm_save_schedule">일정을 저장하시겠습니까?</string>
+    <string name="txt_confirm_delete_frequencies">이 주파수를 삭제하시겠습니까?</string>
+    <string name="txt_confirm_turn_off_before_switching_on_another">다른 일정을 켜기 전에 해당 일정을 꺼야 합니다. 끄시겠습니까?</string>
+    <string name="time_schedule_am">오전 %1$s - 오전 %2$s</string>
+    <string name="time_schedule_pm">오후 %1$s ~ 오후 %2$s</string>
 </resources>

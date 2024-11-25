@@ -395,7 +395,7 @@ class NewProgramFragment : BaseFragment() {
                 val toMinutes = rightValue.toInt() % 60
                 val fromTime = String.format("%02d:%02d", fromHours, fromMinutes)
                 val toTime = String.format("%02d:%02d", toHours, toMinutes)
-                tvScheduleTimeAm.text = "$fromTime AM to $toTime AM"
+                tvScheduleTimeAm.text = String.format(getString(R.string.time_schedule_am), fromTime, toTime)
                 SharedPreferenceHelper.getInstance()
                     .setFloat(Constants.PREF_SCHEDULE_START_TIME_AM, leftValue)
                 SharedPreferenceHelper.getInstance()
@@ -434,7 +434,7 @@ class NewProgramFragment : BaseFragment() {
                 val toMinutes = rightValue.toInt() % 60
                 val fromTime = String.format("%02d:%02d", fromHours, fromMinutes)
                 val toTime = String.format("%02d:%02d", toHours, toMinutes)
-                tvScheduleTimePm.text = "$fromTime PM to $toTime PM"
+                tvScheduleTimePm.text = String.format(getString(R.string.time_schedule_pm), fromTime, toTime)
 
                 SharedPreferenceHelper.getInstance()
                     .setFloat(Constants.PREF_SCHEDULE_START_TIME_PM, leftValue)

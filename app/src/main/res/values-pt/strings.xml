@@ -384,4 +384,12 @@
     <string name="schedule_on_off">Programar ligado/desligado</string>
     <string name="the_schedule_frequency_is_coming_up">A frequência programada está chegando. Você gostaria de mudar para ele?</string>
     <string name="chat_bot_on_off">Chatbot LIGADO/DESLIGADO</string>
+    <string name="frequency">Freqüência</string>
+    <string name="add_silent_quantum">Adicionar Silent Quantum</string>
+    <string name="tv_from_silent_quantum">Do Silent Quantum</string>
+    <string name="txt_confirm_save_schedule">Tem certeza de que deseja salvar a programação?</string>
+    <string name="txt_confirm_delete_frequencies">Tem certeza de que deseja excluir essas frequências?</string>
+    <string name="txt_confirm_turn_off_before_switching_on_another">Você precisa desligar a programação antes de ligar outra. Você gostaria de desligar?</string>
+    <string name="time_schedule_am">%1$s AM a %2$s AM</string>
+    <string name="time_schedule_pm">%1$s PM a %2$s PM</string>
 </resources>

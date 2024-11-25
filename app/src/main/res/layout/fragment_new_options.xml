@@ -7,11 +7,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="@dimen/indent_8"
-    android:paddingBottom="@dimen/padding_bottom_list"
     android:background="@drawable/rounded_dark_blue_background"
     android:clipToPadding="false"
     android:fillViewport="true"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/padding_bottom_list">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,12 +31,39 @@
             font:fontText="fonts/MyriadPro_Semibold.otf"
             tools:text="Marvin Dela Cruz" />
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/btnAdvancedMode"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:adjustViewBounds="true"
-            android:src="@drawable/bg_advance_mode_scalar" />
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/bgAdvancedMode"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/bg_advance_mode"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.Meditation.Sounds.frequencies.views.CustomFontTextView
+                android:id="@+id/tvAdvancedModeTitle"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:layout_marginHorizontal="18dp"
+                android:text="@string/advanced_mode_off"
+                android:textAllCaps="true"
+                android:textColor="@color/text_press"
+                android:textSize="18sp"
+                android:singleLine="true"
+                app:fontText="fonts/OpenSans_Bold.ttf"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/bgAdvancedMode"
+                app:layout_constraintStart_toStartOf="@+id/bgAdvancedMode"
+                app:layout_constraintTop_toTopOf="@+id/bgAdvancedMode" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
             android:id="@+id/options_flash_sale"

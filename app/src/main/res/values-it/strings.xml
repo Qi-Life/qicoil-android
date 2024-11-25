@@ -394,4 +394,12 @@
     <string name="schedule_on_off">Programmazione ON/OFF</string>
     <string name="the_schedule_frequency_is_coming_up">La frequenza prevista è in arrivo. Ti piacerebbe passare ad esso?</string>
     <string name="chat_bot_on_off">Chatbot attivato/disattivato</string>
+    <string name="frequency">Frequenza</string>
+    <string name="add_silent_quantum">Aggiungi il quantistico silenzioso</string>
+    <string name="tv_from_silent_quantum">Da Quantistici Silenziosi</string>
+    <string name="txt_confirm_save_schedule">Sei sicuro di voler salvare la pianificazione?</string>
+    <string name="txt_confirm_delete_frequencies">Sei sicuro di voler eliminare queste frequenze?</string>
+    <string name="txt_confirm_turn_off_before_switching_on_another">È necessario disattivare la programmazione prima di attivarne un\'altra. Desideri disattivare?</string>
+    <string name="time_schedule_am">Da %1$s AM a %2$s AM</string>
+    <string name="time_schedule_pm">Da %1$s PM a %2$s PM</string>
 </resources>

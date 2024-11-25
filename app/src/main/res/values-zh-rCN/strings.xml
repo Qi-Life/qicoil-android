@@ -393,4 +393,14 @@
     <string name="schedule_on_off">时间表开/关</string>
     <string name="the_schedule_frequency_is_coming_up">预定的频率即将到来。您想切换到它吗？</string>
     <string name="chat_bot_on_off">聊天机器人开/关</string>
+    <string name="frequency">频率</string>
+    <string name="add_silent_quantum">添加沉默量子</string>
+    <string name="tv_from_silent_quantum">来自沉默的量子</string>
+    <string name="txt_confirm_save_schedule">您确定要保存时间表吗？</string>
+    <string name="txt_confirm_delete_frequencies">您确定要删除该频率吗？</string>
+    <string name="txt_confirm_turn_off_before_switching_on_another">您需要先关闭日程表，然后再打开另一个日程表。您想关闭吗？</string>
+    <string name="time_schedule_am">%1$s AM 至 %2$s AM</string>
+    <string name="time_schedule_pm">%1$s 下午 至 %2$s 下午</string>
+    <string name="advanced_mode_off">高级模式关闭</string>
+    <string name="advanced_mode_on">高级模式开启</string>
 </resources>

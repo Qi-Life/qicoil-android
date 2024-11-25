@@ -392,4 +392,14 @@
     <string name="schedule_on_off">Zeitplan EIN/AUS</string>
     <string name="the_schedule_frequency_is_coming_up">Die geplante Frequenz steht kurz bevor. Möchten Sie darauf umsteigen?</string>
     <string name="chat_bot_on_off">Chatbot EIN/AUS</string>
+    <string name="frequency">Frequenz</string>
+    <string name="add_silent_quantum">Stilles Quantum hinzufügen</string>
+    <string name="tv_from_silent_quantum">Von Silent Quantum</string>
+    <string name="txt_confirm_save_schedule">Sind Sie sicher, dass Sie den Zeitplan speichern möchten?</string>
+    <string name="txt_confirm_delete_frequencies">Sind Sie sicher, dass Sie diese Frequenzen löschen möchten?</string>
+    <string name="txt_confirm_turn_off_before_switching_on_another">Sie müssen den Zeitplan deaktivieren, bevor Sie einen anderen aktivieren können. Möchten Sie abschalten?</string>
+    <string name="time_schedule_am">%1$s morgens bis %2$s morgens</string>
+    <string name="time_schedule_pm">%1$s PM bis %2$s PM</string>
+    <string name="advanced_mode_off">Erweiterter Modus aus</string>
+    <string name="advanced_mode_on">Erweiterter Modus Ein</string>
 </resources>

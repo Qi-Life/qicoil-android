@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="navigation_lbl_home">Maison</string>
     <string name="tv_sign_in">Se connecter</string>
     <string name="tv_email">E-mail</string>
     <string name="tv_password">Mot de passe</string>
@@ -360,4 +361,6 @@
     <string name="txt_confirm_save_schedule">Etes-vous sûr de vouloir enregistrer le planning ?</string>
     <string name="txt_confirm_delete_frequencies">Êtes-vous sûr de vouloir supprimer ces fréquences ?</string>
     <string name="txt_confirm_turn_off_before_switching_on_another">Vous devez désactiver le programme avant d\'en activer un autre. Souhaitez-vous le désactiver ?</string>
+    <string name="time_schedule_am">Lumière de %1$s à %2$s de lumière</string>
+    <string name="time_schedule_pm">De %1$s après-midi à %2$s après-midi</string>
 </resources>

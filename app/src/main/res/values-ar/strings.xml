@@ -392,4 +392,12 @@
     <string name="schedule_on_off">جدولة تشغيل/إيقاف</string>
     <string name="the_schedule_frequency_is_coming_up">التردد المقرر قادم. هل ترغب في التبديل إليه؟</string>
     <string name="chat_bot_on_off">تشغيل/إيقاف تشغيل Chatbot</string>
+    <string name="frequency">تكرار</string>
+    <string name="add_silent_quantum">أضف الكم الصامت</string>
+    <string name="tv_from_silent_quantum">من الكم الصامت</string>
+    <string name="txt_confirm_save_schedule">هل أنت متأكد أنك تريد حفظ الجدول الزمني؟</string>
+    <string name="txt_confirm_delete_frequencies">هل أنت متأكد أنك تريد حذف هذه الترددات؟</string>
+    <string name="txt_confirm_turn_off_before_switching_on_another">تحتاج إلى إيقاف تشغيل الجدول الزمني قبل تشغيل جدول آخر. هل ترغب في إيقاف؟</string>
+    <string name="time_schedule_am">%1$s صباحًا إلى %2$s صباحًا</string>
+    <string name="time_schedule_pm">%1$s مساءً إلى %2$s مساءً</string>
 </resources>

@@ -391,4 +391,14 @@
     <string name="schedule_on_off">शेड्यूल चालू/बंद करें</string>
     <string name="the_schedule_frequency_is_coming_up">निर्धारित आवृत्ति आ रही है. क्या आप इस पर स्विच करना चाहेंगे?</string>
     <string name="chat_bot_on_off">चैटबॉट चालू/बंद</string>
+    <string name="frequency">आवृत्ति</string>
+    <string name="add_silent_quantum">साइलेंट क्वांटम जोड़ें</string>
+    <string name="tv_from_silent_quantum">साइलेंट क्वांटम से</string>
+    <string name="txt_confirm_save_schedule">क्या आप वाकई शेड्यूल सहेजना चाहते हैं?</string>
+    <string name="txt_confirm_delete_frequencies">क्या आप वाकई इस आवृत्तियों को हटाना चाहते हैं?</string>
+    <string name="txt_confirm_turn_off_before_switching_on_another">दूसरे शेड्यूल पर स्विच करने से पहले आपको शेड्यूल को बंद करना होगा। क्या आप बंद करना चाहेंगे?</string>
+    <string name="time_schedule_am">%1$s पूर्वाह्न से %2$s पूर्वाह्न तक</string>
+    <string name="time_schedule_pm">%1$s अपराह्न से %2$s अपराह्न तक</string>
+    <string name="advanced_mode_off">उन्नत मोड बंद</string>
+    <string name="advanced_mode_on">उन्नत मोड चालू</string>
 </resources>
