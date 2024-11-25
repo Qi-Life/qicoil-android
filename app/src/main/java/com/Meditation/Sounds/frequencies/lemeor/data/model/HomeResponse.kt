@@ -180,6 +180,7 @@ data class Scalar(
     var is_free: Int = 0,
     var created_at: Long = 0L,
     var updated_at: Long = 0L,
+    var isSelected: Boolean = false,
 ) : Parcelable
 
 fun String.floatOrZero() = try {

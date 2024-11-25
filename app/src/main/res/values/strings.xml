@@ -418,8 +418,8 @@
     <string name="msg_chatting_bot_cookie_policies">By chatting with me, you agree to our Privacy and Cookie Policies.</string>
     <string name="tv_message">Message:</string>
     <string name="tv_master_wong_ai">Dr. Qi Ai assistant</string>
-    <string name="tv_silent_scalar_turned_on">Silent Scalar is currently turned on</string>
-    <string name="tv_silent_scalar_turned_off">Silent Scalar is currently turned off</string>
+    <string name="tv_silent_scalar_turned_on">Silent Quantum is currently turned on</string>
+    <string name="tv_silent_scalar_turned_off">Silent Quantum is currently turned off</string>
     <string name="tv_please_choose_a_frequency_to_play">Please choose a Frequency to play</string>
     <string name="tv_there_no_silent_energies">There are no Silent energies, please active it.</string>
     <string name="recent">Recent:</string>
@@ -428,6 +428,12 @@
     <string name="schedule_on_off">Schedule ON/off</string>
     <string name="the_schedule_frequency_is_coming_up">The scheduled frequency is coming up. Would you like to switch to it?</string>
     <string name="chat_bot_on_off">Chatbot ON/OFF</string>
+    <string name="frequency">Frequency</string>
+    <string name="add_silent_quantum">Add Silent Quantum</string>
+    <string name="tv_from_silent_quantum">From Silent Quantum</string>
+    <string name="txt_confirm_save_schedule">Are you sure you want save schedule?</string>
+    <string name="txt_confirm_delete_frequencies">Are your sure you want to delete this frequencies?</string>
+    <string name="txt_confirm_turn_off_before_switching_on_another">You need to turn off the schedule before switching on another. Would you like to turn off?</string>
 
     <string name="msg_say_hi_chat" translatable="false">Hi, My name is Dr.Qi, I\'m an AI assistant. How can I help you today? How have you been feeling lately?</string>
     <string name="msg_error_network_chat" translatable="false">Connect Lost. Please check your internet connection.</string>

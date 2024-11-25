@@ -34,7 +34,7 @@
     <dimen name="text_size_30">37sp</dimen>
     <dimen name="text_size_40">47sp</dimen>
 
-    <dimen name="height_top_icon">54dp</dimen>
+    <dimen name="height_top_icon">100dp</dimen>
     <dimen name="padding_top_icon">9dp</dimen>
     <dimen name="margin_left_top_icon">28dp</dimen>
     <dimen name="height_medium_icon">43dp</dimen>
@@ -86,8 +86,11 @@
     <dimen name="height_calander_icon">30dp</dimen>
     <dimen name="dp_90">105dp</dimen>
     <dimen name="no_radius_album">0dp</dimen>
-    <dimen name="height_repeat_button">45dp</dimen>
+    <dimen name="height_repeat_button">42dp</dimen>
+    <dimen name="height_silent_button">55dp</dimen>
 
     <dimen name="height_recent_albums">250dp</dimen>
     <dimen name="radius_recent_albums">10dp</dimen>
+
+    <dimen name="height_button_player_default">50dp</dimen>
 </resources>

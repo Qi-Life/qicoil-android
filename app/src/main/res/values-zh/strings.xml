@@ -347,4 +347,16 @@
     <string name="tv_silent_scalar_turned_off">静默标量目前已关闭</string>
     <string name="tv_please_choose_a_frequency_to_play">请选择播放频率</string>
     <string name="tv_there_no_silent_energies">没有静默能量，请激活它。</string>
+    <string name="recent">最近的：</string>
+    <string name="you_have_no_program_selected">您尚未选择任何程序</string>
+    <string name="save_schedule">保存时间表</string>
+    <string name="schedule_on_off">计划开启/关闭</string>
+    <string name="the_schedule_frequency_is_coming_up">预定频率即将到来。您要切换到该频率吗？</string>
+    <string name="chat_bot_on_off">聊天机器人开启/关闭</string>
+    <string name="frequency">频率</string>
+    <string name="add_silent_quantum">添加 Silent Quantum</string>
+    <string name="tv_from_silent_quantum">来自《寂静量子》</string>
+    <string name="txt_confirm_save_schedule">您确实要保存日程安排吗？</string>
+    <string name="txt_confirm_delete_frequencies">您确定要删除这个频率吗？</string>
+    <string name="txt_confirm_turn_off_before_switching_on_another">您需要先关闭该计划才能启用另一个计划。要关闭吗？</string>
 </resources>

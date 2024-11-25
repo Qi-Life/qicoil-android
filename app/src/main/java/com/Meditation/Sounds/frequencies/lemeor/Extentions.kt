@@ -1,6 +1,9 @@
 package com.Meditation.Sounds.frequencies.lemeor
 
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Environment
 import android.view.inputmethod.InputMethodManager
@@ -18,13 +21,20 @@ import com.Meditation.Sounds.frequencies.lemeor.data.model.Scalar
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Track
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.MusicRepository
+import com.Meditation.Sounds.frequencies.lemeor.tools.player.ScalarPlayerService
 import com.Meditation.Sounds.frequencies.utils.Constants
+import com.Meditation.Sounds.frequencies.utils.QcAlarmManager
+import com.Meditation.Sounds.frequencies.utils.SharedPreferenceHelper
 import com.Meditation.Sounds.frequencies.utils.Utils
 import com.Meditation.Sounds.frequencies.views.CustomFontEditText
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.signature.ObjectKey
+import kotlinx.android.synthetic.main.fragment_new_program.btnSwitchSchedule
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.File
 import java.io.IOException
 import java.net.URI
@@ -67,12 +77,12 @@ var hashMapTiers: HashMap<Int, Int> = HashMap()
 var selectedNaviFragment: Fragment? = null
 
 var isUserPaused = false
+var isNoReloadCurrentTrackIndex = false
 
 //scalar
+var playingScalar: Boolean = false
 var playListScalar: ArrayList<Scalar> = arrayListOf()
 var playScalar: Scalar? = null
-
-var isChatBotHided = false
 
 fun loadImage(context: Context, imageView: ImageView, album: Album) {
     val assetsPath = "file:///android_asset/albums/" + album.image
@@ -224,11 +234,11 @@ fun getTempFile(context: Context, trackName: String, albumName: String): String 
 
 }
 
+@SuppressLint("DefaultLocale")
 fun getConvertedTime(millis: Long): String {
     val second: Long = millis / 1000 % 60
     val minute: Long = millis / (1000 * 60) % 60
     val hour: Long = millis / (1000 * 60 * 60) % 24
-
     return if (hour > 0) {
         String.format("%02d:%02d:%02d", hour, minute, second)
     } else {
@@ -276,11 +286,13 @@ internal fun Fragment.hideKeyboard() {
     imm.hideSoftInputFromWindow(currentFocusView.windowToken, 0)
 }
 
-
 fun convertSecondsToTime(seconds: Long): String {
     val hours = seconds / 3600
     val minutes = (seconds % 3600) / 60
     val remainingSeconds = seconds % 60
-
     return String.format("%02d:%02d:%02d", hours, minutes, remainingSeconds)
+}
+
+fun <T> List<T>.secondOrNull(): T? {
+    return if (this.size > 1) this[1] else null
 }

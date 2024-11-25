@@ -58,7 +58,7 @@ import com.Meditation.Sounds.frequencies.lemeor.data.model.Track
         Playlist::class,
         Rife::class,
         Scalar::class,
-    ], version = 7
+    ], version = 8
 )
 
 @TypeConverters(
@@ -159,6 +159,12 @@ abstract class DataBase : RoomDatabase() {
             }
         }
 
+        private val MIGRATION_7_8: Migration = object : Migration(7, 8) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE scalar ADD COLUMN isSelected INTEGER NOT NULL DEFAULT 0")
+            }
+        }
+
         @Volatile
         private var instance: DataBase? = null
 
@@ -171,7 +177,7 @@ abstract class DataBase : RoomDatabase() {
         private fun buildDatabase(context: Context) = Room.databaseBuilder(
             context.applicationContext, DataBase::class.java, BuildConfig.DB_NAME
         ).addMigrations(
-            MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7
+            MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8
         ).build()
     }
 }

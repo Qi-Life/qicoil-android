@@ -142,6 +142,7 @@ class HomeRepository(private val apiHelper: ApiHelper, private val localData: Da
 
     fun getListTrack() = localData.trackDao().getTracks()
     fun getListRife() = localData.rifeDao().getLiveDataRifes()
+    fun getListScalar() = localData.scalarDao().getLiveDataScalars()
     suspend fun getProgramsRemote() = apiHelper.getPrograms()
 
     suspend fun getListA() = localData.albumDao().getAllAlbums()

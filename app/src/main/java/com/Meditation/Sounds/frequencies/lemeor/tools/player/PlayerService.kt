@@ -55,6 +55,7 @@ import com.Meditation.Sounds.frequencies.lemeor.getPreloadedSaveDir
 import com.Meditation.Sounds.frequencies.lemeor.getSaveDir
 import com.Meditation.Sounds.frequencies.lemeor.getTrackUrl
 import com.Meditation.Sounds.frequencies.lemeor.isMultiPlay
+import com.Meditation.Sounds.frequencies.lemeor.isNoReloadCurrentTrackIndex
 import com.Meditation.Sounds.frequencies.lemeor.isUserPaused
 import com.Meditation.Sounds.frequencies.lemeor.max
 import com.Meditation.Sounds.frequencies.lemeor.playListScalar
@@ -340,14 +341,19 @@ class PlayerService : Service() {
         MediaButtonReceiver.handleIntent(mediaSession, intent)
         try {
             if (intent?.hasExtra(EXTRA_PLAYLIST) == true) {
-                progressTimer.cancel()
-                progressTimer.purge()
+//                progressTimer.cancel()
+//                progressTimer.purge()
 //            val trackList =
 //                intent.getParcelableArrayListExtra<MusicRepository.Music>(EXTRA_PLAYLIST)
                 trackList?.let {
                     this.trackListService.clear()
                     this.trackListService.addAll(it)
+                    val currentItemIndexOld = musicRepository?.currentItemIndex ?: 0
                     musicRepository = MusicRepository(this.trackListService)
+                    if (isNoReloadCurrentTrackIndex || this.trackListService.isEmpty()) {
+                        isNoReloadCurrentTrackIndex = false
+                        musicRepository?.currentItemIndex = currentItemIndexOld
+                    }
                 }
             }
         } catch (_: Exception) {

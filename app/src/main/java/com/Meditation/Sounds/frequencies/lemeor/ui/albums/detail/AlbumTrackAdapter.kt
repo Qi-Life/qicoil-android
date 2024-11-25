@@ -1,6 +1,7 @@
 package com.Meditation.Sounds.frequencies.lemeor.ui.albums.detail
 
 import android.annotation.SuppressLint
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,9 +12,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.Meditation.Sounds.frequencies.R
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Album
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Track
-import kotlinx.android.synthetic.main.item_album_track.view.divider
+import com.Meditation.Sounds.frequencies.utils.PlayerUtils
+import kotlinx.android.synthetic.main.item_album_track.view.imv_playing
 import kotlinx.android.synthetic.main.item_album_track.view.item_album_name
+import kotlinx.android.synthetic.main.item_album_track.view.item_track_duration
 import kotlinx.android.synthetic.main.item_album_track.view.item_track_name
+import kotlinx.android.synthetic.main.item_album_track.view.item_track_no
 import kotlinx.android.synthetic.main.item_album_track.view.item_track_options
 
 class AlbumTrackAdapter(
@@ -39,15 +43,13 @@ class AlbumTrackAdapter(
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         @SuppressLint("SetTextI18n", "UseCompatLoadingForDrawables")
         fun bind(item: Track, position: Int) {
-            if (position == itemCount - 1) {
-                itemView.divider.visibility = View.INVISIBLE
-            } else {
-                itemView.divider.visibility = View.VISIBLE
-            }
+            itemView.item_track_no.text = (layoutPosition + 1).toString()
 
             itemView.item_track_name.text = item.name
 
-            itemView.item_album_name.text = album?.name ?: ""
+            itemView.item_album_name.visibility = View.GONE
+
+            itemView.item_track_duration.text = "05:00"
 
             itemView.updateView(item.apply {
                 isSelected = id == selectedItem?.id
@@ -58,8 +60,10 @@ class AlbumTrackAdapter(
             }
 
             itemView.setOnClickListener {
-                setSelectedItem(item)
-                onClickItem.invoke(item, position, album?.isDownloaded ?: false)
+                PlayerUtils.checkSchedulePlaying(itemView.context) {
+                    setSelectedItem(item)
+                    onClickItem.invoke(item, position, album?.isDownloaded ?: false)
+                }
             }
         }
     }
@@ -75,6 +79,23 @@ class AlbumTrackAdapter(
                 context, if (item.isSelected) R.color.colorPrimary else android.R.color.white
             )
         )
+        item_track_duration.setTextColor(
+            ContextCompat.getColor(
+                context, if (item.isSelected) R.color.colorPrimary else android.R.color.white
+            )
+        )
+        item_track_options.imageTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                context, if (item.isSelected) R.color.colorPrimary else android.R.color.white
+            )
+        )
+        if (item.isSelected) {
+            item_track_no.visibility = View.GONE
+            imv_playing.visibility = View.VISIBLE
+        } else {
+            item_track_no.visibility = View.VISIBLE
+            imv_playing.visibility = View.GONE
+        }
     }
 
 

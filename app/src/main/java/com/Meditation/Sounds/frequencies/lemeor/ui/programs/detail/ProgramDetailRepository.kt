@@ -5,6 +5,7 @@ import com.Meditation.Sounds.frequencies.lemeor.data.database.DataBase
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Album
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Program
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Rife
+import com.Meditation.Sounds.frequencies.lemeor.data.model.Scalar
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Track
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -21,6 +22,10 @@ class ProgramDetailRepository(private val localData: DataBase) {
 
     suspend fun getAlbumById(id: Int, categoryId: Int): Album? {
         return localData.albumDao().getAlbumById(id,categoryId)
+    }
+
+    suspend fun getScalarById(id: Int): Scalar? {
+        return localData.scalarDao().getScalarNewById(id)
     }
 
     fun insertRife(rife: Rife) {

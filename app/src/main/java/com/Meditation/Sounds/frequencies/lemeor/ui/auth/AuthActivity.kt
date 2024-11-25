@@ -80,6 +80,7 @@ class AuthActivity : AppCompatActivity(), OnLoginListener, OnRegistrationListene
         resource.data?.user?.let { user -> updateUnlocked(applicationContext, user, true) }
         if (resource.data?.user?.program_schedule != null) {
             val programSchedule = resource.data.user.program_schedule
+            //local
             SharedPreferenceHelper.getInstance()
                 .setFloat(Constants.PREF_SCHEDULE_START_TIME_AM, programSchedule?.startTimeAm ?: 0f)
             SharedPreferenceHelper.getInstance()
@@ -89,6 +90,17 @@ class AuthActivity : AppCompatActivity(), OnLoginListener, OnRegistrationListene
                 .setFloat(Constants.PREF_SCHEDULE_START_TIME_PM, programSchedule?.startTimePm ?: 540f)
             SharedPreferenceHelper.getInstance()
                 .setFloat(Constants.PREF_SCHEDULE_END_TIME_PM, programSchedule?.stopTimePm ?: 719f)
+
+            //server
+            SharedPreferenceHelper.getInstance()
+                .setFloat(Constants.PREF_SCHEDULE_START_TIME_AM_API, programSchedule?.startTimeAm ?: 0f)
+            SharedPreferenceHelper.getInstance()
+                .setFloat(Constants.PREF_SCHEDULE_END_TIME_AM_API, programSchedule?.stopTimeAm ?: 0f)
+
+            SharedPreferenceHelper.getInstance()
+                .setFloat(Constants.PREF_SCHEDULE_START_TIME_PM_API, programSchedule?.startTimePm ?: 0f)
+            SharedPreferenceHelper.getInstance()
+                .setFloat(Constants.PREF_SCHEDULE_END_TIME_PM_API, programSchedule?.stopTimePm ?: 0f)
         }
 
         EventBus.getDefault().post("showDisclaimer")

@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingHorizontal="30dp">
+    android:paddingHorizontal="30dp"
+    tools:background="#000">
 
     <com.Meditation.Sounds.frequencies.views.CustomFontTextView
         android:id="@+id/tvRecent"
@@ -24,10 +26,43 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_horizontal_margin"
         android:orientation="horizontal"
-        android:scrollbars="horizontal"
+        android:scrollbars="none"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvRecent" />
+
+    <com.hieupt.android.standalonescrollbar.StandaloneScrollBar
+        android:id="@+id/scrollbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        app:layout_constraintTop_toBottomOf="@+id/rcAlbumRecent"
+        app:scrollbarAlwaysShow="true"
+        app:scrollbarOrientation="horizontal"
+        app:scrollbarDefaultThumbTint="#3A416B"
+        app:scrollbarDefaultTrackTint="#202F4E"/>
+
+    <!--    <FrameLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="@dimen/indent_8"-->
+    <!--        android:layout_marginTop="15dp"-->
+    <!--        app:layout_constraintEnd_toEndOf="@+id/rcAlbumRecent"-->
+    <!--        app:layout_constraintStart_toStartOf="@+id/rcAlbumRecent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/rcAlbumRecent">-->
+
+    <!--        <View-->
+    <!--            android:id="@+id/scrollbarViewBg"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="10dp"-->
+    <!--            android:background="#202F4E" />-->
+
+    <!--        <View-->
+    <!--            android:id="@+id/scrollbarViewThumb"-->
+    <!--            android:layout_width="40dp"-->
+    <!--            android:layout_height="10dp"-->
+    <!--            android:background="#3A416B" />-->
+    <!--    </FrameLayout>-->
+
 
     <com.Meditation.Sounds.frequencies.views.CustomFontTextView
         android:id="@+id/tvNoDataRecent"
@@ -36,136 +71,10 @@
         android:text="@string/tv_empty_list"
         android:textAllCaps="true"
         android:textColor="@android:color/white"
-        android:textSize="@dimen/text_size_small_6"
+        android:textSize="@dimen/text_size_small_9"
         app:fontText="fonts/HelveticaNeue_Italic.ttf"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvRecent" />
-
-    <com.Meditation.Sounds.frequencies.views.CustomFontTextView
-        android:id="@+id/tvProgramName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="@string/you_have_no_program_selected"
-        android:textAllCaps="true"
-        android:textColor="@android:color/white"
-        android:textSize="@dimen/text_size_small"
-        app:fontText="fonts/HelveticaNeue_Bold.otf"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rcAlbumRecent" />
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/btnDeleteProgramName"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="10dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tvProgramName"
-        app:layout_constraintStart_toEndOf="@+id/tvProgramName"
-        app:layout_constraintTop_toTopOf="@+id/tvProgramName"
-        app:srcCompat="@drawable/ic_remove_schedule" />
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/imvSaveSchedule"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
-        android:layout_marginStart="10dp"
-        app:tint="@color/text_color_schedule"
-        app:layout_constraintBottom_toBottomOf="@+id/tvSaveSchedule"
-        app:layout_constraintStart_toEndOf="@+id/tvSaveSchedule"
-        app:layout_constraintTop_toTopOf="@+id/tvSaveSchedule"
-        app:srcCompat="@drawable/ic_save_schedule" />
-
-    <com.Meditation.Sounds.frequencies.views.CustomFontTextView
-        android:id="@+id/tvSaveSchedule"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="@string/save_schedule"
-        android:textAllCaps="true"
-        android:textColor="@color/text_color_schedule"
-        android:textSize="@dimen/text_size_small"
-        app:fontText="fonts/HelveticaNeue_Regular.otf"
-        app:layout_constraintStart_toStartOf="@+id/tvScheduleOnOff"
-        app:layout_constraintTop_toBottomOf="@+id/tvScheduleOnOff" />
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/btnSwitchSchedule"
-        android:layout_width="60dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="7dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tvScheduleOnOff"
-        app:layout_constraintStart_toEndOf="@+id/tvScheduleOnOff"
-        app:layout_constraintTop_toTopOf="@+id/tvScheduleOnOff"
-        app:srcCompat="@drawable/bg_switch_schedule" />
-
-    <com.Meditation.Sounds.frequencies.views.CustomFontTextView
-        android:id="@+id/tvScheduleOnOff"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:text="@string/schedule_on_off"
-        android:textAllCaps="true"
-        android:textColor="@android:color/white"
-        android:textSize="@dimen/text_size_small"
-        app:fontText="fonts/HelveticaNeue_Bold.otf"
-        app:layout_constraintStart_toStartOf="@+id/tvProgramName"
-        app:layout_constraintTop_toBottomOf="@+id/tvProgramName" />
-
-
-    <com.Meditation.Sounds.frequencies.views.CustomFontTextView
-        android:id="@+id/tvScheduleTimeAm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="00:00 AM to 3:00 AM"
-        android:textColor="@android:color/white"
-        android:textSize="@dimen/text_size_small_11"
-        app:fontText="fonts/HelveticaNeue_Regular.otf"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvSaveSchedule" />
-
-    <com.jaygoo.widget.RangeSeekBar
-        android:id="@+id/sbRangeScheduleTimeAm"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvScheduleTimeAm"
-        app:rsb_gravity="center"
-        app:rsb_mode="range"
-        app:rsb_progress_drawable="@drawable/progress"
-        app:rsb_progress_drawable_default="@drawable/progress_defalut"
-        app:rsb_progress_height="8dp"
-        app:rsb_thumb_drawable="@drawable/ic_dot_seekbar"
-        app:rsb_thumb_height="20dp"
-        app:rsb_thumb_width="20dp" />
-
-    <com.Meditation.Sounds.frequencies.views.CustomFontTextView
-        android:id="@+id/tvScheduleTimePm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="09:00 PM to 11:59 PM"
-        android:textColor="@android:color/white"
-        android:textSize="@dimen/text_size_small_11"
-        app:fontText="fonts/HelveticaNeue_Regular.otf"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sbRangeScheduleTimeAm" />
-
-    <com.jaygoo.widget.RangeSeekBar
-        android:id="@+id/sbRangeScheduleTimePm"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvScheduleTimePm"
-        app:rsb_gravity="center"
-        app:rsb_mode="range"
-        app:rsb_progress_drawable="@drawable/progress"
-        app:rsb_progress_drawable_default="@drawable/progress_defalut"
-        app:rsb_progress_height="8dp"
-        app:rsb_thumb_drawable="@drawable/ic_dot_seekbar"
-        app:rsb_thumb_height="20dp"
-        app:rsb_thumb_width="20dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

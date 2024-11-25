@@ -15,7 +15,7 @@ interface ScalarDao {
     @Delete
     suspend fun deleteListScalar(list: List<Scalar>?)
 
-    @Query("SELECT * FROM scalar ORDER BY `id` ASC")
+    @Query("SELECT * FROM scalar ORDER BY `order_number` ASC")
     fun getLiveDataScalars(): LiveData<List<Scalar>>
 
     @Query("SELECT * FROM scalar ORDER BY `order_number` ASC")
@@ -26,4 +26,7 @@ interface ScalarDao {
 
     @Query("DELETE FROM scalar")
     suspend fun clear()
+
+    @Query("SELECT * FROM scalar WHERE id=:id")
+    suspend fun getScalarNewById(id: Int) : Scalar?
 }

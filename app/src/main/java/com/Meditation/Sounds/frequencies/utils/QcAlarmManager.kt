@@ -6,9 +6,12 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.text.format.DateFormat
 import android.util.Log
 import com.Meditation.Sounds.frequencies.api.models.GetFlashSaleOutput
+import com.Meditation.Sounds.frequencies.lemeor.isPlayProgram
+import com.Meditation.Sounds.frequencies.lemeor.isUserPaused
+import com.Meditation.Sounds.frequencies.lemeor.playProgramId
+import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper
 import com.Meditation.Sounds.frequencies.models.event.ScheduleProgramStatusEvent
 import com.Meditation.Sounds.frequencies.services.AlarmReceiver
 import com.Meditation.Sounds.frequencies.services.AlarmsScheduleProgramReceiver
@@ -213,11 +216,12 @@ class QcAlarmManager {
 
 
         @SuppressLint("SimpleDateFormat")
-        fun setScheduleProgramsAlarms(context: Context, isFirstOpen: Boolean = false) {
+        fun setScheduleProgramsAlarms(context: Context, isSkipQuestionTmp: Boolean = false) {
+            var isProgramPlayed = false
             //clear schedule programs
             clearScheduleProgramsAlarms(context)
             //start alarm schedule programs
-            if (SharedPreferenceHelper.getInstance().getBool(Constants.PREF_SCHEDULE_PROGRAM_STATUS)) {
+            if (SharedPreferenceHelper.getInstance().getBool(Constants.PREF_SCHEDULE_PROGRAM_STATUS) && !isConditionTimeEndAutoPlayPrograms()) {
                 val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
                 val currentTime = Calendar.getInstance()
                 val simpleDateFormat = SimpleDateFormat("ddMMyyyy : HH:mm:ss")
@@ -245,8 +249,9 @@ class QcAlarmManager {
                 }
 
                 if (calendarMorningStart.before(currentTime)) {
-                    if (calendarMorningEnd.after(currentTime) && isFirstOpen) {
-                        EventBus.getDefault().post(ScheduleProgramStatusEvent(isPlay = true))
+                    if (calendarMorningEnd.after(currentTime)) {
+                        isProgramPlayed = true
+                        EventBus.getDefault().post(ScheduleProgramStatusEvent(isPlay = true, isSkipQuestion = isSkipQuestionTmp))
                     }
                     calendarMorningStart.add(Calendar.DAY_OF_YEAR, 1)
                 }
@@ -314,8 +319,9 @@ class QcAlarmManager {
                 }
 
                 if (calendarAfternoonStart.before(currentTime)) {
-                    if (calendarAfternoonEnd.after(currentTime) && isFirstOpen) {
-                        EventBus.getDefault().post(ScheduleProgramStatusEvent(isPlay = true))
+                    if (calendarAfternoonEnd.after(currentTime)) {
+                        isProgramPlayed = true
+                        EventBus.getDefault().post(ScheduleProgramStatusEvent(isPlay = true, isSkipQuestion = isSkipQuestionTmp))
                     }
                     calendarAfternoonStart.add(Calendar.DAY_OF_YEAR, 1)
                 }
@@ -359,6 +365,14 @@ class QcAlarmManager {
                 } else {
                     alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendarAfternoonEnd.timeInMillis, stopPendingIntentAfternoon)
                 }
+
+                //check stop current program
+                if (!isProgramPlayed && isPlayProgram && playProgramId == PreferenceHelper.getScheduleProgram(context)?.id) {
+                    if (isUserPaused) {
+                        EventBus.getDefault().post("play player")
+                    }
+//                    EventBus.getDefault().post(ScheduleProgramStatusEvent(isPlay = false, isHidePlayer = true))
+                }
             }
         }
 
@@ -376,9 +390,38 @@ class QcAlarmManager {
             }
         }
 
-        fun playScheduleProgramOpenApp(){
+        @SuppressLint("SimpleDateFormat")
+        private fun isConditionTimeEndAutoPlayPrograms() : Boolean {
             val currentTime = Calendar.getInstance()
-            val simpleDateFormat = SimpleDateFormat("ddMMyyyy : HH:mm:ss")
+            val dateFormat = SimpleDateFormat("dd-MM-yyyy HH:mm")
+
+            val hourEndAm = SharedPreferenceHelper.getInstance()
+                .getFloat(Constants.PREF_SCHEDULE_END_TIME_AM, 0f).toInt() / 60
+            val mintEndAm = SharedPreferenceHelper.getInstance()
+                .getFloat(Constants.PREF_SCHEDULE_END_TIME_AM, 0f).toInt() % 60
+
+            val hourEndPm = SharedPreferenceHelper.getInstance()
+                .getFloat(Constants.PREF_SCHEDULE_END_TIME_PM, 0f).toInt() / 60
+            val mintEndPm = SharedPreferenceHelper.getInstance()
+                .getFloat(Constants.PREF_SCHEDULE_END_TIME_PM, 0f).toInt() % 60
+
+            val calendarMorningEnd = Calendar.getInstance().apply {
+                set(Calendar.HOUR_OF_DAY, hourEndAm)
+                set(Calendar.MINUTE, mintEndAm)
+                set(Calendar.SECOND, 0)
+            }
+
+            val calendarAfternoonEnd = Calendar.getInstance().apply {
+                set(Calendar.HOUR_OF_DAY, hourEndPm + 12)
+                set(Calendar.MINUTE, mintEndPm)
+                set(Calendar.SECOND, 0)
+            }
+
+            return dateFormat.format(currentTime.time) == dateFormat.format(calendarMorningEnd.time) || dateFormat.format(currentTime.time) == dateFormat.format(calendarAfternoonEnd.time)
+        }
+
+        fun isCurrentTimeInRange(): Boolean {
+            val currentTime = Calendar.getInstance()
 
             val hourStartAm = SharedPreferenceHelper.getInstance()
                 .getFloat(Constants.PREF_SCHEDULE_START_TIME_AM, 0f).toInt() / 60
@@ -389,17 +432,6 @@ class QcAlarmManager {
                 .getFloat(Constants.PREF_SCHEDULE_END_TIME_AM, 0f).toInt() / 60
             val mintEndAm = SharedPreferenceHelper.getInstance()
                 .getFloat(Constants.PREF_SCHEDULE_END_TIME_AM, 0f).toInt() % 60
-
-
-            val hourStartPm = SharedPreferenceHelper.getInstance()
-                .getFloat(Constants.PREF_SCHEDULE_START_TIME_PM, 0f).toInt() / 60
-            val mintStartPm = SharedPreferenceHelper.getInstance()
-                .getFloat(Constants.PREF_SCHEDULE_START_TIME_PM, 0f).toInt() % 60
-
-            val hourEndPm = SharedPreferenceHelper.getInstance()
-                .getFloat(Constants.PREF_SCHEDULE_END_TIME_PM, 0f).toInt() / 60
-            val mintEndPm = SharedPreferenceHelper.getInstance()
-                .getFloat(Constants.PREF_SCHEDULE_END_TIME_PM, 0f).toInt() % 60
 
             val calendarMorningStart = Calendar.getInstance().apply {
                 set(Calendar.HOUR_OF_DAY, hourStartAm)
@@ -413,6 +445,16 @@ class QcAlarmManager {
                 set(Calendar.SECOND, 0)
             }
 
+            val hourStartPm = SharedPreferenceHelper.getInstance()
+                .getFloat(Constants.PREF_SCHEDULE_START_TIME_PM, 0f).toInt() / 60
+            val mintStartPm = SharedPreferenceHelper.getInstance()
+                .getFloat(Constants.PREF_SCHEDULE_START_TIME_PM, 0f).toInt() % 60
+
+            val hourEndPm = SharedPreferenceHelper.getInstance()
+                .getFloat(Constants.PREF_SCHEDULE_END_TIME_PM, 0f).toInt() / 60
+            val mintEndPm = SharedPreferenceHelper.getInstance()
+                .getFloat(Constants.PREF_SCHEDULE_END_TIME_PM, 0f).toInt() % 60
+
             val calendarAfternoonStart = Calendar.getInstance().apply {
                 set(Calendar.HOUR_OF_DAY, hourStartPm + 12)
                 set(Calendar.MINUTE, mintStartPm)
@@ -424,6 +466,9 @@ class QcAlarmManager {
                 set(Calendar.MINUTE, mintEndPm)
                 set(Calendar.SECOND, 0)
             }
+
+            return (currentTime.after(calendarMorningStart) && currentTime.before(calendarMorningEnd)) ||
+                    (currentTime.after(calendarAfternoonStart) && currentTime.before(calendarAfternoonEnd))
         }
     }
 

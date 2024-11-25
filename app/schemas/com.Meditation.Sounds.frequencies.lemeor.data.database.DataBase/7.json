@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 7,
-    "identityHash": "556c70eeba10ccd768e47418f526f83c",
+    "identityHash": "69595596cb317a4561292021928f5e29",
     "entities": [
       {
         "tableName": "home",
@@ -643,7 +643,7 @@
       },
       {
         "tableName": "scalar",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `silent_energy_catalog_id` TEXT NOT NULL, `description` TEXT NOT NULL, `cover_image` TEXT NOT NULL, `audio_folder` TEXT NOT NULL, `audio_file` TEXT NOT NULL, `silent_energy_catalogs_name` TEXT NOT NULL, `silent_energy_catalogs_id` TEXT NOT NULL, `order_number` INTEGER NOT NULL, `is_free` INTEGER NOT NULL, `created_at` INTEGER NOT NULL, `updated_at` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `silent_energy_catalog_id` TEXT NOT NULL, `description` TEXT NOT NULL, `cover_image` TEXT NOT NULL, `audio_folder` TEXT NOT NULL, `audio_file` TEXT NOT NULL, `silent_energy_catalogs_name` TEXT NOT NULL, `silent_energy_catalogs_id` TEXT NOT NULL, `order_number` INTEGER NOT NULL, `is_free` INTEGER NOT NULL, `created_at` INTEGER NOT NULL, `updated_at` INTEGER NOT NULL, `isSelected` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -722,6 +722,12 @@
             "columnName": "updated_at",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "isSelected",
+            "columnName": "isSelected",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -737,7 +743,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '556c70eeba10ccd768e47418f526f83c')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '69595596cb317a4561292021928f5e29')"
     ]
   }
 }

@@ -2,6 +2,7 @@ package com.Meditation.Sounds.frequencies.lemeor.ui.albums.detail
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -51,6 +52,8 @@ import com.Meditation.Sounds.frequencies.lemeor.ui.programs.NewProgramFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.rife.NewRifeViewModel
 import com.Meditation.Sounds.frequencies.lemeor.ui.scalar.NewScalarFragment
 import com.Meditation.Sounds.frequencies.utils.Constants
+import com.Meditation.Sounds.frequencies.utils.Constants.Companion.PREF_SETTING_ADVANCE_SCALAR_ON_OFF
+import com.Meditation.Sounds.frequencies.utils.PlayerUtils
 import com.Meditation.Sounds.frequencies.utils.SharedPreferenceHelper
 import com.Meditation.Sounds.frequencies.utils.Utils
 import com.Meditation.Sounds.frequencies.utils.firstIndexOrNull
@@ -66,6 +69,7 @@ import kotlinx.android.synthetic.main.fragment_new_album_detail.album_tracks_rec
 import kotlinx.android.synthetic.main.fragment_new_album_detail.programName
 import kotlinx.android.synthetic.main.fragment_new_album_detail.program_time
 import kotlinx.android.synthetic.main.fragment_new_album_detail.tvDescription
+import kotlinx.android.synthetic.main.fragment_new_album_detail.view_space_silent_quantum
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -158,6 +162,7 @@ class NewAlbumDetailFragment : BaseFragment() {
         initUI()
         program_time.visibility = View.GONE
         reloadUI()
+        updateViewSilentQuantum()
         view?.isFocusableInTouchMode = true
         view?.requestFocus()
         view?.setOnKeyListener { _, keyCode, event ->
@@ -184,6 +189,16 @@ class NewAlbumDetailFragment : BaseFragment() {
                 programName.text = a.name
                 a.initView()
             }
+        }
+    }
+
+    private fun updateViewSilentQuantum() {
+        if (SharedPreferenceHelper.getInstance().getBool(PREF_SETTING_ADVANCE_SCALAR_ON_OFF)) {
+            view_space_silent_quantum.visibility = View.VISIBLE
+            album_add_scalar.visibility = View.VISIBLE
+        } else {
+            view_space_silent_quantum.visibility = View.GONE
+            album_add_scalar.visibility = View.GONE
         }
     }
 
@@ -233,6 +248,18 @@ class NewAlbumDetailFragment : BaseFragment() {
         super.onDestroy()
         EventBus.getDefault().unregister(this)
     }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        if (fragmentManager != null) {
+            fragmentManager?.beginTransaction()?.detach(this)?.commitAllowingStateLoss()
+        }
+        super.onConfigurationChanged(newConfig)
+        if (fragmentManager != null) {
+            fragmentManager?.beginTransaction()?.attach(this)?.commitAllowingStateLoss()
+        }
+    }
+
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onEvent(event: Any?) {
@@ -297,7 +324,9 @@ class NewAlbumDetailFragment : BaseFragment() {
 
         album_play.setOnClickListener {
             if (tracks.isNotEmpty()) {
-                playAndDownload(this)
+                PlayerUtils.checkSchedulePlaying(requireContext()) {
+                    playAndDownload(this)
+                }
             }
         }
         album_add_scalar.setOnClickListener {
@@ -344,7 +373,9 @@ class NewAlbumDetailFragment : BaseFragment() {
         tvDescription.text = description
         album_play.setOnClickListener {
             if (getFrequency().isNotEmpty()) {
-                play()
+                PlayerUtils.checkSchedulePlaying(requireContext()) {
+                    play()
+                }
             }
         }
         album_add_scalar.setOnClickListener {

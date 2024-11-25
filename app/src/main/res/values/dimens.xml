@@ -35,7 +35,7 @@
     <dimen name="text_size_30">36sp</dimen>
     <dimen name="text_size_40">42sp</dimen>
 
-    <dimen name="height_top_icon">42dp</dimen>
+    <dimen name="height_top_icon">70dp</dimen>
     <dimen name="padding_top_icon">6dp</dimen>
     <dimen name="margin_left_top_icon">20dp</dimen>
     <dimen name="height_medium_icon">34dp</dimen>
@@ -95,11 +95,20 @@
     <dimen name="indent_4">4dp</dimen>
     <dimen name="indent_8">8dp</dimen>
     <dimen name="indent_16">16dp</dimen>
+    <dimen name="indent_10">10dp</dimen>
+    <dimen name="indent_20">20dp</dimen>
+    <dimen name="indent_25">25dp</dimen>
+    <dimen name="indent_30">30dp</dimen>
     <dimen name="indent_24">24dp</dimen>
     <dimen name="indent_32">32dp</dimen>
-    <dimen name="indent_48">48dp</dimen>
     <dimen name="indent_35">35dp</dimen>
     <dimen name="indent_40">40dp</dimen>
+    <dimen name="indent_46">46dp</dimen>
+    <dimen name="indent_48">48dp</dimen>
+    <dimen name="indent_54">54dp</dimen>
+    <dimen name="indent_60">60dp</dimen>
+    <dimen name="indent_76">76dp</dimen>
+    <dimen name="indent_80">80dp</dimen>
     <dimen name="indent_100">100dp</dimen>
 
 
@@ -113,7 +122,10 @@
     <dimen name="bottom_bar_icon_size">30sp</dimen>
     <dimen name="bottom_bar_icon_padding">3sp</dimen>
     <dimen name="height_repeat_button">30dp</dimen>
+    <dimen name="height_silent_button">35dp</dimen>
 
     <dimen name="height_recent_albums">80dp</dimen>
     <dimen name="radius_recent_albums">10dp</dimen>
+
+    <dimen name="height_button_player_default">32dp</dimen>
 </resources>

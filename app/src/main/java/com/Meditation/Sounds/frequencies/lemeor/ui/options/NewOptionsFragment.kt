@@ -3,6 +3,7 @@ package com.Meditation.Sounds.frequencies.lemeor.ui.options
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
@@ -45,6 +46,7 @@ import com.Meditation.Sounds.frequencies.lemeor.data.utils.ViewModelFactory
 import com.Meditation.Sounds.frequencies.lemeor.hashMapTiers
 import com.Meditation.Sounds.frequencies.lemeor.isPlayAlbum
 import com.Meditation.Sounds.frequencies.lemeor.isPlayProgram
+import com.Meditation.Sounds.frequencies.lemeor.playingScalar
 import com.Meditation.Sounds.frequencies.lemeor.showAlert
 import com.Meditation.Sounds.frequencies.lemeor.tools.HudHelper
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper
@@ -53,6 +55,7 @@ import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper.isLogged
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper.preference
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper.saveUser
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper.token
+import com.Meditation.Sounds.frequencies.lemeor.tools.player.ScalarPlayerStatus
 import com.Meditation.Sounds.frequencies.lemeor.ui.auth.AuthActivity
 import com.Meditation.Sounds.frequencies.lemeor.ui.auth.CustomSpinnerAdapter
 import com.Meditation.Sounds.frequencies.lemeor.ui.auth.updateUnlocked
@@ -61,7 +64,9 @@ import com.Meditation.Sounds.frequencies.lemeor.ui.main.NavigationActivity
 import com.Meditation.Sounds.frequencies.lemeor.ui.options.change_pass.ChangePassActivity
 import com.Meditation.Sounds.frequencies.lemeor.ui.purchase.new_flow.NewPurchaseActivity
 import com.Meditation.Sounds.frequencies.models.Language
+import com.Meditation.Sounds.frequencies.models.event.UpdateViewSilentQuantumEvent
 import com.Meditation.Sounds.frequencies.utils.Constants
+import com.Meditation.Sounds.frequencies.utils.Constants.Companion.PREF_SETTING_ADVANCE_SCALAR_ON_OFF
 import com.Meditation.Sounds.frequencies.utils.Constants.Companion.PREF_SETTING_CHATBOT_ON_OFF
 import com.Meditation.Sounds.frequencies.utils.Constants.Companion.SKU_RIFE_ADVANCED_MONTHLY
 import com.Meditation.Sounds.frequencies.utils.Constants.Companion.SKU_RIFE_ADVANCED_YEAR_FLASHSALE
@@ -79,6 +84,7 @@ import com.android.billingclient.api.BillingClientStateListener
 import com.android.billingclient.api.BillingResult
 import com.android.billingclient.api.PurchasesResponseListener
 import kotlinx.android.synthetic.main.fragment_login.spLanguage
+import kotlinx.android.synthetic.main.fragment_new_options.btnAdvancedMode
 import kotlinx.android.synthetic.main.fragment_new_options.btnSwitchChatbot
 import kotlinx.android.synthetic.main.fragment_new_options.options_about
 import kotlinx.android.synthetic.main.fragment_new_options.options_change_pass
@@ -95,6 +101,9 @@ import kotlinx.android.synthetic.main.fragment_new_options.options_user_name
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 
 const val REQUEST_CODE_AUTH = 2222
@@ -124,6 +133,22 @@ class NewOptionsFragment : BaseFragment() {
 
     override fun addListener() {
 
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN_ORDERED)
+    fun onScalarOnOffStatusEventEvent(event: ScalarPlayerStatus) {
+        updateViewAdvancedSilent()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        EventBus.getDefault().register(this)
+    }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        EventBus.getDefault().unregister(this)
     }
 
     private fun initUI() {
@@ -358,6 +383,15 @@ class NewOptionsFragment : BaseFragment() {
             })
         }
 
+        updateViewAdvancedSilent()
+
+        btnAdvancedMode.isSelected = SharedPreferenceHelper.getInstance().getBool(PREF_SETTING_ADVANCE_SCALAR_ON_OFF)
+        btnAdvancedMode.setOnClickListener {
+            btnAdvancedMode.isSelected = !btnAdvancedMode.isSelected
+            SharedPreferenceHelper.getInstance().setBool(PREF_SETTING_ADVANCE_SCALAR_ON_OFF, btnAdvancedMode.isSelected)
+            EventBus.getDefault().post(UpdateViewSilentQuantumEvent)
+        }
+
         options_instruction.setOnClickListener {
             startActivity(
                 Intent(
@@ -472,6 +506,16 @@ class NewOptionsFragment : BaseFragment() {
             options_log_out.visibility = View.VISIBLE
             options_change_pass.visibility = View.VISIBLE
             options_sign_in.visibility = View.GONE
+        }
+    }
+
+    private fun updateViewAdvancedSilent() {
+        if (playingScalar) {
+            btnAdvancedMode.isEnabled = false
+            btnAdvancedMode.setImageResource(R.drawable.bg_advance_mode_scalar_disable)
+        } else {
+            btnAdvancedMode.isEnabled = true
+            btnAdvancedMode.setImageResource(R.drawable.bg_advance_mode_scalar)
         }
     }
 

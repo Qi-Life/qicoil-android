@@ -116,6 +116,9 @@ public class SharedPreferenceHelper {
             if (key.equalsIgnoreCase(Constants.PREF_SETTING_CHATBOT_ON_OFF)) {
                 return mSharedPreferences.getBoolean(key, true);
             }
+            if (key.equalsIgnoreCase(Constants.PREF_SETTING_ADVANCE_SCALAR_ON_OFF)) {
+                return mSharedPreferences.getBoolean(key, true);
+            }
         }
         return mSharedPreferences.getBoolean(key, false);
     }
@@ -227,9 +230,5 @@ public class SharedPreferenceHelper {
         Type type = new TypeToken<List<Album>>() {
         }.getType();
         return new Gson().fromJson(json, type);
-    }
-
-    public void clearRecentAlbums() {
-        mSharedPreferences.edit().putString(Constants.PREF_RECENT_ALBUMS, null).apply();
     }
 }

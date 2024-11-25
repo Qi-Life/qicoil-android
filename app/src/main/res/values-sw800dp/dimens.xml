@@ -30,7 +30,7 @@
     <dimen name="text_size_30">45sp</dimen>
     <dimen name="text_size_40">55sp</dimen>
 
-    <dimen name="height_top_icon">70dp</dimen>
+    <dimen name="height_top_icon">100dp</dimen>
     <dimen name="padding_top_icon">12dp</dimen>
     <dimen name="margin_left_top_icon">35dp</dimen>
     <dimen name="height_medium_icon">56dp</dimen>

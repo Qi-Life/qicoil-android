@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -28,6 +29,7 @@ import com.Meditation.Sounds.frequencies.lemeor.tools.player.ScalarPlayerService
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.ScalarPlayerStatus
 import com.Meditation.Sounds.frequencies.lemeor.ui.main.NavigationActivity
 import com.Meditation.Sounds.frequencies.lemeor.ui.purchase.new_flow.PurchaseScalarWebView
+import com.Meditation.Sounds.frequencies.utils.PlayerUtils
 import com.Meditation.Sounds.frequencies.utils.Utils
 import com.Meditation.Sounds.frequencies.views.ItemOffsetDecoration
 import com.tonyodev.fetch2core.isNetworkAvailable
@@ -98,8 +100,18 @@ class NewScalarFragment : BaseFragment() {
         rcvScalar.adapter = scalarAlbumsAdapter
         scalarAlbumsAdapter?.setOnClickListener(object : ScalarAlbumsAdapter.Listener {
             override fun onClickItem(album: Scalar) {
-                playScalar = album
-                playAndDownload(album)
+                PlayerUtils.checkSchedulePlaying(requireContext()) {
+                    if (!it) {
+                        playScalar = album
+                        playAndDownload(album)
+                    } else {
+                        EventBus.getDefault().post("clear player")
+                        Handler().postDelayed({
+                            playScalar = album
+                            playAndDownload(album)
+                        }, 500L)
+                    }
+                }
             }
 
             override fun onLongClickItem(album: Scalar) {
