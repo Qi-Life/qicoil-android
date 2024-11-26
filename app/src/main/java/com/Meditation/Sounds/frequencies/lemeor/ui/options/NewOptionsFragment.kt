@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.util.TypedValue
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Toast
@@ -514,6 +515,12 @@ class NewOptionsFragment : BaseFragment() {
     private fun updateViewAdvancedSilent() {
         val advanceMode = SharedPreferenceHelper.getInstance().getBool(PREF_SETTING_ADVANCE_SCALAR_ON_OFF)
         tvAdvancedModeTitle.text = if (advanceMode) getString(R.string.advanced_mode_on) else getString(R.string.advanced_mode_off)
+        val languageCode = PreferenceHelper.preference(requireContext()).codeLanguage
+        if (languageCode == "es" || languageCode == "pt"|| languageCode == "it" || languageCode == "fr" || languageCode == "de") {
+            tvAdvancedModeTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13f)
+        } else {
+            tvAdvancedModeTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f)
+        }
         if (playingScalar) {
             btnAdvancedMode.isEnabled = false
             tvAdvancedModeTitle.setTextColor(ContextCompat.getColor(requireContext(), R.color.color_greyB))

@@ -400,4 +400,6 @@
     <string name="txt_confirm_turn_off_before_switching_on_another">تحتاج إلى إيقاف تشغيل الجدول الزمني قبل تشغيل جدول آخر. هل ترغب في إيقاف؟</string>
     <string name="time_schedule_am">%1$s صباحًا إلى %2$s صباحًا</string>
     <string name="time_schedule_pm">%1$s مساءً إلى %2$s مساءً</string>
+    <string name="advanced_mode_off">الوضع المتقدم معطل</string>
+    <string name="advanced_mode_on">الوضع المتقدم قيد التشغيل</string>
 </resources>

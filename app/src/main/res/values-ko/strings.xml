@@ -393,4 +393,6 @@
     <string name="txt_confirm_turn_off_before_switching_on_another">다른 일정을 켜기 전에 해당 일정을 꺼야 합니다. 끄시겠습니까?</string>
     <string name="time_schedule_am">오전 %1$s - 오전 %2$s</string>
     <string name="time_schedule_pm">오후 %1$s ~ 오후 %2$s</string>
+    <string name="advanced_mode_off">고급 모드 끄기</string>
+    <string name="advanced_mode_on">고급 모드 켜기</string>
 </resources>

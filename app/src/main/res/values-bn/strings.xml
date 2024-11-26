@@ -395,4 +395,6 @@
     <string name="txt_confirm_turn_off_before_switching_on_another">অন্যটি চালু করার আগে আপনাকে সময়সূচীটি বন্ধ করতে হবে। আপনি কি বন্ধ করতে চান?</string>
     <string name="time_schedule_am">%1$s AM থেকে %2$s AM</string>
     <string name="time_schedule_pm">%1$s PM থেকে %2$s PM</string>
+    <string name="advanced_mode_off">উন্নত মোড বন্ধ</string>
+    <string name="advanced_mode_on">উন্নত মোড চালু</string>
 </resources>

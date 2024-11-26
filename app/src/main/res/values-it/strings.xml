@@ -402,4 +402,6 @@
     <string name="txt_confirm_turn_off_before_switching_on_another">È necessario disattivare la programmazione prima di attivarne un\'altra. Desideri disattivare?</string>
     <string name="time_schedule_am">Da %1$s AM a %2$s AM</string>
     <string name="time_schedule_pm">Da %1$s PM a %2$s PM</string>
+    <string name="advanced_mode_off">Modalità avanzata disattivata</string>
+    <string name="advanced_mode_on">Modalità avanzata attivata</string>
 </resources>

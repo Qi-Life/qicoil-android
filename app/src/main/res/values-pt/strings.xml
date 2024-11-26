@@ -392,4 +392,6 @@
     <string name="txt_confirm_turn_off_before_switching_on_another">Você precisa desligar a programação antes de ligar outra. Você gostaria de desligar?</string>
     <string name="time_schedule_am">%1$s AM a %2$s AM</string>
     <string name="time_schedule_pm">%1$s PM a %2$s PM</string>
+    <string name="advanced_mode_off">Modo avançado desativado</string>
+    <string name="advanced_mode_on">Modo avançado ativado</string>
 </resources>

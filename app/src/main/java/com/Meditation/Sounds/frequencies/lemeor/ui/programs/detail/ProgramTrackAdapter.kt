@@ -31,6 +31,7 @@ import kotlinx.android.synthetic.main.item_program_track.view.item_track_scalar_
 
 class ProgramTrackAdapter(
     private val onClickItem: (item: Search, index: Int) -> Unit,
+    private val onClickSubscriptionItem: (item: Search) -> Unit,
     private val onClickOptions: (item: Search) -> Unit
 ) : ListAdapter<Search, ProgramTrackAdapter.ViewHolder>(SearchDiffCallback()) {
     private var selectedItem: Search? = null
@@ -69,6 +70,8 @@ class ProgramTrackAdapter(
                 }
                 if ((item.obj is Scalar && SharedPreferenceHelper.getInstance().getBool(PREF_SETTING_ADVANCE_SCALAR_ON_OFF) && (item.obj as Scalar).is_free == 1) || item.obj !is Scalar) {
                     onClickItem.invoke(item, layoutPosition)
+                } else if ((item.obj as Scalar).is_free == 0) {
+                    onClickSubscriptionItem.invoke(item)
                 }
             }
         }

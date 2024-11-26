@@ -119,16 +119,13 @@ fun loadImage(context: Context, imageView: ImageView, album: Album) {
 }
 
 fun loadImageScalar(context: Context, imageView: ImageView, scalar: Scalar) {
-    val assetsPath = "file:///android_asset/scalars/" + scalar.name.trim() + ".png"
-
     val requestOptions = RequestOptions()
         .diskCacheStrategy(DiskCacheStrategy.ALL)
         .signature(ObjectKey(scalar.updated_at))
     Glide.with(context)
-        .load(Uri.parse(assetsPath))
+        .load(getImageUrlScalar(scalar))
         .thumbnail(
-            Glide.with(context).load(Uri.parse(assetsPath))
-                .apply(RequestOptions().override(300, 300))
+            Glide.with(context).load(R.drawable.ic_album_placeholder).apply(RequestOptions().override(300, 300))
         )
         .apply(requestOptions)
         .dontTransform()
@@ -172,7 +169,7 @@ fun getTrackUrlScalar(scalar: Scalar): String {
 fun getImageUrlScalar(scalar: Scalar): String {
     return ApiConfig.getStorage() +
             File.separator +
-            "" +
+            "Sillent_Scalar" +
             File.separator +
             scalar.cover_image
 }

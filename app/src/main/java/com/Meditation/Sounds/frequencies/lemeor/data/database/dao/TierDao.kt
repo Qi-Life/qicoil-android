@@ -16,7 +16,7 @@ interface TierDao {
     suspend fun updateShowStatus(isShow: Boolean, id: Int)
 
     @Query("SELECT tier.isShow FROM tier WHERE id=:tierId")
-    suspend fun getShowStatus(tierId: Int) : Boolean
+    suspend fun getShowStatus(tierId: Int) : Boolean?
 
     @Query("UPDATE tier SET isPurchased=:isPurchased WHERE id=:id")
     suspend fun updatePurchaseStatus(isPurchased: Boolean, id: Int)

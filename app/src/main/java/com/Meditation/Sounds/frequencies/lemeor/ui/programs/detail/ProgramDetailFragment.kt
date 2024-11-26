@@ -32,6 +32,7 @@ import com.Meditation.Sounds.frequencies.lemeor.data.model.Scalar
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Search
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Track
 import com.Meditation.Sounds.frequencies.lemeor.data.remote.ApiHelper
+import com.Meditation.Sounds.frequencies.lemeor.data.utils.Resource
 import com.Meditation.Sounds.frequencies.lemeor.data.utils.ViewModelFactory
 import com.Meditation.Sounds.frequencies.lemeor.getConvertedTime
 import com.Meditation.Sounds.frequencies.lemeor.getPreloadedSaveDir
@@ -69,6 +70,8 @@ import com.Meditation.Sounds.frequencies.lemeor.ui.programs.NewProgramFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.programs.NewProgramViewModel
 import com.Meditation.Sounds.frequencies.lemeor.ui.programs.dialog.FrequenciesDialogFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.programs.search.AddProgramsFragment
+import com.Meditation.Sounds.frequencies.lemeor.ui.purchase.new_flow.PurchaseScalarWebView
+import com.Meditation.Sounds.frequencies.lemeor.ui.scalar.NewScalarViewModel
 import com.Meditation.Sounds.frequencies.lemeor.ui.scalar.ScalarDownloadService
 import com.Meditation.Sounds.frequencies.models.event.ScheduleProgramStatusEvent
 import com.Meditation.Sounds.frequencies.models.event.UpdateSwitchQuantumEvent
@@ -80,6 +83,7 @@ import com.Meditation.Sounds.frequencies.utils.SharedPreferenceHelper
 import com.Meditation.Sounds.frequencies.utils.Utils
 import com.Meditation.Sounds.frequencies.utils.isNotString
 import com.Meditation.Sounds.frequencies.views.ItemLastOffsetBottomDecoration
+import com.tonyodev.fetch2core.isNetworkAvailable
 import kotlinx.android.synthetic.main.fragment_program_detail.action_add_silent_quantum
 import kotlinx.android.synthetic.main.fragment_program_detail.action_frequencies
 import kotlinx.android.synthetic.main.fragment_program_detail.action_quantum
@@ -112,6 +116,7 @@ class ProgramDetailFragment : BaseFragment() {
 
     private lateinit var mViewModel: ProgramDetailViewModel
     private lateinit var mNewProgramViewModel: NewProgramViewModel
+    private lateinit var mNewScalarViewModel: NewScalarViewModel
     private var mTracks: ArrayList<Any>? = null
     private var program: Program? = null
     private var isFirst = true
@@ -136,6 +141,7 @@ class ProgramDetailFragment : BaseFragment() {
                     playAndDownloadScalar(item.obj as Scalar)
                 } else {
                     //play quantum
+                    programName = program?.name ?: ""
                     val listTracks =
                         tracks.filter { it.obj !is Scalar }.map { it.obj } as ArrayList<Any>
                     play(listTracks)
@@ -143,6 +149,34 @@ class ProgramDetailFragment : BaseFragment() {
                         EventBus.getDefault().post(PlayerSelected(listTracks.indexOf(item.obj)))
                         timeDelay = 200L
                     }, timeDelay)
+                }
+            },
+            onClickSubscriptionItem = { item ->
+                if (item.obj is Scalar) {
+                    if (requireActivity().isNetworkAvailable()) {
+                        mNewScalarViewModel.getScalarSubscription().observe(viewLifecycleOwner) { sub ->
+                            sub?.let { resource ->
+                                when (resource.status) {
+                                    Resource.Status.SUCCESS -> {
+                                        sub.data?.let { u ->
+                                            startActivity(
+                                                PurchaseScalarWebView.newIntent(requireContext(),u.data.payment_url)
+                                            )
+                                        }
+
+                                    }
+
+                                    Resource.Status.ERROR -> {
+                                    }
+
+                                    Resource.Status.LOADING -> {
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        Toast.makeText(requireContext(), getString(R.string.err_network_available), Toast.LENGTH_SHORT).show()
+                    }
                 }
             },
             onClickOptions = { item ->
@@ -233,6 +267,13 @@ class ProgramDetailFragment : BaseFragment() {
             )
         )[NewProgramViewModel::class.java]
 
+        mNewScalarViewModel = ViewModelProvider(
+            this, ViewModelFactory(
+                ApiHelper(RetrofitBuilder(requireContext()).apiService),
+                DataBase.getInstance(requireContext())
+            )
+        )[NewScalarViewModel::class.java]
+
         program_tracks_recycler.apply {
             adapter = programTrackAdapter
             addItemDecoration(itemDecoration)
@@ -262,6 +303,8 @@ class ProgramDetailFragment : BaseFragment() {
                 ).show()
                 return@setOnClickListener
             }
+            programName = program?.name ?: ""
+
             val list = tracks.filterIsInstance<Track>() as ArrayList<Track>
             if (list.isNotEmpty()) {
                 playOrDownload(list)
@@ -406,7 +449,6 @@ class ProgramDetailFragment : BaseFragment() {
 
     private fun initView(program: Program) {
         program_name.text = program.name
-        programName = program.name
         programTrackAdapter.setProgram(program)
         mViewModel.convertData(program) { list ->
             if (tracks.size != list.size && isPlayProgram && playProgramId == program.id) {

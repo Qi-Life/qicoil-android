@@ -48,11 +48,11 @@ fun updateTier(context: Context, user: User) {
                 }
 
                 if (isExist) {
-                    if (!tierDao.getShowStatus(tier.id)) {
+                    if (tierDao.getShowStatus(tier.id) == false) {
                         tierDao.updateShowStatus(true, tier.id)
                     }
                 } else {
-                    if (tierDao.getShowStatus(tier.id)) {
+                    if (tierDao.getShowStatus(tier.id) == true) {
                         tierDao.updateShowStatus(false, tier.id)
                     }
                 }

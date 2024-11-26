@@ -363,4 +363,6 @@
     <string name="txt_confirm_turn_off_before_switching_on_another">Vous devez désactiver le programme avant d\'en activer un autre. Souhaitez-vous le désactiver ?</string>
     <string name="time_schedule_am">Lumière de %1$s à %2$s de lumière</string>
     <string name="time_schedule_pm">De %1$s après-midi à %2$s après-midi</string>
+    <string name="advanced_mode_off">Mode avancé désactivé</string>
+    <string name="advanced_mode_on">Mode avancé activé</string>
 </resources>
