@@ -151,7 +151,14 @@ class FrequencyPageFragment : BaseFragment() {
     private fun resetTune() = sbTune.getCurrent(-5.0, 5.0, 0.5)
     private fun initView() {
         viewModel = ViewModelProviders.of(this)[FrequencyViewModel::class.java]
-
+        val textHz = arrayListOf(
+            getString(R.string.txt_all),
+            "5-500 hz",
+            "500-1k",
+            "1k-3k",
+            "3k-11k",
+            "11k-22k",
+        )
         val itemDecoration = ItemOffsetRightDecoration(
             requireContext(),
             if (Utils.isTablet(context)) R.dimen.item_offset else R.dimen.margin_buttons
@@ -161,7 +168,7 @@ class FrequencyPageFragment : BaseFragment() {
             addItemDecoration(itemDecoration)
             itemAnimator = null
         }
-        mFrequencyAdapter.setCategories(Constants.textHz)
+        mFrequencyAdapter.setCategories(textHz)
         sbHz.getCurrent(minValue, maxValue, 0.5)
         resetTune()
         lastValidProgress = sbTune.progress

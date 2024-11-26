@@ -404,4 +404,5 @@
     <string name="time_schedule_pm">%1$s 午後から %2$s 午後</string>
     <string name="advanced_mode_off">アドバンストモードオフ</string>
     <string name="advanced_mode_on">アドバンストモードオン</string>
+    <string name="txt_all">全て</string>
 </resources>

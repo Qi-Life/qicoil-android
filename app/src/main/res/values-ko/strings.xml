@@ -395,4 +395,5 @@
     <string name="time_schedule_pm">오후 %1$s ~ 오후 %2$s</string>
     <string name="advanced_mode_off">고급 모드 끄기</string>
     <string name="advanced_mode_on">고급 모드 켜기</string>
+    <string name="txt_all">모두</string>
 </resources>

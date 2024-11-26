@@ -401,4 +401,5 @@
     <string name="time_schedule_pm">%1$s अपराह्न से %2$s अपराह्न तक</string>
     <string name="advanced_mode_off">उन्नत मोड बंद</string>
     <string name="advanced_mode_on">उन्नत मोड चालू</string>
+    <string name="txt_all">सभी</string>
 </resources>

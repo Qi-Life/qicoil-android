@@ -391,6 +391,12 @@ class ProgramDetailFragment : BaseFragment() {
             PreferenceHelper.getScheduleProgram(requireContext())?.id == programId && SharedPreferenceHelper.getInstance()
                 .getBool(Constants.PREF_SCHEDULE_PROGRAM_STATUS)
         btnSwitchSchedule.setOnClickListener {
+            if (tracks.size == 0) {
+                Toast.makeText(
+                    requireContext(), getString(R.string.tv_empty_list), Toast.LENGTH_SHORT
+                ).show()
+                return@setOnClickListener
+            }
             if (btnSwitchSchedule.isSelected) {
                 isFirst = true
                 if (!isPlayAlbum && isPlayProgram && playProgramId == PreferenceHelper.getScheduleProgram(requireContext())?.id && QcAlarmManager.isCurrentTimeInRange()) {

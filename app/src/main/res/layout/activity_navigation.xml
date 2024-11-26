@@ -46,8 +46,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="1"
+                    android:singleLine="true"
                     android:text="@string/navigation_lbl_home"
                     android:textColor="@color/color_gray_white_selected"
                     android:textSize="@dimen/text_size_small"
@@ -82,8 +81,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="1"
+                    android:singleLine="true"
                     android:text="@string/navigation_lbl_quantum"
                     android:textColor="@color/color_gray_white_selected"
                     android:textSize="@dimen/text_size_small"
@@ -117,6 +115,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:singleLine="true"
                     android:text="@string/navigation_lbl_rife"
                     android:textColor="@color/color_gray_white_selected"
                     android:textSize="@dimen/text_size_small"
@@ -149,8 +148,7 @@
                     app:tint="@color/color_gray_white_selected" />
 
                 <TextView
-                    android:maxLines="1"
-                    android:ellipsize="end"
+                    android:singleLine="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/navigation_lbl_scalar"
@@ -188,6 +186,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/navigation_lbl_programs"
+                    android:singleLine="true"
                     android:textColor="@color/color_gray_white_selected"
                     android:textSize="@dimen/text_size_small"
                     android:visibility="visible" />
@@ -257,6 +256,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/navigation_lbl_shop"
+                    android:singleLine="true"
                     android:textColor="@color/color_gray_white_selected"
                     android:textSize="@dimen/text_size_small"
                     android:visibility="visible" />
@@ -291,6 +291,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/navigation_lbl_options"
+                    android:singleLine="true"
                     android:textColor="@color/color_gray_white_selected"
                     android:textSize="@dimen/text_size_small"
                     android:visibility="visible" />

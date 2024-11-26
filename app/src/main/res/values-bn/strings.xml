@@ -397,4 +397,5 @@
     <string name="time_schedule_pm">%1$s PM থেকে %2$s PM</string>
     <string name="advanced_mode_off">উন্নত মোড বন্ধ</string>
     <string name="advanced_mode_on">উন্নত মোড চালু</string>
+    <string name="txt_all">সব</string>
 </resources>

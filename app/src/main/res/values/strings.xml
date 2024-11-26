@@ -438,6 +438,7 @@
     <string name="time_schedule_pm">%1$s PM to %2$s PM</string>
     <string name="advanced_mode_off">Advanced Mode Off</string>
     <string name="advanced_mode_on">Advanced Mode On</string>
+    <string name="txt_all">All</string>
 
     <string name="msg_say_hi_chat" translatable="false">Hi, My name is Dr.Qi, I\'m an AI assistant. How can I help you today? How have you been feeling lately?</string>
     <string name="msg_error_network_chat" translatable="false">Connect Lost. Please check your internet connection.</string>

@@ -403,4 +403,5 @@
     <string name="time_schedule_pm">%1$s 下午 至 %2$s 下午</string>
     <string name="advanced_mode_off">高级模式关闭</string>
     <string name="advanced_mode_on">高级模式开启</string>
+    <string name="txt_all">全部</string>
 </resources>

@@ -404,4 +404,5 @@
     <string name="time_schedule_pm">Da %1$s PM a %2$s PM</string>
     <string name="advanced_mode_off">Modalità avanzata disattivata</string>
     <string name="advanced_mode_on">Modalità avanzata attivata</string>
+    <string name="txt_all">Tutto</string>
 </resources>

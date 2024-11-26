@@ -60,7 +60,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
-                        android:maxLines="1"
+                        android:singleLine="true"
                         android:text="@string/navigation_lbl_home"
                         android:textColor="@color/color_gray_white_selected"
                         android:textSize="@dimen/text_size_small"
@@ -96,7 +96,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
-                        android:maxLines="1"
+                        android:singleLine="true"
                         android:text="@string/navigation_lbl_quantum"
                         android:textColor="@color/color_gray_white_selected"
                         android:textSize="@dimen/text_size_small"
@@ -131,6 +131,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/navigation_lbl_rife"
+                        android:singleLine="true"
                         android:textColor="@color/color_gray_white_selected"
                         android:textSize="@dimen/text_size_small"
                         android:visibility="visible" />
@@ -142,7 +143,7 @@
                 android:id="@+id/navigation_scalar"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="1.2"
                 android:gravity="center_horizontal">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
@@ -168,7 +169,7 @@
                         android:maxLines="1"
                         android:text="@string/navigation_lbl_scalar"
                         android:textColor="@color/color_gray_white_selected"
-                        android:textSize="@dimen/text_size_small"
+                        android:textSize="@dimen/text_size_small_11"
                         android:visibility="visible" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
@@ -200,7 +201,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:maxLines="1"
+                        android:singleLine="true"
                         android:text="@string/navigation_lbl_programs"
                         android:textColor="@color/color_gray_white_selected"
                         android:textSize="@dimen/text_size_small"
@@ -234,7 +235,7 @@
 
                     <TextView
                         android:layout_width="wrap_content"
-
+                        android:singleLine="true"
                         android:layout_height="wrap_content"
                         android:text="@string/navigation_lbl_videos"
                         android:textColor="@color/color_gray_white_selected"
@@ -271,6 +272,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/navigation_lbl_shop"
+                        android:singleLine="true"
                         android:textColor="@color/color_gray_white_selected"
                         android:textSize="@dimen/text_size_small"
                         android:visibility="visible" />
@@ -305,6 +307,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/navigation_lbl_options"
+                        android:singleLine="true"
                         android:textColor="@color/color_gray_white_selected"
                         android:textSize="@dimen/text_size_small"
                         android:visibility="visible" />

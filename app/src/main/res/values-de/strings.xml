@@ -402,4 +402,5 @@
     <string name="time_schedule_pm">%1$s PM bis %2$s PM</string>
     <string name="advanced_mode_off">Erweiterter Modus aus</string>
     <string name="advanced_mode_on">Erweiterter Modus Ein</string>
+    <string name="txt_all">Alle</string>
 </resources>

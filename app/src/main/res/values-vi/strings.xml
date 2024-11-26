@@ -402,4 +402,5 @@
     <string name="time_schedule_pm">%1$s Chiều tới %2$s Chiều</string>
     <string name="advanced_mode_off">Tắt chế độ nâng cao</string>
     <string name="advanced_mode_on">Bật chế độ nâng cao</string>
+    <string name="txt_all">Tất cả</string>
 </resources>

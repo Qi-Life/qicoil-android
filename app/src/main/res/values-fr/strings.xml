@@ -365,4 +365,5 @@
     <string name="time_schedule_pm">De %1$s après-midi à %2$s après-midi</string>
     <string name="advanced_mode_off">Mode avancé désactivé</string>
     <string name="advanced_mode_on">Mode avancé activé</string>
+    <string name="txt_all">Toute</string>
 </resources>
