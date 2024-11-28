@@ -37,7 +37,7 @@ class PurchaseScalarWebView : BaseActivity() {
                         isSynced = true
                         EventBus.getDefault().post(SyncDataEvent(isSyncScalar = true))
                     }
-                    if (message == "Goback") {
+                    if (message == "Goback" || message == "Back") {
                         finish()
                     }
                     result?.confirm()

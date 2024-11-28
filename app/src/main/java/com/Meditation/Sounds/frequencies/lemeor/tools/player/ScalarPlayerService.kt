@@ -13,8 +13,11 @@ import com.Meditation.Sounds.frequencies.lemeor.data.model.Scalar
 import com.Meditation.Sounds.frequencies.lemeor.getPreloadedSaveDir
 import com.Meditation.Sounds.frequencies.lemeor.getSaveDir
 import com.Meditation.Sounds.frequencies.lemeor.getTrackUrlScalar
+import com.Meditation.Sounds.frequencies.lemeor.isPlayProgram
+import com.Meditation.Sounds.frequencies.lemeor.noChangedList
 import com.Meditation.Sounds.frequencies.lemeor.playListScalar
 import com.Meditation.Sounds.frequencies.lemeor.playScalar
+import com.Meditation.Sounds.frequencies.lemeor.trackList
 import com.Meditation.Sounds.frequencies.models.ScalarMediaSource
 import com.google.android.exoplayer2.DefaultRenderersFactory
 import com.google.android.exoplayer2.SimpleExoPlayer
@@ -114,6 +117,9 @@ class ScalarPlayerService : Service() {
                         ).build()
                     )
                     currentState = PlaybackStateCompat.STATE_PLAYING
+                    if (isPlayProgram){
+                        noChangedList.postValue(null)
+                    }
                 }
             }
         }

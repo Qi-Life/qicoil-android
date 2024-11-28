@@ -15,7 +15,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <com.Meditation.Sounds.frequencies.views.CustomFontTextView
@@ -51,13 +51,13 @@
                 android:id="@+id/tvAdvancedModeTitle"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:gravity="center"
                 android:layout_marginHorizontal="18dp"
+                android:gravity="center"
+                android:singleLine="true"
                 android:text="@string/advanced_mode_off"
                 android:textAllCaps="true"
                 android:textColor="@color/text_press"
                 android:textSize="16sp"
-                android:singleLine="true"
                 app:fontText="fonts/OpenSans_Bold.ttf"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/bgAdvancedMode"
@@ -169,9 +169,10 @@
                 font:fontText="fonts/MyriadPro_Semibold.otf" />
         </LinearLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -191,7 +192,7 @@
 
                 <TextView
                     android:id="@+id/options_restore_purchase"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/indent_16"
                     android:text="@string/tv_restore_purchase"
@@ -200,7 +201,7 @@
 
                 <TextView
                     android:id="@+id/options_instruction"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/indent_16"
                     android:text="@string/profile_lbl_instructions"
@@ -209,7 +210,7 @@
 
                 <TextView
                     android:id="@+id/options_disclaimer"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/indent_16"
                     android:text="@string/profile_lbl_disclaimer"
@@ -218,7 +219,7 @@
 
                 <TextView
                     android:id="@+id/options_about"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/indent_16"
                     android:text="@string/profile_lbl_about"
@@ -227,7 +228,7 @@
 
                 <TextView
                     android:id="@+id/options_change_pass"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/indent_16"
                     android:text="@string/tv_change_password"
@@ -258,7 +259,7 @@
 
                 <TextView
                     android:id="@+id/options_help"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/indent_16"
                     android:text="@string/tv_help_support"
@@ -267,7 +268,7 @@
 
                 <TextView
                     android:id="@+id/options_log_out"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/indent_16"
                     android:text="@string/options_log_out"
@@ -292,20 +293,18 @@
                     android:popupBackground="@color/dark_blue_background"
                     tools:listitem="@layout/item_language_spinner" />
 
-
             </LinearLayout>
 
             <TextView
                 android:id="@+id/options_delete_user"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginRight="24dp"
+                android:layout_marginStart="@dimen/indent_24"
                 android:layout_marginBottom="@dimen/indent_48"
                 android:gravity="right"
                 android:text="@string/options_delete_user"
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />
-        </RelativeLayout>
+        </LinearLayout>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

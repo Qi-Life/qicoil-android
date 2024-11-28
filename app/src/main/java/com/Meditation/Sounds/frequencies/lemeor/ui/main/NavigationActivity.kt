@@ -386,7 +386,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
             if ((isPlayAlbum || (playProgramId != PreferenceHelper.getScheduleProgram(this@NavigationActivity)?.id && isPlayProgram && !event.isSkipQuestion)) && !isUserPaused) {
                 val dialogBuilder =
                     androidx.appcompat.app.AlertDialog.Builder(this@NavigationActivity)
-                dialogBuilder.setMessage(getString(R.string.the_schedule_frequency_is_coming_up))
+                dialogBuilder.setTitle(PreferenceHelper.getScheduleProgram(this@NavigationActivity)?.name?.uppercase() ?: getString(R.string.app_name)).setMessage(getString(R.string.the_schedule_frequency_is_coming_up))
                     .setCancelable(false)
                     .setNegativeButton(getString(R.string.txt_no), null)
                     .setPositiveButton(getString(R.string.txt_yes)) { _, _ ->
@@ -431,8 +431,8 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         ).observe(this@NavigationActivity) {
             if (isPlaySync) {
                 isPlaySync = false
-                programName =
-                    PreferenceHelper.getScheduleProgram(this@NavigationActivity)?.name ?: ""
+                programName = PreferenceHelper.getScheduleProgram(this@NavigationActivity)?.name ?: ""
+                playProgramId = PreferenceHelper.getScheduleProgram(this@NavigationActivity)?.id ?: 0
                 if (it != null && it.id != 0 && !isPlayProgram) {
                     val tracks: ArrayList<Search> = ArrayList()
                     mProgramDetailViewModel.convertData(it) { list ->
@@ -452,11 +452,14 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                         if (allPrograms.isNotEmpty()) {
                             playPrograms(allPrograms.map { it.obj } as ArrayList<Any>, it.id)
                             EventBus.getDefault().post(PlayerSelected(0))
+                        } else {
+                            EventBus.getDefault().post("clear player")
                         }
 
                         //play scalar
                         val listScalars = tracks.filter { it.obj is Scalar && (it.obj as Scalar).is_free == 1}.map { it.obj as Scalar } as ArrayList<Scalar>
                         if (listScalars.isNotEmpty()) {
+                            isPlayProgram = true
                             val lastScalar = listScalars.last()
                             playScalar = lastScalar
                             listScalars.removeLast()

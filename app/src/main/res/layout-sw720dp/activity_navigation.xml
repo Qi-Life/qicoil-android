@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:focusableInTouchMode="true"
     android:background="@color/color_main_activity_background"
-    tools:context=".lemeor.ui.main.NavigationActivity">
+    tools:context=".lemeor.ui.main.NavigationActivity"
+    android:layoutDirection="ltr">
 
     <LinearLayout
         android:id="@+id/nav_layout"

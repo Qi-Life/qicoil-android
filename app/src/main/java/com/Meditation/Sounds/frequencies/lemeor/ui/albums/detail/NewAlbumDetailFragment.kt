@@ -210,7 +210,7 @@ class NewAlbumDetailFragment : BaseFragment() {
                 mRife?.let { r ->
                     program_time.visibility = View.VISIBLE
                     if (playRife != null) {
-                        if (playRife!!.id == r.id && playtimeRife > 0L) {
+                        if (playRife?.id == r.id && playtimeRife > 0L) {
                             program_time.text = getString(
                                 R.string.total_time, convertSecondsToTime(playtimeRife)
                             )
@@ -241,7 +241,6 @@ class NewAlbumDetailFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         EventBus.getDefault().register(this)
-
     }
 
     override fun onDestroy() {
@@ -249,17 +248,15 @@ class NewAlbumDetailFragment : BaseFragment() {
         EventBus.getDefault().unregister(this)
     }
 
+    @Suppress("DEPRECATION")
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        if (fragmentManager != null) {
-            fragmentManager?.beginTransaction()?.detach(this)?.commitAllowingStateLoss()
-        }
-        super.onConfigurationChanged(newConfig)
-        if (fragmentManager != null) {
-            fragmentManager?.beginTransaction()?.attach(this)?.commitAllowingStateLoss()
-        }
+        parentFragmentManager.beginTransaction().detach(this).commitAllowingStateLoss()
+        Handler().postDelayed({
+            super.onConfigurationChanged(newConfig)
+            parentFragmentManager.beginTransaction().attach(this).commitAllowingStateLoss()
+        }, 500)
     }
-
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onEvent(event: Any?) {
@@ -281,7 +278,6 @@ class NewAlbumDetailFragment : BaseFragment() {
         if (fragment == null) {
             fragment = TiersPagerFragment()
         }
-
         parentFragmentManager.beginTransaction().setCustomAnimations(
             R.anim.trans_left_to_right_in,
             R.anim.trans_left_to_right_out,
@@ -574,14 +570,12 @@ class NewAlbumDetailFragment : BaseFragment() {
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         if (requestCode == 1001 && resultCode == RESULT_OK) {
             typeBack = type
             rifeBackProgram = mRife
             albumIdBackProgram = albumId
             categoryIdBackProgram = categoryId
             isTrackAdd = true
-
             parentFragmentManager.beginTransaction().setCustomAnimations(
                 R.anim.trans_right_to_left_in,
                 R.anim.trans_right_to_left_out,

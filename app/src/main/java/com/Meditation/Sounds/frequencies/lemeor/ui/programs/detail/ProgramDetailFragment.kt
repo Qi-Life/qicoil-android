@@ -43,6 +43,7 @@ import com.Meditation.Sounds.frequencies.lemeor.isPlayAlbum
 import com.Meditation.Sounds.frequencies.lemeor.isPlayProgram
 import com.Meditation.Sounds.frequencies.lemeor.isTrackAdd
 import com.Meditation.Sounds.frequencies.lemeor.isUserPaused
+import com.Meditation.Sounds.frequencies.lemeor.noChangedList
 import com.Meditation.Sounds.frequencies.lemeor.playAlbumId
 import com.Meditation.Sounds.frequencies.lemeor.playListScalar
 import com.Meditation.Sounds.frequencies.lemeor.playProgramId
@@ -142,6 +143,7 @@ class ProgramDetailFragment : BaseFragment() {
                 } else {
                     //play quantum
                     programName = program?.name ?: ""
+                    playProgramId = programId
                     val listTracks =
                         tracks.filter { it.obj !is Scalar }.map { it.obj } as ArrayList<Any>
                     play(listTracks)
@@ -220,6 +222,7 @@ class ProgramDetailFragment : BaseFragment() {
 
     override fun initLayout() = R.layout.fragment_program_detail
 
+    @SuppressLint("NotifyDataSetChanged")
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onEvent(event: Any?) {
         if (event == DownloadService.DOWNLOAD_FINISH) {
@@ -304,12 +307,12 @@ class ProgramDetailFragment : BaseFragment() {
                 return@setOnClickListener
             }
             programName = program?.name ?: ""
+            playProgramId = programId
 
             val list = tracks.filterIsInstance<Track>() as ArrayList<Track>
             if (list.isNotEmpty()) {
                 playOrDownload(list)
             }
-
             //play freg
             val listFreg = tracks.filter { it.obj !is Scalar }.map { it.obj } as ArrayList<Any>
             if (listFreg.isNotEmpty()) {
@@ -391,7 +394,7 @@ class ProgramDetailFragment : BaseFragment() {
             PreferenceHelper.getScheduleProgram(requireContext())?.id == programId && SharedPreferenceHelper.getInstance()
                 .getBool(Constants.PREF_SCHEDULE_PROGRAM_STATUS)
         btnSwitchSchedule.setOnClickListener {
-            if (tracks.size == 0) {
+            if (tracks.size == 0 && !btnSwitchSchedule.isSelected) {
                 Toast.makeText(
                     requireContext(), getString(R.string.tv_empty_list), Toast.LENGTH_SHORT
                 ).show()
@@ -453,6 +456,7 @@ class ProgramDetailFragment : BaseFragment() {
             .replace(R.id.nav_host_fragment, fragment!!, fragment.javaClass.simpleName).commit()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun initView(program: Program) {
         program_name.text = program.name
         programTrackAdapter.setProgram(program)
@@ -491,11 +495,15 @@ class ProgramDetailFragment : BaseFragment() {
                 if (allTracks.isNotEmpty() && allTracks.getOrNull(it) != null) {
                     val t = tracks.firstOrNull { item -> item.obj == allTracks[it].obj }
                     t?.let { item ->
-                        if (playProgramId == programId) {
+                        if (playProgramId == programId && isPlayProgram) {
                             programTrackAdapter.setSelectedItem(item)
                         }
                     }
                 }
+            }
+
+            noChangedList.observe(viewLifecycleOwner) {
+                programTrackAdapter.notifyDataSetChanged()
             }
         }
     }
@@ -734,6 +742,7 @@ class ProgramDetailFragment : BaseFragment() {
             val trackDao = db.trackDao()
 
             if (action.equals("track_remove")) {
+                val title = mTracks?.get(positionFor ?: 0).toString()
                 AlertDialog.Builder(requireActivity()).setTitle(R.string.app_name)
                     .setMessage(R.string.txt_confirm_delete_frequencies)
                     .setPositiveButton(R.string.txt_yes) { _, _ ->
@@ -832,6 +841,10 @@ class ProgramDetailFragment : BaseFragment() {
                 val activity = activity as NavigationActivity
                 isPlayAlbum = false
                 isPlayProgram = false
+                if (playListScalar.isNotEmpty()) {
+                    PlayerUtils.clearPlayerSilentQuantum(requireContext())
+                }
+                programTrackAdapter.setSelectedItem(null)
                 activity.hidePlayerUI()
 
                 CoroutineScope(Dispatchers.IO).launch {

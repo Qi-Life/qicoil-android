@@ -17,10 +17,12 @@ import com.Meditation.Sounds.frequencies.lemeor.data.api.ApiConfig.getPassResetU
 import com.Meditation.Sounds.frequencies.lemeor.data.api.RetrofitBuilder
 import com.Meditation.Sounds.frequencies.lemeor.data.database.DataBase
 import com.Meditation.Sounds.frequencies.lemeor.data.model.AuthResponse
+import com.Meditation.Sounds.frequencies.lemeor.data.model.Program
 import com.Meditation.Sounds.frequencies.lemeor.data.remote.ApiHelper
 import com.Meditation.Sounds.frequencies.lemeor.data.utils.Resource
 import com.Meditation.Sounds.frequencies.lemeor.data.utils.ViewModelFactory
 import com.Meditation.Sounds.frequencies.lemeor.tools.HudHelper
+import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper.isLogged
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper.preference
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper.saveUser
@@ -80,6 +82,9 @@ class AuthActivity : AppCompatActivity(), OnLoginListener, OnRegistrationListene
         resource.data?.user?.let { user -> updateUnlocked(applicationContext, user, true) }
         if (resource.data?.user?.program_schedule != null) {
             val programSchedule = resource.data.user.program_schedule
+            if ((programSchedule?.programId ?: 0) > 0) {
+                PreferenceHelper.saveScheduleProgram(this@AuthActivity, Program(id = programSchedule?.programId ?: 0, name = programSchedule?.programName ?: ""))
+            }
             //local
             SharedPreferenceHelper.getInstance()
                 .setFloat(Constants.PREF_SCHEDULE_START_TIME_AM, programSchedule?.startTimeAm ?: 0f)
@@ -92,6 +97,9 @@ class AuthActivity : AppCompatActivity(), OnLoginListener, OnRegistrationListene
                 .setFloat(Constants.PREF_SCHEDULE_END_TIME_PM, programSchedule?.stopTimePm ?: 719f)
 
             //server
+            SharedPreferenceHelper.getInstance()
+                .setInt(Constants.PREF_SCHEDULE_PROGRAM_ID_API, programSchedule?.programId ?: -1)
+
             SharedPreferenceHelper.getInstance()
                 .setFloat(Constants.PREF_SCHEDULE_START_TIME_AM_API, programSchedule?.startTimeAm ?: 0f)
             SharedPreferenceHelper.getInstance()

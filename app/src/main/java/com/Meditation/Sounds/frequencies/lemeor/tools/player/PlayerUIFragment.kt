@@ -246,16 +246,15 @@ class PlayerUIFragment : NewBaseFragment() {
         return currentView
     }
 
+    @Suppress("DEPRECATION")
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         isScreenRotation = true
-        if (fragmentManager != null) {
-            fragmentManager?.beginTransaction()?.detach(this)?.commitAllowingStateLoss()
-        }
-        super.onConfigurationChanged(newConfig)
-        if (fragmentManager != null) {
-            fragmentManager?.beginTransaction()?.attach(this)?.commitAllowingStateLoss()
-        }
+        parentFragmentManager.beginTransaction().detach(this).commitAllowingStateLoss()
+        Handler().postDelayed({
+            super.onConfigurationChanged(newConfig)
+            parentFragmentManager.beginTransaction().attach(this).commitAllowingStateLoss()
+        }, 500)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

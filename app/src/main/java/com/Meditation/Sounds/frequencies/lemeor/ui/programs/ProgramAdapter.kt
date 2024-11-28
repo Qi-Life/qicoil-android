@@ -54,7 +54,7 @@ class ProgramAdapter(
         if (program.name.uppercase() == FAVORITES.uppercase() && program.favorited) {
             holder.itemView.item_program_delete.visibility = View.INVISIBLE
             holder.itemView.item_program_lock.visibility = View.INVISIBLE
-            if (!program.isUnlocked){
+            if (!program.isUnlocked) {
                 holder.itemView.item_program_lock.visibility = View.VISIBLE
             }
         } else if (program.isUnlocked) {
@@ -104,5 +104,9 @@ class ProgramAdapter(
             ArrayList(programList as MutableList).reversed()
                 .sortedWith(compareByDescending { it.name.uppercase() == FAVORITES.uppercase() && it.favorited })
         notifyDataSetChanged()
+    }
+
+    fun getData(): List<Program> {
+        return mData
     }
 }

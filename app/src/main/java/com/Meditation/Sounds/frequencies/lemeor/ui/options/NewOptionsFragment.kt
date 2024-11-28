@@ -101,6 +101,7 @@ import kotlinx.android.synthetic.main.fragment_new_options.options_sign_in
 import kotlinx.android.synthetic.main.fragment_new_options.options_subscription
 import kotlinx.android.synthetic.main.fragment_new_options.options_user_name
 import kotlinx.android.synthetic.main.fragment_new_options.tvAdvancedModeTitle
+import kotlinx.android.synthetic.main.fragment_new_program.btnSwitchSchedule
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -618,6 +619,7 @@ class NewOptionsFragment : BaseFragment() {
     }
 
     private fun clearData() {
+        SharedPreferenceHelper.getInstance().setBool(Constants.PREF_SCHEDULE_PROGRAM_STATUS, false)
         val database = DataBase.getInstance(requireContext())
         CoroutineScope(Dispatchers.IO).launch {
             database.homeDao().clear()

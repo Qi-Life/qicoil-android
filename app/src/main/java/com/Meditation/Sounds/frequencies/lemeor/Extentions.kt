@@ -48,6 +48,7 @@ var trackList: ArrayList<MusicRepository.Music>? = null
 val currentTrack = MutableLiveData<Any?>()
 val currentTrackIndex = MutableLiveData<Int>()
 val currentPosition = MutableLiveData<Long>()
+val noChangedList = MutableLiveData<Any?>()
 var playRife: Rife? = null
 var playtimeRife = 0L
 val max = MutableLiveData<Long>(0)
