@@ -57,7 +57,7 @@
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/text_size_25"
                     font:fontText="fonts/BebasNeue_Bold.otf"
-                    tools:text="Title Program" />
+                    tools:text="@string/advanced_mode_off" />
 
                 <com.Meditation.Sounds.frequencies.views.CustomFontTextView
                     android:id="@+id/program_time"

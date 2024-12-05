@@ -1,5 +1,6 @@
 package com.Meditation.Sounds.frequencies.lemeor.ui.purchase.new_flow
 
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
@@ -252,10 +253,14 @@ class NewPurchaseActivity : AppCompatActivity() {
                 val mSpannableText = SpannableString(text.replace("|", ""))
                 val clickPrivacy = object : ClickableSpan() {
                     override fun onClick(widget: View) {
-                        val url = "http://www.tattoobookapp.com/quantumwavebiotechnology/privacy"
-                        val i = Intent(Intent.ACTION_VIEW)
-                        i.data = Uri.parse(url)
-                        startActivity(i)
+                        try {
+                            val url = "http://www.tattoobookapp.com/quantumwavebiotechnology/privacy"
+                            val i = Intent(Intent.ACTION_VIEW)
+                            i.data = Uri.parse(url)
+                            startActivity(i)
+                        } catch (_: ActivityNotFoundException) {
+
+                        }
                     }
 
                     override fun updateDrawState(ds: TextPaint) {
@@ -266,10 +271,14 @@ class NewPurchaseActivity : AppCompatActivity() {
                 }
                 val clickTerms = object : ClickableSpan() {
                     override fun onClick(widget: View) {
-                        val url = "http://www.tattoobookapp.com/quantumwavebiotechnology/terms"
-                        val i = Intent(Intent.ACTION_VIEW)
-                        i.data = Uri.parse(url)
-                        startActivity(i)
+                        try {
+                            val url = "http://www.tattoobookapp.com/quantumwavebiotechnology/terms"
+                            val i = Intent(Intent.ACTION_VIEW)
+                            i.data = Uri.parse(url)
+                            startActivity(i)
+                        } catch (_: ActivityNotFoundException) {
+
+                        }
                     }
 
                     override fun updateDrawState(ds: TextPaint) {

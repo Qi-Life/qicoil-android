@@ -16,6 +16,7 @@ import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.Color
+import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
@@ -30,6 +31,7 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
@@ -172,9 +174,9 @@ import kotlinx.android.synthetic.main.activity_navigation.navigation_options
 import kotlinx.android.synthetic.main.activity_navigation.navigation_programs
 import kotlinx.android.synthetic.main.activity_navigation.navigation_rife
 import kotlinx.android.synthetic.main.activity_navigation.navigation_scalar
+import kotlinx.android.synthetic.main.activity_navigation.navigation_search
 import kotlinx.android.synthetic.main.activity_navigation.navigation_videos
 import kotlinx.android.synthetic.main.activity_navigation.search_categories_recycler
-import kotlinx.android.synthetic.main.activity_navigation.search_divider
 import kotlinx.android.synthetic.main.activity_navigation.search_layout
 import kotlinx.android.synthetic.main.activity_navigation.view.txt_mode
 import kotlinx.android.synthetic.main.activity_navigation.viewGroupDownload
@@ -231,6 +233,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         SearchAdapter { item, i ->
             hideKeyboard(this@NavigationActivity, album_search)
             view_data.visibility = View.GONE
+            search_layout.visibility = View.GONE
             if (item.obj is Album) {
                 val album = item.obj as Album
                 startAlbumDetails(album)
@@ -240,6 +243,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                     val album = mViewModel.getAlbumById(track.albumId, track.category_id)
                     withContext(Dispatchers.Main) {
                         view_data.visibility = View.GONE
+                        search_layout.visibility = View.GONE
                         album?.let { startAlbumDetails(it) }
                     }
                 }
@@ -708,7 +712,12 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
 //            }
 //        }
 
-        album_search_clear.setOnClickListener { closeSearch() }
+        album_search_clear.setOnClickListener {
+//            closeSearch()
+            album_search.text.clear()
+            album_search.clearFocus()
+            hideKeyboard(applicationContext, album_search)
+        }
 
         btnStartChatBot.setOnClickListener {
             isStartedChat = true
@@ -756,14 +765,29 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
     }
 
     private fun orientationChangesUI(orientation: Int) {
-        val params: LinearLayout.LayoutParams = LinearLayout.LayoutParams(0, 0)
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            params.weight = 2.0f
-        } else if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-            params.weight = 0.0f
-        }
+//        val params: LinearLayout.LayoutParams = LinearLayout.LayoutParams(0, 0)
+//        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+//            params.weight = 2.0f
+//        } else if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+//            params.weight = 0.0f
+//        }
+//
+//        search_divider.layoutParams = params
+    }
 
-        search_divider.layoutParams = params
+    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
+        if (ev.action == MotionEvent.ACTION_DOWN) {
+            val x = ev.rawX.toInt()
+            val y = ev.rawY.toInt()
+            val rect = Rect()
+            search_layout.getGlobalVisibleRect(rect)
+            if (!rect.contains(x, y)) {
+                if (search_layout.visibility == View.VISIBLE && view_data.visibility == View.GONE) {
+                    search_layout.visibility = View.GONE
+                }
+            }
+        }
+        return super.dispatchTouchEvent(ev)
     }
 
     override fun onDestroy() {
@@ -813,7 +837,6 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
 
         navigation_albums.onSelected {
             closeSearch()
-            search_layout.visibility = View.VISIBLE
             setFragment(TiersPagerFragment())
         }
 
@@ -914,21 +937,18 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         navigation_home.setOnClickListener {
             navigation_home.onSelected {
                 closeSearch()
-                search_layout.visibility = View.VISIBLE
                 setFragment(HomeFragment())
             }
         }
         navigation_scalar.setOnClickListener {
             navigation_scalar.onSelected {
                 closeSearch()
-                search_layout.visibility = View.VISIBLE
                 setFragment(NewScalarFragment())
             }
         }
         navigation_albums.setOnClickListener {
             navigation_albums.onSelected {
                 closeSearch()
-                search_layout.visibility = View.VISIBLE
                 setFragment(TiersPagerFragment())
             }
         }
@@ -936,11 +956,6 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
             navigation_rife.onSelected {
                 closeSearch()
                 isTrackAdd = false
-                if (Utils.isTablet(this)) {
-                    search_layout.visibility = View.VISIBLE
-                } else {
-                    search_layout.visibility = View.GONE
-                }
                 setFragment(NewRifeFragment())
             }
         }
@@ -948,30 +963,29 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
             navigation_programs.onSelected {
                 closeSearch()
                 isTrackAdd = false
-                search_layout.visibility = View.VISIBLE
                 setFragment(NewProgramFragment())
             }
         }
         navigation_videos.setOnClickListener {
             navigation_videos.onSelected {
                 closeSearch()
-                search_layout.visibility = View.VISIBLE
                 setFragment(NewVideosFragment())
             }
         }
         navigation_discover.setOnClickListener {
             navigation_discover.onSelected {
                 closeSearch()
-                search_layout.visibility = View.VISIBLE
                 setFragment(DiscoverFragment())
             }
         }
         navigation_options.setOnClickListener {
             navigation_options.onSelected {
                 closeSearch()
-                search_layout.visibility = View.VISIBLE
                 setFragment(NewOptionsFragment())
             }
+        }
+        navigation_search.setOnClickListener {
+            search_layout.visibility = View.VISIBLE
         }
     }
 
@@ -1033,7 +1047,6 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         if (mViewGroupCurrent != navigation_scalar) {
             navigation_scalar.onSelected {
                 closeSearch()
-                search_layout.visibility = View.VISIBLE
                 setFragmentBackAnimation(NewScalarFragment())
             }
         }
@@ -1054,7 +1067,6 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         }
         navigation_albums.onSelected {
             closeSearch()
-            search_layout.visibility = View.VISIBLE
             setFragmentBackAnimation(TiersPagerFragment())
         }
     }
@@ -1206,6 +1218,9 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
     private fun closeSearch() {
         album_search.text.clear()
         album_search.clearFocus()
+        Handler().postDelayed({
+            search_layout.visibility = View.GONE
+        }, 500)
         hideKeyboard(applicationContext, album_search)
     }
 

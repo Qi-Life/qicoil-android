@@ -6,8 +6,8 @@
     android:layout_height="match_parent"
     android:background="@color/color_main_activity_background"
     android:focusableInTouchMode="true"
-    tools:context=".lemeor.ui.main.NavigationActivity"
-    android:layoutDirection="ltr">
+    android:layoutDirection="ltr"
+    tools:context=".lemeor.ui.main.NavigationActivity">
 
     <LinearLayout
         android:id="@+id/nav_layout"
@@ -28,7 +28,6 @@
             android:background="@color/color_main_activity_navigation"
             android:baselineAligned="false"
             android:orientation="horizontal"
-            android:paddingBottom="4sp"
             app:elevation="0dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -37,6 +36,7 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/navigation_home"
                 android:layout_width="0dp"
+                android:paddingBottom="@dimen/indent_4"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_horizontal">
@@ -131,8 +131,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/navigation_lbl_rife"
                         android:singleLine="true"
+                        android:text="@string/navigation_lbl_rife"
                         android:textColor="@color/color_gray_white_selected"
                         android:textSize="@dimen/text_size_small"
                         android:visibility="visible" />
@@ -236,8 +236,8 @@
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:singleLine="true"
                         android:layout_height="wrap_content"
+                        android:singleLine="true"
                         android:text="@string/navigation_lbl_videos"
                         android:textColor="@color/color_gray_white_selected"
                         android:textSize="@dimen/text_size_small"
@@ -272,8 +272,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/navigation_lbl_shop"
                         android:singleLine="true"
+                        android:text="@string/navigation_lbl_shop"
                         android:textColor="@color/color_gray_white_selected"
                         android:textSize="@dimen/text_size_small"
                         android:visibility="visible" />
@@ -307,8 +307,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/navigation_lbl_options"
                         android:singleLine="true"
+                        android:text="@string/navigation_lbl_options"
                         android:textColor="@color/color_gray_white_selected"
                         android:textSize="@dimen/text_size_small"
                         android:visibility="visible" />
@@ -316,18 +316,67 @@
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.appcompat.widget.LinearLayoutCompat>
 
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/navigation_search"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/bottom_bar_icon_size"
+                    android:layout_height="@dimen/bottom_bar_icon_size"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/navigation_lbl_options"
+                    android:padding="@dimen/bottom_bar_icon_padding"
+                    android:src="@drawable/ic_search"
+                    app:tint="@color/color_gray_white_selected" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:text="@string/search_hint"
+                    android:textColor="@color/color_gray_white_selected"
+                    android:textSize="@dimen/text_size_small"
+                    android:visibility="visible" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
         </LinearLayout>
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/search_layout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/color_main_activity_navigation"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/nav_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="@+id/nav_layout">
 
         <LinearLayout
-            android:id="@+id/search_layout"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="35dp"
+            android:layout_gravity="center"
             android:layout_marginLeft="@dimen/indent_16"
             android:layout_marginRight="@dimen/indent_16"
-            android:layout_weight="1"
             android:background="@drawable/bg_search_home"
             android:orientation="horizontal"
             android:padding="7dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
@@ -364,7 +413,7 @@
                 android:src="@drawable/ic_cancel_new"
                 android:visibility="gone" />
         </LinearLayout>
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <FrameLayout
         android:id="@+id/nav_host_fragment"
@@ -543,30 +592,25 @@
 
     <!-- Search list -->
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/player_ui_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/nav_layout">
-
-        <View
-            android:id="@+id/search_divider"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="2" />
 
         <LinearLayout
             android:id="@+id/view_data"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/indent_16"
             android:layout_marginRight="@dimen/indent_16"
             android:layout_marginBottom="@dimen/indent_8"
-            android:layout_weight="1"
+            android:visibility="gone"
             android:background="@drawable/bg_search_home"
             android:orientation="vertical"
             android:paddingHorizontal="@dimen/margin_left_top_icon"
-            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/search_layout">
 

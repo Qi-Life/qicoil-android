@@ -77,7 +77,7 @@ class PlayerUIFragment : NewBaseFragment() {
     private var callback: MediaControllerCompat.Callback =
         object : MediaControllerCompat.Callback() {
             override fun onPlaybackStateChanged(state: PlaybackStateCompat?) {
-                if (state == null || trackList.isNullOrEmpty()) return
+                if (state == null || trackList.isNullOrEmpty() || !isAdded) return
                 playing = state.state == PlaybackStateCompat.STATE_PLAYING
                 player_play?.post {
                     if (playing) {
@@ -186,7 +186,7 @@ class PlayerUIFragment : NewBaseFragment() {
     private var callbackScalar: MediaControllerCompat.Callback =
         object : MediaControllerCompat.Callback() {
             override fun onPlaybackStateChanged(state: PlaybackStateCompat?) {
-                if (state == null) return
+                if (state == null || !isAdded) return
                 playingScalar =
                     state.state == PlaybackStateCompat.STATE_PLAYING && playListScalar.isNotEmpty()
                 EventBus.getDefault().post(ScalarPlayerStatus())
