@@ -5,7 +5,7 @@
     <!--region Navigation-->
     <string name="navigation_lbl_home">家</string>
     <string name="navigation_lbl_albums">アルバム</string>
-    <string name="navigation_lbl_scalar">サイレント・クォンタム</string>
+    <string name="navigation_lbl_silent_quantum">サイレント・クォンタム</string>
     <string name="navigation_lbl_quantum">量子</string>
     <string name="navigation_lbl_rife">蔓延</string>
     <string name="navigation_lbl_programs">プログラム</string>

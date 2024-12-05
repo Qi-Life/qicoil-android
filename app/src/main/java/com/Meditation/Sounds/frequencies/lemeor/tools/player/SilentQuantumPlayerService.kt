@@ -17,7 +17,6 @@ import com.Meditation.Sounds.frequencies.lemeor.isPlayProgram
 import com.Meditation.Sounds.frequencies.lemeor.noChangedList
 import com.Meditation.Sounds.frequencies.lemeor.playListScalar
 import com.Meditation.Sounds.frequencies.lemeor.playScalar
-import com.Meditation.Sounds.frequencies.lemeor.trackList
 import com.Meditation.Sounds.frequencies.models.ScalarMediaSource
 import com.google.android.exoplayer2.DefaultRenderersFactory
 import com.google.android.exoplayer2.SimpleExoPlayer
@@ -28,7 +27,7 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 import java.io.File
 
-class ScalarPlayerService : Service() {
+class SilentQuantumPlayerService : Service() {
     private val scalarSources = mutableListOf<ScalarMediaSource>()
 
     private val stateBuilder = PlaybackStateCompat.Builder().setActions(

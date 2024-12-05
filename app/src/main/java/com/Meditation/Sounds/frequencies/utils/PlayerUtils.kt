@@ -7,7 +7,7 @@ import com.Meditation.Sounds.frequencies.R
 import com.Meditation.Sounds.frequencies.lemeor.isPlayProgram
 import com.Meditation.Sounds.frequencies.lemeor.playProgramId
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper
-import com.Meditation.Sounds.frequencies.lemeor.tools.player.ScalarPlayerService
+import com.Meditation.Sounds.frequencies.lemeor.tools.player.SilentQuantumPlayerService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -36,7 +36,7 @@ object PlayerUtils {
     fun clearPlayerSilentQuantum(context: Context) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val playIntent = Intent(context, ScalarPlayerService::class.java).apply {
+                val playIntent = Intent(context, SilentQuantumPlayerService::class.java).apply {
                     action = "CLEAR"
                 }
                 context.startService(playIntent)

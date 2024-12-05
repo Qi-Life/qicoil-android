@@ -170,7 +170,7 @@
             android:foregroundServiceType="dataSync"
             android:exported="false" />
         <service
-            android:name=".lemeor.ui.scalar.ScalarDownloadService"
+            android:name=".lemeor.ui.silent.SilentQuantumDownloadService"
             android:enabled="true"
             android:foregroundServiceType="dataSync"
             android:exported="false" />
@@ -184,7 +184,7 @@
             </intent-filter>
         </service>
         <service
-            android:name=".lemeor.tools.player.ScalarPlayerService"
+            android:name=".lemeor.tools.player.SilentQuantumPlayerService"
             android:exported="false"
             android:foregroundServiceType="mediaPlayback"
             tools:ignore="ExportedService" >

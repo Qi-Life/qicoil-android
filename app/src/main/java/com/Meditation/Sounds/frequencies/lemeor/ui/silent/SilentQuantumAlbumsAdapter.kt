@@ -1,4 +1,4 @@
-package com.Meditation.Sounds.frequencies.lemeor.ui.scalar
+package com.Meditation.Sounds.frequencies.lemeor.ui.silent
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -15,10 +15,10 @@ import kotlinx.android.synthetic.main.scalar_album_item.view.image_lock
 import kotlinx.android.synthetic.main.scalar_album_item.view.lock
 import kotlinx.android.synthetic.main.scalar_album_item.view.viewPlayingAnimation
 
-class ScalarAlbumsAdapter(
+class SilentQuantumAlbumsAdapter(
     private val mContext: Context,
     private var mData: ArrayList<Scalar>,
-) : RecyclerView.Adapter<ScalarAlbumsAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<SilentQuantumAlbumsAdapter.ViewHolder>() {
 
     interface Listener {
         fun onClickItem(album: Scalar)

@@ -355,5 +355,14 @@ class Constants {
 
         @JvmField
         var TYPE_RIFE = "TYPE_RIFE"
+
+        @JvmField
+        var TYPE_SILENT_QT = "TYPE_SILENT_QT"
+
+        @JvmField
+        var TYPE_SILENT_QT_PRO = "TYPE_SILENT_QT_PRO"
+
+        @JvmField
+        var TYPE_SILENT_QT_ADVANCED = "TYPE_SILENT_QT_ADVANCED"
     }
 }

@@ -8,7 +8,9 @@
     <!--region Navigation-->
     <string name="navigation_lbl_home">Home</string>
     <string name="navigation_lbl_albums">Albums</string>
-    <string name="navigation_lbl_scalar">Silent Quantum</string>
+    <string name="navigation_lbl_silent_quantum">Silent Quantum</string>
+    <string name="navigation_lbl_silent_quantum_pro">Silent Qt Pro</string>
+    <string name="navigation_lbl_silent_quantum_advanced">Silent Qt Advanced</string>
     <string name="navigation_lbl_quantum">Quantum</string>
     <string name="navigation_lbl_rife">Rife</string>
     <string name="navigation_lbl_programs">Programs</string>

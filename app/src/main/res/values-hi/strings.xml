@@ -5,7 +5,7 @@
     <!--region Navigation-->
     <string name="navigation_lbl_home">घर</string>
     <string name="navigation_lbl_albums">एलबम</string>
-    <string name="navigation_lbl_scalar">साइलेंट क्वांटम</string>
+    <string name="navigation_lbl_silent_quantum">साइलेंट क्वांटम</string>
     <string name="navigation_lbl_quantum">मात्रा</string>
     <string name="navigation_lbl_rife">व्याप्त</string>
     <string name="navigation_lbl_programs">कार्यक्रमों</string>

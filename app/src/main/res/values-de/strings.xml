@@ -5,7 +5,7 @@
     <!--region Navigation-->
     <string name="navigation_lbl_home">Heim</string>
     <string name="navigation_lbl_albums">Alben</string>
-    <string name="navigation_lbl_scalar">Stilles Quantum</string>
+    <string name="navigation_lbl_silent_quantum">Stilles Quantum</string>
     <string name="navigation_lbl_quantum">Quantum</string>
     <string name="navigation_lbl_rife">Weit verbreitet</string>
     <string name="navigation_lbl_programs">Programme</string>

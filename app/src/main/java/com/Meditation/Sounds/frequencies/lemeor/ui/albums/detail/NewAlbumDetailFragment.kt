@@ -50,7 +50,7 @@ import com.Meditation.Sounds.frequencies.lemeor.ui.albums.tabs.TiersPagerFragmen
 import com.Meditation.Sounds.frequencies.lemeor.ui.main.NavigationActivity
 import com.Meditation.Sounds.frequencies.lemeor.ui.programs.NewProgramFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.rife.NewRifeViewModel
-import com.Meditation.Sounds.frequencies.lemeor.ui.scalar.NewScalarFragment
+import com.Meditation.Sounds.frequencies.lemeor.ui.silent.SilentQuantumFragment
 import com.Meditation.Sounds.frequencies.utils.Constants
 import com.Meditation.Sounds.frequencies.utils.Constants.Companion.PREF_SETTING_ADVANCE_SCALAR_ON_OFF
 import com.Meditation.Sounds.frequencies.utils.PlayerUtils
@@ -73,7 +73,6 @@ import kotlinx.android.synthetic.main.fragment_new_album_detail.view_space_silen
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -326,7 +325,7 @@ class NewAlbumDetailFragment : BaseFragment() {
             }
         }
         album_add_scalar.setOnClickListener {
-            if (selectedNaviFragment != null && selectedNaviFragment is NewScalarFragment) {
+            if (selectedNaviFragment != null && selectedNaviFragment is SilentQuantumFragment) {
                 onBackPressed()
             } else {
                 (activity as NavigationActivity).onScalarSelect()
@@ -375,7 +374,7 @@ class NewAlbumDetailFragment : BaseFragment() {
             }
         }
         album_add_scalar.setOnClickListener {
-            if (selectedNaviFragment != null && selectedNaviFragment is NewScalarFragment) {
+            if (selectedNaviFragment != null && selectedNaviFragment is SilentQuantumFragment) {
                 onBackPressed()
             } else {
                 (activity as NavigationActivity).onScalarSelect()

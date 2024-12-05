@@ -154,7 +154,7 @@ class ProgramTrackAdapter(
             image_lock.visibility = View.VISIBLE
         }
         loadImageScalar(context, item_track_image, scalar)
-        item_track_name.text = context.getString(R.string.navigation_lbl_scalar)
+        item_track_name.text = context.getString(R.string.navigation_lbl_silent_quantum)
         item_album_name.text = scalar.name
 
         if (playListScalar.contains(scalar) && playProgramId == program?.id && isSilentEnable && scalar.is_free == 1) {

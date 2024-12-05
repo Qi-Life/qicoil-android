@@ -61,7 +61,7 @@ import com.Meditation.Sounds.frequencies.lemeor.tools.player.PlayerPlayAction
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.PlayerSelected
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.PlayerService
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.PlayerService.Companion.musicRepository
-import com.Meditation.Sounds.frequencies.lemeor.tools.player.ScalarPlayerService
+import com.Meditation.Sounds.frequencies.lemeor.tools.player.SilentQuantumPlayerService
 import com.Meditation.Sounds.frequencies.lemeor.trackList
 import com.Meditation.Sounds.frequencies.lemeor.typeBack
 import com.Meditation.Sounds.frequencies.lemeor.ui.albums.detail.NewAlbumDetailFragment
@@ -72,8 +72,8 @@ import com.Meditation.Sounds.frequencies.lemeor.ui.programs.NewProgramViewModel
 import com.Meditation.Sounds.frequencies.lemeor.ui.programs.dialog.FrequenciesDialogFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.programs.search.AddProgramsFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.purchase.new_flow.PurchaseScalarWebView
-import com.Meditation.Sounds.frequencies.lemeor.ui.scalar.NewScalarViewModel
-import com.Meditation.Sounds.frequencies.lemeor.ui.scalar.ScalarDownloadService
+import com.Meditation.Sounds.frequencies.lemeor.ui.silent.SilentQuantumViewModel
+import com.Meditation.Sounds.frequencies.lemeor.ui.silent.SilentQuantumDownloadService
 import com.Meditation.Sounds.frequencies.models.event.ScheduleProgramStatusEvent
 import com.Meditation.Sounds.frequencies.models.event.UpdateSwitchQuantumEvent
 import com.Meditation.Sounds.frequencies.utils.Constants
@@ -117,7 +117,7 @@ class ProgramDetailFragment : BaseFragment() {
 
     private lateinit var mViewModel: ProgramDetailViewModel
     private lateinit var mNewProgramViewModel: NewProgramViewModel
-    private lateinit var mNewScalarViewModel: NewScalarViewModel
+    private lateinit var mNewScalarViewModel: SilentQuantumViewModel
     private var mTracks: ArrayList<Any>? = null
     private var program: Program? = null
     private var isFirst = true
@@ -275,7 +275,7 @@ class ProgramDetailFragment : BaseFragment() {
                 ApiHelper(RetrofitBuilder(requireContext()).apiService),
                 DataBase.getInstance(requireContext())
             )
-        )[NewScalarViewModel::class.java]
+        )[SilentQuantumViewModel::class.java]
 
         program_tracks_recycler.apply {
             adapter = programTrackAdapter
@@ -627,7 +627,7 @@ class ProgramDetailFragment : BaseFragment() {
                                 requireActivity(), Manifest.permission.READ_MEDIA_VIDEO
                             ) == PackageManager.PERMISSION_GRANTED
                         ) {
-                            ScalarDownloadService.startService(context = requireContext(), scalar)
+                            SilentQuantumDownloadService.startService(context = requireContext(), scalar)
                         } else {
                             ActivityCompat.requestPermissions(
                                 requireActivity(), arrayOf(
@@ -642,7 +642,7 @@ class ProgramDetailFragment : BaseFragment() {
                                 requireActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE
                             ) == PackageManager.PERMISSION_GRANTED
                         ) {
-                            ScalarDownloadService.startService(context = requireContext(), scalar)
+                            SilentQuantumDownloadService.startService(context = requireContext(), scalar)
                         } else {
                             ActivityCompat.requestPermissions(
                                 requireActivity(),
@@ -658,15 +658,15 @@ class ProgramDetailFragment : BaseFragment() {
                 requireContext(), getString(R.string.err_network_available), Toast.LENGTH_SHORT
             ).show()
         }
-        playStopScalar("ADD_REMOVE")
+        playStopScalar()
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private fun playStopScalar(actionScalar: String) {
+    private fun playStopScalar() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val playIntent = Intent(context, ScalarPlayerService::class.java).apply {
-                    action = actionScalar
+                val playIntent = Intent(context, SilentQuantumPlayerService::class.java).apply {
+                    action = "ADD_REMOVE"
                 }
                 requireActivity().startService(playIntent)
             } catch (_: Exception) {

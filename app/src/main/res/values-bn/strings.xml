@@ -4,7 +4,7 @@
 
     <string name="navigation_lbl_home">বাড়ি</string>
     <string name="navigation_lbl_albums">অ্যালবাম</string>
-    <string name="navigation_lbl_scalar">নীরব কোয়ান্টাম</string>
+    <string name="navigation_lbl_silent_quantum">নীরব কোয়ান্টাম</string>
     <string name="navigation_lbl_quantum">কোয়ান্টাম</string>
     <string name="navigation_lbl_rife">রাইফ</string>
     <string name="navigation_lbl_programs">প্রোগ্রাম</string>

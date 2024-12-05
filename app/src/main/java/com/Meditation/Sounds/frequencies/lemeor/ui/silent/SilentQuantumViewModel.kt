@@ -1,4 +1,4 @@
-package com.Meditation.Sounds.frequencies.lemeor.ui.scalar
+package com.Meditation.Sounds.frequencies.lemeor.ui.silent
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,7 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
-class NewScalarViewModel(private val repository: ScalarRepository) : ViewModel() {
+class SilentQuantumViewModel(private val repository: SilentQuantumRepository) : ViewModel() {
 
     private var listScalar = listOf<Scalar>()
 

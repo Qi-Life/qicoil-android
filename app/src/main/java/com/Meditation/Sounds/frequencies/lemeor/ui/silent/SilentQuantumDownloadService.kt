@@ -1,4 +1,4 @@
-package com.Meditation.Sounds.frequencies.lemeor.ui.scalar
+package com.Meditation.Sounds.frequencies.lemeor.ui.silent
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -22,19 +22,19 @@ import kotlinx.coroutines.launch
 import java.io.File
 
 
-class ScalarDownloadService : LifecycleService() {
+class SilentQuantumDownloadService : LifecycleService() {
 
     companion object {
         private const val EXTRA_SCALAR = "extra_scalar"
 
         fun startService(context: Context, scalar: Scalar) {
-            val startIntent = Intent(context, ScalarDownloadService::class.java)
+            val startIntent = Intent(context, SilentQuantumDownloadService::class.java)
             startIntent.putExtra(EXTRA_SCALAR, scalar)
             context.startService(startIntent)
         }
 
         fun stopService(context: Context) {
-            val stopIntent = Intent(context, ScalarDownloadService::class.java)
+            val stopIntent = Intent(context, SilentQuantumDownloadService::class.java)
             context.stopService(stopIntent)
         }
     }
@@ -104,7 +104,7 @@ class ScalarDownloadService : LifecycleService() {
         CoroutineScope(Dispatchers.IO).launch {
             CoroutineScope(Dispatchers.Main).launch {
                 enqueueFiles()
-                if (this@ScalarDownloadService.scalars.isEmpty()) {
+                if (this@SilentQuantumDownloadService.scalars.isEmpty()) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         stopForeground(STOP_FOREGROUND_REMOVE)
                     } else {
@@ -189,7 +189,7 @@ class ScalarDownloadService : LifecycleService() {
 
     inner class DownloadServiceBinder : Binder() {
         // Return this instance of LocalService so clients can call public methods.
-        fun getService(): ScalarDownloadService = this@ScalarDownloadService
+        fun getService(): SilentQuantumDownloadService = this@SilentQuantumDownloadService
     }
 
     override fun onBind(intent: Intent): IBinder {

@@ -181,7 +181,7 @@ class PlayerUIFragment : NewBaseFragment() {
             }
         }
     }
-    private var playerServiceBinderScalar: ScalarPlayerService.PlayerServiceBinder? = null
+    private var playerServiceBinderScalar: SilentQuantumPlayerService.PlayerServiceBinder? = null
     private var mediaScalarController: MediaControllerCompat? = null
     private var callbackScalar: MediaControllerCompat.Callback =
         object : MediaControllerCompat.Callback() {
@@ -213,7 +213,7 @@ class PlayerUIFragment : NewBaseFragment() {
 
     private var serviceConnectionScalar = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, binder: IBinder?) {
-            playerServiceBinderScalar = binder as ScalarPlayerService.PlayerServiceBinder
+            playerServiceBinderScalar = binder as SilentQuantumPlayerService.PlayerServiceBinder
             try {
                 mediaScalarController = MediaControllerCompat(
                     requireContext(),
@@ -265,7 +265,7 @@ class PlayerUIFragment : NewBaseFragment() {
             AppCompatActivity.BIND_AUTO_CREATE
         )
         requireContext().bindService(
-            Intent(requireContext(), ScalarPlayerService::class.java),
+            Intent(requireContext(), SilentQuantumPlayerService::class.java),
             serviceConnectionScalar as ServiceConnection,
             AppCompatActivity.BIND_AUTO_CREATE
         )

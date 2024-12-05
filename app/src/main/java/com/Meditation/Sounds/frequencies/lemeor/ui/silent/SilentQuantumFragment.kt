@@ -1,4 +1,4 @@
-package com.Meditation.Sounds.frequencies.lemeor.ui.scalar
+package com.Meditation.Sounds.frequencies.lemeor.ui.silent
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -25,15 +25,16 @@ import com.Meditation.Sounds.frequencies.lemeor.data.utils.ViewModelFactory
 import com.Meditation.Sounds.frequencies.lemeor.getPreloadedSaveDir
 import com.Meditation.Sounds.frequencies.lemeor.getSaveDir
 import com.Meditation.Sounds.frequencies.lemeor.playScalar
-import com.Meditation.Sounds.frequencies.lemeor.tools.player.ScalarPlayerService
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.ScalarPlayerStatus
+import com.Meditation.Sounds.frequencies.lemeor.tools.player.SilentQuantumPlayerService
 import com.Meditation.Sounds.frequencies.lemeor.ui.main.NavigationActivity
 import com.Meditation.Sounds.frequencies.lemeor.ui.purchase.new_flow.PurchaseScalarWebView
+import com.Meditation.Sounds.frequencies.utils.Constants
 import com.Meditation.Sounds.frequencies.utils.PlayerUtils
 import com.Meditation.Sounds.frequencies.utils.Utils
 import com.Meditation.Sounds.frequencies.views.ItemOffsetDecoration
 import com.tonyodev.fetch2core.isNetworkAvailable
-import kotlinx.android.synthetic.main.fragment_new_scalar.rcvScalar
+import kotlinx.android.synthetic.main.fragment_silent_quantum.rcvSilentQuantum
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -42,24 +43,24 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import java.io.File
 
-class NewScalarFragment : BaseFragment() {
-    private lateinit var mViewModel: NewScalarViewModel
-    private var scalarAlbumsAdapter: ScalarAlbumsAdapter? = null
+class SilentQuantumFragment : BaseFragment() {
+    private lateinit var mViewModel: SilentQuantumViewModel
+    private var scalarAlbumsAdapter: SilentQuantumAlbumsAdapter? = null
 
-    override fun initLayout(): Int = R.layout.fragment_new_scalar
+    val type: String by lazy {
+        arguments?.getString(ARG_TYPE)
+            ?: Constants.TYPE_SILENT_QT
+    }
+
+    override fun initLayout(): Int = R.layout.fragment_silent_quantum
 
     override fun initComponents() {
         init()
     }
 
     override fun addListener() {
-        mViewModel.apply {
-            getScalarList().observe(viewLifecycleOwner) { listScalar ->
-                scalarAlbumsAdapter?.setData(listScalar as ArrayList<Scalar>)
-            }
-        }
-    }
 
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -73,32 +74,48 @@ class NewScalarFragment : BaseFragment() {
                 ApiHelper(RetrofitBuilder(requireContext()).apiService),
                 DataBase.getInstance(requireContext())
             )
-        )[NewScalarViewModel::class.java]
+        )[SilentQuantumViewModel::class.java]
 
         initAdapter()
+
+        mViewModel.apply {
+            getScalarList().observe(viewLifecycleOwner) { listScalar ->
+                when (type) {
+                    Constants.TYPE_SILENT_QT -> {
+                        scalarAlbumsAdapter?.setData(listScalar as ArrayList<Scalar>)
+                    }
+                    Constants.TYPE_SILENT_QT_PRO -> {
+                        scalarAlbumsAdapter?.setData(arrayListOf())
+                    }
+                    else -> {
+                        scalarAlbumsAdapter?.setData(arrayListOf())
+                    }
+                }
+            }
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onEvent(event: ScalarPlayerStatus) {
-       scalarAlbumsAdapter?.notifyDataSetChanged()
+        scalarAlbumsAdapter?.notifyDataSetChanged()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            rcvScalar.layoutManager = GridLayoutManager(context, 4)
+            rcvSilentQuantum.layoutManager = GridLayoutManager(context, 4)
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            rcvScalar.layoutManager = GridLayoutManager(context, 2)
+            rcvSilentQuantum.layoutManager = GridLayoutManager(context, 2)
         }
     }
 
     private fun initAdapter() {
-        scalarAlbumsAdapter = ScalarAlbumsAdapter(
+        scalarAlbumsAdapter = SilentQuantumAlbumsAdapter(
             requireContext(), arrayListOf(),
         )
-        rcvScalar.adapter = scalarAlbumsAdapter
-        scalarAlbumsAdapter?.setOnClickListener(object : ScalarAlbumsAdapter.Listener {
+        rcvSilentQuantum.adapter = scalarAlbumsAdapter
+        scalarAlbumsAdapter?.setOnClickListener(object : SilentQuantumAlbumsAdapter.Listener {
             override fun onClickItem(album: Scalar) {
                 PlayerUtils.checkSchedulePlaying(requireContext()) {
                     if (!it) {
@@ -126,7 +143,9 @@ class NewScalarFragment : BaseFragment() {
                                 Resource.Status.SUCCESS -> {
                                     sub.data?.let { u ->
                                         startActivity(
-                                            PurchaseScalarWebView.newIntent(requireContext(),u.data.payment_url)
+                                            PurchaseScalarWebView.newIntent(
+                                                requireContext(), u.data.payment_url
+                                            )
                                         )
                                     }
 
@@ -141,28 +160,38 @@ class NewScalarFragment : BaseFragment() {
                         }
                     }
                 } else {
-                    Toast.makeText(requireContext(), getString(R.string.err_network_available), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.err_network_available),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         })
 
-        rcvScalar.setHasFixedSize(true)
+        rcvSilentQuantum.setHasFixedSize(true)
         if (activity?.resources?.configuration?.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            rcvScalar.layoutManager = GridLayoutManager(context, 4)
+            rcvSilentQuantum.layoutManager = GridLayoutManager(context, 4)
         } else if (activity?.resources?.configuration?.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            rcvScalar.layoutManager = GridLayoutManager(context, 2)
+            rcvSilentQuantum.layoutManager = GridLayoutManager(context, 2)
         }
-        val itemDecoration = ItemOffsetDecoration(requireContext(),
-            if (Utils.isTablet(requireContext())) R.dimen.margin_buttons else R.dimen.item_offset)
-        rcvScalar.addItemDecoration(itemDecoration)
+        val itemDecoration = ItemOffsetDecoration(
+            requireContext(),
+            if (Utils.isTablet(requireContext())) R.dimen.margin_buttons else R.dimen.item_offset
+        )
+        rcvSilentQuantum.addItemDecoration(itemDecoration)
     }
 
     private fun playAndDownload(scalar: Scalar) {
         if (Utils.isConnectedToNetwork(requireContext())) {
             CoroutineScope(Dispatchers.IO).launch {
-                val file = File(getSaveDir(requireContext(), scalar.audio_file, scalar.audio_folder))
-                val preloaded =
-                    File(getPreloadedSaveDir(requireContext(), scalar.audio_file, scalar.audio_folder))
+                val file =
+                    File(getSaveDir(requireContext(), scalar.audio_file, scalar.audio_folder))
+                val preloaded = File(
+                    getPreloadedSaveDir(
+                        requireContext(), scalar.audio_file, scalar.audio_folder
+                    )
+                )
                 if (!file.exists() && !preloaded.exists()) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                         if (ContextCompat.checkSelfPermission(
@@ -173,7 +202,9 @@ class NewScalarFragment : BaseFragment() {
                                 requireActivity(), Manifest.permission.READ_MEDIA_VIDEO
                             ) == PackageManager.PERMISSION_GRANTED
                         ) {
-                            ScalarDownloadService.startService(context = requireContext(), scalar)
+                            SilentQuantumDownloadService.startService(
+                                context = requireContext(), scalar
+                            )
                         } else {
                             ActivityCompat.requestPermissions(
                                 requireActivity(), arrayOf(
@@ -188,7 +219,9 @@ class NewScalarFragment : BaseFragment() {
                                 requireActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE
                             ) == PackageManager.PERMISSION_GRANTED
                         ) {
-                            ScalarDownloadService.startService(context = requireContext(), scalar)
+                            SilentQuantumDownloadService.startService(
+                                context = requireContext(), scalar
+                            )
                         } else {
                             ActivityCompat.requestPermissions(
                                 requireActivity(),
@@ -204,21 +237,16 @@ class NewScalarFragment : BaseFragment() {
                 requireContext(), getString(R.string.err_network_available), Toast.LENGTH_SHORT
             ).show()
         }
-        playStopScalar("ADD_REMOVE")
+        playStopScalar()
     }
 
-    private fun playStopScalar(actionScalar: String) {
+    private fun playStopScalar() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val playIntent = Intent(context, ScalarPlayerService::class.java).apply {
-                    action = actionScalar
+                val playIntent = Intent(context, SilentQuantumPlayerService::class.java).apply {
+                    action = "ADD_REMOVE"
                 }
                 requireActivity().startService(playIntent)
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//                    requireActivity().startForegroundService(playIntent)
-//                } else {
-//
-//                }
             } catch (_: Exception) {
             }
             CoroutineScope(Dispatchers.Main).launch { (activity as NavigationActivity).showPlayerUI() }
@@ -230,9 +258,21 @@ class NewScalarFragment : BaseFragment() {
         EventBus.getDefault().register(this)
     }
 
-
     override fun onDestroy() {
         super.onDestroy()
         EventBus.getDefault().unregister(this)
+    }
+
+    companion object {
+        const val ARG_TYPE = "arg_type"
+
+        @JvmStatic
+        fun newInstance(type: String = Constants.TYPE_SILENT_QT): SilentQuantumFragment {
+            return SilentQuantumFragment().apply {
+                arguments = Bundle().apply {
+                    putString(ARG_TYPE, type)
+                }
+            }
+        }
     }
 }

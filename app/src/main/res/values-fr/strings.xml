@@ -343,7 +343,7 @@
     <string name="msg_chatting_bot_cookie_policies">En discutant avec moi, vous acceptez nos politiques de confidentialité et de cookies.</string>
     <string name="tv_message">Message:</string>
     <string name="tv_master_wong_ai">Dr. Qi Ai assistant</string>
-    <string name="navigation_lbl_scalar">Quantique silencieux</string>
+    <string name="navigation_lbl_silent_quantum">Quantique silencieux</string>
     <string name="tv_scalars">Scalaires</string>
     <string name="tv_silent_scalar_turned_on">Silent Quantum est actuellement activé</string>
     <string name="tv_silent_scalar_turned_off">Silent Quantum est actuellement désactivé</string>

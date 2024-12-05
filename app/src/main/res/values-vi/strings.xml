@@ -5,7 +5,7 @@
     <!--region Navigation-->
     <string name="navigation_lbl_home">Trang chủ</string>
     <string name="navigation_lbl_albums">Album</string>
-    <string name="navigation_lbl_scalar">Lượng tử im lặng</string>
+    <string name="navigation_lbl_silent_quantum">Lượng tử im lặng</string>
     <string name="navigation_lbl_quantum">Lượng tử</string>
     <string name="navigation_lbl_rife">Đầy rẫy</string>
     <string name="navigation_lbl_programs">Chương trình</string>

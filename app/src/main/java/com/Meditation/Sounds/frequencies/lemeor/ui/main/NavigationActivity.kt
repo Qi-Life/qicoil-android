@@ -111,7 +111,7 @@ import com.Meditation.Sounds.frequencies.lemeor.tools.player.MusicRepository
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.PlayerSelected
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.PlayerService
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.PlayerUIFragment
-import com.Meditation.Sounds.frequencies.lemeor.tools.player.ScalarPlayerService
+import com.Meditation.Sounds.frequencies.lemeor.tools.player.SilentQuantumPlayerService
 import com.Meditation.Sounds.frequencies.lemeor.trackList
 import com.Meditation.Sounds.frequencies.lemeor.ui.albums.detail.NewAlbumDetailFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.albums.search.SearchAdapter
@@ -130,9 +130,9 @@ import com.Meditation.Sounds.frequencies.lemeor.ui.purchase.new_flow.NewPurchase
 import com.Meditation.Sounds.frequencies.lemeor.ui.purchase.new_flow.PurchaseItemAlbumWebView
 import com.Meditation.Sounds.frequencies.lemeor.ui.rife.NewRifeFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.rife.NewRifeViewModel
-import com.Meditation.Sounds.frequencies.lemeor.ui.scalar.NewScalarFragment
-import com.Meditation.Sounds.frequencies.lemeor.ui.scalar.NewScalarViewModel
-import com.Meditation.Sounds.frequencies.lemeor.ui.scalar.ScalarDownloadService
+import com.Meditation.Sounds.frequencies.lemeor.ui.silent.SilentQuantumFragment
+import com.Meditation.Sounds.frequencies.lemeor.ui.silent.SilentQuantumViewModel
+import com.Meditation.Sounds.frequencies.lemeor.ui.silent.SilentQuantumDownloadService
 import com.Meditation.Sounds.frequencies.lemeor.ui.videos.NewVideosFragment
 import com.Meditation.Sounds.frequencies.models.event.ScheduleProgramProgressEvent
 import com.Meditation.Sounds.frequencies.models.event.ScheduleProgramStatusEvent
@@ -173,8 +173,10 @@ import kotlinx.android.synthetic.main.activity_navigation.navigation_home
 import kotlinx.android.synthetic.main.activity_navigation.navigation_options
 import kotlinx.android.synthetic.main.activity_navigation.navigation_programs
 import kotlinx.android.synthetic.main.activity_navigation.navigation_rife
-import kotlinx.android.synthetic.main.activity_navigation.navigation_scalar
 import kotlinx.android.synthetic.main.activity_navigation.navigation_search
+import kotlinx.android.synthetic.main.activity_navigation.navigation_silent_quantum
+import kotlinx.android.synthetic.main.activity_navigation.navigation_silent_quantum_advanced
+import kotlinx.android.synthetic.main.activity_navigation.navigation_silent_quantum_pro
 import kotlinx.android.synthetic.main.activity_navigation.navigation_videos
 import kotlinx.android.synthetic.main.activity_navigation.search_categories_recycler
 import kotlinx.android.synthetic.main.activity_navigation.search_layout
@@ -207,7 +209,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
     private lateinit var mViewModel: HomeViewModel
     private lateinit var mNewProgramViewModel: NewProgramViewModel
     private lateinit var mNewRifeViewModel: NewRifeViewModel
-    private lateinit var mNewScalarViewModel: NewScalarViewModel
+    private lateinit var mNewScalarViewModel: SilentQuantumViewModel
     private lateinit var mChatBotViewModel: ChatBotViewModel
     private lateinit var mProgramDetailViewModel: ProgramDetailViewModel
 
@@ -234,6 +236,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
             hideKeyboard(this@NavigationActivity, album_search)
             view_data.visibility = View.GONE
             search_layout.visibility = View.GONE
+            updateViewSearch()
             if (item.obj is Album) {
                 val album = item.obj as Album
                 startAlbumDetails(album)
@@ -244,6 +247,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                     withContext(Dispatchers.Main) {
                         view_data.visibility = View.GONE
                         search_layout.visibility = View.GONE
+                        updateViewSearch()
                         album?.let { startAlbumDetails(it) }
                     }
                 }
@@ -784,6 +788,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
             if (!rect.contains(x, y)) {
                 if (search_layout.visibility == View.VISIBLE && view_data.visibility == View.GONE) {
                     search_layout.visibility = View.GONE
+                    updateViewSearch()
                 }
             }
         }
@@ -794,9 +799,9 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         super.onDestroy()
         EventBus.getDefault().unregister(this)
         DownloadService.stopService(this)
-        ScalarDownloadService.stopService(this)
+        SilentQuantumDownloadService.stopService(this)
         stopService(Intent(this, PlayerService::class.java))
-        stopService(Intent(this, ScalarPlayerService::class.java))
+        stopService(Intent(this, SilentQuantumPlayerService::class.java))
         clearDataPlayer()
         QcAlarmManager.clearScheduleProgramsAlarms(this@NavigationActivity)
         WorkManager.getInstance(this).cancelUniqueWork("DailyWorker")
@@ -831,7 +836,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
             this, ViewModelFactory(
                 ApiHelper(RetrofitBuilder(this).apiService), DataBase.getInstance(this)
             )
-        )[NewScalarViewModel::class.java]
+        )[SilentQuantumViewModel::class.java]
 
         mChatBotViewModel = ViewModelProvider(this)[ChatBotViewModel::class.java]
 
@@ -940,10 +945,22 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                 setFragment(HomeFragment())
             }
         }
-        navigation_scalar.setOnClickListener {
-            navigation_scalar.onSelected {
+        navigation_silent_quantum.setOnClickListener {
+            navigation_silent_quantum.onSelected {
                 closeSearch()
-                setFragment(NewScalarFragment())
+                setFragment(SilentQuantumFragment.newInstance(type = Constants.TYPE_SILENT_QT))
+            }
+        }
+        navigation_silent_quantum_pro.setOnClickListener {
+            navigation_silent_quantum_pro.onSelected {
+                closeSearch()
+                setFragment(SilentQuantumFragment.newInstance(type = Constants.TYPE_SILENT_QT_PRO))
+            }
+        }
+        navigation_silent_quantum_advanced.setOnClickListener {
+            navigation_silent_quantum_advanced.onSelected {
+                closeSearch()
+                setFragment(SilentQuantumFragment.newInstance(type = Constants.TYPE_SILENT_QT_ADVANCED))
             }
         }
         navigation_albums.setOnClickListener {
@@ -986,6 +1003,25 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         }
         navigation_search.setOnClickListener {
             search_layout.visibility = View.VISIBLE
+            updateViewSearch()
+        }
+    }
+
+    private fun updateViewSearch() {
+        if (search_layout.visibility == View.VISIBLE) {
+            navigation_silent_quantum_advanced.visibility = View.INVISIBLE
+            navigation_programs.visibility = View.INVISIBLE
+            navigation_videos.visibility = View.INVISIBLE
+            navigation_discover.visibility = View.INVISIBLE
+            navigation_options.visibility = View.INVISIBLE
+            navigation_search.visibility = View.INVISIBLE
+        } else {
+            navigation_silent_quantum_advanced.visibility = View.VISIBLE
+            navigation_programs.visibility = View.VISIBLE
+            navigation_videos.visibility = View.VISIBLE
+            navigation_discover.visibility = View.VISIBLE
+            navigation_options.visibility = View.VISIBLE
+            navigation_search.visibility = View.VISIBLE
         }
     }
 
@@ -1025,17 +1061,17 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
 
     private fun updateTabScalarQuantum() {
         if (SharedPreferenceHelper.getInstance().getBool(PREF_SETTING_ADVANCE_SCALAR_ON_OFF)) {
-            navigation_scalar.visibility = View.VISIBLE
+            navigation_silent_quantum.visibility = View.VISIBLE
         } else {
-            navigation_scalar.visibility = View.GONE
+            navigation_silent_quantum.visibility = View.GONE
         }
     }
 
     fun onScalarSelect() {
-        if (mViewGroupCurrent == navigation_scalar && supportFragmentManager.fragments.lastOrNull() is NewAlbumDetailFragment) {
+        if (mViewGroupCurrent == navigation_silent_quantum && supportFragmentManager.fragments.lastOrNull() is NewAlbumDetailFragment) {
             var fragment = selectedNaviFragment
             if (fragment == null) {
-                fragment = NewScalarFragment()
+                fragment = SilentQuantumFragment()
             }
             supportFragmentManager.beginTransaction().setCustomAnimations(
                 R.anim.trans_left_to_right_in,
@@ -1044,10 +1080,10 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                 R.anim.trans_right_to_left_out
             ).replace(R.id.nav_host_fragment, fragment, fragment.javaClass.simpleName).commit()
         }
-        if (mViewGroupCurrent != navigation_scalar) {
-            navigation_scalar.onSelected {
+        if (mViewGroupCurrent != navigation_silent_quantum) {
+            navigation_silent_quantum.onSelected {
                 closeSearch()
-                setFragmentBackAnimation(NewScalarFragment())
+                setFragmentBackAnimation(SilentQuantumFragment())
             }
         }
     }
@@ -1220,6 +1256,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         album_search.clearFocus()
         Handler().postDelayed({
             search_layout.visibility = View.GONE
+            updateViewSearch()
         }, 500)
         hideKeyboard(applicationContext, album_search)
     }
@@ -1599,7 +1636,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
             isHide = true
         }
         if (SharedPreferenceHelper.getInstance()
-                .getBool(PREF_SETTING_CHATBOT_ON_OFF) && !isHide && (fragment is NewScalarFragment
+                .getBool(PREF_SETTING_CHATBOT_ON_OFF) && !isHide && (fragment is SilentQuantumFragment
                     || fragment is TiersPagerFragment
                     || fragment is NewRifeFragment
                     || fragment is NewProgramFragment
@@ -1898,7 +1935,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                                 this@NavigationActivity, Manifest.permission.READ_MEDIA_VIDEO
                             ) == PackageManager.PERMISSION_GRANTED
                         ) {
-                            ScalarDownloadService.startService(
+                            SilentQuantumDownloadService.startService(
                                 context = this@NavigationActivity,
                                 scalar
                             )
@@ -1916,7 +1953,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                                 this@NavigationActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE
                             ) == PackageManager.PERMISSION_GRANTED
                         ) {
-                            ScalarDownloadService.startService(
+                            SilentQuantumDownloadService.startService(
                                 context = this@NavigationActivity,
                                 scalar
                             )
@@ -1937,16 +1974,16 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                 Toast.LENGTH_SHORT
             ).show()
         }
-        playStopScalar("ADD_REMOVE")
+        playStopScalar()
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private fun playStopScalar(actionScalar: String) {
+    private fun playStopScalar() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val playIntent =
-                    Intent(this@NavigationActivity, ScalarPlayerService::class.java).apply {
-                        action = actionScalar
+                    Intent(this@NavigationActivity, SilentQuantumPlayerService::class.java).apply {
+                        action = "ADD_REMOVE"
                     }
                 this@NavigationActivity.startService(playIntent)
             } catch (_: Exception) {

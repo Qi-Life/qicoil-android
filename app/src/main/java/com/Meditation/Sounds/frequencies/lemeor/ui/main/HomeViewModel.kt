@@ -78,7 +78,7 @@ class HomeViewModel(private val repository: HomeRepository, private val db: Data
                         val list = arrayListOf<Triple<String, List<Search>, Boolean>>()
                         list.add(Triple(context.getString(R.string.tv_track), s, it.first().third))
                         list.add(Triple(context.getString(R.string.navigation_lbl_rife), it.secondOrNull()?.second ?: arrayListOf(), it.secondOrNull()?.third ?: false))
-                        list.add(Triple(context.getString(R.string.navigation_lbl_scalar), it.last().second, it.last().third))
+                        list.add(Triple(context.getString(R.string.navigation_lbl_silent_quantum), it.last().second, it.last().third))
                         onSearch.invoke(list)
                     }
                 }
@@ -93,7 +93,7 @@ class HomeViewModel(private val repository: HomeRepository, private val db: Data
                         val list = arrayListOf<Triple<String, List<Search>, Boolean>>()
                         list.add(Triple(context.getString(R.string.tv_track), it.first().second, it.first().third))
                         list.add(Triple(context.getString(R.string.navigation_lbl_rife), s ?: arrayListOf(), it.secondOrNull()?.third ?: false))
-                        list.add(Triple(context.getString(R.string.navigation_lbl_scalar), it.last().second, it.last().third))
+                        list.add(Triple(context.getString(R.string.navigation_lbl_silent_quantum), it.last().second, it.last().third))
                         onSearch.invoke(list)
                     }
                 }
@@ -108,7 +108,7 @@ class HomeViewModel(private val repository: HomeRepository, private val db: Data
                         val list = arrayListOf<Triple<String, List<Search>, Boolean>>()
                         list.add(Triple(context.getString(R.string.tv_track), it.first().second, it.first().third))
                         list.add(Triple(context.getString(R.string.navigation_lbl_rife), it.secondOrNull()?.second ?: arrayListOf(), it.secondOrNull()?.third ?: false))
-                        list.add(Triple(context.getString(R.string.navigation_lbl_scalar), s, it.last().third))
+                        list.add(Triple(context.getString(R.string.navigation_lbl_silent_quantum), s, it.last().third))
                         onSearch.invoke(list)
                     }
                 }
@@ -121,7 +121,7 @@ class HomeViewModel(private val repository: HomeRepository, private val db: Data
         val list = arrayListOf<Triple<String, List<Search>, Boolean>>()
         list.add(Triple(context.getString(R.string.tv_track), arrayListOf(), true))
         list.add(Triple(context.getString(R.string.navigation_lbl_rife), arrayListOf(), true))
-        list.add(Triple(context.getString(R.string.navigation_lbl_scalar), arrayListOf(), true))
+        list.add(Triple(context.getString(R.string.navigation_lbl_silent_quantum), arrayListOf(), true))
         var index = 0
         getListTrack().observe(owner) { listT ->
             CoroutineScope(Dispatchers.IO).launch {

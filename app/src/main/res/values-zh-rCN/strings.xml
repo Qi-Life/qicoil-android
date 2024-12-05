@@ -5,7 +5,7 @@
     <!--region Navigation-->
     <string name="navigation_lbl_home">家</string>
     <string name="navigation_lbl_albums">专辑</string>
-    <string name="navigation_lbl_scalar">沉默的量子</string>
+    <string name="navigation_lbl_silent_quantum">沉默的量子</string>
     <string name="navigation_lbl_quantum">量子</string>
     <string name="navigation_lbl_rife">盛行</string>
     <string name="navigation_lbl_programs">节目</string>

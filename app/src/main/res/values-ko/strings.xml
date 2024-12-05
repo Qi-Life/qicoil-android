@@ -4,7 +4,7 @@
 
     <string name="navigation_lbl_home">집</string>
     <string name="navigation_lbl_albums">앨범</string>
-    <string name="navigation_lbl_scalar">사일런트 퀀텀</string>
+    <string name="navigation_lbl_silent_quantum">사일런트 퀀텀</string>
     <string name="navigation_lbl_quantum">양자</string>
     <string name="navigation_lbl_rife">라이프</string>
     <string name="navigation_lbl_programs">프로그램</string>

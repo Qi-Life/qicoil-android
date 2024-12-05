@@ -5,7 +5,7 @@
     <!--region Navigation-->
     <string name="navigation_lbl_home">بيت</string>
     <string name="navigation_lbl_albums">الألبومات</string>
-    <string name="navigation_lbl_scalar">الكم الصامت</string>
+    <string name="navigation_lbl_silent_quantum">الكم الصامت</string>
     <string name="navigation_lbl_quantum">الكم</string>
     <string name="navigation_lbl_rife">منتشر</string>
     <string name="navigation_lbl_programs">البرامج</string>
