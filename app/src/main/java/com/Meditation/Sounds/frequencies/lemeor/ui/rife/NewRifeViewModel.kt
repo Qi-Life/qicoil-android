@@ -11,7 +11,6 @@ import kotlinx.coroutines.launch
 class NewRifeViewModel(private val repository: RifeRepository) : ViewModel() {
 
     private var listRife = listOf<Rife>()
-    private var listScalar = listOf<Scalar>()
 
     private val _result = MutableLiveData<List<Rife>>()
 

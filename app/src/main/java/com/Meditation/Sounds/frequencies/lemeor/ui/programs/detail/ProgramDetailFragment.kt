@@ -86,6 +86,8 @@ import com.Meditation.Sounds.frequencies.utils.isNotString
 import com.Meditation.Sounds.frequencies.views.ItemLastOffsetBottomDecoration
 import com.tonyodev.fetch2core.isNetworkAvailable
 import kotlinx.android.synthetic.main.fragment_program_detail.action_add_silent_quantum
+import kotlinx.android.synthetic.main.fragment_program_detail.action_add_silent_quantum_advanced
+import kotlinx.android.synthetic.main.fragment_program_detail.action_add_silent_quantum_pro
 import kotlinx.android.synthetic.main.fragment_program_detail.action_frequencies
 import kotlinx.android.synthetic.main.fragment_program_detail.action_quantum
 import kotlinx.android.synthetic.main.fragment_program_detail.action_rife
@@ -284,6 +286,8 @@ class ProgramDetailFragment : BaseFragment() {
 
         if (!SharedPreferenceHelper.getInstance().getBool(PREF_SETTING_ADVANCE_SCALAR_ON_OFF)) {
             action_add_silent_quantum.visibility = View.GONE
+            action_add_silent_quantum_pro.visibility = View.GONE
+            action_add_silent_quantum_advanced.visibility = View.GONE
         }
 
         view?.isFocusableInTouchMode = true
@@ -378,6 +382,26 @@ class ProgramDetailFragment : BaseFragment() {
                 .replace(
                     R.id.nav_host_fragment,
                     AddProgramsFragment.newInstance(programId, isSilentQuantum = 2),
+                    AddProgramsFragment.newInstance(programId).javaClass.simpleName
+                ).commit()
+        }
+
+        action_add_silent_quantum_pro.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.trans_right_to_left_in, R.anim.trans_right_to_left_out)
+                .replace(
+                    R.id.nav_host_fragment,
+                    AddProgramsFragment.newInstance(programId, isSilentQuantumPro = 3),
+                    AddProgramsFragment.newInstance(programId).javaClass.simpleName
+                ).commit()
+        }
+
+        action_add_silent_quantum_advanced.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.trans_right_to_left_in, R.anim.trans_right_to_left_out)
+                .replace(
+                    R.id.nav_host_fragment,
+                    AddProgramsFragment.newInstance(programId, isSilentQuantumAdvanced = 4),
                     AddProgramsFragment.newInstance(programId).javaClass.simpleName
                 ).commit()
         }

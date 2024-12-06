@@ -289,6 +289,9 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
             } else if (item.obj is Scalar) {
                 onScalarSelect()
             }
+
+            album_search.text.clear()
+            album_search.clearFocus()
         }
     }
 
@@ -1009,14 +1012,18 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
 
     private fun updateViewSearch() {
         if (search_layout.visibility == View.VISIBLE) {
-            navigation_silent_quantum_advanced.visibility = View.INVISIBLE
             navigation_programs.visibility = View.INVISIBLE
             navigation_videos.visibility = View.INVISIBLE
-            navigation_discover.visibility = View.INVISIBLE
-            navigation_options.visibility = View.INVISIBLE
-            navigation_search.visibility = View.INVISIBLE
+            if (SharedPreferenceHelper.getInstance().getBool(PREF_SETTING_ADVANCE_SCALAR_ON_OFF)) {
+                navigation_silent_quantum_advanced.visibility = View.INVISIBLE
+                navigation_discover.visibility = View.INVISIBLE
+                navigation_options.visibility = View.INVISIBLE
+                navigation_search.visibility = View.INVISIBLE
+            }
         } else {
-            navigation_silent_quantum_advanced.visibility = View.VISIBLE
+            if (SharedPreferenceHelper.getInstance().getBool(PREF_SETTING_ADVANCE_SCALAR_ON_OFF)) {
+                navigation_silent_quantum_advanced.visibility = View.VISIBLE
+            }
             navigation_programs.visibility = View.VISIBLE
             navigation_videos.visibility = View.VISIBLE
             navigation_discover.visibility = View.VISIBLE
@@ -1062,8 +1069,12 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
     private fun updateTabScalarQuantum() {
         if (SharedPreferenceHelper.getInstance().getBool(PREF_SETTING_ADVANCE_SCALAR_ON_OFF)) {
             navigation_silent_quantum.visibility = View.VISIBLE
+            navigation_silent_quantum_pro.visibility = View.VISIBLE
+            navigation_silent_quantum_advanced.visibility = View.VISIBLE
         } else {
             navigation_silent_quantum.visibility = View.GONE
+            navigation_silent_quantum_pro.visibility = View.GONE
+            navigation_silent_quantum_advanced.visibility = View.GONE
         }
     }
 

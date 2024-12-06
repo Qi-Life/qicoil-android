@@ -48,6 +48,16 @@ class AddProgramsFragment : BaseFragment() {
     private val isSilentQuantum: Int by lazy {
         arguments?.getInt(ARG_IS_SILENT_QUANTUM) ?: 0
     }
+
+    private val isSilentQuantumPro: Int by lazy {
+        arguments?.getInt(ARG_IS_SILENT_QUANTUM_PRO) ?: 0
+    }
+
+    private val isSilentQuantumAdvanced: Int by lazy {
+        arguments?.getInt(ARG_IS_SILENT_QUANTUM_ADVANCED) ?: 0
+    }
+
+
     private var page = 0
     private lateinit var mViewModel: HomeViewModel
     private lateinit var mNewProgramViewModel: NewProgramViewModel
@@ -61,11 +71,16 @@ class AddProgramsFragment : BaseFragment() {
     private var isFirstLoad = true
 
     override fun initComponents() {
-        page = if (isSilentQuantum > 1) {
-            isSilentQuantum
-        } else {
-            isRife
+        if (isSilentQuantumAdvanced == 4) {
+            page = 4
+        } else if (isSilentQuantumPro == 3) {
+            page = 3
+        } else if (isSilentQuantum == 2) {
+            page = 2
+        } else if (isRife == 1) {
+            page = 1
         }
+
         mViewModel = ViewModelProvider(
             this, ViewModelFactory(
                 ApiHelper(RetrofitBuilder(requireContext()).apiService),
@@ -172,14 +187,18 @@ class AddProgramsFragment : BaseFragment() {
         const val ARG_PROGRAM_ID = "arg_program"
         const val ARG_IS_RIFE = "arg_is_rife"
         const val ARG_IS_SILENT_QUANTUM = "arg_is_silent_quantum"
+        const val ARG_IS_SILENT_QUANTUM_PRO = "arg_is_silent_quantum_pro"
+        const val ARG_IS_SILENT_QUANTUM_ADVANCED = "arg_is_silent_quantum_advanced"
 
         @JvmStatic
-        fun newInstance(id: Int, isRife: Int = 0, isSilentQuantum: Int = 0) =
+        fun newInstance(id: Int, isRife: Int = 0, isSilentQuantum: Int = 0, isSilentQuantumPro: Int = 0, isSilentQuantumAdvanced: Int = 0) =
             AddProgramsFragment().apply {
                 arguments = Bundle().apply {
                     putInt(ARG_PROGRAM_ID, id)
                     putInt(ARG_IS_RIFE, isRife)
                     putInt(ARG_IS_SILENT_QUANTUM, isSilentQuantum)
+                    putInt(ARG_IS_SILENT_QUANTUM_PRO, isSilentQuantumPro)
+                    putInt(ARG_IS_SILENT_QUANTUM_ADVANCED, isSilentQuantumAdvanced)
                 }
             }
     }

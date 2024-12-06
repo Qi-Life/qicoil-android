@@ -285,3 +285,11 @@ fun convertSecondsToTime(seconds: Long): String {
 fun <T> List<T>.secondOrNull(): T? {
     return if (this.size > 1) this[1] else null
 }
+
+fun <T> List<T>.threeOrNull(): T? {
+    return if (this.size > 2) this[2] else null
+}
+
+fun <T> List<T>.fourOrNull(): T? {
+    return if (this.size > 3) this[3] else null
+}
