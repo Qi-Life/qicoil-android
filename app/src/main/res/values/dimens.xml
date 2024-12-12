@@ -94,8 +94,9 @@
     <dimen name="indent_2">2dp</dimen>
     <dimen name="indent_4">4dp</dimen>
     <dimen name="indent_8">8dp</dimen>
-    <dimen name="indent_16">16dp</dimen>
     <dimen name="indent_10">10dp</dimen>
+    <dimen name="indent_16">16dp</dimen>
+    <dimen name="indent_18">18dp</dimen>
     <dimen name="indent_20">20dp</dimen>
     <dimen name="indent_25">25dp</dimen>
     <dimen name="indent_30">30dp</dimen>

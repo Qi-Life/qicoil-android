@@ -1,7 +1,11 @@
 package com.Meditation.Sounds.frequencies.lemeor.data.database.dao
 
 import androidx.lifecycle.LiveData
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Album
 
 @Dao
@@ -91,4 +95,10 @@ interface AlbumDao {
 
     @Query("SELECT * FROM album WHERE name LIKE :albumName ORDER BY `order` ASC")
     suspend fun getAlbumsByNameOnce(albumName: String): Album?
+
+    @Query("SELECT * FROM album WHERE isUnlocked=1 ORDER BY `order` ASC LIMIT 48")
+    fun get48AlbumUnlockedLiveData(): LiveData<List<Album>>
+
+    @Query("SELECT * FROM album WHERE isUnlocked=1 ORDER BY `order` ASC")
+    fun getAlbumsUnlockedLiveData(): LiveData<List<Album>>
 }

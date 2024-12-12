@@ -361,8 +361,5 @@ class Constants {
 
         @JvmField
         var TYPE_SILENT_QT_PRO = "TYPE_SILENT_QT_PRO"
-
-        @JvmField
-        var TYPE_SILENT_QT_ADVANCED = "TYPE_SILENT_QT_ADVANCED"
     }
 }

@@ -23,7 +23,7 @@ class SilentQuantumAlbumsAdapter(
     interface Listener {
         fun onClickItem(album: Scalar)
         fun onLongClickItem(album: Scalar)
-        fun onScalarSubscription()
+        fun onScalarSubscription(album: Scalar)
     }
 
     private var mListener: Listener? = null
@@ -73,7 +73,7 @@ class SilentQuantumAlbumsAdapter(
             true
         }
         holder.itemView.image_lock.setOnClickListener {
-            mListener?.onScalarSubscription()
+            mListener?.onScalarSubscription(scalar)
         }
     }
 

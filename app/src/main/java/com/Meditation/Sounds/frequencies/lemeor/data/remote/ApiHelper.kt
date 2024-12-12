@@ -71,9 +71,9 @@ class ApiHelper(private val apiService: ApiService) : BaseDataSource() {
     suspend fun syncProgramsToServer(listProgram: List<Update>) =
         apiService.syncProgramsToServer(listProgram)
 
-    suspend fun getScalar() = getResult { apiService.getScalar() }
+    suspend fun getScalar() = getResult { apiService.getScalar("all") }
 
-    suspend fun getScalarSubscription() = apiService.getScalarSubscription()
+    suspend fun getScalarSubscription(tier: String) = apiService.getScalarSubscription(tier)
 
     suspend fun updateProgramScheduleTime(param: ProgramSchedule) = apiService.updateProgramScheduleTime(param)
 }

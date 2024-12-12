@@ -52,7 +52,9 @@ class HomeRepository(private val apiHelper: ApiHelper, private val localData: Da
             }
         }
     )
-    suspend fun updateProgramScheduleTime(param: ProgramSchedule) = apiHelper.updateProgramScheduleTime(param)
+
+    suspend fun updateProgramScheduleTime(param: ProgramSchedule) =
+        apiHelper.updateProgramScheduleTime(param)
 
     suspend fun getAlbumById(id: Int, category_id: Int): Album? {
         return localData.albumDao().getAlbumById(id, category_id)
@@ -139,6 +141,8 @@ class HomeRepository(private val apiHelper: ApiHelper, private val localData: Da
         apiHelper.syncProgramsToServer(listProgram)
 
     fun getListAlbum() = localData.albumDao().getLiveData()
+    fun get48AlbumUnlockedLiveData() = localData.albumDao().get48AlbumUnlockedLiveData()
+    fun getAlbumsUnlockedLiveData() = localData.albumDao().getAlbumsUnlockedLiveData()
 
     fun getListTrack() = localData.trackDao().getTracks()
     fun getListRife() = localData.rifeDao().getLiveDataRifes()

@@ -402,4 +402,7 @@
     <string name="advanced_mode_off">उन्नत मोड बंद</string>
     <string name="advanced_mode_on">उन्नत मोड चालू</string>
     <string name="txt_all">सभी</string>
+    <string name="navigation_lbl_silent_quantum_pro">साइलेंट क्वांटम प्रो</string>
+    <string name="add_silent_quantum_pro">साइलेंट क्वांटम प्रो जोड़ें</string>
+    <string name="my_frequencies">मेरी आवृत्तियाँ</string>
 </resources>

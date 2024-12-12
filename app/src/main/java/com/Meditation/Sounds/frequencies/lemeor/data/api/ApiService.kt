@@ -111,10 +111,10 @@ interface ApiService {
     suspend fun updateTrackToServer(@Body map: UpdateTrack): Status
 
     @GET(ApiConfig.API_SCALAR)
-    suspend fun getScalar(): Response<ScalarResponse>
+    suspend fun getScalar(@Query("tier") tier: String): Response<ScalarResponse>
 
     @GET(ApiConfig.API_SCALAR_SUBSCRIPTION)
-    suspend fun getScalarSubscription(): ScalarSubscriptionResponse
+    suspend fun getScalarSubscription(@Query("tier") tier: String): ScalarSubscriptionResponse
 
     @POST(ApiConfig.API_PROGRAMS_SCHEDULE_TIME)
     suspend fun updateProgramScheduleTime(@Body param: ProgramSchedule): Status

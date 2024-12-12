@@ -84,6 +84,5 @@
     <dimen name="dp_90">120dp</dimen>
     <dimen name="no_radius_album">0dp</dimen>
 
-    <dimen name="height_recent_albums">250dp</dimen>
     <dimen name="radius_recent_albums">10dp</dimen>
 </resources>

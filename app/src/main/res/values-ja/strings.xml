@@ -405,4 +405,7 @@
     <string name="advanced_mode_off">アドバンストモードオフ</string>
     <string name="advanced_mode_on">アドバンストモードオン</string>
     <string name="txt_all">全て</string>
+    <string name="navigation_lbl_silent_quantum_pro">サイレントクォンタムプロ</string>
+    <string name="add_silent_quantum_pro">サイレントクォンタムプロを追加</string>
+    <string name="my_frequencies">私の周波数</string>
 </resources>

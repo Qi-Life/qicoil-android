@@ -365,4 +365,7 @@
     <string name="advanced_mode_off">Modo avanzado desactivado</string>
     <string name="advanced_mode_on">Modo avanzado activado</string>
     <string name="txt_all">Toda</string>
+    <string name="navigation_lbl_silent_quantum_pro">Pro cuántico silencioso</string>
+    <string name="add_silent_quantum_pro">Añadir silenciosa cuántica pro</string>
+    <string name="my_frequencies">Mis frecuencias</string>
 </resources>

@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
@@ -26,6 +27,7 @@ import com.Meditation.Sounds.frequencies.lemeor.secondOrNull
 import com.Meditation.Sounds.frequencies.lemeor.threeOrNull
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper
 import com.Meditation.Sounds.frequencies.models.ProgramSchedule
+import com.Meditation.Sounds.frequencies.models.SilentQuantumType
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -34,13 +36,17 @@ import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.util.Date
 
-class HomeViewModel(private val repository: HomeRepository, private val db: DataBase) : ViewModel() {
+class HomeViewModel(private val repository: HomeRepository, private val db: DataBase) :
+    ViewModel() {
     //val home = repository.getHome(user_id)
     private var _pairData = MutableLiveData<List<Triple<String, List<Search>, Boolean>>>()
     val pairData: LiveData<List<Triple<String, List<Search>, Boolean>>> get() = _pairData
 
     private var _searchState = MutableLiveData<List<Triple<String, List<Search>, Boolean>>>()
     val searchState: LiveData<List<Triple<String, List<Search>, Boolean>>> get() = _searchState
+
+    private var _albumsLiveData = MutableLiveData<List<Album>>()
+    val albumsLiveData: LiveData<List<Album>> get() = _albumsLiveData
 
     fun getHome(id: String): LiveData<Resource<HomeResponse>> {
         return repository.getHome(id)
@@ -60,11 +66,16 @@ class HomeViewModel(private val repository: HomeRepository, private val db: Data
 
     private fun getListScalar() = repository.getListScalar()
 
+    fun get48AlbumUnlockedLiveData() = repository.get48AlbumUnlockedLiveData()
+
+    fun getAlbumsUnlockedLiveData() = repository.getAlbumsUnlockedLiveData()
+
+
     fun setSearchKeyword(
-            key: String,
-            idPager: Int,
-            context: Context,
-            onSearch: (List<Triple<String, List<Search>, Boolean>>) -> Unit,
+        key: String,
+        idPager: Int,
+        context: Context,
+        onSearch: (List<Triple<String, List<Search>, Boolean>>) -> Unit,
     ) {
         try {
             when (idPager) {
@@ -78,13 +89,31 @@ class HomeViewModel(private val repository: HomeRepository, private val db: Data
                         }
                         val list = arrayListOf<Triple<String, List<Search>, Boolean>>()
                         list.add(Triple(context.getString(R.string.tv_track), s, it.first().third))
-                        list.add(Triple(context.getString(R.string.navigation_lbl_rife), it.secondOrNull()?.second ?: arrayListOf(), it.secondOrNull()?.third ?: false))
-                        list.add(Triple(context.getString(R.string.navigation_lbl_silent_quantum), it.threeOrNull()?.second ?: arrayListOf(), it.threeOrNull()?.third ?: false))
-                        list.add(Triple(context.getString(R.string.navigation_lbl_silent_quantum_pro), it.fourOrNull()?.second ?: arrayListOf(), it.fourOrNull()?.third ?: false))
-                        list.add(Triple(context.getString(R.string.navigation_lbl_silent_quantum_advanced), it.last().second, it.last().third))
+                        list.add(
+                            Triple(
+                                context.getString(R.string.navigation_lbl_rife),
+                                it.secondOrNull()?.second ?: arrayListOf(),
+                                it.secondOrNull()?.third ?: false
+                            )
+                        )
+                        list.add(
+                            Triple(
+                                context.getString(R.string.navigation_lbl_silent_quantum),
+                                it.threeOrNull()?.second ?: arrayListOf(),
+                                it.threeOrNull()?.third ?: false
+                            )
+                        )
+                        list.add(
+                            Triple(
+                                context.getString(R.string.navigation_lbl_silent_quantum_pro),
+                                it.last().second,
+                                it.last().third
+                            )
+                        )
                         onSearch.invoke(list)
                     }
                 }
+
                 1 -> {
                     _searchState.value?.let {
                         val s = it.secondOrNull()?.second?.filter { item ->
@@ -94,14 +123,38 @@ class HomeViewModel(private val repository: HomeRepository, private val db: Data
                             } else false
                         }
                         val list = arrayListOf<Triple<String, List<Search>, Boolean>>()
-                        list.add(Triple(context.getString(R.string.tv_track), it.first().second, it.first().third))
-                        list.add(Triple(context.getString(R.string.navigation_lbl_rife), s ?: arrayListOf(), it.secondOrNull()?.third ?: false))
-                        list.add(Triple(context.getString(R.string.navigation_lbl_silent_quantum), it.threeOrNull()?.second ?: arrayListOf(), it.threeOrNull()?.third ?: false))
-                        list.add(Triple(context.getString(R.string.navigation_lbl_silent_quantum_pro), it.fourOrNull()?.second ?: arrayListOf(), it.fourOrNull()?.third ?: false))
-                        list.add(Triple(context.getString(R.string.navigation_lbl_silent_quantum_advanced), it.last().second, it.last().third))
+                        list.add(
+                            Triple(
+                                context.getString(R.string.tv_track),
+                                it.first().second,
+                                it.first().third
+                            )
+                        )
+                        list.add(
+                            Triple(
+                                context.getString(R.string.navigation_lbl_rife),
+                                s ?: arrayListOf(),
+                                it.secondOrNull()?.third ?: false
+                            )
+                        )
+                        list.add(
+                            Triple(
+                                context.getString(R.string.navigation_lbl_silent_quantum),
+                                it.threeOrNull()?.second ?: arrayListOf(),
+                                it.threeOrNull()?.third ?: false
+                            )
+                        )
+                        list.add(
+                            Triple(
+                                context.getString(R.string.navigation_lbl_silent_quantum_pro),
+                                it.last().second,
+                                it.last().third
+                            )
+                        )
                         onSearch.invoke(list)
                     }
                 }
+
                 2 -> {
                     _searchState.value?.let {
                         val s = it.threeOrNull()?.second?.filter { item ->
@@ -111,14 +164,38 @@ class HomeViewModel(private val repository: HomeRepository, private val db: Data
                             } else false
                         }
                         val list = arrayListOf<Triple<String, List<Search>, Boolean>>()
-                        list.add(Triple(context.getString(R.string.tv_track), it.first().second, it.first().third))
-                        list.add(Triple(context.getString(R.string.navigation_lbl_rife), it.secondOrNull()?.second ?: arrayListOf(), it.secondOrNull()?.third ?: false))
-                        list.add(Triple(context.getString(R.string.navigation_lbl_silent_quantum), s ?: arrayListOf(), it.threeOrNull()?.third ?: false))
-                        list.add(Triple(context.getString(R.string.navigation_lbl_silent_quantum_pro), it.fourOrNull()?.second ?: arrayListOf(), it.fourOrNull()?.third ?: false))
-                        list.add(Triple(context.getString(R.string.navigation_lbl_silent_quantum_advanced), it.last().second, it.last().third))
+                        list.add(
+                            Triple(
+                                context.getString(R.string.tv_track),
+                                it.first().second,
+                                it.first().third
+                            )
+                        )
+                        list.add(
+                            Triple(
+                                context.getString(R.string.navigation_lbl_rife),
+                                it.secondOrNull()?.second ?: arrayListOf(),
+                                it.secondOrNull()?.third ?: false
+                            )
+                        )
+                        list.add(
+                            Triple(
+                                context.getString(R.string.navigation_lbl_silent_quantum),
+                                s ?: arrayListOf(),
+                                it.threeOrNull()?.third ?: false
+                            )
+                        )
+                        list.add(
+                            Triple(
+                                context.getString(R.string.navigation_lbl_silent_quantum_pro),
+                                it.last().second,
+                                it.last().third
+                            )
+                        )
                         onSearch.invoke(list)
                     }
                 }
+
                 3 -> {
                     _searchState.value?.let {
                         val s = it.fourOrNull()?.second?.filter { item ->
@@ -128,28 +205,34 @@ class HomeViewModel(private val repository: HomeRepository, private val db: Data
                             } else false
                         }
                         val list = arrayListOf<Triple<String, List<Search>, Boolean>>()
-                        list.add(Triple(context.getString(R.string.tv_track), it.first().second, it.first().third))
-                        list.add(Triple(context.getString(R.string.navigation_lbl_rife), it.secondOrNull()?.second ?: arrayListOf(), it.secondOrNull()?.third ?: false))
-                        list.add(Triple(context.getString(R.string.navigation_lbl_silent_quantum), it.threeOrNull()?.second ?: arrayListOf(), it.threeOrNull()?.third ?: false))
-                        list.add(Triple(context.getString(R.string.navigation_lbl_silent_quantum_pro), s ?: arrayListOf(), it.fourOrNull()?.third ?: false))
-                        list.add(Triple(context.getString(R.string.navigation_lbl_silent_quantum_advanced), it.last().second, it.last().third))
-                        onSearch.invoke(list)
-                    }
-                }
-                4 -> {
-                    _searchState.value?.let {
-                        val s = it.lastOrNull()?.second?.filter { item ->
-                            return@filter if (item.obj is Scalar) {
-                                val track = item.obj as Scalar
-                                track.name.lowercase().contains(key.lowercase())
-                            } else false
-                        }
-                        val list = arrayListOf<Triple<String, List<Search>, Boolean>>()
-                        list.add(Triple(context.getString(R.string.tv_track), it.first().second, it.first().third))
-                        list.add(Triple(context.getString(R.string.navigation_lbl_rife), it.secondOrNull()?.second ?: arrayListOf(), it.secondOrNull()?.third ?: false))
-                        list.add(Triple(context.getString(R.string.navigation_lbl_silent_quantum), it.threeOrNull()?.second ?: arrayListOf(), it.threeOrNull()?.third ?: false))
-                        list.add(Triple(context.getString(R.string.navigation_lbl_silent_quantum_pro), it.fourOrNull()?.second ?: arrayListOf(), it.fourOrNull()?.third ?: false))
-                        list.add(Triple(context.getString(R.string.navigation_lbl_silent_quantum_advanced), s ?: arrayListOf(), it.last().third))
+                        list.add(
+                            Triple(
+                                context.getString(R.string.tv_track),
+                                it.first().second,
+                                it.first().third
+                            )
+                        )
+                        list.add(
+                            Triple(
+                                context.getString(R.string.navigation_lbl_rife),
+                                it.secondOrNull()?.second ?: arrayListOf(),
+                                it.secondOrNull()?.third ?: false
+                            )
+                        )
+                        list.add(
+                            Triple(
+                                context.getString(R.string.navigation_lbl_silent_quantum),
+                                it.threeOrNull()?.second ?: arrayListOf(),
+                                it.threeOrNull()?.third ?: false
+                            )
+                        )
+                        list.add(
+                            Triple(
+                                context.getString(R.string.navigation_lbl_silent_quantum_pro),
+                                s ?: arrayListOf(),
+                                it.last().third
+                            )
+                        )
                         onSearch.invoke(list)
                     }
                 }
@@ -162,9 +245,16 @@ class HomeViewModel(private val repository: HomeRepository, private val db: Data
         val list = arrayListOf<Triple<String, List<Search>, Boolean>>()
         list.add(Triple(context.getString(R.string.tv_track), arrayListOf(), true))
         list.add(Triple(context.getString(R.string.navigation_lbl_rife), arrayListOf(), true))
-        list.add(Triple(context.getString(R.string.navigation_lbl_silent_quantum), arrayListOf(), true))
-        list.add(Triple(context.getString(R.string.navigation_lbl_silent_quantum_pro), arrayListOf(), true))
-        list.add(Triple(context.getString(R.string.navigation_lbl_silent_quantum_advanced), arrayListOf(), true))
+        list.add(
+            Triple(
+                context.getString(R.string.navigation_lbl_silent_quantum), arrayListOf(), true
+            )
+        )
+        list.add(
+            Triple(
+                context.getString(R.string.navigation_lbl_silent_quantum_pro), arrayListOf(), true
+            )
+        )
         var index = 0
         getListTrack().observe(owner) { listT ->
             CoroutineScope(Dispatchers.IO).launch {
@@ -206,38 +296,31 @@ class HomeViewModel(private val repository: HomeRepository, private val db: Data
         }
 
         getListScalar().observe(owner) { listR ->
-            val listSQuantum = listR.filter { it.is_free == 1 }.mapNotNull { parcelable ->
-                val scalar = parcelable as? Scalar
-                if (scalar != null) {
-                    Search(++index, scalar)
-                } else {
-                    null
-                }
-            }
-            val listSQuantumPro = listR.filter { it.is_free == 1 }.mapNotNull { parcelable ->
-                val scalar = parcelable as? Scalar
-                if (scalar != null) {
-                    Search(++index, scalar)
-                } else {
-                    null
-                }
-            }
-            val listSQuantumAdvanced = listR.filter { it.is_free == 1 }.mapNotNull { parcelable ->
-                val scalar = parcelable as? Scalar
-                if (scalar != null) {
-                    Search(++index, scalar)
-                } else {
-                    null
-                }
-            }
+            val listSQuantum =
+                listR.filter { it.is_free == 1 && it.silent_energy_tier == SilentQuantumType.NORMAL.value }
+                    .mapNotNull { parcelable ->
+                        val scalar = parcelable as? Scalar
+                        if (scalar != null) {
+                            Search(++index, scalar)
+                        } else {
+                            null
+                        }
+                    }
+            val listSQuantumPro =
+                listR.filter { it.is_free == 1 && it.silent_energy_tier == SilentQuantumType.PRO.value }
+                    .mapNotNull { parcelable ->
+                        val scalar = parcelable as? Scalar
+                        if (scalar != null) {
+                            Search(++index, scalar)
+                        } else {
+                            null
+                        }
+                    }
             list.threeOrNull()?.let { firstItem ->
-                list[2] = Triple(firstItem.first, listSQuantum, listSQuantum.isEmpty())
-            }
-            list.fourOrNull()?.let { firstItem ->
-                list[3] = Triple(firstItem.first, arrayListOf(), listSQuantumPro.isEmpty())
+                list[2] = Triple(firstItem.first, listSQuantum, false)
             }
             list.lastOrNull()?.let { firstItem ->
-                list[4] = Triple(firstItem.first, arrayListOf(), listSQuantumAdvanced.isEmpty())
+                list[3] = Triple(firstItem.first, listSQuantumPro, false)
             }
             _pairData.value = list
             _searchState.value = list
@@ -270,7 +353,7 @@ class HomeViewModel(private val repository: HomeRepository, private val db: Data
     suspend fun getAlbumNameOne(albumName: String): Album? {
         var albumResult = repository.getAlbumsByNameOnce(albumName)
         if (albumResult == null) {
-            albumName.split(" ").forEach { s->
+            albumName.split(" ").forEach { s ->
                 val album = repository.getAlbumsByNameOnce("%$s%")
                 if (album != null && albumResult == null) {
                     albumResult = album
@@ -292,12 +375,14 @@ class HomeViewModel(private val repository: HomeRepository, private val db: Data
         return repository.searchProgram(searchString)
     }
 
-    suspend fun updateProgramScheduleTime(param: ProgramSchedule) = repository.updateProgramScheduleTime(param)
+    suspend fun updateProgramScheduleTime(param: ProgramSchedule) =
+        repository.updateProgramScheduleTime(param)
 
     fun loadFromCache(context: Context) {
-        val cache: HomeResponse = Gson().fromJson(context.assets.open("db_caсhe.json").bufferedReader().use { reader ->
-            reader.readText()
-        }, HomeResponse::class.java)
+        val cache: HomeResponse =
+            Gson().fromJson(context.assets.open("db_caсhe.json").bufferedReader().use { reader ->
+                reader.readText()
+            }, HomeResponse::class.java)
 
         CoroutineScope(Dispatchers.IO).launch { repository.localSave(cache) }
     }
@@ -309,7 +394,7 @@ class HomeViewModel(private val repository: HomeRepository, private val db: Data
         }
     }
 
-    fun syncProgramsToServer(onDone :(()->Unit)? = null) = viewModelScope.launch {
+    fun syncProgramsToServer(onDone: (() -> Unit)? = null) = viewModelScope.launch {
         try {
 //            val localData = db.programDao().getData(true).toMutableList()
             val localAllData = db.programDao().getAllData().toMutableList()
@@ -325,7 +410,8 @@ class HomeViewModel(private val repository: HomeRepository, private val db: Data
                                 if (remote.deleted) {
                                     db.programDao().delete(local)
                                 } else if (remote.updated_at > local.updated_at) {
-                                    db.programDao().updateProgram(remote.copy(updated_at = Date().time))
+                                    db.programDao()
+                                        .updateProgram(remote.copy(updated_at = Date().time))
                                 } else if (remote.updated_at < local.updated_at) {
                                     if (local.deleted) {
                                         repository.deleteProgram(local.id.toString())
@@ -369,16 +455,16 @@ class HomeViewModel(private val repository: HomeRepository, private val db: Data
 
 
 data class Update(
-        val id: Int = 0,
-        val name: String = "",
-        val favorited: Boolean = false,
-        var tracks: List<String> = listOf(),
+    val id: Int = 0,
+    val name: String = "",
+    val favorited: Boolean = false,
+    var tracks: List<String> = listOf(),
 )
 
 data class UpdateTrack(
-        var track_id: List<String> = listOf(),
-        var id: Int = 0,
-        var track_type: String = "mp3",
-        var request_type: String = "add",
-        var is_favorite: Boolean = false,
+    var track_id: List<String> = listOf(),
+    var id: Int = 0,
+    var track_type: String = "mp3",
+    var request_type: String = "add",
+    var is_favorite: Boolean = false,
 )

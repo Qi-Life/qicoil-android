@@ -9,8 +9,8 @@ class SilentQuantumRepository(private val apiHelper: ApiHelper, private val loca
     fun getLiveDataScalar() = localData.scalarDao().getLiveDataScalars()
     suspend fun getListScalar() = localData.scalarDao().getData()
     fun getScalarById(id: Int) = localData.scalarDao().getScalarById(id)
-    suspend fun getScalarSubscription(): ScalarSubscriptionResponse {
-        return apiHelper.getScalarSubscription()
+    suspend fun getScalarSubscription(tier: String): ScalarSubscriptionResponse {
+        return apiHelper.getScalarSubscription(tier)
     }
 
 }

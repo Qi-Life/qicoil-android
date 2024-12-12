@@ -258,6 +258,15 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/options_faq"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/indent_16"
+                    android:text="@string/tv_faq"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold" />
+
+                <TextView
                     android:id="@+id/options_help"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

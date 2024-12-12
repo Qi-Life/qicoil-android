@@ -403,4 +403,7 @@
     <string name="advanced_mode_off">Tắt chế độ nâng cao</string>
     <string name="advanced_mode_on">Bật chế độ nâng cao</string>
     <string name="txt_all">Tất cả</string>
+    <string name="navigation_lbl_silent_quantum_pro">Lượng tử im lặng  pro</string>
+    <string name="add_silent_quantum_pro">Thêm lượng tử im lặng pro</string>
+    <string name="my_frequencies">Tần suất của tôi</string>
 </resources>

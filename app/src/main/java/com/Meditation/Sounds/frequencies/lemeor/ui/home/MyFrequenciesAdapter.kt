@@ -5,23 +5,22 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.Meditation.Sounds.frequencies.R
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Album
 import com.Meditation.Sounds.frequencies.lemeor.loadImage
-import kotlinx.android.synthetic.main.recent_album_item.view.image
-import kotlinx.android.synthetic.main.recent_album_item.view.image_lock
+import kotlinx.android.synthetic.main.my_frequencies_item.view.image
+import kotlinx.android.synthetic.main.my_frequencies_item.view.image_lock
 
-class RecentAlbumsAdapter(
+class MyFrequenciesAdapter(
     private val mContext: Context,
     private val onClickItem:(Album) -> Unit
-) : RecyclerView.Adapter<RecentAlbumsAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<MyFrequenciesAdapter.ViewHolder>() {
     private var mData: ArrayList<Album> = arrayListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.recent_album_item, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.my_frequencies_item, parent, false)
         )
     }
 
@@ -59,4 +58,3 @@ class RecentAlbumsAdapter(
         notifyDataSetChanged()
     }
 }
-

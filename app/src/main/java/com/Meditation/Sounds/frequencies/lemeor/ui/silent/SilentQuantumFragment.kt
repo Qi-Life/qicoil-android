@@ -29,6 +29,7 @@ import com.Meditation.Sounds.frequencies.lemeor.tools.player.ScalarPlayerStatus
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.SilentQuantumPlayerService
 import com.Meditation.Sounds.frequencies.lemeor.ui.main.NavigationActivity
 import com.Meditation.Sounds.frequencies.lemeor.ui.purchase.new_flow.PurchaseScalarWebView
+import com.Meditation.Sounds.frequencies.models.SilentQuantumType
 import com.Meditation.Sounds.frequencies.utils.Constants
 import com.Meditation.Sounds.frequencies.utils.PlayerUtils
 import com.Meditation.Sounds.frequencies.utils.Utils
@@ -82,13 +83,10 @@ class SilentQuantumFragment : BaseFragment() {
             getScalarList().observe(viewLifecycleOwner) { listScalar ->
                 when (type) {
                     Constants.TYPE_SILENT_QT -> {
-                        scalarAlbumsAdapter?.setData(listScalar as ArrayList<Scalar>)
-                    }
-                    Constants.TYPE_SILENT_QT_PRO -> {
-                        scalarAlbumsAdapter?.setData(arrayListOf())
+                        scalarAlbumsAdapter?.setData(listScalar.filter { it.silent_energy_tier == SilentQuantumType.NORMAL.value } as ArrayList<Scalar>)
                     }
                     else -> {
-                        scalarAlbumsAdapter?.setData(arrayListOf())
+                        scalarAlbumsAdapter?.setData(listScalar.filter { it.silent_energy_tier == SilentQuantumType.PRO.value } as ArrayList<Scalar>)
                     }
                 }
             }
@@ -135,9 +133,9 @@ class SilentQuantumFragment : BaseFragment() {
 
             }
 
-            override fun onScalarSubscription() {
+            override fun onScalarSubscription(album: Scalar) {
                 if (requireActivity().isNetworkAvailable()) {
-                    mViewModel.getScalarSubscription().observe(viewLifecycleOwner) { sub ->
+                    mViewModel.getScalarSubscription(album.silent_energy_tier ?: "").observe(viewLifecycleOwner) { sub ->
                         sub?.let { resource ->
                             when (resource.status) {
                                 Resource.Status.SUCCESS -> {

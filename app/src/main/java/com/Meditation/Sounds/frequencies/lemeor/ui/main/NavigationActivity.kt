@@ -130,9 +130,9 @@ import com.Meditation.Sounds.frequencies.lemeor.ui.purchase.new_flow.NewPurchase
 import com.Meditation.Sounds.frequencies.lemeor.ui.purchase.new_flow.PurchaseItemAlbumWebView
 import com.Meditation.Sounds.frequencies.lemeor.ui.rife.NewRifeFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.rife.NewRifeViewModel
+import com.Meditation.Sounds.frequencies.lemeor.ui.silent.SilentQuantumDownloadService
 import com.Meditation.Sounds.frequencies.lemeor.ui.silent.SilentQuantumFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.silent.SilentQuantumViewModel
-import com.Meditation.Sounds.frequencies.lemeor.ui.silent.SilentQuantumDownloadService
 import com.Meditation.Sounds.frequencies.lemeor.ui.videos.NewVideosFragment
 import com.Meditation.Sounds.frequencies.models.event.ScheduleProgramProgressEvent
 import com.Meditation.Sounds.frequencies.models.event.ScheduleProgramStatusEvent
@@ -175,7 +175,6 @@ import kotlinx.android.synthetic.main.activity_navigation.navigation_programs
 import kotlinx.android.synthetic.main.activity_navigation.navigation_rife
 import kotlinx.android.synthetic.main.activity_navigation.navigation_search
 import kotlinx.android.synthetic.main.activity_navigation.navigation_silent_quantum
-import kotlinx.android.synthetic.main.activity_navigation.navigation_silent_quantum_advanced
 import kotlinx.android.synthetic.main.activity_navigation.navigation_silent_quantum_pro
 import kotlinx.android.synthetic.main.activity_navigation.navigation_videos
 import kotlinx.android.synthetic.main.activity_navigation.search_categories_recycler
@@ -300,7 +299,8 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
     private var programsSearch = MutableLiveData<List<Program>>()
 
     private val mDisclaimerDialog by lazy {
-        DisclaimerDialog(this@NavigationActivity,
+        DisclaimerDialog(
+            this@NavigationActivity,
             true,
             object : DisclaimerDialog.IOnSubmitListener {
                 override fun submit(isCheck: Boolean) {
@@ -397,9 +397,11 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
             if ((isPlayAlbum || (playProgramId != PreferenceHelper.getScheduleProgram(this@NavigationActivity)?.id && isPlayProgram && !event.isSkipQuestion)) && !isUserPaused) {
                 val dialogBuilder =
                     androidx.appcompat.app.AlertDialog.Builder(this@NavigationActivity)
-                dialogBuilder.setTitle(PreferenceHelper.getScheduleProgram(this@NavigationActivity)?.name?.uppercase() ?: getString(R.string.app_name)).setMessage(getString(R.string.the_schedule_frequency_is_coming_up))
-                    .setCancelable(false)
-                    .setNegativeButton(getString(R.string.txt_no), null)
+                dialogBuilder.setTitle(
+                    PreferenceHelper.getScheduleProgram(this@NavigationActivity)?.name?.uppercase()
+                        ?: getString(R.string.app_name)
+                ).setMessage(getString(R.string.the_schedule_frequency_is_coming_up))
+                    .setCancelable(false).setNegativeButton(getString(R.string.txt_no), null)
                     .setPositiveButton(getString(R.string.txt_yes)) { _, _ ->
                         playListScalar.clear()
                         fetchAndPlayProgram()
@@ -442,8 +444,10 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         ).observe(this@NavigationActivity) {
             if (isPlaySync) {
                 isPlaySync = false
-                programName = PreferenceHelper.getScheduleProgram(this@NavigationActivity)?.name ?: ""
-                playProgramId = PreferenceHelper.getScheduleProgram(this@NavigationActivity)?.id ?: 0
+                programName =
+                    PreferenceHelper.getScheduleProgram(this@NavigationActivity)?.name ?: ""
+                playProgramId =
+                    PreferenceHelper.getScheduleProgram(this@NavigationActivity)?.id ?: 0
                 if (it != null && it.id != 0 && !isPlayProgram) {
                     val tracks: ArrayList<Search> = ArrayList()
                     mProgramDetailViewModel.convertData(it) { list ->
@@ -468,7 +472,9 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                         }
 
                         //play scalar
-                        val listScalars = tracks.filter { it.obj is Scalar && (it.obj as Scalar).is_free == 1}.map { it.obj as Scalar } as ArrayList<Scalar>
+                        val listScalars =
+                            tracks.filter { it.obj is Scalar && (it.obj as Scalar).is_free == 1 }
+                                .map { it.obj as Scalar } as ArrayList<Scalar>
                         if (listScalars.isNotEmpty()) {
                             isPlayProgram = true
                             val lastScalar = listScalars.last()
@@ -843,9 +849,9 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
 
         mChatBotViewModel = ViewModelProvider(this)[ChatBotViewModel::class.java]
 
-        navigation_albums.onSelected {
+        navigation_home.onSelected {
             closeSearch()
-            setFragment(TiersPagerFragment())
+            setFragment(HomeFragment())
         }
 
         flash_sale.visibility = View.GONE //At the request of the client
@@ -960,12 +966,6 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                 setFragment(SilentQuantumFragment.newInstance(type = Constants.TYPE_SILENT_QT_PRO))
             }
         }
-        navigation_silent_quantum_advanced.setOnClickListener {
-            navigation_silent_quantum_advanced.onSelected {
-                closeSearch()
-                setFragment(SilentQuantumFragment.newInstance(type = Constants.TYPE_SILENT_QT_ADVANCED))
-            }
-        }
         navigation_albums.setOnClickListener {
             navigation_albums.onSelected {
                 closeSearch()
@@ -1014,21 +1014,21 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         if (search_layout.visibility == View.VISIBLE) {
             navigation_programs.visibility = View.INVISIBLE
             navigation_videos.visibility = View.INVISIBLE
+            navigation_discover.visibility = View.INVISIBLE
+            navigation_options.visibility = View.INVISIBLE
+            navigation_search.visibility = View.INVISIBLE
             if (SharedPreferenceHelper.getInstance().getBool(PREF_SETTING_ADVANCE_SCALAR_ON_OFF)) {
-                navigation_silent_quantum_advanced.visibility = View.INVISIBLE
-                navigation_discover.visibility = View.INVISIBLE
-                navigation_options.visibility = View.INVISIBLE
-                navigation_search.visibility = View.INVISIBLE
+                navigation_silent_quantum_pro.visibility = View.INVISIBLE
             }
         } else {
-            if (SharedPreferenceHelper.getInstance().getBool(PREF_SETTING_ADVANCE_SCALAR_ON_OFF)) {
-                navigation_silent_quantum_advanced.visibility = View.VISIBLE
-            }
             navigation_programs.visibility = View.VISIBLE
             navigation_videos.visibility = View.VISIBLE
             navigation_discover.visibility = View.VISIBLE
             navigation_options.visibility = View.VISIBLE
             navigation_search.visibility = View.VISIBLE
+            if (SharedPreferenceHelper.getInstance().getBool(PREF_SETTING_ADVANCE_SCALAR_ON_OFF)) {
+                navigation_silent_quantum_pro.visibility = View.VISIBLE
+            }
         }
     }
 
@@ -1070,11 +1070,9 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         if (SharedPreferenceHelper.getInstance().getBool(PREF_SETTING_ADVANCE_SCALAR_ON_OFF)) {
             navigation_silent_quantum.visibility = View.VISIBLE
             navigation_silent_quantum_pro.visibility = View.VISIBLE
-            navigation_silent_quantum_advanced.visibility = View.VISIBLE
         } else {
             navigation_silent_quantum.visibility = View.GONE
             navigation_silent_quantum_pro.visibility = View.GONE
-            navigation_silent_quantum_advanced.visibility = View.GONE
         }
     }
 
@@ -1458,12 +1456,9 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     val install = Intent(Intent.ACTION_INSTALL_PACKAGE)
                     install.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-                    val apkUri =
-                        FileProvider.getUriForFile(
-                            this,
-                            BuildConfig.APPLICATION_ID + ".provider",
-                            File(path)
-                        )
+                    val apkUri = FileProvider.getUriForFile(
+                        this, BuildConfig.APPLICATION_ID + ".provider", File(path)
+                    )
                     install.data = apkUri
                     startActivityForResult(install, REQUEST_CODE_AFTER_INSTALL)
                 } else {
@@ -1647,12 +1642,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
             isHide = true
         }
         if (SharedPreferenceHelper.getInstance()
-                .getBool(PREF_SETTING_CHATBOT_ON_OFF) && !isHide && (fragment is SilentQuantumFragment
-                    || fragment is TiersPagerFragment
-                    || fragment is NewRifeFragment
-                    || fragment is NewProgramFragment
-                    || fragment is NewVideosFragment
-                    || fragment is DiscoverFragment)
+                .getBool(PREF_SETTING_CHATBOT_ON_OFF) && !isHide && (fragment is SilentQuantumFragment || fragment is TiersPagerFragment || fragment is NewRifeFragment || fragment is NewProgramFragment || fragment is NewVideosFragment || fragment is DiscoverFragment)
         ) {
             if (btnStartChatBot.visibility == View.GONE) {
                 btnStartChatBot.visibility = View.VISIBLE
@@ -1680,8 +1670,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                         if (!album.isUnlocked && album.unlock_url != null && album.unlock_url!!.isNotEmpty()) {
                             startActivity(
                                 PurchaseItemAlbumWebView.newIntent(
-                                    this@NavigationActivity,
-                                    album.unlock_url!!
+                                    this@NavigationActivity, album.unlock_url!!
                                 )
                             )
                         } else if (album.isUnlocked) {
@@ -1920,22 +1909,16 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
     private fun playAndDownloadScalar(scalar: Scalar) {
         if (Utils.isConnectedToNetwork(this@NavigationActivity)) {
             CoroutineScope(Dispatchers.IO).launch {
-                val file =
-                    File(
-                        getSaveDir(
-                            this@NavigationActivity,
-                            scalar.audio_file,
-                            scalar.audio_folder
-                        )
+                val file = File(
+                    getSaveDir(
+                        this@NavigationActivity, scalar.audio_file, scalar.audio_folder
                     )
-                val preloaded =
-                    File(
-                        getPreloadedSaveDir(
-                            this@NavigationActivity,
-                            scalar.audio_file,
-                            scalar.audio_folder
-                        )
+                )
+                val preloaded = File(
+                    getPreloadedSaveDir(
+                        this@NavigationActivity, scalar.audio_file, scalar.audio_folder
                     )
+                )
                 if (!file.exists() && !preloaded.exists()) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                         if (ContextCompat.checkSelfPermission(
@@ -1947,8 +1930,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                             ) == PackageManager.PERMISSION_GRANTED
                         ) {
                             SilentQuantumDownloadService.startService(
-                                context = this@NavigationActivity,
-                                scalar
+                                context = this@NavigationActivity, scalar
                             )
                         } else {
                             ActivityCompat.requestPermissions(
@@ -1965,8 +1947,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                             ) == PackageManager.PERMISSION_GRANTED
                         ) {
                             SilentQuantumDownloadService.startService(
-                                context = this@NavigationActivity,
-                                scalar
+                                context = this@NavigationActivity, scalar
                             )
                         } else {
                             ActivityCompat.requestPermissions(
@@ -2014,15 +1995,13 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         }
 
         val initialDelay = midnight.timeInMillis - currentDateTime.timeInMillis
-        val dailyWorkRequest = PeriodicWorkRequestBuilder<DailyWorker>(1, TimeUnit.DAYS)
-            .setInitialDelay(initialDelay, TimeUnit.MILLISECONDS)
-            .build()
-        WorkManager.getInstance(applicationContext)
-            .enqueueUniquePeriodicWork(
-                "DailyWorker",
-                ExistingPeriodicWorkPolicy.REPLACE,
-                dailyWorkRequest
-            )
+        val dailyWorkRequest =
+            PeriodicWorkRequestBuilder<DailyWorker>(1, TimeUnit.DAYS).setInitialDelay(
+                initialDelay, TimeUnit.MILLISECONDS
+            ).build()
+        WorkManager.getInstance(applicationContext).enqueueUniquePeriodicWork(
+            "DailyWorker", ExistingPeriodicWorkPolicy.REPLACE, dailyWorkRequest
+        )
     }
 
 

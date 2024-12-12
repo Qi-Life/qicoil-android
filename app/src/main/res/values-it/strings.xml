@@ -405,4 +405,7 @@
     <string name="advanced_mode_off">Modalità avanzata disattivata</string>
     <string name="advanced_mode_on">Modalità avanzata attivata</string>
     <string name="txt_all">Tutto</string>
+    <string name="navigation_lbl_silent_quantum_pro">Silenzioso Quantum Pro</string>
+    <string name="add_silent_quantum_pro">Aggiungi Silent Quantum Pro</string>
+    <string name="my_frequencies">Le mie frequenze</string>
 </resources>

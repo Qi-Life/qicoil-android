@@ -164,16 +164,6 @@
             fab:fab_colorPressed="@color/color_icon_fab"
             fab:fab_size="mini"
             fab:fab_title="@string/add_silent_quantum_pro" />
-
-        <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/action_add_silent_quantum_advanced"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:fab_icon="@drawable/ic_add_silent_quantum"
-            fab:fab_colorNormal="@color/color_icon_fab"
-            fab:fab_colorPressed="@color/color_icon_fab"
-            fab:fab_size="mini"
-            fab:fab_title="@string/add_silent_quantum_advanced" />
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
 

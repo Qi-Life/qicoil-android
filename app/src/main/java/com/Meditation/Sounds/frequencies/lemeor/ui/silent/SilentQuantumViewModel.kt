@@ -57,10 +57,10 @@ class SilentQuantumViewModel(private val repository: SilentQuantumRepository) : 
         }
     }
 
-    fun getScalarSubscription() = liveData(Dispatchers.IO) {
+    fun getScalarSubscription(tier: String) = liveData(Dispatchers.IO) {
         emit(Resource.loading(data = null))
         try {
-            emit(Resource.success(data = repository.getScalarSubscription()))
+            emit(Resource.success(data = repository.getScalarSubscription(tier)))
         } catch (exception: HttpException) {
             emit(Resource.error(data = null, message = getErrorMsg(exception)))
         } catch (exception: Throwable) {

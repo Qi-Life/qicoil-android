@@ -92,6 +92,7 @@ import kotlinx.android.synthetic.main.fragment_new_options.options_about
 import kotlinx.android.synthetic.main.fragment_new_options.options_change_pass
 import kotlinx.android.synthetic.main.fragment_new_options.options_delete_user
 import kotlinx.android.synthetic.main.fragment_new_options.options_disclaimer
+import kotlinx.android.synthetic.main.fragment_new_options.options_faq
 import kotlinx.android.synthetic.main.fragment_new_options.options_flash_sale
 import kotlinx.android.synthetic.main.fragment_new_options.options_help
 import kotlinx.android.synthetic.main.fragment_new_options.options_instruction
@@ -458,6 +459,13 @@ class NewOptionsFragment : BaseFragment() {
                 data = Uri.parse("mailto:support@qilifestore.com")
             }
             startActivity(Intent.createChooser(emailIntent, "Send feedback"))
+        }
+
+        options_faq.setOnClickListener {
+            val url = "https://members.qicoil.com/tutorials"
+            val i = Intent(Intent.ACTION_VIEW)
+            i.data = Uri.parse(url)
+            startActivity(i)
         }
 
         spLanguage.adapter = languageAdapter

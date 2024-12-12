@@ -404,4 +404,7 @@
     <string name="advanced_mode_off">高级模式关闭</string>
     <string name="advanced_mode_on">高级模式开启</string>
     <string name="txt_all">全部</string>
+    <string name="navigation_lbl_silent_quantum_pro">静音量子专业版</string>
+    <string name="add_silent_quantum_pro">添加静音量子专业版</string>
+    <string name="my_frequencies">我的频率</string>
 </resources>

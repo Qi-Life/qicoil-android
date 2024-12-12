@@ -403,4 +403,7 @@
     <string name="advanced_mode_off">الوضع المتقدم معطل</string>
     <string name="advanced_mode_on">الوضع المتقدم قيد التشغيل</string>
     <string name="txt_all">الجميع</string>
+    <string name="navigation_lbl_silent_quantum_pro">سايلنت كوانتوم برو</string>
+    <string name="add_silent_quantum_pro">إضافة صامت الكم برو</string>
+    <string name="my_frequencies">تردداتي</string>
 </resources>

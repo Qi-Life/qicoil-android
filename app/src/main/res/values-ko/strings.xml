@@ -396,4 +396,7 @@
     <string name="advanced_mode_off">고급 모드 끄기</string>
     <string name="advanced_mode_on">고급 모드 켜기</string>
     <string name="txt_all">모두</string>
+    <string name="navigation_lbl_silent_quantum_pro">サイレントクォンタムプロ</string>
+    <string name="add_silent_quantum_pro">サイレントクォンタムプロを追加</string>
+    <string name="my_frequencies">私の周波数</string>
 </resources>

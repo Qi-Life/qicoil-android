@@ -403,4 +403,7 @@
     <string name="advanced_mode_off">Erweiterter Modus aus</string>
     <string name="advanced_mode_on">Erweiterter Modus Ein</string>
     <string name="txt_all">Alle</string>
+    <string name="navigation_lbl_silent_quantum_pro">Sie schweigen ebenso</string>
+    <string name="add_silent_quantum_pro">Hinzufügen sie schweigen ebenso</string>
+    <string name="my_frequencies">Meine Frequenzen</string>
 </resources>
