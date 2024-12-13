@@ -38,7 +38,9 @@ class MyFrequenciesAdapter(
         }
         loadImage(mContext, holder.itemView.image, album)
 
-        holder.itemView.setOnClickListener { onClickItem.invoke(album) }
+        holder.itemView.setOnClickListener {
+            onClickItem.invoke(album)
+        }
     }
 
     override fun getItemViewType(position: Int): Int {

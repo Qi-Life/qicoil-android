@@ -19,21 +19,14 @@ import com.Meditation.Sounds.frequencies.lemeor.ui.main.NavigationActivity
 import com.Meditation.Sounds.frequencies.utils.SharedPreferenceHelper
 import com.Meditation.Sounds.frequencies.utils.loadImageWithGif
 import com.hieupt.android.standalonescrollbar.attachTo
-import kotlinx.android.synthetic.main.fragment_home.ivImage
-import kotlinx.android.synthetic.main.fragment_home.loadingFrame
-import kotlinx.android.synthetic.main.fragment_home.rcAlbumRecent
-import kotlinx.android.synthetic.main.fragment_home.rcMyFrequencies
-import kotlinx.android.synthetic.main.fragment_home.scrollbar
-import kotlinx.android.synthetic.main.fragment_home.tvNoDataRecent
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.android.synthetic.main.fragment_home.rvHome
 
 class HomeFragment : BaseFragment() {
     private lateinit var mViewModel: HomeViewModel
     private var recentAlbumsAdapter: RecentAlbumsAdapter? = null
     private var myFrequenciesAdapter: NewMyFrequenciesAdapter? = null
     private lateinit var itemDecoration: GridSpacingItemDecoration
+    private var homeAdapter: HomeAdapter? = null
 
     override fun initLayout(): Int = R.layout.fragment_home
 
@@ -46,44 +39,23 @@ class HomeFragment : BaseFragment() {
             )
         )[HomeViewModel::class.java]
 
-        recentAlbumsAdapter = RecentAlbumsAdapter(requireContext()) {
+        homeAdapter = HomeAdapter {
             (requireActivity() as NavigationActivity).onAlbumDetails(it)
         }
-        rcAlbumRecent.adapter = recentAlbumsAdapter
-        recentAlbumsAdapter?.setData(SharedPreferenceHelper.getInstance().recentAlbums)
 
         if (activity?.resources?.configuration?.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            itemDecoration = GridSpacingItemDecoration(8, dpToPx(16), true)
-            rcMyFrequencies.layoutManager = GridLayoutManager(requireContext(), 8)
+            homeAdapter?.changeLayoutManager(requireContext(), false , dpToPx(16))
         } else if (activity?.resources?.configuration?.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            itemDecoration = GridSpacingItemDecoration(5, dpToPx(16), true)
-            rcMyFrequencies.layoutManager = GridLayoutManager(requireContext(), 5)
+            homeAdapter?.changeLayoutManager(requireContext(), true , dpToPx(16))
         }
-        rcMyFrequencies.addItemDecoration(itemDecoration)
 
-        myFrequenciesAdapter = NewMyFrequenciesAdapter(requireContext()) {
-            (requireActivity() as NavigationActivity).onAlbumDetails(it)
-        }
-        rcMyFrequencies.adapter = myFrequenciesAdapter
-
-        scrollbar.attachTo(rcAlbumRecent)
-
-        loadingFrame.visibility = View.VISIBLE
-        loadImageWithGif(ivImage, R.raw.loading_grey)
-
+        rvHome.adapter = homeAdapter
         mViewModel.get48AlbumUnlockedLiveData().observeOnce(viewLifecycleOwner) {
-            loadData(it as ArrayList<Album>)
+            homeAdapter?.setData(it as ArrayList<Album>)
         }
-
         mViewModel.getAlbumsUnlockedLiveData().observe(viewLifecycleOwner) {
-            loadData(it as ArrayList<Album>)
+            homeAdapter?.setData(it as ArrayList<Album>)
         }
-        updateView()
-    }
-
-    private fun loadData(data: ArrayList<Album>) {
-        loadingFrame.visibility = View.GONE
-        myFrequenciesAdapter?.submitList(data)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -92,33 +64,19 @@ class HomeFragment : BaseFragment() {
         view.requestFocus()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        rcMyFrequencies.removeItemDecoration(itemDecoration)
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            itemDecoration = GridSpacingItemDecoration(8, dpToPx(16), true)
-            rcMyFrequencies.layoutManager = GridLayoutManager(requireContext(), 8)
-        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            itemDecoration = GridSpacingItemDecoration(5, dpToPx(16), true)
-            rcMyFrequencies.layoutManager = GridLayoutManager(requireContext(), 5)
+        if (activity?.resources?.configuration?.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            homeAdapter?.changeLayoutManager(requireContext(), false , dpToPx(16))
+        } else if (activity?.resources?.configuration?.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            homeAdapter?.changeLayoutManager(requireContext(), true , dpToPx(16))
         }
-        rcMyFrequencies.addItemDecoration(itemDecoration)
+        homeAdapter?.notifyDataSetChanged()
     }
 
     override fun addListener() {
 
-    }
-
-    private fun updateView() {
-        if (SharedPreferenceHelper.getInstance().recentAlbums.isNotEmpty()) {
-            rcAlbumRecent.visibility = View.VISIBLE
-            scrollbar.visibility = View.VISIBLE
-            tvNoDataRecent.visibility = View.GONE
-        } else {
-            rcAlbumRecent.visibility = View.GONE
-            scrollbar.visibility = View.GONE
-            tvNoDataRecent.visibility = View.VISIBLE
-        }
     }
 
     private fun dpToPx(dp: Int): Int {

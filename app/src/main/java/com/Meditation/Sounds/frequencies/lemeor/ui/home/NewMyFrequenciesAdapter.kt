@@ -41,7 +41,9 @@ class NewMyFrequenciesAdapter(
             }
             loadImage(mContext, itemView.image, album)
 
-            itemView.setOnClickListener { onClickItem.invoke(album) }
+            itemView.setOnClickListener {
+                onClickItem.invoke(album)
+            }
         }
     }
 
