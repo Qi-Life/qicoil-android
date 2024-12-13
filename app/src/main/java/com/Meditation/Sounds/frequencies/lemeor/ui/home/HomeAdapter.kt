@@ -83,14 +83,14 @@ class HomeAdapter(val onClickItem: (Album) -> Unit) :
     class MyFrequencyViewHolder(itemView: View, val onClickItem: (Album) -> Unit) :
         RecyclerView.ViewHolder(itemView) {
         fun bind(list: List<Album>) {
-            val myFrequenciesAdapter = MyFrequenciesAdapter(itemView.context) {
+            val myFrequenciesAdapter = NewMyFrequenciesAdapter(itemView.context) {
                 onClickItem.invoke(it)
             }
             clearAllItemDecorations(itemView.rcMyFrequencies)
             itemView.rcMyFrequencies.layoutManager = layoutManagerGrid
             itemView.rcMyFrequencies.addItemDecoration(itemDecoration)
             itemView.rcMyFrequencies.adapter = myFrequenciesAdapter
-            myFrequenciesAdapter.setData(list as ArrayList<Album>)
+            myFrequenciesAdapter.submitList(list)
         }
 
         private fun clearAllItemDecorations(recyclerView: RecyclerView) {
