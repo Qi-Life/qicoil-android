@@ -18,6 +18,7 @@ import com.Meditation.Sounds.frequencies.lemeor.loadImageScalar
 import com.Meditation.Sounds.frequencies.lemeor.playListScalar
 import com.Meditation.Sounds.frequencies.lemeor.playProgramId
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.MusicRepository
+import com.Meditation.Sounds.frequencies.models.SilentQuantumType
 import com.Meditation.Sounds.frequencies.utils.Constants.Companion.PREF_SETTING_ADVANCE_SCALAR_ON_OFF
 import com.Meditation.Sounds.frequencies.utils.SharedPreferenceHelper
 import com.bumptech.glide.Glide
@@ -154,7 +155,12 @@ class ProgramTrackAdapter(
             image_lock.visibility = View.VISIBLE
         }
         loadImageScalar(context, item_track_image, scalar)
-        item_track_name.text = context.getString(R.string.navigation_lbl_silent_quantum)
+        if (scalar.silent_energy_tier == SilentQuantumType.PRO.value) {
+            item_track_name.text = context.getString(R.string.navigation_lbl_silent_quantum_pro)
+        } else {
+            item_track_name.text = context.getString(R.string.navigation_lbl_silent_quantum)
+        }
+
         item_album_name.text = scalar.name
 
         if (playListScalar.contains(scalar) && playProgramId == program?.id && isSilentEnable && scalar.is_free == 1) {

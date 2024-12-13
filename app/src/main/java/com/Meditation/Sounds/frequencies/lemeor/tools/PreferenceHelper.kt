@@ -21,6 +21,7 @@ object PreferenceHelper {
     private const val SCHEDULE_PROGRAMS = "schedule_program"
     private const val LANGUAGE = "language"
     private const val HOME_RESPONSE = "home_response"
+    private const val IS_APP_PURCHASED = "is_purchased"
 
     private const val IS_HIGH_QUANTUM = "is_high_quantum"
     private const val IS_INNER_CIRCLE = "is_inner_circle"
@@ -177,6 +178,14 @@ object PreferenceHelper {
         set(value) {
             editMe {
                 it.putString(HOME_RESPONSE, value)
+            }
+        }
+
+    var SharedPreferences.isAppPurchased
+        get() = getBoolean(IS_APP_PURCHASED, false)
+        set(value) {
+            editMe {
+                it.putBoolean(IS_APP_PURCHASED, value)
             }
         }
 }

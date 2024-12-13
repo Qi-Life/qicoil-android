@@ -12,7 +12,8 @@ data class User(
         var unlocked_tiers: List<Int>,
         var unlocked_categories: List<Int>,
         var unlocked_albums: List<Int>,
-        var program_schedule: ProgramSchedule? = null
+        var program_schedule: ProgramSchedule? = null,
+        var is_purchased: Int = 0
 )
 
 data class PassEmailResponse(var token: String, var message: String)

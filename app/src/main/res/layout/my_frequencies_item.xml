@@ -11,6 +11,7 @@
         android:src="@drawable/ic_bg_item_my_frequencies" />
 
     <FrameLayout
+        android:id="@+id/view_album_info"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="@dimen/indent_18"

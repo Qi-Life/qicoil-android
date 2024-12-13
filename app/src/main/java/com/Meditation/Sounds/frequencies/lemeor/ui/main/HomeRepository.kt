@@ -20,11 +20,19 @@ import com.Meditation.Sounds.frequencies.lemeor.syncTags
 import com.Meditation.Sounds.frequencies.lemeor.syncTiers
 import com.Meditation.Sounds.frequencies.lemeor.syncTracks
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper
+import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper.isAppPurchased
+import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper.isLogged
+import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper.preference
 import com.Meditation.Sounds.frequencies.lemeor.ui.auth.updateUnlocked
 import com.Meditation.Sounds.frequencies.models.ProgramSchedule
+import com.Meditation.Sounds.frequencies.models.event.UpdateViewSilentQuantumEvent
+import com.Meditation.Sounds.frequencies.utils.Constants.Companion.PREF_SETTING_ADVANCE_SCALAR_ON_OFF
+import com.Meditation.Sounds.frequencies.utils.SharedPreferenceHelper
+import kotlinx.android.synthetic.main.fragment_new_options.btnAdvancedMode
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.greenrobot.eventbus.EventBus
 
 class HomeRepository(private val apiHelper: ApiHelper, private val localData: DataBase) {
 
@@ -80,6 +88,15 @@ class HomeRepository(private val apiHelper: ApiHelper, private val localData: Da
         if (it?.tiers != null && it.tiers.isNotEmpty()) {
             PreferenceHelper.saveLastHomeResponse(QApplication.getInstance().applicationContext, it)
         }
+
+        val isAppPurchased = it?.is_purchased == 1
+        preference(QApplication.getInstance().applicationContext).isAppPurchased = isAppPurchased
+        if (!isAppPurchased) {
+            SharedPreferenceHelper.getInstance().setBool(PREF_SETTING_ADVANCE_SCALAR_ON_OFF, false)
+            //update UI tab
+            EventBus.getDefault().post(UpdateViewSilentQuantumEvent)
+        }
+
         val user = PreferenceHelper.getUser(QApplication.getInstance().applicationContext)
         user?.unlocked_tiers = it?.unlocked_tiers.orEmpty()
         user?.unlocked_categories = it?.unlocked_categories.orEmpty()

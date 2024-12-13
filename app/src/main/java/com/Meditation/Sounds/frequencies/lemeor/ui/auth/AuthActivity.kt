@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.Meditation.Sounds.frequencies.BuildConfig
+import com.Meditation.Sounds.frequencies.QApplication
 import com.Meditation.Sounds.frequencies.R
 import com.Meditation.Sounds.frequencies.lemeor.data.api.ApiConfig.getPassResetUrl
 import com.Meditation.Sounds.frequencies.lemeor.data.api.RetrofitBuilder
@@ -23,6 +24,7 @@ import com.Meditation.Sounds.frequencies.lemeor.data.utils.Resource
 import com.Meditation.Sounds.frequencies.lemeor.data.utils.ViewModelFactory
 import com.Meditation.Sounds.frequencies.lemeor.tools.HudHelper
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper
+import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper.isAppPurchased
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper.isLogged
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper.preference
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper.saveUser
@@ -31,7 +33,9 @@ import com.Meditation.Sounds.frequencies.lemeor.ui.TrialActivity
 import com.Meditation.Sounds.frequencies.lemeor.ui.auth.LoginFragment.OnLoginListener
 import com.Meditation.Sounds.frequencies.lemeor.ui.auth.RegistrationFragment.OnRegistrationListener
 import com.Meditation.Sounds.frequencies.models.event.SyncDataEvent
+import com.Meditation.Sounds.frequencies.models.event.UpdateViewSilentQuantumEvent
 import com.Meditation.Sounds.frequencies.utils.Constants
+import com.Meditation.Sounds.frequencies.utils.Constants.Companion.PREF_SETTING_ADVANCE_SCALAR_ON_OFF
 import com.Meditation.Sounds.frequencies.utils.SharedPreferenceHelper
 import com.appsflyer.AFInAppEventParameterName
 import com.appsflyer.AppsFlyerLib
@@ -80,11 +84,19 @@ class AuthActivity : AppCompatActivity(), OnLoginListener, OnRegistrationListene
         preference(applicationContext).token = resource.data?.token
         saveUser(applicationContext, resource.data?.user)
         resource.data?.user?.let { user -> updateUnlocked(applicationContext, user, true) }
+
+        val isAppPurchased = resource.data?.user?.is_purchased == 1
+        preference(QApplication.getInstance().applicationContext).isAppPurchased = isAppPurchased
+        SharedPreferenceHelper.getInstance().setBool(PREF_SETTING_ADVANCE_SCALAR_ON_OFF, isAppPurchased)
+        //update UI tab
+        EventBus.getDefault().post(UpdateViewSilentQuantumEvent)
+
         if (resource.data?.user?.program_schedule != null) {
             val programSchedule = resource.data.user.program_schedule
             if ((programSchedule?.programId ?: 0) > 0) {
                 PreferenceHelper.saveScheduleProgram(this@AuthActivity, Program(id = programSchedule?.programId ?: 0, name = programSchedule?.programName ?: ""))
             }
+
             //local
             SharedPreferenceHelper.getInstance()
                 .setFloat(Constants.PREF_SCHEDULE_START_TIME_AM, programSchedule?.startTimeAm ?: 0f)

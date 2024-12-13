@@ -13,6 +13,7 @@ import com.Meditation.Sounds.frequencies.lemeor.data.model.Album
 import com.Meditation.Sounds.frequencies.lemeor.loadImage
 import kotlinx.android.synthetic.main.my_frequencies_item.view.image
 import kotlinx.android.synthetic.main.my_frequencies_item.view.image_lock
+import kotlinx.android.synthetic.main.my_frequencies_item.view.view_album_info
 
 class NewMyFrequenciesAdapter(
     private val mContext: Context, private val onClickItem: (Album) -> Unit
@@ -33,16 +34,21 @@ class NewMyFrequenciesAdapter(
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         @SuppressLint("SetTextI18n", "UseCompatLoadingForDrawables")
         fun bind(album: Album, position: Int) {
-            itemView.image.radius = mContext.resources.getDimensionPixelOffset(R.dimen.radius_recent_albums)
-            if (album.isUnlocked) {
-                itemView.image_lock.visibility = View.GONE
-            } else {
-                itemView.image_lock.visibility = View.VISIBLE
-            }
-            loadImage(mContext, itemView.image, album)
+            itemView.view_album_info.visibility = View.GONE
+            if (album.id != -1) {
+                itemView.view_album_info.visibility = View.VISIBLE
+                itemView.image.radius =
+                    mContext.resources.getDimensionPixelOffset(R.dimen.radius_recent_albums)
+                if (album.isUnlocked) {
+                    itemView.image_lock.visibility = View.GONE
+                } else {
+                    itemView.image_lock.visibility = View.VISIBLE
+                }
+                loadImage(mContext, itemView.image, album)
 
-            itemView.setOnClickListener {
-                onClickItem.invoke(album)
+                itemView.setOnClickListener {
+                    onClickItem.invoke(album)
+                }
             }
         }
     }

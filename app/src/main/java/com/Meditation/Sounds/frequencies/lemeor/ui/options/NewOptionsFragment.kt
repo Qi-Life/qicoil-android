@@ -13,6 +13,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.Meditation.Sounds.frequencies.BuildConfig
+import com.Meditation.Sounds.frequencies.QApplication
 import com.Meditation.Sounds.frequencies.R
 import com.Meditation.Sounds.frequencies.feature.base.BaseFragment
 import com.Meditation.Sounds.frequencies.lemeor.InappPurchase.HIGHER_QUANTUM_TIER_INAPP_ABUNDANCE_HAPPINESS
@@ -53,6 +54,7 @@ import com.Meditation.Sounds.frequencies.lemeor.showAlert
 import com.Meditation.Sounds.frequencies.lemeor.tools.HudHelper
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper.codeLanguage
+import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper.isAppPurchased
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper.isLogged
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper.preference
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper.saveUser
@@ -143,6 +145,15 @@ class NewOptionsFragment : BaseFragment() {
     @Subscribe(threadMode = ThreadMode.MAIN_ORDERED)
     fun onScalarOnOffStatusEventEvent(event: ScalarPlayerStatus) {
         updateViewAdvancedSilent()
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN_ORDERED)
+    fun onUpdateViewSilentQuantumEvent(event: UpdateViewSilentQuantumEvent) {
+        if (preference(requireContext()).isAppPurchased) {
+            btnAdvancedMode.visibility = View.VISIBLE
+        } else {
+            btnAdvancedMode.visibility = View.GONE
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -386,6 +397,12 @@ class NewOptionsFragment : BaseFragment() {
                     // Google Play by calling the startConnection() method.
                 }
             })
+        }
+
+        if (preference(requireContext()).isAppPurchased) {
+            btnAdvancedMode.visibility = View.VISIBLE
+        } else {
+            btnAdvancedMode.visibility = View.GONE
         }
 
         updateViewAdvancedSilent()

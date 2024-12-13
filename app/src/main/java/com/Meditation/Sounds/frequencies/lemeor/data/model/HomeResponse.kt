@@ -37,6 +37,9 @@ data class HomeResponse(
     @TypeConverters(IntConverter::class)
     val unlocked_albums: ArrayList<Int>? = null
 
+    @Ignore
+    var is_purchased: Int = 0
+
 }
 
 @Entity(tableName = "tag")

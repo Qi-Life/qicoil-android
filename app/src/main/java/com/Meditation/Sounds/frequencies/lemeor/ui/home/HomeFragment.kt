@@ -20,6 +20,7 @@ import kotlinx.android.synthetic.main.fragment_home.rvHome
 class HomeFragment : BaseFragment() {
     private lateinit var mViewModel: HomeViewModel
     private var homeAdapter: HomeAdapter? = null
+    private var allAlbums = arrayListOf<Album>()
 
     override fun initLayout(): Int = R.layout.fragment_home
 
@@ -43,12 +44,48 @@ class HomeFragment : BaseFragment() {
         }
 
         rvHome.adapter = homeAdapter
+
+        adjustDataForFullRows(arrayListOf())
         mViewModel.get48AlbumUnlockedLiveData().observeOnce(viewLifecycleOwner) {
-            homeAdapter?.setData(it as ArrayList<Album>)
+            if (it.isNotEmpty()) {
+                homeAdapter?.setData(it as ArrayList<Album>)
+            }
         }
         mViewModel.getAlbumsUnlockedLiveData().observe(viewLifecycleOwner) {
-            homeAdapter?.setData(it as ArrayList<Album>)
+            allAlbums.clear()
+            allAlbums.addAll(it)
+            adjustDataForFullRows(allAlbums)
         }
+    }
+
+    private fun adjustDataForFullRows(albums: ArrayList<Album>){
+        val isLandscape = activity?.resources?.configuration?.orientation == Configuration.ORIENTATION_LANDSCAPE
+
+        val columns = if (isLandscape) 8 else 5
+
+        val albumList = mutableListOf<Album>()
+
+        albumList.addAll(albums)
+
+        val totalItems = albumList.size
+        val remainingItems = totalItems % columns
+        if (remainingItems != 0) {
+            val emptyItemsToAdd = columns - remainingItems
+            for (i in 0 until emptyItemsToAdd) {
+                albumList.add(Album(id = -1, audio_folder = "", unlock_url = "", benefits_text = ""))
+            }
+        }
+        if (columns == 8) {
+            for (i in 1..8) {
+                albumList.add(Album(id = -1, audio_folder = "", unlock_url = "", benefits_text = ""))
+            }
+        } else {
+            for (i in 1..5) {
+                albumList.add(Album(id = -1, audio_folder = "", unlock_url = "", benefits_text = ""))
+            }
+        }
+
+        homeAdapter?.setData(albumList as ArrayList<Album>)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -65,7 +102,7 @@ class HomeFragment : BaseFragment() {
         } else if (activity?.resources?.configuration?.orientation == Configuration.ORIENTATION_PORTRAIT) {
             homeAdapter?.changeLayoutManager(requireContext(), true, dpToPx(16))
         }
-        homeAdapter?.notifyDataSetChanged()
+        adjustDataForFullRows(allAlbums)
     }
 
     override fun addListener() {
