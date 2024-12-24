@@ -65,7 +65,7 @@
                     android:layout_marginBottom="@dimen/image_size_10"
                     android:textAllCaps="true"
                     android:textColor="@android:color/white"
-                    android:textSize="@dimen/text_size_nomarl"
+                    android:textSize="@dimen/text_size_normal"
                     android:textStyle="bold"
                     android:visibility="gone"
                     font:fontText="fonts/BebasNeue_Book.otf"

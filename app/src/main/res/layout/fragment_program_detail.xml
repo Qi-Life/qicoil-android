@@ -67,7 +67,7 @@
         android:paddingEnd="@dimen/indent_8"
         android:textAllCaps="true"
         android:textColor="@android:color/white"
-        android:textSize="@dimen/text_size_nomarl"
+        android:textSize="@dimen/text_size_normal"
         android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@id/program_name"
         font:fontText="fonts/BebasNeue_Book.otf"

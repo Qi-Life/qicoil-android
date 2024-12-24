@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:font="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -33,8 +34,8 @@
                 font:fontText="fonts/MyriadPro_Semibold.otf" />
 
             <ImageView
-                android:layout_width="@dimen/image_size_110"
-                android:layout_height="@dimen/image_size_110"
+                android:layout_width="@dimen/image_size_54"
+                android:layout_height="@dimen/image_size_54"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/margin_buttons"
                 android:src="@drawable/launcher"
@@ -45,127 +46,58 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <LinearLayout
+                <com.Meditation.Sounds.frequencies.views.CustomEditTextWithTitle
+                    android:id="@+id/change_pass_et_old_pass"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/padding_edittext_dialog"
-                    android:layout_marginTop="@dimen/margin_buttons"
-                    android:layout_marginRight="@dimen/padding_edittext_dialog"
-                    android:orientation="vertical">
-
-                    <com.Meditation.Sounds.frequencies.views.CustomFontEditText
-                        android:id="@+id/change_pass_et_old_pass"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
-                        android:gravity="center"
-                        android:inputType="textPassword"
-                        android:textColor="#FFF"
-                        android:textColorHint="#FFF"
-                        font:fontText="fonts/MyriadPro_Semibold.otf" />
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="2.5dp"
-                        android:contentDescription="@string/tv_email"
-                        android:src="@drawable/bg_line_edittext" />
-                </LinearLayout>
-
-                <com.Meditation.Sounds.frequencies.views.CustomFontTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:padding="@dimen/padding_left_right_item_title"
-                    android:text="@string/tv_old_password"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_nomarl"
-                    font:fontText="fonts/MyriadPro_Semibold.otf" />
+                    android:layout_marginHorizontal="@dimen/padding_edittext_dialog"
+                    app:imeOptions="@integer/actionNext"
+                    app:inputType="@integer/inputTypePassword"
+                    app:textSize="@dimen/text_size_normal"
+                    app:titleTextSize="@dimen/text_size_normal"
+                    app:errorTextSize="@dimen/text_small_10"
+                    app:title="@string/tv_old_password" />
 
-                <LinearLayout
+                <com.Meditation.Sounds.frequencies.views.CustomEditTextWithTitle
+                    android:id="@+id/change_pass_et_new_pass"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/padding_edittext_dialog"
-                    android:layout_marginTop="@dimen/margin_buttons"
-                    android:layout_marginRight="@dimen/padding_edittext_dialog"
-                    android:orientation="vertical">
-
-                    <com.Meditation.Sounds.frequencies.views.CustomFontEditText
-                        android:id="@+id/change_pass_et_new_pass"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
-                        android:gravity="center"
-                        android:inputType="textPassword"
-                        android:textColor="#FFF"
-                        android:textColorHint="#FFF"
-                        font:fontText="fonts/MyriadPro_Semibold.otf" />
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="2.5dp"
-                        android:contentDescription="@string/tv_password"
-                        android:src="@drawable/bg_line_edittext" />
-                </LinearLayout>
-
-                <com.Meditation.Sounds.frequencies.views.CustomFontTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:padding="@dimen/padding_left_right_item_title"
-                    android:text="@string/tv_new_password"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_nomarl"
-                    font:fontText="fonts/MyriadPro_Semibold.otf" />
+                    android:layout_marginHorizontal="@dimen/padding_edittext_dialog"
+                    app:imeOptions="@integer/actionNext"
+                    app:inputType="@integer/inputTypePassword"
+                    app:textSize="@dimen/text_size_normal"
+                    app:titleTextSize="@dimen/text_size_normal"
+                    app:errorTextSize="@dimen/text_small_10"
+                    app:title="@string/tv_new_password" />
 
-                <LinearLayout
+                <com.Meditation.Sounds.frequencies.views.CustomEditTextWithTitle
+                    android:id="@+id/change_pass_et_confirm_new_pass"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/padding_edittext_dialog"
-                    android:layout_marginTop="@dimen/margin_buttons"
-                    android:layout_marginRight="@dimen/padding_edittext_dialog"
-                    android:orientation="vertical">
-
-                    <com.Meditation.Sounds.frequencies.views.CustomFontEditText
-                        android:id="@+id/change_pass_et_confirm_new_pass"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
-                        android:gravity="center"
-                        android:inputType="textPassword"
-                        android:textColor="#FFF"
-                        android:textColorHint="#FFF"
-                        font:fontText="fonts/MyriadPro_Semibold.otf" />
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="2.5dp"
-                        android:contentDescription="@string/tv_password"
-                        android:src="@drawable/bg_line_edittext" />
-                </LinearLayout>
-
-                <com.Meditation.Sounds.frequencies.views.CustomFontTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:padding="@dimen/padding_left_right_item_title"
-                    android:text="@string/tv_confirm_new_password"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_nomarl"
-                    font:fontText="fonts/MyriadPro_Semibold.otf" />
+                    android:layout_marginHorizontal="@dimen/padding_edittext_dialog"
+                    app:imeOptions="@integer/actionDone"
+                    app:inputType="@integer/inputTypePassword"
+                    app:textSize="@dimen/text_size_normal"
+                    app:titleTextSize="@dimen/text_size_normal"
+                    app:errorTextSize="@dimen/text_small_10"
+                    app:title="@string/tv_confirm_new_password" />
 
                 <com.Meditation.Sounds.frequencies.views.CustomFontTextView
                     android:id="@+id/change_pass_btn"
                     android:layout_width="@dimen/width_button"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/dp_70"
+                    android:layout_marginTop="@dimen/indent_40"
                     android:background="@drawable/bg_continue_subscription"
                     android:gravity="center"
-                    android:paddingTop="@dimen/padding_left_right_item"
-                    android:paddingBottom="@dimen/padding_left_right_item"
+                    android:paddingTop="@dimen/padding_top_icon"
+                    android:paddingBottom="@dimen/padding_top_icon"
                     android:text="@string/tv_change_password"
                     android:textColor="@color/text_title_button"
-                    android:textSize="@dimen/text_size_nomarl"
+                    android:textSize="@dimen/text_size_normal"
                     font:fontText="fonts/MyriadPro_Semibold.otf" />
             </LinearLayout>
         </LinearLayout>

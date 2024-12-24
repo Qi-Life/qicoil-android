@@ -128,7 +128,7 @@
                                     android:layout_marginTop="@dimen/margin_item_5"
                                     android:textAllCaps="true"
                                     android:textColor="#000"
-                                    android:textSize="@dimen/text_size_nomarl"
+                                    android:textSize="@dimen/text_size_normal"
                                     app:fontText="fonts/MyriadPro_Bold.otf"
                                     tools:text="$9.99" />
 
@@ -225,7 +225,7 @@
                                     android:layout_marginTop="@dimen/margin_item_5"
                                     android:textAllCaps="true"
                                     android:textColor="#000"
-                                    android:textSize="@dimen/text_size_nomarl"
+                                    android:textSize="@dimen/text_size_normal"
                                     app:fontText="fonts/MyriadPro_Bold.otf"
                                     tools:text="$19.99" />
 
@@ -321,7 +321,7 @@
                                     android:layout_marginTop="@dimen/margin_item_5"
                                     android:textAllCaps="true"
                                     android:textColor="#FFF"
-                                    android:textSize="@dimen/text_size_nomarl"
+                                    android:textSize="@dimen/text_size_normal"
                                     app:fontText="fonts/MyriadPro_Bold.otf"
                                     tools:text="$29.99" />
 

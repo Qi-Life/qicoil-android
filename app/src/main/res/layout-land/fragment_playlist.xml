@@ -96,7 +96,7 @@
                         android:singleLine="true"
                         android:textColor="#fff"
                         android:textColorHint="#b9b9b9"
-                        android:textSize="@dimen/text_size_nomarl"
+                        android:textSize="@dimen/text_size_normal"
                         app:fontText="fonts/HelveticaNeue-Light.0tf" />
                 </LinearLayout>
 
@@ -266,7 +266,7 @@
                     android:gravity="center"
                     android:text="@string/txt_no_playlist"
                     android:textColor="#fff"
-                    android:textSize="@dimen/text_size_nomarl"
+                    android:textSize="@dimen/text_size_normal"
                     android:visibility="gone"
                     app:fontText="fonts/BebasNeue Book.ttf" />
             </FrameLayout>
@@ -291,7 +291,7 @@
                     android:gravity="center"
                     android:text="@string/txt_no_playlist"
                     android:textColor="#fff"
-                    android:textSize="@dimen/text_size_nomarl"
+                    android:textSize="@dimen/text_size_normal"
                     android:visibility="gone"
                     app:fontText="fonts/BebasNeue Book.ttf" />
             </FrameLayout>

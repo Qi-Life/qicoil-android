@@ -22,7 +22,7 @@
     <dimen name="text_size_small_9">11sp</dimen>
     <dimen name="text_size_small_11">12sp</dimen>
     <dimen name="text_size_small">13sp</dimen>
-    <dimen name="text_size_nomarl">14sp</dimen>
+    <dimen name="text_size_normal">14sp</dimen>
     <dimen name="text_size_large_14">15sp</dimen>
     <dimen name="text_size_large_17">18sp</dimen>
     <dimen name="text_size_large">16sp</dimen>
@@ -114,7 +114,6 @@
 
 
     <dimen name="text_size_12">12sp</dimen>
-
     <dimen name="appbar_padding">16dp</dimen>
     <dimen name="appbar_padding_top">8dp</dimen>
     <dimen name="text_size_17">17sp</dimen>
@@ -124,9 +123,7 @@
     <dimen name="bottom_bar_icon_padding">3sp</dimen>
     <dimen name="height_repeat_button">30dp</dimen>
     <dimen name="height_silent_button">35dp</dimen>
-
     <dimen name="height_recent_albums">80dp</dimen>
     <dimen name="radius_recent_albums">10dp</dimen>
-
     <dimen name="height_button_player_default">32dp</dimen>
 </resources>

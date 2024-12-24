@@ -18,6 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:textColor="@color/white"
+        android:textSize="@dimen/text_size_normal"
         android:layout_marginStart="@dimen/indent_8"
         tools:text="China â" />
 

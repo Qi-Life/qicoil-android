@@ -22,7 +22,7 @@
     <dimen name="text_size_small_9">12sp</dimen>
     <dimen name="text_size_small_11">14sp</dimen>
     <dimen name="text_size_small">15sp</dimen>
-    <dimen name="text_size_nomarl">17sp</dimen>
+    <dimen name="text_size_normal">17sp</dimen>
     <dimen name="text_size_large_14">18sp</dimen>
     <dimen name="text_size_large_17">21sp</dimen>
     <dimen name="text_size_large">19sp</dimen>

@@ -12,10 +12,10 @@ import com.Meditation.Sounds.frequencies.lemeor.data.utils.Resource
 import com.Meditation.Sounds.frequencies.lemeor.data.utils.ViewModelFactory
 import com.Meditation.Sounds.frequencies.lemeor.tools.HudHelper
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper
-import kotlinx.android.synthetic.main.fragment_change_password.change_pass_btn
-import kotlinx.android.synthetic.main.fragment_change_password.change_pass_et_confirm_new_pass
-import kotlinx.android.synthetic.main.fragment_change_password.change_pass_et_new_pass
-import kotlinx.android.synthetic.main.fragment_change_password.change_pass_et_old_pass
+import kotlinx.android.synthetic.main.activity_change_pass.change_pass_btn
+import kotlinx.android.synthetic.main.activity_change_pass.change_pass_et_confirm_new_pass
+import kotlinx.android.synthetic.main.activity_change_pass.change_pass_et_new_pass
+import kotlinx.android.synthetic.main.activity_change_pass.change_pass_et_old_pass
 
 class ChangePassActivity : AppCompatActivity() {
 
@@ -40,9 +40,9 @@ class ChangePassActivity : AppCompatActivity() {
             return
         }
 
-        val oldPass = change_pass_et_old_pass.text.toString().trim()
-        val newPass = change_pass_et_new_pass.text.toString().trim()
-        val confirmPass = change_pass_et_confirm_new_pass.text.toString().trim()
+        val oldPass = change_pass_et_old_pass.getText().trim()
+        val newPass = change_pass_et_new_pass.getText().trim()
+        val confirmPass = change_pass_et_confirm_new_pass.getText().trim()
         val userEmail = PreferenceHelper.getUser(applicationContext)?.email
 
         userEmail?.let { user_email ->
@@ -74,36 +74,36 @@ class ChangePassActivity : AppCompatActivity() {
     }
 
     private fun isValidChangePassword(): Boolean {
-        if (change_pass_et_old_pass.text.toString().trim().isEmpty()) {
-            change_pass_et_old_pass.error = getString(R.string.tv_please_enter_old_pass)
+        if (change_pass_et_old_pass.getText().trim().isEmpty()) {
+            change_pass_et_old_pass.showError(getString(R.string.tv_please_enter_old_pass))
             return false
         }
-        if (change_pass_et_old_pass.text.toString().trim().length < 6) {
-            change_pass_et_old_pass.error = getString(R.string.tv_err_old_pass_characters)
+        if (change_pass_et_old_pass.getText().trim().length < 6) {
+            change_pass_et_old_pass.showError(getString(R.string.tv_err_old_pass_characters))
             return false
         }
-        if (change_pass_et_new_pass.text.toString().trim().isEmpty()) {
-            change_pass_et_new_pass.error = getString(R.string.tv_please_enter_new_pass)
+        if (change_pass_et_new_pass.getText().trim().isEmpty()) {
+            change_pass_et_new_pass.showError(getString(R.string.tv_please_enter_new_pass))
             return false
         }
-        if (change_pass_et_new_pass.text.toString().trim().length < 6) {
-            change_pass_et_new_pass.error = getString(R.string.tv_err_new_pass_characters)
+        if (change_pass_et_new_pass.getText().trim().length < 6) {
+            change_pass_et_new_pass.showError(getString(R.string.tv_err_new_pass_characters))
             return false
         }
-        if (change_pass_et_confirm_new_pass.text.toString().trim().isEmpty()) {
-            change_pass_et_confirm_new_pass.error = getString(R.string.tv_please_enter_confirm_pass)
+        if (change_pass_et_confirm_new_pass.getText().trim().isEmpty()) {
+            change_pass_et_confirm_new_pass.showError(getString(R.string.tv_please_enter_confirm_pass))
             return false
         }
-        if (change_pass_et_confirm_new_pass.text.toString().trim().length < 6) {
-            change_pass_et_confirm_new_pass.error =
-                getString(R.string.tv_err_confirm_pass_characters)
+        if (change_pass_et_confirm_new_pass.getText().trim().length < 6) {
+            change_pass_et_confirm_new_pass.showError(getString(R.string.tv_err_confirm_pass_characters))
+
             return false
         }
-        if (change_pass_et_confirm_new_pass.text.toString()
-                .trim() != change_pass_et_new_pass.text.toString().trim()
+        if (change_pass_et_confirm_new_pass.getText()
+                .trim() != change_pass_et_new_pass.getText().trim()
         ) {
-            change_pass_et_confirm_new_pass.error =
-                getString(R.string.tv_please_enter_confirm_new_pass)
+            change_pass_et_confirm_new_pass.showError(getString(R.string.tv_please_enter_confirm_new_pass))
+
             return false
         }
         return true

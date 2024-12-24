@@ -30,4 +30,5 @@
     <color name="gray_500">#8A8A8A</color>
     <color name="colorBlue">#0E74CC</color>
     <color name="colorBlueDisable">#500E74CC</color>
+    <color name="colorRed">#FF0000</color>
 </resources>

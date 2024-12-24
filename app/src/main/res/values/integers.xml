@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="actionDone">6</integer>
+    <integer name="actionNext">5</integer>
+    <integer name="inputTypeText">1</integer>
+    <integer name="inputTypeNumber">2</integer>
+    <integer name="inputTypeEmail">33</integer>
+    <integer name="inputTypePassword">129</integer>
+</resources>

@@ -114,7 +114,7 @@
                     android:layout_marginStart="7dp"
                     android:text="@string/txt_total_time"
                     android:textColor="#FFF"
-                    android:textSize="@dimen/text_size_nomarl"
+                    android:textSize="@dimen/text_size_normal"
                     android:textStyle="bold"
                     font:fontText="fonts/BebasNeue Book.ttf" />
 
@@ -127,7 +127,7 @@
                     android:layout_marginRight="5dp"
                     android:text="00:25:00"
                     android:textColor="#FFF"
-                    android:textSize="@dimen/text_size_nomarl"
+                    android:textSize="@dimen/text_size_normal"
                     android:textStyle="bold"
                     font:fontText="fonts/BebasNeue Book.ttf" />
             </LinearLayout>
@@ -152,7 +152,7 @@
             android:gravity="center"
             android:text="@string/txt_no_songs"
             android:textColor="#fff"
-            android:textSize="@dimen/text_size_nomarl"
+            android:textSize="@dimen/text_size_normal"
             android:visibility="gone"
             font:fontText="fonts/BebasNeue Book.ttf" />
     </FrameLayout>
