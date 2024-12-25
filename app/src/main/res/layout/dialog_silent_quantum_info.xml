@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    android:gravity="center">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/btnClose"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="-8dp"
+        android:layout_marginBottom="-8dp"
+        app:layout_constraintBottom_toTopOf="@+id/viewInfo"
+        app:layout_constraintStart_toEndOf="@+id/viewInfo"
+        app:srcCompat="@drawable/ic_silent_info_close" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/viewInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:minWidth="@dimen/minwidth_dialog"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp"
+            app:cardUseCompatPadding="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/viewImage"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    app:cardCornerRadius="@dimen/corner_radius_album"
+                    app:cardElevation="0dp"
+                    app:cardUseCompatPadding="false"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.github.siyamed.shapeimageview.RoundedImageView
+                        android:id="@+id/image"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_album_1"
+                        app:siBorderColor="@color/transparent"
+                        app:siBorderWidth="0dp"
+                        app:siRadius="0dp"
+                        app:siSquare="true" />
+
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:id="@+id/tvTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/indent_16"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:singleLine="true"
+                    android:text="AAAAAAAAAAAAAA"
+                    android:textAllCaps="true"
+                    android:textColor="@color/back"
+                    android:textSize="@dimen/text_size_small_11"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/viewImage"
+                    app:layout_constraintTop_toTopOf="@+id/viewImage" />
+
+                <TextView
+                    android:id="@+id/tvDescription"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginHorizontal="@dimen/indent_16"
+                    android:layout_marginTop="@dimen/indent_10"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:overScrollMode="always"
+                    android:scrollbars="vertical"
+                    android:text="AAAAAAAAAAAAAA"
+                    android:textColor="@color/back"
+                    android:textSize="@dimen/text_size_small_6"
+                    app:layout_constraintBottom_toBottomOf="@+id/viewImage"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/viewImage"
+                    app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+
+                <TextView
+                    android:id="@+id/tvTitleBenefits"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/indent_16"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:singleLine="true"
+                    android:text="AAAAAAAAAAAAAA"
+                    android:textAllCaps="true"
+                    android:textColor="@color/back"
+                    android:textSize="@dimen/text_size_small_11"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/viewImage" />
+
+                <TextView
+                    android:id="@+id/tvDescriptionBenefits"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/indent_10"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:overScrollMode="always"
+                    android:scrollbars="vertical"
+                    android:text="AAAAAAAAAAAAAA"
+                    android:textColor="@color/back"
+                    android:textSize="@dimen/text_size_small_6"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/tvTitleBenefits"
+                    app:layout_constraintTop_toBottomOf="@+id/tvTitleBenefits" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

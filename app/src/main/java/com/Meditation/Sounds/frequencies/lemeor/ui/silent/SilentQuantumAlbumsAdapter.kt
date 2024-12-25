@@ -10,6 +10,7 @@ import com.Meditation.Sounds.frequencies.R
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Scalar
 import com.Meditation.Sounds.frequencies.lemeor.loadImageScalar
 import com.Meditation.Sounds.frequencies.lemeor.playListScalar
+import kotlinx.android.synthetic.main.scalar_album_item.view.btnSilentQtInfo
 import kotlinx.android.synthetic.main.scalar_album_item.view.image
 import kotlinx.android.synthetic.main.scalar_album_item.view.image_lock
 import kotlinx.android.synthetic.main.scalar_album_item.view.lock
@@ -23,6 +24,7 @@ class SilentQuantumAlbumsAdapter(
     interface Listener {
         fun onClickItem(album: Scalar)
         fun onLongClickItem(album: Scalar)
+        fun onInfoClick(album: Scalar)
         fun onScalarSubscription(album: Scalar)
     }
 
@@ -74,6 +76,9 @@ class SilentQuantumAlbumsAdapter(
         }
         holder.itemView.image_lock.setOnClickListener {
             mListener?.onScalarSubscription(scalar)
+        }
+        holder.itemView.btnSilentQtInfo.setOnClickListener {
+            mListener?.onInfoClick(scalar)
         }
     }
 

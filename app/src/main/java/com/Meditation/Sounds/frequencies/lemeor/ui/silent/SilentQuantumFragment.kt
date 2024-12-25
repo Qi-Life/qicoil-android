@@ -34,6 +34,7 @@ import com.Meditation.Sounds.frequencies.utils.Constants
 import com.Meditation.Sounds.frequencies.utils.PlayerUtils
 import com.Meditation.Sounds.frequencies.utils.Utils
 import com.Meditation.Sounds.frequencies.views.ItemOffsetDecoration
+import com.Meditation.Sounds.frequencies.views.SilentQuantumInfoDialog
 import com.tonyodev.fetch2core.isNetworkAvailable
 import kotlinx.android.synthetic.main.fragment_silent_quantum.rcvSilentQuantum
 import kotlinx.coroutines.CoroutineScope
@@ -131,6 +132,10 @@ class SilentQuantumFragment : BaseFragment() {
 
             override fun onLongClickItem(album: Scalar) {
 
+            }
+
+            override fun onInfoClick(album: Scalar) {
+                SilentQuantumInfoDialog(requireContext(), album).show()
             }
 
             override fun onScalarSubscription(album: Scalar) {

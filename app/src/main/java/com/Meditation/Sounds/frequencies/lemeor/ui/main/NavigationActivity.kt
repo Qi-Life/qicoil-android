@@ -131,7 +131,7 @@ import com.Meditation.Sounds.frequencies.lemeor.ui.purchase.new_flow.PurchaseIte
 import com.Meditation.Sounds.frequencies.lemeor.ui.rife.NewRifeFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.rife.NewRifeViewModel
 import com.Meditation.Sounds.frequencies.lemeor.ui.silent.SilentQuantumDownloadService
-import com.Meditation.Sounds.frequencies.lemeor.ui.silent.SilentQuantumFragment
+import com.Meditation.Sounds.frequencies.lemeor.ui.silent.SilentQuantumPagerFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.silent.SilentQuantumViewModel
 import com.Meditation.Sounds.frequencies.lemeor.ui.videos.NewVideosFragment
 import com.Meditation.Sounds.frequencies.models.event.ScheduleProgramProgressEvent
@@ -175,7 +175,6 @@ import kotlinx.android.synthetic.main.activity_navigation.navigation_programs
 import kotlinx.android.synthetic.main.activity_navigation.navigation_rife
 import kotlinx.android.synthetic.main.activity_navigation.navigation_search
 import kotlinx.android.synthetic.main.activity_navigation.navigation_silent_quantum
-import kotlinx.android.synthetic.main.activity_navigation.navigation_silent_quantum_pro
 import kotlinx.android.synthetic.main.activity_navigation.navigation_videos
 import kotlinx.android.synthetic.main.activity_navigation.search_categories_recycler
 import kotlinx.android.synthetic.main.activity_navigation.search_layout
@@ -957,13 +956,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         navigation_silent_quantum.setOnClickListener {
             navigation_silent_quantum.onSelected {
                 closeSearch()
-                setFragment(SilentQuantumFragment.newInstance(type = Constants.TYPE_SILENT_QT))
-            }
-        }
-        navigation_silent_quantum_pro.setOnClickListener {
-            navigation_silent_quantum_pro.onSelected {
-                closeSearch()
-                setFragment(SilentQuantumFragment.newInstance(type = Constants.TYPE_SILENT_QT_PRO))
+                setFragment(SilentQuantumPagerFragment())
             }
         }
         navigation_albums.setOnClickListener {
@@ -1017,18 +1010,12 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
             navigation_discover.visibility = View.INVISIBLE
             navigation_options.visibility = View.INVISIBLE
             navigation_search.visibility = View.INVISIBLE
-            if (SharedPreferenceHelper.getInstance().getBool(PREF_SETTING_ADVANCE_SCALAR_ON_OFF)) {
-                navigation_silent_quantum_pro.visibility = View.INVISIBLE
-            }
         } else {
             navigation_programs.visibility = View.VISIBLE
             navigation_videos.visibility = View.VISIBLE
             navigation_discover.visibility = View.VISIBLE
             navigation_options.visibility = View.VISIBLE
             navigation_search.visibility = View.VISIBLE
-            if (SharedPreferenceHelper.getInstance().getBool(PREF_SETTING_ADVANCE_SCALAR_ON_OFF)) {
-                navigation_silent_quantum_pro.visibility = View.VISIBLE
-            }
         }
     }
 
@@ -1069,10 +1056,8 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
     private fun updateTabScalarQuantum() {
         if (SharedPreferenceHelper.getInstance().getBool(PREF_SETTING_ADVANCE_SCALAR_ON_OFF)) {
             navigation_silent_quantum.visibility = View.VISIBLE
-            navigation_silent_quantum_pro.visibility = View.VISIBLE
         } else {
             navigation_silent_quantum.visibility = View.GONE
-            navigation_silent_quantum_pro.visibility = View.GONE
         }
     }
 
@@ -1080,7 +1065,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         if (mViewGroupCurrent == navigation_silent_quantum && supportFragmentManager.fragments.lastOrNull() is NewAlbumDetailFragment) {
             var fragment = selectedNaviFragment
             if (fragment == null) {
-                fragment = SilentQuantumFragment()
+                fragment = SilentQuantumPagerFragment()
             }
             supportFragmentManager.beginTransaction().setCustomAnimations(
                 R.anim.trans_left_to_right_in,
@@ -1092,7 +1077,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         if (mViewGroupCurrent != navigation_silent_quantum) {
             navigation_silent_quantum.onSelected {
                 closeSearch()
-                setFragmentBackAnimation(SilentQuantumFragment())
+                setFragmentBackAnimation(SilentQuantumPagerFragment())
             }
         }
     }
@@ -1642,7 +1627,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
             isHide = true
         }
         if (SharedPreferenceHelper.getInstance()
-                .getBool(PREF_SETTING_CHATBOT_ON_OFF) && !isHide && (fragment is SilentQuantumFragment || fragment is TiersPagerFragment || fragment is NewRifeFragment || fragment is NewProgramFragment || fragment is NewVideosFragment || fragment is DiscoverFragment)
+                .getBool(PREF_SETTING_CHATBOT_ON_OFF) && !isHide && (fragment is SilentQuantumPagerFragment || fragment is TiersPagerFragment || fragment is NewRifeFragment || fragment is NewProgramFragment || fragment is NewVideosFragment || fragment is DiscoverFragment)
         ) {
             if (btnStartChatBot.visibility == View.GONE) {
                 btnStartChatBot.visibility = View.VISIBLE
