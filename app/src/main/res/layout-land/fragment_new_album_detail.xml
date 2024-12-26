@@ -118,7 +118,7 @@
                         android:layout_marginEnd="@dimen/indent_46"
                         android:adjustViewBounds="true"
                         android:textColor="@android:color/white"
-                        app:srcCompat="@drawable/ic_play_scalar_detail" />
+                        app:srcCompat="@drawable/bg_add_scalar_detail" />
 
                     <ImageView
                         android:id="@+id/track_options"

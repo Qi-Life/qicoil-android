@@ -300,6 +300,13 @@ class PlayerUIFragment : NewBaseFragment() {
                 setPlayerDefaultDisable()
             }, 500)
         }
+
+        if (event is PlayerStatus) {
+           if (event.isPause && mediaController != null) {
+               isUserPaused = true
+               mediaController?.transportControls?.pause()
+            }
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -525,7 +532,7 @@ class PlayerUIFragment : NewBaseFragment() {
         }
         player_play.setOnClickListener {
             if (trackList?.isNotEmpty() == true) {
-                if (mediaController != null)
+                if (mediaController != null) {
                     if (playing) {
                         isUserPaused = true
                         mediaController?.transportControls?.pause()
@@ -533,6 +540,8 @@ class PlayerUIFragment : NewBaseFragment() {
                         isUserPaused = false
                         mediaController?.transportControls?.play()
                     }
+                    EventBus.getDefault().post(PlayerStatus(isPlaying = true))
+                }
             }
         }
 

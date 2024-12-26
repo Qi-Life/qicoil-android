@@ -31,6 +31,7 @@ import com.Meditation.Sounds.frequencies.lemeor.isMultiPlay
 import com.Meditation.Sounds.frequencies.lemeor.isPlayAlbum
 import com.Meditation.Sounds.frequencies.lemeor.isPlayProgram
 import com.Meditation.Sounds.frequencies.lemeor.isTrackAdd
+import com.Meditation.Sounds.frequencies.lemeor.isUserPaused
 import com.Meditation.Sounds.frequencies.lemeor.loadImage
 import com.Meditation.Sounds.frequencies.lemeor.playAlbumId
 import com.Meditation.Sounds.frequencies.lemeor.playProgramId
@@ -44,6 +45,7 @@ import com.Meditation.Sounds.frequencies.lemeor.tools.downloader.DownloaderActiv
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.MusicRepository
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.PlayerSelected
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.PlayerService
+import com.Meditation.Sounds.frequencies.lemeor.tools.player.PlayerStatus
 import com.Meditation.Sounds.frequencies.lemeor.trackList
 import com.Meditation.Sounds.frequencies.lemeor.typeBack
 import com.Meditation.Sounds.frequencies.lemeor.ui.albums.tabs.TiersPagerFragment
@@ -106,6 +108,7 @@ class NewAlbumDetailFragment : BaseFragment() {
     private lateinit var rifeViewModel: NewRifeViewModel
     private var mAlbum: Album? = null
     private var mRife: Rife? = null
+    private var isPlaying = false
 
     private val trackAdapter by lazy {
         AlbumTrackAdapter(onClickItem = { _, pos, _ ->
@@ -268,6 +271,16 @@ class NewAlbumDetailFragment : BaseFragment() {
                     }
                 }
             }
+
+            if (ev is PlayerStatus) {
+                if (ev.isPlaying) {
+                    if (type == Constants.TYPE_ALBUM) {
+                        updateViewPlay(albumId)
+                    } else {
+                        updateViewPlay(rifeId)
+                    }
+                }
+            }
         }
     }
 
@@ -317,10 +330,19 @@ class NewAlbumDetailFragment : BaseFragment() {
 
         loadImage(requireContext(), album_image, this)
 
+        updateViewPlay(albumId)
         album_play.setOnClickListener {
             if (tracks.isNotEmpty()) {
-                PlayerUtils.checkSchedulePlaying(requireContext()) {
-                    playAndDownload(this)
+                if (isPlaying) {
+                    isPlaying = false
+                    album_play.setImageResource(R.drawable.ic_play_detail)
+                    EventBus.getDefault().post(PlayerStatus(isPause = true))
+                } else {
+                    isPlaying = true
+                    album_play.setImageResource(R.drawable.ic_pause_detail)
+                    PlayerUtils.checkSchedulePlaying(requireContext()) {
+                        playAndDownload(this)
+                    }
                 }
             }
         }
@@ -366,10 +388,17 @@ class NewAlbumDetailFragment : BaseFragment() {
         album_image.radius = resources.getDimensionPixelOffset(R.dimen.corner_radius_album)
         album_image.setImageResource(R.drawable.frequency_v2)
         tvDescription.text = description
+        updateViewPlay(rifeId)
         album_play.setOnClickListener {
             if (getFrequency().isNotEmpty()) {
-                PlayerUtils.checkSchedulePlaying(requireContext()) {
-                    play()
+                if (isPlaying) {
+                    isPlaying = false
+                    EventBus.getDefault().post(PlayerStatus(isPause = true))
+                } else {
+                    isPlaying = true
+                    PlayerUtils.checkSchedulePlaying(requireContext()) {
+                        play()
+                    }
                 }
             }
         }
@@ -390,6 +419,16 @@ class NewAlbumDetailFragment : BaseFragment() {
             }
         }
 
+    }
+
+    private fun updateViewPlay(id: Int) {
+        if (playAlbumId == id && isPlayAlbum && !isUserPaused) {
+            isPlaying = true
+            album_play.setImageResource(R.drawable.ic_pause_detail)
+        } else {
+            isPlaying = false
+            album_play.setImageResource(R.drawable.ic_play_detail)
+        }
     }
 
     private fun playAndDownload(album: Album) {
@@ -463,6 +502,7 @@ class NewAlbumDetailFragment : BaseFragment() {
 
         isPlayAlbum = true
         playAlbumId = id
+        isUserPaused = false
         isPlayProgram = false
         playProgramId = -1
 
@@ -502,7 +542,11 @@ class NewAlbumDetailFragment : BaseFragment() {
                 } catch (_: Exception) {
                 }
             }
-            CoroutineScope(Dispatchers.Main).launch { activity.showPlayerUI() }
+            CoroutineScope(Dispatchers.Main).launch {
+                isPlaying = true
+                album_play.setImageResource(R.drawable.ic_pause_detail)
+                activity.showPlayerUI()
+            }
         }
     }
 
@@ -523,6 +567,7 @@ class NewAlbumDetailFragment : BaseFragment() {
 
         isPlayAlbum = true
         playAlbumId = id
+        isUserPaused = false
         isPlayProgram = false
         playProgramId = -1
 
@@ -558,10 +603,14 @@ class NewAlbumDetailFragment : BaseFragment() {
                         requireActivity().startService(mIntent)
                     }
                     isFirst = false
-                }catch (_:Exception){}
+                } catch (_: Exception) {
+                }
 
             }
-            CoroutineScope(Dispatchers.Main).launch { activity.showPlayerUI() }
+            CoroutineScope(Dispatchers.Main).launch {
+                album_play.setImageResource(R.drawable.ic_pause_detail)
+                activity.showPlayerUI()
+            }
         }
     }
 
