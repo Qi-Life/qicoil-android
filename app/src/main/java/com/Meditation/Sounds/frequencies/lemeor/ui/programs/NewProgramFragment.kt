@@ -246,49 +246,43 @@ class NewProgramFragment : BaseFragment() {
             }
 
             override fun onDeleteItem(program: Program, i: Int) {
-                val alertDialog = AlertMessageDialog(requireContext(),
-                    object : AlertMessageDialog.IOnSubmitListener {
-                        override fun submit() {
-                            CoroutineScope(Dispatchers.IO).launch {
-                                //call api delete program
-                                try {
-                                    mViewModel.deleteProgram(program.id.toString())
-                                    mViewModel.delete(program)
-                                } catch (_: Exception) {
-                                    mViewModel.udpate(
-                                        program.copy(
-                                            deleted = true, updated_at = Date().time
-                                        )
-                                    )
-                                }
-                            }
-
-                            if (program.id == PreferenceHelper.getScheduleProgram(requireContext())?.id) {
-                                if (isPlayProgram && playProgramId == PreferenceHelper.getScheduleProgram(
-                                        requireContext()
-                                    )?.id
-                                ) {
-                                    EventBus.getDefault().post("clear player")
-                                    //clear scalar
-                                    if (playListScalar.isNotEmpty()) {
-                                        PlayerUtils.clearPlayerSilentQuantum(requireContext())
-                                    }
-                                }
-                                PreferenceHelper.saveScheduleProgram(requireContext(), null)
-                                updateViewProgram()
-                            }
-
-                            Toast.makeText(
-                                requireContext(),
-                                requireContext().getString(R.string.txt_delete_playlist_name_success),
-                                Toast.LENGTH_SHORT
-                            ).show()
+                val alertDialog = AlertMessageDialog(requireContext(), message = getString(R.string.txt_warning_delete_playlist)) {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        //call api delete program
+                        try {
+                            mViewModel.deleteProgram(program.id.toString())
+                            mViewModel.delete(program)
+                        } catch (_: Exception) {
+                            mViewModel.udpate(
+                                program.copy(
+                                    deleted = true, updated_at = Date().time
+                                )
+                            )
                         }
+                    }
 
-                        override fun cancel() {}
-                    })
+                    if (program.id == PreferenceHelper.getScheduleProgram(requireContext())?.id) {
+                        if (isPlayProgram && playProgramId == PreferenceHelper.getScheduleProgram(
+                                requireContext()
+                            )?.id
+                        ) {
+                            EventBus.getDefault().post("clear player")
+                            //clear scalar
+                            if (playListScalar.isNotEmpty()) {
+                                PlayerUtils.clearPlayerSilentQuantum(requireContext())
+                            }
+                        }
+                        PreferenceHelper.saveScheduleProgram(requireContext(), null)
+                        updateViewProgram()
+                    }
+
+                    Toast.makeText(
+                        requireContext(),
+                        requireContext().getString(R.string.txt_delete_playlist_name_success),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
                 alertDialog.show()
-                alertDialog.setWarningMessage(getString(R.string.txt_warning_delete_playlist))
             }
         })
 

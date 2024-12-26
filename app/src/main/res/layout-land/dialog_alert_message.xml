@@ -62,7 +62,7 @@
                 android:paddingRight="10dp"
                 android:text="@string/txt_cancel"
                 android:textAllCaps="true"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/gray_500"
                 android:textSize="@dimen/text_size_small_11" />
 
             <Button
@@ -76,7 +76,7 @@
                 android:paddingRight="10dp"
                 android:text="@string/txt_ok"
                 android:textAllCaps="true"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/colorBlue"
                 android:textSize="@dimen/text_size_small_11" />
         </LinearLayout>
     </LinearLayout>

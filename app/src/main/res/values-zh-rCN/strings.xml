@@ -232,7 +232,7 @@
     <string name="tv_title_subscription">订阅会自动续订，除非在当前周期结束前至少 24 小时关闭自动续订。付款将从您的 GooglePlay 帐户中扣除。在 GooglePlay 设置中管理订阅并关闭自动续订。</string>
     <string name="tv_title_subscription_new">除非在当前周期结束前至少 24 小时关闭自动续订，否则此订阅会自动续订。付款将从您的 GooglePlay 帐户中扣除。在 GooglePlay 帐户设置中管理订阅并关闭自动续订。</string>
     <string name="flash_sale_50_off">闪购 - 0.5 折</string>
-    <string name="tv_forgotten_password">&lt;u&gt;忘记密码？&lt;/u&gt;</string>
+    <string name="tv_forgotten_password">忘记密码？</string>
     <string name="tv_link_sign_in">&lt;你&gt;登录。&lt;/u&gt;</string>
     <string name="tv_link_sign_up">&lt;你&gt;注册。&lt;/u&gt;</string>
     <string name="tv_signUp">没有帐户？</string>

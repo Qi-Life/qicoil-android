@@ -58,7 +58,7 @@
     <dimen name="margin_item_10">10dp</dimen>
     <dimen name="padding_fragment">3dp</dimen>
     <dimen name="width_icon_delete">26dp</dimen>
-    <dimen name="minwidth_dialog">300dp</dimen>
+    <dimen name="minwidth_dialog">250dp</dimen>
     <dimen name="min_width_dialog">650dp</dimen>
     <dimen name="margin_item_dialog">25dp</dimen>
     <dimen name="margin_item_dialog_20">20dp</dimen>
@@ -95,6 +95,8 @@
     <dimen name="indent_4">4dp</dimen>
     <dimen name="indent_8">8dp</dimen>
     <dimen name="indent_10">10dp</dimen>
+    <dimen name="indent_14">14dp</dimen>
+    <dimen name="indent_15">15dp</dimen>
     <dimen name="indent_16">16dp</dimen>
     <dimen name="indent_18">18dp</dimen>
     <dimen name="indent_20">20dp</dimen>
@@ -110,6 +112,7 @@
     <dimen name="indent_60">60dp</dimen>
     <dimen name="indent_76">76dp</dimen>
     <dimen name="indent_80">80dp</dimen>
+    <dimen name="indent_90">90dp</dimen>
     <dimen name="indent_100">100dp</dimen>
 
 

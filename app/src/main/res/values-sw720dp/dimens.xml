@@ -54,7 +54,7 @@
     <dimen name="margin_item_10">20dp</dimen>
     <dimen name="padding_fragment">10dp</dimen>
     <dimen name="width_icon_delete">32dp</dimen>
-    <dimen name="minwidth_dialog">600dp</dimen>
+    <dimen name="minwidth_dialog">500dp</dimen>
     <dimen name="margin_item_dialog">45dp</dimen>
     <dimen name="margin_item_dialog_20">38dp</dimen>
     <dimen name="padding_edittext_dialog">60dp</dimen>

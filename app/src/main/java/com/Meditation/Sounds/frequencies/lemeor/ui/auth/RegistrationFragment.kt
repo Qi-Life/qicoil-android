@@ -6,6 +6,7 @@ import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import com.Meditation.Sounds.frequencies.R
 import com.Meditation.Sounds.frequencies.utils.StringsUtils
@@ -82,6 +83,13 @@ class RegistrationFragment : Fragment() {
                 )
             }
         }
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+
+                }
+            })
     }
 
     private fun isValidRegister(): Boolean {

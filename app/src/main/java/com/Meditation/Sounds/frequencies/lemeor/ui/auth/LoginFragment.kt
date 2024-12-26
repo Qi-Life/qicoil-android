@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -66,9 +67,6 @@ class LoginFragment : Fragment() {
 
     private var mListener: OnLoginListener? = null
     private var RC_SIGN_IN = 100
-    private var id = ""
-    private var name = ""
-    private var email = ""
     private lateinit var firebaseAnalytics: FirebaseAnalytics
     private lateinit var mViewModel: HomeViewModel
 
@@ -117,7 +115,6 @@ class LoginFragment : Fragment() {
         )[HomeViewModel::class.java]
         firebaseAnalytics = Firebase.analytics
         mTvSignUp.text = Html.fromHtml(getString(R.string.tv_link_sign_up))
-        mTvForgotPassword.text = Html.fromHtml(getString(R.string.tv_forgotten_password))
         val gso =
             GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build()
 
@@ -150,7 +147,6 @@ class LoginFragment : Fragment() {
             startActivityForResult(signInIntent, RC_SIGN_IN)
         }
 
-
         spLanguage.adapter = languageAdapter
         spLanguage.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
@@ -169,6 +165,14 @@ class LoginFragment : Fragment() {
             override fun onNothingSelected(parent: AdapterView<*>) {
             }
         }
+
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+
+                }
+            })
     }
 
     private fun clearData() {
@@ -272,7 +276,6 @@ class LoginFragment : Fragment() {
             //updateUI(null)
         }
     }
-
 }
 
 class CustomSpinnerAdapter(context: Context, list: List<Language>) :

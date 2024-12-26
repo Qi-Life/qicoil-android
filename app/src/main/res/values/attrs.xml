@@ -22,13 +22,14 @@
         <attr name="csb_max" format="integer" />
     </declare-styleable>
 
-    <declare-styleable name="CustomEditTextWithTitle">
-        <attr name="title" format="string" />
-        <attr name="hint" format="string" />
-        <attr name="textSize" format="dimension" />
-        <attr name="titleTextSize" format="dimension" />
-        <attr name="errorTextSize" format="dimension" />
-        <attr name="imeOptions" format="integer"/>
-        <attr name="inputType" format="integer"/>
+    <declare-styleable name="CustomEditText">
+        <attr name="iconLeft" format="reference"/>
+        <attr name="iconRight" format="reference"/>
+        <attr name="android:inputType" />
+        <attr name="android:textSize" />
+        <attr name="android:hint" />
+        <attr name="android:fontFamily" />
+        <attr name="android:textColor" />
+        <attr name="android:text" />
     </declare-styleable>
 </resources>

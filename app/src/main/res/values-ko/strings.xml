@@ -224,7 +224,7 @@
     <string name="tv_title_subscription">현재 기간이 종료되기 최소 24시간 전에 자동 갱신을 끄지 않으면 구독이 자동으로 갱신됩니다. 결제 금액은 GooglePlay 계정으로 청구됩니다. GooglePlay 설정에서 구독을 관리하고 자동 갱신을 끄세요.</string>
     <string name="tv_title_subscription_new">현재 기간이 종료되기 최소 24시간 전에 자동 갱신을 끄지 않으면 이 구독은 자동으로 갱신됩니다. 결제는 GooglePlay 계정으로 청구됩니다. GooglePlay 계정 설정에서 구독을 관리하고 자동 갱신을 끄세요.</string>
     <string name="flash_sale_50_off">반짝 세일 - 0.5 할인</string>
-    <string name="tv_forgotten_password">&lt;u&gt;비밀번호를 잊으셨나요?&lt;/u&gt;</string>
+    <string name="tv_forgotten_password">비밀번호를 잊으셨나요?</string>
     <string name="tv_link_sign_in">&lt;유&gt; 로그인하세요.&lt;/u&gt;</string>
     <string name="tv_link_sign_up">&lt;유&gt; 가입하세요.&lt;/u&gt;</string>
     <string name="tv_signUp">계정이 없나요?</string>

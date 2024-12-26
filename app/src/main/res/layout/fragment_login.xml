@@ -5,44 +5,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_app_phone_v2">
+    android:background="#283266">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fillViewport="true"
         android:scrollbars="none">
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/margin_item_dialog"
                 android:layout_marginTop="@dimen/margin_item_dialog"
                 android:layout_marginRight="@dimen/margin_item_dialog"
                 android:layout_marginBottom="@dimen/margin_item_dialog"
                 android:orientation="vertical">
 
-                <com.Meditation.Sounds.frequencies.views.CustomFontTextView
-                    android:id="@+id/mTvTitleTop"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:layout_marginTop="@dimen/padding_left_right_item"
-                    android:gravity="center_horizontal"
-                    android:padding="@dimen/padding_left_right_item_title"
-                    android:text="@string/tv_sign_in"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_20"
-                    font:fontText="fonts/MyriadPro_Semibold.otf" />
-
                 <ImageView
-                    android:layout_width="@dimen/image_size_110"
-                    android:layout_height="@dimen/image_size_110"
+                    android:layout_width="@dimen/image_size_54"
+                    android:layout_height="@dimen/image_size_54"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/padding_left_right_item"
                     android:src="@drawable/launcher"
                     tools:ignore="ContentDescription" />
 
@@ -50,104 +38,98 @@
                     android:id="@+id/mViewSignIn"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/indent_24"
+                    android:layout_marginLeft="@dimen/margin_item_dialog"
+                    android:layout_marginTop="@dimen/indent_100"
+                    android:layout_marginRight="@dimen/margin_item_dialog"
                     android:orientation="vertical">
 
-                    <com.Meditation.Sounds.frequencies.views.CustomEditTextWithTitle
+                    <com.Meditation.Sounds.frequencies.views.CustomEditText
                         android:id="@+id/mEdEmailSignIn"
-                        android:layout_width="match_parent"
+                        android:layout_width="@dimen/minwidth_dialog"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="@dimen/padding_edittext_dialog"
-                        app:imeOptions="@integer/actionNext"
-                        app:inputType="@integer/inputTypeEmail"
-                        app:textSize="@dimen/text_size_large"
-                        app:title="@string/tv_email" />
+                        android:layout_gravity="center"
+                        android:hint="@string/tv_email"
+                        android:inputType="textEmailAddress"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_normal"
+                        app:iconLeft="@drawable/ic_email" />
 
-                    <com.Meditation.Sounds.frequencies.views.CustomEditTextWithTitle
+                    <com.Meditation.Sounds.frequencies.views.CustomEditText
                         android:id="@+id/mEdPasswordSignIn"
-                        android:layout_width="match_parent"
+                        android:layout_width="@dimen/minwidth_dialog"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="@dimen/padding_edittext_dialog"
-                        android:layout_marginTop="@dimen/indent_10"
-                        app:imeOptions="@integer/actionDone"
-                        app:inputType="@integer/inputTypePassword"
-                        app:textSize="@dimen/text_size_large"
-                        app:title="@string/tv_password" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_item_5"
-                        android:orientation="vertical"
-                        android:visibility="invisible">
-
-                        <com.Meditation.Sounds.frequencies.views.CustomFontEditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@android:color/transparent"
-                            android:gravity="center"
-                            font:fontText="fonts/MyriadPro_Semibold.otf" />
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="2.5dp"
-                            android:contentDescription="@string/tv_confirm_password" />
-                    </LinearLayout>
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/indent_25"
+                        android:hint="@string/tv_password"
+                        android:inputType="textPassword"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_normal"
+                        app:iconLeft="@drawable/ic_password"
+                        app:iconRight="@drawable/ic_show_password" />
 
                     <com.Meditation.Sounds.frequencies.views.CustomFontTextView
                         android:id="@+id/mTvForgotPassword"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/indent_10"
+                        android:fontFamily="@font/poppins_regular"
                         android:padding="@dimen/padding_left_right_item_title"
                         android:text="@string/tv_forgotten_password"
                         android:textColor="@color/text_title_profile"
-                        android:textSize="@dimen/text_size_normal"
-                        font:fontText="fonts/MyriadPro_Semibold.otf" />
+                        android:textSize="@dimen/text_size_small_11" />
 
                     <com.Meditation.Sounds.frequencies.views.CustomFontTextView
                         android:id="@+id/mBtnSignIn"
-                        android:layout_width="@dimen/width_button"
+                        android:layout_width="@dimen/minwidth_dialog"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginTop="@dimen/padding_left_right_item_title"
-                        android:background="@drawable/bg_continue_subscription"
+                        android:layout_marginTop="@dimen/indent_25"
+                        android:background="@drawable/bg_button_blue"
+                        android:fontFamily="@font/poppins_bold"
                         android:gravity="center"
-                        android:paddingTop="@dimen/padding_left_right_item"
-                        android:paddingBottom="@dimen/padding_left_right_item"
+                        android:paddingTop="@dimen/padding_top_icon"
+                        android:paddingBottom="@dimen/padding_top_icon"
                         android:text="@string/tv_sign_in"
-                        android:textColor="@color/text_title_button"
-                        android:textSize="@dimen/text_size_large"
-                        font:fontText="fonts/MyriadPro_Semibold.otf" />
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_small_11" />
+
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginTop="@dimen/padding_left_right_item"
+                        android:layout_marginTop="@dimen/indent_20"
                         android:orientation="horizontal"
                         android:padding="@dimen/padding_left_right_item_title">
 
                         <com.Meditation.Sounds.frequencies.views.CustomFontTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_regular"
                             android:text="@string/tv_signUp"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/text_size_large"
-                            font:fontText="fonts/MyriadPro_Semibold.otf" />
+                            android:textSize="@dimen/text_size_small_11" />
 
                         <com.Meditation.Sounds.frequencies.views.CustomFontTextView
                             android:id="@+id/mTvSignUp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="2dp"
-                            android:layout_marginLeft="2dp"
+                            android:layout_marginStart="@dimen/indent_6"
+                            android:fontFamily="@font/poppins_bold"
                             android:text="@string/tv_link_sign_up"
-                            android:textColor="@color/text_title_profile"
-                            android:textSize="@dimen/text_size_large"
-                            font:fontText="fonts/MyriadPro_Semibold.otf" />
+                            android:textColor="@color/colorBlue"
+                            android:textSize="@dimen/text_size_small_11" />
                     </LinearLayout>
+
+                    <androidx.appcompat.widget.AppCompatSpinner
+                        android:id="@+id/spLanguage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:backgroundTint="@color/white"
+                        android:popupBackground="@color/color_main_activity_background"
+                        tools:listitem="@layout/item_language_spinner" />
 
                     <RelativeLayout
                         android:id="@+id/rlgoogle_signin"
@@ -184,6 +166,7 @@
                             font:fontText="fonts/MyriadPro_Semibold.otf" />
                     </RelativeLayout>
 
+
                     <RelativeLayout
                         android:id="@+id/btn_guest"
                         android:layout_width="@dimen/width_button"
@@ -204,16 +187,6 @@
                             android:textSize="@dimen/text_size_large_14"
                             font:fontText="fonts/MyriadPro_Semibold.otf" />
                     </RelativeLayout>
-
-                    <androidx.appcompat.widget.AppCompatSpinner
-                        android:id="@+id/spLanguage"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:backgroundTint="@color/white"
-                        android:popupBackground="@color/color_main_activity_background"
-                        tools:listitem="@layout/item_language_spinner" />
-
                 </LinearLayout>
             </LinearLayout>
         </FrameLayout>

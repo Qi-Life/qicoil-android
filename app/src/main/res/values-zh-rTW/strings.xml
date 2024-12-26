@@ -232,7 +232,7 @@
     <string name="tv_title_subscription">訂閱會自動續訂，除非在當前週期結束前至少 24 小時關閉自動續訂。付款將從您的 GooglePlay 帳戶中扣除。在 GooglePlay 設定中管理訂閱並關閉自動續訂。</string>
     <string name="tv_title_subscription_new">除非在當前週期結束前至少 24 小時關閉自動續訂，否則此訂閱會自動續訂。付款將從您的 GooglePlay 帳戶中扣除。在 GooglePlay 帳戶設定中管理訂閱並關閉自動續訂。</string>
     <string name="flash_sale_50_off">閃購 - 0.5 折</string>
-    <string name="tv_forgotten_password">&lt;u&gt;忘記密碼？</string>
+    <string name="tv_forgotten_password">忘記密碼？</string>
     <string name="tv_link_sign_in">&lt;你&gt;登入。</string>
     <string name="tv_link_sign_up">&lt;你&gt;註冊。</string>
     <string name="tv_signUp">沒有帳戶？</string>

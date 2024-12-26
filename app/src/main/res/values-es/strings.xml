@@ -174,7 +174,7 @@
     <string name="tv_title_subscription">La suscripción se renueva automáticamente a menos que el renovado automático se apague al menos 24 horas antes de que finalice el período actual. El pago se cobra a su cuenta de GooglePlay. Administre suscripciones y desactive la renovación automática en la configuración de GooglePlay.</string>
     <string name="tv_title_subscription_new">Esta suscripción se renueva automáticamente a menos que el renovado automático se apague al menos las 24 horas antes de que finalice el período actual. El pago se cobra a su cuenta de GooglePlay. Administre suscripciones y desactive la renovación automática en la configuración de la cuenta de GooglePlay.</string>
     <string name="flash_sale_50_off">Venta flash - 50% de descuento</string>
-    <string name="tv_forgotten_password">&lt;u&gt;¿Contraseña olvidada?&lt;/u&gt;</string>
+    <string name="tv_forgotten_password">¿Contraseña olvidada?</string>
     <string name="tv_signUp">¿No tienes una cuenta? Inscribirse.</string>
     <string name="tv_signIn">¿Ya tiene una cuenta? Iniciar sesión.</string>
     <string name="tv_sign_up">Inscribirse</string>

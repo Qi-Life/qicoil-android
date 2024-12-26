@@ -232,7 +232,7 @@
     <string name="tv_title_subscription">Das Abonnement verlängert sich automatisch, es sei denn, die automatische Verlängerung wird mindestens 24 Stunden vor Ablauf des aktuellen Zeitraums deaktiviert. Die Zahlung wird Ihrem GooglePlay-Konto belastet. Verwalten Sie Abonnements und deaktivieren Sie die automatische Verlängerung in den GooglePlay-Einstellungen.</string>
     <string name="tv_title_subscription_new">Dieses Abonnement verlängert sich automatisch, es sei denn, die automatische Verlängerung wird mindestens 24 Stunden vor Ablauf des aktuellen Zeitraums deaktiviert. Die Zahlung wird Ihrem GooglePlay-Konto belastet. Verwalten Sie Abonnements und deaktivieren Sie die automatische Verlängerung in den GooglePlay-Kontoeinstellungen.</string>
     <string name="flash_sale_50_off">Flash Sale – 0,5 RABATT</string>
-    <string name="tv_forgotten_password">&lt;u&gt;Passwort vergessen?&lt;/u&gt;</string>
+    <string name="tv_forgotten_password">Passwort vergessen?</string>
     <string name="tv_link_sign_in">&lt;u&gt; Anmelden.&lt;/u&gt;</string>
     <string name="tv_link_sign_up">&lt;u&gt; Melden Sie sich an.&lt;/u&gt;</string>
     <string name="tv_signUp">Sie haben noch kein Konto?</string>

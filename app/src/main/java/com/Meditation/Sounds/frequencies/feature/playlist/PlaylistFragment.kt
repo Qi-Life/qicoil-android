@@ -91,18 +91,11 @@ class PlaylistFragment : BaseFragment() {
             }
 
             override fun onDeleteItem(playlist: Playlist) {
-                val alertDialog = AlertMessageDialog(mContext, object : AlertMessageDialog.IOnSubmitListener {
-
-                    override fun submit() {
-                        mViewModel.delete(playlist.id)
-                        Toast.makeText(mContext, mContext!!.getString(R.string.txt_delete_playlist_name_success), Toast.LENGTH_SHORT).show()
-                    }
-
-                    override fun cancel() {
-                    }
-                })
+                val alertDialog = AlertMessageDialog(requireContext(), message = getString(R.string.txt_warning_delete_playlist)) {
+                    mViewModel.delete(playlist.id)
+                    Toast.makeText(mContext, mContext!!.getString(R.string.txt_delete_playlist_name_success), Toast.LENGTH_SHORT).show()
+                }
                 alertDialog.show()
-                alertDialog.setWarningMessage(getString(R.string.txt_warning_delete_playlist))
             }
         })
         rcPlaylist.layoutManager = LinearLayoutManager(context)
@@ -174,18 +167,11 @@ class PlaylistFragment : BaseFragment() {
             }
 
             override fun onDeleteItem(playlist: Playlist) {
-                val alertDialog = AlertMessageDialog(mContext, object : AlertMessageDialog.IOnSubmitListener {
-
-                    override fun submit() {
-                        mViewModel.delete(playlist.id)
-                        Toast.makeText(mContext, mContext!!.getString(R.string.txt_delete_playlist_name_success), Toast.LENGTH_SHORT).show()
-                    }
-
-                    override fun cancel() {
-                    }
-                })
+                val alertDialog = AlertMessageDialog(requireContext(), message = getString(R.string.txt_warning_delete_playlist)) {
+                    mViewModel.delete(playlist.id)
+                    Toast.makeText(mContext, mContext!!.getString(R.string.txt_delete_playlist_name_success), Toast.LENGTH_SHORT).show()
+                }
                 alertDialog.show()
-                alertDialog.setWarningMessage(getString(R.string.txt_warning_delete_playlist))
             }
         })
         rcPlaylistAdd?.layoutManager = LinearLayoutManager(context)
