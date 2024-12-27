@@ -196,7 +196,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/height_button_player_default"
                 android:adjustViewBounds="true"
-                android:src="@drawable/ic_silent_scalar_off"
+                android:src="@drawable/bg_silent_scalar_off"
                 android:layout_marginHorizontal="@dimen/indent_54"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

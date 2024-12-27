@@ -335,11 +335,11 @@ class NewAlbumDetailFragment : BaseFragment() {
             if (tracks.isNotEmpty()) {
                 if (isPlaying) {
                     isPlaying = false
-                    album_play.setImageResource(R.drawable.ic_play_detail)
+                    album_play.setImageResource(R.drawable.bg_play_detail)
                     EventBus.getDefault().post(PlayerStatus(isPause = true))
                 } else {
                     isPlaying = true
-                    album_play.setImageResource(R.drawable.ic_pause_detail)
+                    album_play.setImageResource(R.drawable.bg_pause_detail)
                     PlayerUtils.checkSchedulePlaying(requireContext()) {
                         playAndDownload(this)
                     }
@@ -424,10 +424,10 @@ class NewAlbumDetailFragment : BaseFragment() {
     private fun updateViewPlay(id: Int) {
         if (playAlbumId == id && isPlayAlbum && !isUserPaused) {
             isPlaying = true
-            album_play.setImageResource(R.drawable.ic_pause_detail)
+            album_play.setImageResource(R.drawable.bg_pause_detail)
         } else {
             isPlaying = false
-            album_play.setImageResource(R.drawable.ic_play_detail)
+            album_play.setImageResource(R.drawable.bg_play_detail)
         }
     }
 
@@ -544,7 +544,7 @@ class NewAlbumDetailFragment : BaseFragment() {
             }
             CoroutineScope(Dispatchers.Main).launch {
                 isPlaying = true
-                album_play.setImageResource(R.drawable.ic_pause_detail)
+                album_play.setImageResource(R.drawable.bg_pause_detail)
                 activity.showPlayerUI()
             }
         }
@@ -608,7 +608,7 @@ class NewAlbumDetailFragment : BaseFragment() {
 
             }
             CoroutineScope(Dispatchers.Main).launch {
-                album_play.setImageResource(R.drawable.ic_pause_detail)
+                album_play.setImageResource(R.drawable.bg_pause_detail)
                 activity.showPlayerUI()
             }
         }
