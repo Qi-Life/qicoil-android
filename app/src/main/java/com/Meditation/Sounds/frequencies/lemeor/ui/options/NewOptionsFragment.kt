@@ -579,12 +579,7 @@ class NewOptionsFragment : BaseFragment() {
 
                                         Resource.Status.ERROR -> {
                                             activity?.let { HudHelper.hide() }
-                                            Toast.makeText(
-                                                context,
-                                                it.message
-                                                    ?: getString(R.string.msg_error_occurred),
-                                                Toast.LENGTH_LONG
-                                            ).show()
+                                            showAlert(requireContext(), it.message ?: getString(R.string.msg_error_occurred))
                                         }
 
                                         Resource.Status.LOADING -> {
@@ -679,11 +674,7 @@ class NewOptionsFragment : BaseFragment() {
 
                                     Resource.Status.ERROR -> {
                                         activity?.let { HudHelper.hide() }
-                                        Toast.makeText(
-                                            context,
-                                            it.message ?: getString(R.string.msg_error_occurred),
-                                            Toast.LENGTH_LONG
-                                        ).show()
+                                        showAlert(requireContext(), it.message ?: getString(R.string.msg_error_occurred))
                                     }
 
                                     Resource.Status.LOADING -> {

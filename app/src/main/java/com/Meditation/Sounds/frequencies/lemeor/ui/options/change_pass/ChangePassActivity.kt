@@ -10,6 +10,7 @@ import com.Meditation.Sounds.frequencies.lemeor.data.database.DataBase
 import com.Meditation.Sounds.frequencies.lemeor.data.remote.ApiHelper
 import com.Meditation.Sounds.frequencies.lemeor.data.utils.Resource
 import com.Meditation.Sounds.frequencies.lemeor.data.utils.ViewModelFactory
+import com.Meditation.Sounds.frequencies.lemeor.showAlert
 import com.Meditation.Sounds.frequencies.lemeor.tools.HudHelper
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper
 import kotlinx.android.synthetic.main.activity_change_pass.change_pass_btn
@@ -60,8 +61,7 @@ class ChangePassActivity : AppCompatActivity() {
 
                             Resource.Status.ERROR -> {
                                 HudHelper.hide()
-                                Toast.makeText(applicationContext, user.message ?: getString(R.string.msg_error_occurred), Toast.LENGTH_LONG)
-                                    .show()
+                                showAlert(this@ChangePassActivity, user.message ?: getString(R.string.msg_error_occurred))
                             }
 
                             Resource.Status.LOADING -> {
