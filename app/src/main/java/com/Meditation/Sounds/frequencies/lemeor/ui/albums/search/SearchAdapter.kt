@@ -13,7 +13,6 @@ import com.Meditation.Sounds.frequencies.lemeor.data.model.*
 import com.Meditation.Sounds.frequencies.lemeor.ui.albums.search.SearchAdapter.ViewHolder
 import kotlinx.android.synthetic.main.item_category_search.view.*
 import kotlinx.android.synthetic.main.item_category_search.view.tvSearch
-import kotlinx.android.synthetic.main.item_search.view.*
 
 class SearchAdapter(private val onClick: (Search, Int) -> Unit) :
     ListAdapter<Search, ViewHolder>(
@@ -127,7 +126,7 @@ class SearchAdapter(private val onClick: (Search, Int) -> Unit) :
                     tvTitle.visibility = View.VISIBLE
                 }
                 is Scalar -> {
-                    tvTitle.text = view.context.getString(R.string.tv_scalars)
+                    tvTitle.text = view.context.getString(R.string.navigation_lbl_silent_quantum)
                     tvTitle.visibility = View.VISIBLE
                 }
                 else -> {

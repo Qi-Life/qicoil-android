@@ -298,7 +298,6 @@
     <string name="total_time">Espere por favor %1$s</string>
     <string name="error_hz_exceeded">Se excede el HZ %1$s</string>
     <string name="tv_rifes">Rifes</string>
-    <string name="tv_scalars">Escalares</string>
     <string name="tv_track">Pista</string>
     <string name="tv_from_rife">De la matriz</string>
     <string name="tv_cus_frequency">Frecuencias personalizadas</string>
@@ -357,6 +356,7 @@
     <string name="frequency">Frecuencia</string>
     <string name="add_silent_quantum">Añadir Silent Quantum</string>
     <string name="tv_from_silent_quantum">De Silent Quantum</string>
+    <string name="tv_from_silent_quantum_pro">De Silent Quantum Pro</string>
     <string name="txt_confirm_save_schedule">¿Estás segura de que quieres guardar el horario?</string>
     <string name="txt_confirm_delete_frequencies">¿Estás seguro de que deseas eliminar estas frecuencias?</string>
     <string name="txt_confirm_turn_off_before_switching_on_another">Debes desactivar el programa antes de activar otro. ¿Quieres desactivarlo?</string>
@@ -368,4 +368,5 @@
     <string name="navigation_lbl_silent_quantum_pro">Pro cuántico silencioso</string>
     <string name="add_silent_quantum_pro">Añadir silenciosa cuántica pro</string>
     <string name="my_frequencies">Mis frecuencias</string>
+    <string name="benefits">Vorteile</string>
 </resources>

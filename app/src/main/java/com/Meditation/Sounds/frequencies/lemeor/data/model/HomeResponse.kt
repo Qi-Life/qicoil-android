@@ -187,6 +187,7 @@ data class Scalar(
     var is_catalogs_free: Int = 0,
     var silent_energy_tier: String? = "",
     var cover_image_url: String? = "",
+    var long_description: String? = "",
 ) : Parcelable
 
 fun String.floatOrZero() = try {

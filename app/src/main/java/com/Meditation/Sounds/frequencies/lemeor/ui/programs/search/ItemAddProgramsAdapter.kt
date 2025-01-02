@@ -18,6 +18,7 @@ import com.Meditation.Sounds.frequencies.lemeor.loadImage
 import com.Meditation.Sounds.frequencies.lemeor.loadImageScalar
 import com.Meditation.Sounds.frequencies.lemeor.ui.purchase.new_flow.NewPurchaseActivity
 import com.Meditation.Sounds.frequencies.lemeor.ui.purchase.new_flow.PurchaseItemAlbumWebView
+import com.Meditation.Sounds.frequencies.models.SilentQuantumType
 import kotlinx.android.synthetic.main.item_add_programs.view.cbItem
 import kotlinx.android.synthetic.main.item_add_programs.view.imgLock
 import kotlinx.android.synthetic.main.item_add_programs.view.imgView
@@ -103,10 +104,13 @@ class ItemAddProgramsAdapter(
                     imgViewAlbum.visibility = View.GONE
                     imgLock.visibility = View.GONE
                     imgView.visibility = View.VISIBLE
-//                    imgView.setBackgroundDrawable(context.getDrawable(R.drawable.ic_navigation_scalar))
                     loadImageScalar(context, imgView, r)
                     tvName.text = r.name.trim()
-                    tvDes.text = context.getString(R.string.tv_from_silent_quantum)
+                    if (r.silent_energy_tier == SilentQuantumType.PRO.value) {
+                        tvDes.text = context.getString(R.string.tv_from_silent_quantum_pro)
+                    } else {
+                        tvDes.text = context.getString(R.string.tv_from_silent_quantum)
+                    }
                     itemView.setOnClickListener {
                         if (item in mListSelected) {
                             mListSelected.remove(item)

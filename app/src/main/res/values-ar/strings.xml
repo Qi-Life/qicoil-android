@@ -336,7 +336,6 @@
     <string name="subs_purchase_info">اشترك لمدة %1$s/الشهر أو %2$s/السنة</string>
     <string name="error_hz_exceeded">تم تجاوز الهرتز %1$s</string>
     <string name="tv_rifes">رايفس</string>
-    <string name="tv_scalars">العددية</string>
     <string name="tv_track">مسار</string>
     <string name="tv_from_rife">من رايف</string>
     <string name="tv_cus_frequency">الترددات المخصصة</string>
@@ -395,6 +394,7 @@
     <string name="frequency">تكرار</string>
     <string name="add_silent_quantum">أضف الكم الصامت</string>
     <string name="tv_from_silent_quantum">من الكم الصامت</string>
+    <string name="tv_from_silent_quantum_pro">من برنامج الكم الصامت</string>
     <string name="txt_confirm_save_schedule">هل أنت متأكد أنك تريد حفظ الجدول الزمني؟</string>
     <string name="txt_confirm_delete_frequencies">هل أنت متأكد أنك تريد حذف هذه الترددات؟</string>
     <string name="txt_confirm_turn_off_before_switching_on_another">تحتاج إلى إيقاف تشغيل الجدول الزمني قبل تشغيل جدول آخر. هل ترغب في إيقاف؟</string>
@@ -406,4 +406,5 @@
     <string name="navigation_lbl_silent_quantum_pro">سايلنت كوانتوم برو</string>
     <string name="add_silent_quantum_pro">إضافة صامت الكم برو</string>
     <string name="my_frequencies">تردداتي</string>
+    <string name="benefits">فوائد</string>
 </resources>

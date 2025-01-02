@@ -338,7 +338,6 @@
     <string name="subs_purchase_info">%1$s/月または %2$s/年で購読してください</string>
     <string name="error_hz_exceeded">Hz を超えています %1$s</string>
     <string name="tv_rifes">ライフス</string>
-    <string name="tv_scalars">スカラー</string>
     <string name="tv_track">追跡</string>
     <string name="tv_from_rife">ライフから</string>
     <string name="tv_cus_frequency">カスタム周波数</string>
@@ -397,6 +396,7 @@
     <string name="frequency">頻度</string>
     <string name="add_silent_quantum">サイレント・クォンタムの追加</string>
     <string name="tv_from_silent_quantum">サイレント・クォンタムより</string>
+    <string name="tv_from_silent_quantum_pro">サイレントクォンタムプロより</string>
     <string name="txt_confirm_save_schedule">スケジュールを保存してもよろしいですか?</string>
     <string name="txt_confirm_delete_frequencies">この周波数を削除してもよろしいですか?</string>
     <string name="txt_confirm_turn_off_before_switching_on_another">別のスケジュールをオンにする前に、スケジュールをオフにする必要があります。電源を切りますか?</string>
@@ -408,4 +408,5 @@
     <string name="navigation_lbl_silent_quantum_pro">サイレントクォンタムプロ</string>
     <string name="add_silent_quantum_pro">サイレントクォンタムプロを追加</string>
     <string name="my_frequencies">私の周波数</string>
+    <string name="benefits">利点</string>
 </resources>

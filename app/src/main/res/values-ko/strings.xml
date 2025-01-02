@@ -329,7 +329,6 @@
     <string name="subs_purchase_info">%1$s/월 또는 %2$s/년 구독</string>
     <string name="error_hz_exceeded">Hz가 %1$s을(를) 초과했습니다.</string>
     <string name="tv_rifes">라이프스</string>
-    <string name="tv_scalars">스칼라</string>
     <string name="tv_track">길</string>
     <string name="tv_from_rife">라이프에서</string>
     <string name="tv_cus_frequency">맞춤 주파수</string>
@@ -388,6 +387,7 @@
     <string name="frequency">빈도</string>
     <string name="add_silent_quantum">사일런트 퀀텀 추가</string>
     <string name="tv_from_silent_quantum">사일런트 퀀텀에서</string>
+    <string name="tv_from_silent_quantum_pro">사일런트 퀀텀 프로에서</string>
     <string name="txt_confirm_save_schedule">일정을 저장하시겠습니까?</string>
     <string name="txt_confirm_delete_frequencies">이 주파수를 삭제하시겠습니까?</string>
     <string name="txt_confirm_turn_off_before_switching_on_another">다른 일정을 켜기 전에 해당 일정을 꺼야 합니다. 끄시겠습니까?</string>
@@ -399,4 +399,5 @@
     <string name="navigation_lbl_silent_quantum_pro">サイレントクォンタムプロ</string>
     <string name="add_silent_quantum_pro">サイレントクォンタムプロを追加</string>
     <string name="my_frequencies">私の周波数</string>
+    <string name="benefits">利点</string>
 </resources>

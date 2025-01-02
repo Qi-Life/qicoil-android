@@ -338,7 +338,6 @@
     <string name="subs_purchase_info">Abbonati per %1$s/mese o %2$s/anno</string>
     <string name="error_hz_exceeded">L\'Hz è stato superato %1$s</string>
     <string name="tv_rifes">Rife</string>
-    <string name="tv_scalars">Scalari</string>
     <string name="tv_track">Traccia</string>
     <string name="tv_from_rife">Da Rife</string>
     <string name="tv_cus_frequency">Frequenze personalizzate</string>
@@ -397,6 +396,7 @@
     <string name="frequency">Frequenza</string>
     <string name="add_silent_quantum">Aggiungi il quantistico silenzioso</string>
     <string name="tv_from_silent_quantum">Da Quantistici Silenziosi</string>
+    <string name="tv_from_silent_quantum_pro">Da Silent Quantum Pro</string>
     <string name="txt_confirm_save_schedule">Sei sicuro di voler salvare la pianificazione?</string>
     <string name="txt_confirm_delete_frequencies">Sei sicuro di voler eliminare queste frequenze?</string>
     <string name="txt_confirm_turn_off_before_switching_on_another">È necessario disattivare la programmazione prima di attivarne un\'altra. Desideri disattivare?</string>
@@ -408,4 +408,5 @@
     <string name="navigation_lbl_silent_quantum_pro">Silenzioso Quantum Pro</string>
     <string name="add_silent_quantum_pro">Aggiungi Silent Quantum Pro</string>
     <string name="my_frequencies">Le mie frequenze</string>
+    <string name="benefits">Benefici</string>
 </resources>

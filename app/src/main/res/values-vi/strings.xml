@@ -336,7 +336,6 @@
     <string name="subs_purchase_info">Đăng ký %1$s/tháng hoặc %2$s/năm</string>
     <string name="error_hz_exceeded">Hz đã vượt quá %1$s</string>
     <string name="tv_rifes">súng trường</string>
-    <string name="tv_scalars">vô hướng</string>
     <string name="tv_track">Theo dõi</string>
     <string name="tv_from_rife">Từ Rife</string>
     <string name="tv_cus_frequency">Tần số tùy chỉnh</string>
@@ -395,6 +394,7 @@
     <string name="frequency">Tính thường xuyên</string>
     <string name="add_silent_quantum">Thêm lượng tử im lặng</string>
     <string name="tv_from_silent_quantum">Từ lượng tử im lặng</string>
+    <string name="tv_from_silent_quantum_pro">Từ lượng tử im lặng chuyên nghiệp</string>
     <string name="txt_confirm_save_schedule">Bạn có chắc chắn muốn lưu lịch biểu không?</string>
     <string name="txt_confirm_delete_frequencies">Bạn có chắc chắn muốn xóa tần số này không?</string>
     <string name="txt_confirm_turn_off_before_switching_on_another">Bạn cần tắt lịch trước khi bật lịch khác. Bạn có muốn tắt không?</string>
@@ -406,4 +406,5 @@
     <string name="navigation_lbl_silent_quantum_pro">Lượng tử im lặng  pro</string>
     <string name="add_silent_quantum_pro">Thêm lượng tử im lặng pro</string>
     <string name="my_frequencies">Tần suất của tôi</string>
+    <string name="benefits">Những lợi ích</string>
 </resources>

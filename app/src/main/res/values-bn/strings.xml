@@ -331,7 +331,6 @@
     <string name="subs_purchase_info">%1$s/মাস বা %2$s/বছরের জন্য সদস্যতা নিন</string>
     <string name="error_hz_exceeded">Hz %1$s ছাড়িয়ে গেছে</string>
     <string name="tv_rifes">রাইফেস</string>
-    <string name="tv_scalars">স্কেলার</string>
     <string name="tv_track">ট্র্যাক</string>
     <string name="tv_from_rife">রাইফ থেকে</string>
     <string name="tv_cus_frequency">কাস্টম ফ্রিকোয়েন্সি</string>
@@ -390,6 +389,7 @@
     <string name="frequency">ফ্রিকোয়েন্সি</string>
     <string name="add_silent_quantum">সাইলেন্ট কোয়ান্টাম যোগ করুন</string>
     <string name="tv_from_silent_quantum">সাইলেন্ট কোয়ান্টাম থেকে</string>
+    <string name="tv_from_silent_quantum_pro">নীরব কোয়ান্টাম প্রো থেকে</string>
     <string name="txt_confirm_save_schedule">আপনি কি নিশ্চিত যে আপনি সময়সূচী সংরক্ষণ করতে চান?</string>
     <string name="txt_confirm_delete_frequencies">আপনি কি নিশ্চিত আপনি এই ফ্রিকোয়েন্সি মুছে ফেলতে চান?</string>
     <string name="txt_confirm_turn_off_before_switching_on_another">অন্যটি চালু করার আগে আপনাকে সময়সূচীটি বন্ধ করতে হবে। আপনি কি বন্ধ করতে চান?</string>
@@ -401,4 +401,5 @@
     <string name="navigation_lbl_silent_quantum_pro">নীরব কোয়ান্টাম প্রো</string>
     <string name="add_silent_quantum_pro">সাইলেন্ট কোয়ান্টাম প্রো যোগ করুন</string>
     <string name="my_frequencies">আমার ফ্রিকোয়েন্সি</string>
+    <string name="benefits">সুবিধা</string>
 </resources>

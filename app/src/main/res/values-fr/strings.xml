@@ -344,7 +344,6 @@
     <string name="tv_message">Message:</string>
     <string name="tv_master_wong_ai">Dr. Qi Ai assistant</string>
     <string name="navigation_lbl_silent_quantum">Quantique silencieux</string>
-    <string name="tv_scalars">Scalaires</string>
     <string name="tv_silent_scalar_turned_on">Silent Quantum est actuellement activé</string>
     <string name="tv_silent_scalar_turned_off">Silent Quantum est actuellement désactivé</string>
     <string name="tv_please_choose_a_frequency_to_play">Veuillez choisir une Fréquence pour jouer</string>
@@ -358,6 +357,7 @@
     <string name="frequency">Fréquence</string>
     <string name="add_silent_quantum">Ajouter Silent Quantum</string>
     <string name="tv_from_silent_quantum">De Silent Quantum</string>
+    <string name="tv_from_silent_quantum_pro">De Silent Quantum Pro</string>
     <string name="txt_confirm_save_schedule">Etes-vous sûr de vouloir enregistrer le planning ?</string>
     <string name="txt_confirm_delete_frequencies">Êtes-vous sûr de vouloir supprimer ces fréquences ?</string>
     <string name="txt_confirm_turn_off_before_switching_on_another">Vous devez désactiver le programme avant d\'en activer un autre. Souhaitez-vous le désactiver ?</string>
@@ -369,4 +369,5 @@
     <string name="navigation_lbl_silent_quantum_pro">Silencieux Quantum Pro</string>
     <string name="add_silent_quantum_pro">Ajouter Silent Quantum Pro</string>
     <string name="my_frequencies">Mes fréquences</string>
+    <string name="benefits">Avantages</string>
 </resources>

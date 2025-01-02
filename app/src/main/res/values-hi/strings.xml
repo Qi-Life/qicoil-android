@@ -335,7 +335,6 @@
     <string name="subs_purchase_info">%1$s/माह या %2$s/वर्ष के लिए सदस्यता लें</string>
     <string name="error_hz_exceeded">हर्ट्ज़ %1$s से अधिक हो गया है</string>
     <string name="tv_rifes">राइफ़्स</string>
-    <string name="tv_scalars">स्केलर</string>
     <string name="tv_track">रास्ता</string>
     <string name="tv_from_rife">राइफ़ से</string>
     <string name="tv_cus_frequency">कस्टम आवृत्तियाँ</string>
@@ -394,6 +393,7 @@
     <string name="frequency">आवृत्ति</string>
     <string name="add_silent_quantum">साइलेंट क्वांटम जोड़ें</string>
     <string name="tv_from_silent_quantum">साइलेंट क्वांटम से</string>
+    <string name="tv_from_silent_quantum_pro">साइलेंट क्वांटम प्रो सें</string>
     <string name="txt_confirm_save_schedule">क्या आप वाकई शेड्यूल सहेजना चाहते हैं?</string>
     <string name="txt_confirm_delete_frequencies">क्या आप वाकई इस आवृत्तियों को हटाना चाहते हैं?</string>
     <string name="txt_confirm_turn_off_before_switching_on_another">दूसरे शेड्यूल पर स्विच करने से पहले आपको शेड्यूल को बंद करना होगा। क्या आप बंद करना चाहेंगे?</string>
@@ -405,4 +405,5 @@
     <string name="navigation_lbl_silent_quantum_pro">साइलेंट क्वांटम प्रो</string>
     <string name="add_silent_quantum_pro">साइलेंट क्वांटम प्रो जोड़ें</string>
     <string name="my_frequencies">मेरी आवृत्तियाँ</string>
+    <string name="benefits">Vorteile</string>
 </resources>

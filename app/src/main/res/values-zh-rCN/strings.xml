@@ -337,7 +337,6 @@
     <string name="subs_purchase_info">订阅费用为 %1$s/月或 %2$s/年</string>
     <string name="error_hz_exceeded">频率超出%1$s</string>
     <string name="tv_rifes">里夫斯</string>
-    <string name="tv_scalars">标量</string>
     <string name="tv_track">追踪</string>
     <string name="tv_from_rife">从盛行</string>
     <string name="tv_cus_frequency">自定义频率</string>
@@ -396,6 +395,7 @@
     <string name="frequency">频率</string>
     <string name="add_silent_quantum">添加沉默量子</string>
     <string name="tv_from_silent_quantum">来自沉默的量子</string>
+    <string name="tv_from_silent_quantum_pro">来自沉默量子专业版</string>
     <string name="txt_confirm_save_schedule">您确定要保存时间表吗？</string>
     <string name="txt_confirm_delete_frequencies">您确定要删除该频率吗？</string>
     <string name="txt_confirm_turn_off_before_switching_on_another">您需要先关闭日程表，然后再打开另一个日程表。您想关闭吗？</string>
@@ -407,4 +407,5 @@
     <string name="navigation_lbl_silent_quantum_pro">静音量子专业版</string>
     <string name="add_silent_quantum_pro">添加静音量子专业版</string>
     <string name="my_frequencies">我的频率</string>
+    <string name="benefits">好处</string>
 </resources>

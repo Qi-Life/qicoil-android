@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 10,
-    "identityHash": "9d727526b73893552ac0b2ee772b805f",
+    "identityHash": "fbd6b9da3f03f36828a591899b7e487d",
     "entities": [
       {
         "tableName": "home",
@@ -58,10 +58,10 @@
           }
         ],
         "primaryKey": {
+          "autoGenerate": true,
           "columnNames": [
             "id"
-          ],
-          "autoGenerate": true
+          ]
         },
         "indices": [],
         "foreignKeys": []
@@ -108,10 +108,10 @@
           }
         ],
         "primaryKey": {
+          "autoGenerate": false,
           "columnNames": [
             "id"
-          ],
-          "autoGenerate": false
+          ]
         },
         "indices": [],
         "foreignKeys": []
@@ -164,10 +164,10 @@
           }
         ],
         "primaryKey": {
+          "autoGenerate": false,
           "columnNames": [
             "id"
-          ],
-          "autoGenerate": false
+          ]
         },
         "indices": [],
         "foreignKeys": []
@@ -202,10 +202,10 @@
           }
         ],
         "primaryKey": {
+          "autoGenerate": false,
           "columnNames": [
             "id"
-          ],
-          "autoGenerate": false
+          ]
         },
         "indices": [],
         "foreignKeys": []
@@ -318,11 +318,11 @@
           }
         ],
         "primaryKey": {
+          "autoGenerate": false,
           "columnNames": [
             "id",
             "category_id"
-          ],
-          "autoGenerate": false
+          ]
         },
         "indices": [],
         "foreignKeys": []
@@ -417,10 +417,10 @@
           }
         ],
         "primaryKey": {
+          "autoGenerate": false,
           "columnNames": [
             "id"
-          ],
-          "autoGenerate": false
+          ]
         },
         "indices": [],
         "foreignKeys": []
@@ -497,10 +497,10 @@
           }
         ],
         "primaryKey": {
+          "autoGenerate": true,
           "columnNames": [
             "id"
-          ],
-          "autoGenerate": true
+          ]
         },
         "indices": [],
         "foreignKeys": []
@@ -547,10 +547,10 @@
           }
         ],
         "primaryKey": {
+          "autoGenerate": false,
           "columnNames": [
             "id"
-          ],
-          "autoGenerate": false
+          ]
         },
         "indices": [],
         "foreignKeys": []
@@ -633,17 +633,17 @@
           }
         ],
         "primaryKey": {
+          "autoGenerate": true,
           "columnNames": [
             "id"
-          ],
-          "autoGenerate": true
+          ]
         },
         "indices": [],
         "foreignKeys": []
       },
       {
         "tableName": "scalar",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `silent_energy_catalog_id` TEXT NOT NULL, `description` TEXT NOT NULL, `cover_image` TEXT NOT NULL, `audio_folder` TEXT NOT NULL, `audio_file` TEXT NOT NULL, `silent_energy_catalogs_name` TEXT NOT NULL, `silent_energy_catalogs_id` TEXT NOT NULL, `order_number` INTEGER NOT NULL, `is_free` INTEGER NOT NULL, `created_at` INTEGER NOT NULL, `updated_at` INTEGER NOT NULL, `isSelected` INTEGER NOT NULL, `silent_energy_tier` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `silent_energy_catalog_id` TEXT NOT NULL, `description` TEXT NOT NULL, `cover_image` TEXT NOT NULL, `audio_folder` TEXT NOT NULL, `audio_file` TEXT NOT NULL, `silent_energy_catalogs_name` TEXT NOT NULL, `silent_energy_catalogs_id` TEXT NOT NULL, `order_number` INTEGER NOT NULL, `is_free` INTEGER NOT NULL, `created_at` INTEGER NOT NULL, `updated_at` INTEGER NOT NULL, `isSelected` INTEGER NOT NULL, `is_catalogs_free` INTEGER NOT NULL, `silent_energy_tier` TEXT, `cover_image_url` TEXT, `long_description` TEXT, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -730,17 +730,35 @@
             "notNull": true
           },
           {
+            "fieldPath": "is_catalogs_free",
+            "columnName": "is_catalogs_free",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
             "fieldPath": "silent_energy_tier",
             "columnName": "silent_energy_tier",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
+          },
+          {
+            "fieldPath": "cover_image_url",
+            "columnName": "cover_image_url",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "long_description",
+            "columnName": "long_description",
+            "affinity": "TEXT",
+            "notNull": false
           }
         ],
         "primaryKey": {
+          "autoGenerate": false,
           "columnNames": [
             "id"
-          ],
-          "autoGenerate": false
+          ]
         },
         "indices": [],
         "foreignKeys": []
@@ -749,7 +767,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9d727526b73893552ac0b2ee772b805f')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'fbd6b9da3f03f36828a591899b7e487d')"
     ]
   }
 }

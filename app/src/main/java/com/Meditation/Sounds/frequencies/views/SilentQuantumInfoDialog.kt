@@ -10,19 +10,17 @@ import android.text.method.ScrollingMovementMethod
 import android.view.Gravity
 import android.view.Window
 import android.view.WindowManager
-import android.widget.Toast
 import com.Meditation.Sounds.frequencies.R
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Scalar
 import com.Meditation.Sounds.frequencies.lemeor.loadImageScalar
-import com.Meditation.Sounds.frequencies.models.Playlist
-import kotlinx.android.synthetic.main.dialog_add_edit_playlist.*
 import kotlinx.android.synthetic.main.dialog_silent_quantum_info.btnClose
 import kotlinx.android.synthetic.main.dialog_silent_quantum_info.image
 import kotlinx.android.synthetic.main.dialog_silent_quantum_info.tvDescription
+import kotlinx.android.synthetic.main.dialog_silent_quantum_info.tvDescriptionBenefits
 import kotlinx.android.synthetic.main.dialog_silent_quantum_info.tvTitle
-import kotlinx.android.synthetic.main.scalar_album_item.view.image
 
-class SilentQuantumInfoDialog(private val mContext: Context, private val album: Scalar) : Dialog(mContext) {
+class SilentQuantumInfoDialog(private val mContext: Context, private val album: Scalar) :
+    Dialog(mContext) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +43,10 @@ class SilentQuantumInfoDialog(private val mContext: Context, private val album: 
         tvTitle.text = album.name
         tvDescription.text = Html.fromHtml(album.description)
         tvDescription.movementMethod = ScrollingMovementMethod()
-
+        if (album.long_description?.isNotEmpty() == true) {
+            tvDescriptionBenefits.text = Html.fromHtml(album.long_description)
+            tvDescriptionBenefits.movementMethod = ScrollingMovementMethod()
+        }
         btnClose.setOnClickListener {
             dismiss()
         }
