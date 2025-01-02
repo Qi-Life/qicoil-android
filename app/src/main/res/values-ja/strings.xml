@@ -232,7 +232,7 @@
     <string name="tv_title_subscription">現在の期間が終了する少なくとも 24 時間前に自動更新をオフにしない限り、サブスクリプションは自動的に更新されます。支払いは GooglePlay アカウントに請求されます。 GooglePlay 設定でサブスクリプションを管理し、自動更新をオフにします。</string>
     <string name="tv_title_subscription_new">このサブスクリプションは、現在の期間が終了する少なくとも 24 時間前に自動更新をオフにしない限り、自動的に更新されます。お支払いは GooglePlay アカウントに請求されます。 GooglePlay アカウント設定でサブスクリプションを管理し、自動更新をオフにします。</string>
     <string name="flash_sale_50_off">フラッシュ セール - 0.5 オフ</string>
-    <string name="tv_forgotten_password">&lt;u&gt;パスワードをお忘れですか?&lt;/u&gt;</string>
+    <string name="tv_forgotten_password">パスワードをお忘れですか?</string>
     <string name="tv_link_sign_in">&lt;u&gt;サインインします。&lt;/u&gt;</string>
     <string name="tv_link_sign_up">&lt;u&gt;サインアップしてください。&lt;/u&gt;</string>
     <string name="tv_signUp">アカウントをお持ちでない場合は、</string>

@@ -6,6 +6,7 @@ import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import com.Meditation.Sounds.frequencies.R
 import com.Meditation.Sounds.frequencies.utils.StringsUtils
@@ -42,9 +43,7 @@ class RegistrationFragment : Fragment() {
         if (context is OnRegistrationListener) {
             mListener = context
         } else {
-            throw RuntimeException(
-                context.toString()
-                        + " must implement OnRegistrationListener"
+            throw RuntimeException(" must implement OnRegistrationListener"
             )
         }
     }
@@ -71,48 +70,55 @@ class RegistrationFragment : Fragment() {
         mBtnGetStartedRegister.setOnClickListener {
             if (isValidRegister()) {
                 firebaseAnalytics.logEvent("Sign_Up") {
-                    param("Name", mEdNameRegister.text.toString())
-                    param("Email", mEdEmailRegister.text.toString())
+                    param("Name", mEdNameRegister.getText())
+                    param("Email", mEdEmailRegister.getText())
                     // param(FirebaseAnalytics.Param.CONTENT_TYPE, "image")
                 }
                 mListener?.onRegistrationInteraction(
-                    mEdNameRegister.text.toString(),
-                    mEdEmailRegister.text.toString(),
-                    mEdPasswordRegister.text.toString(),
-                    mEdConfirmPasswordRegister.text.toString(),
+                    mEdNameRegister.getText(),
+                    mEdEmailRegister.getText(),
+                    mEdPasswordRegister.getText(),
+                    mEdConfirmPasswordRegister.getText(),
                     StringsUtils.getDeviceId(requireContext())
                 )
             }
         }
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+
+                }
+            })
     }
 
     private fun isValidRegister(): Boolean {
-        if (mEdNameRegister.text.toString().isEmpty()) {
-            mEdNameRegister.error = getString(R.string.tv_please_enter_name)
+        if (mEdNameRegister.getText().isEmpty()) {
+            mEdNameRegister.showError(getString(R.string.tv_please_enter_name))
             return false
         }
-        if (mEdEmailRegister.text.toString().isEmpty()) {
-            mEdEmailRegister.error = getString(R.string.tv_please_enter_email)
+        if (mEdEmailRegister.getText().isEmpty()) {
+            mEdEmailRegister.showError(getString(R.string.tv_please_enter_email))
             return false
         }
-        if (mEdPasswordRegister.text.toString().isEmpty()) {
-            mEdPasswordRegister.error = getString(R.string.tv_please_enter_pass)
+        if (mEdPasswordRegister.getText().isEmpty()) {
+            mEdPasswordRegister.showError(getString(R.string.tv_please_enter_pass))
             return false
         }
-        if (mEdPasswordRegister.text.toString().length < 6) {
-            mEdPasswordRegister.error = getString(R.string.tv_err_pass_characters)
+        if (mEdPasswordRegister.getText().length < 6) {
+            mEdPasswordRegister.showError(getString(R.string.tv_err_pass_characters))
             return false
         }
-        if (mEdConfirmPasswordRegister.text.toString().isEmpty()) {
-            mEdConfirmPasswordRegister.error = getString(R.string.tv_please_enter_confirm_password)
+        if (mEdConfirmPasswordRegister.getText().isEmpty()) {
+            mEdConfirmPasswordRegister.showError(getString(R.string.tv_please_enter_confirm_password))
             return false
         }
-        if (mEdConfirmPasswordRegister.text.toString() != mEdPasswordRegister.text.toString()) {
-            mEdConfirmPasswordRegister.error = getString(R.string.tv_please_check_confirm_password)
+        if (mEdConfirmPasswordRegister.getText() != mEdPasswordRegister.getText()) {
+            mEdConfirmPasswordRegister.showError(getString(R.string.tv_please_check_confirm_password))
             return false
         }
-        if (!mEdEmailRegister.text.toString().matches("[a-zA-Z0-9._-]+@[a-z]+.[a-z]+".toRegex())) {
-            mEdEmailRegister.error = getString(R.string.tv_invalid_email_add)
+        if (!mEdEmailRegister.getText().matches("[a-zA-Z0-9._-]+@[a-z]+.[a-z]+".toRegex())) {
+            mEdEmailRegister.showError(getString(R.string.tv_invalid_email_add))
             return false
         }
         return true

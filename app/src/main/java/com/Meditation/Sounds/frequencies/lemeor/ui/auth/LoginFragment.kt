@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Html
-import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -24,7 +24,6 @@ import com.Meditation.Sounds.frequencies.lemeor.data.database.DataBase
 import com.Meditation.Sounds.frequencies.lemeor.data.remote.ApiHelper
 import com.Meditation.Sounds.frequencies.lemeor.data.utils.Resource
 import com.Meditation.Sounds.frequencies.lemeor.data.utils.ViewModelFactory
-import com.Meditation.Sounds.frequencies.lemeor.hideKeyboard
 import com.Meditation.Sounds.frequencies.lemeor.showAlert
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper.codeLanguage
@@ -43,7 +42,14 @@ import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.ktx.logEvent
 import com.google.firebase.ktx.Firebase
 import com.tonyodev.fetch2core.isNetworkAvailable
-import kotlinx.android.synthetic.main.fragment_login.*
+import kotlinx.android.synthetic.main.fragment_login.btn_guest
+import kotlinx.android.synthetic.main.fragment_login.mBtnSignIn
+import kotlinx.android.synthetic.main.fragment_login.mEdEmailSignIn
+import kotlinx.android.synthetic.main.fragment_login.mEdPasswordSignIn
+import kotlinx.android.synthetic.main.fragment_login.mTvForgotPassword
+import kotlinx.android.synthetic.main.fragment_login.mTvSignUp
+import kotlinx.android.synthetic.main.fragment_login.rlgoogle_signin
+import kotlinx.android.synthetic.main.fragment_login.spLanguage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -61,9 +67,6 @@ class LoginFragment : Fragment() {
 
     private var mListener: OnLoginListener? = null
     private var RC_SIGN_IN = 100
-    private var id = ""
-    private var name = ""
-    private var email = ""
     private lateinit var firebaseAnalytics: FirebaseAnalytics
     private lateinit var mViewModel: HomeViewModel
 
@@ -75,8 +78,7 @@ class LoginFragment : Fragment() {
 
     private val languageAdapter by lazy {
         CustomSpinnerAdapter(
-            requireActivity(),
-            languages
+            requireActivity(), languages
         )
     }
 
@@ -87,8 +89,7 @@ class LoginFragment : Fragment() {
             mListener = context
         } else {
             throw RuntimeException(
-                context.toString()
-                        + " must implement OnLoginFragmentListener"
+                context.toString() + " must implement OnLoginFragmentListener"
             )
         }
     }
@@ -99,8 +100,7 @@ class LoginFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_login, container, false)
     }
@@ -115,10 +115,8 @@ class LoginFragment : Fragment() {
         )[HomeViewModel::class.java]
         firebaseAnalytics = Firebase.analytics
         mTvSignUp.text = Html.fromHtml(getString(R.string.tv_link_sign_up))
-        mTvForgotPassword.text = Html.fromHtml(getString(R.string.tv_forgotten_password))
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestEmail()
-            .build()
+        val gso =
+            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build()
 
         // Build a GoogleSignInClient with the options specified by gso.
         val googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
@@ -127,8 +125,7 @@ class LoginFragment : Fragment() {
             if (Utils.isConnectedToNetwork(requireContext())) {
                 if (isValidLogin()) {
                     mListener?.onLoginInteraction(
-                        mEdEmailSignIn.text.toString(),
-                        mEdPasswordSignIn.text.toString()
+                        mEdEmailSignIn.getText(), mEdPasswordSignIn.getText()
                     )
                 }
             } else {
@@ -150,13 +147,10 @@ class LoginFragment : Fragment() {
             startActivityForResult(signInIntent, RC_SIGN_IN)
         }
 
-
         spLanguage.adapter = languageAdapter
-        spLanguage.onItemSelectedListener = object :
-            AdapterView.OnItemSelectedListener {
+        spLanguage.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?, position: Int, id: Long
+                parent: AdapterView<*>?, view: View?, position: Int, id: Long
             ) {
                 parent ?: return
                 view ?: return
@@ -171,6 +165,14 @@ class LoginFragment : Fragment() {
             override fun onNothingSelected(parent: AdapterView<*>) {
             }
         }
+
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+
+                }
+            })
     }
 
     private fun clearData() {
@@ -217,16 +219,16 @@ class LoginFragment : Fragment() {
     }
 
     private fun isValidLogin(): Boolean {
-        if (mEdEmailSignIn.text.toString().trim().isEmpty()) {
-            mEdEmailSignIn.error = getString(R.string.tv_please_enter_email)
+        if (mEdEmailSignIn.getText().trim().isEmpty()) {
+            mEdEmailSignIn.showError(getString(R.string.tv_please_enter_email))
             return false
         }
-        if (!isValidEmail(mEdEmailSignIn.text.toString())) {
-            mEdEmailSignIn.error = getString(R.string.tv_invalid_email)
+        if (!isValidEmail(mEdEmailSignIn.getText())) {
+            mEdEmailSignIn.showError(getString(R.string.tv_invalid_email))
             return false
         }
-        if (mEdPasswordSignIn.text.toString().trim().isEmpty()) {
-            mEdPasswordSignIn.error = getString(R.string.tv_please_enter_pass)
+        if (mEdPasswordSignIn.getText().trim().isEmpty()) {
+            mEdPasswordSignIn.showError(getString(R.string.tv_please_enter_pass))
             return false
         }
         return true
@@ -239,16 +241,15 @@ class LoginFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode != RESULT_CANCELED)
-            if (requestCode === RC_SIGN_IN) {
-                // The Task returned from this call is always completed, no need to attach
-                // a listener.
-                if (data != null) {
-                    val task: Task<GoogleSignInAccount> =
-                        GoogleSignIn.getSignedInAccountFromIntent(data)
-                    handleSignInResult(task)
-                }
+        if (resultCode != RESULT_CANCELED) if (requestCode === RC_SIGN_IN) {
+            // The Task returned from this call is always completed, no need to attach
+            // a listener.
+            if (data != null) {
+                val task: Task<GoogleSignInAccount> =
+                    GoogleSignIn.getSignedInAccountFromIntent(data)
+                handleSignInResult(task)
             }
+        }
     }
 
     private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
@@ -275,7 +276,6 @@ class LoginFragment : Fragment() {
             //updateUI(null)
         }
     }
-
 }
 
 class CustomSpinnerAdapter(context: Context, list: List<Language>) :
@@ -292,8 +292,8 @@ class CustomSpinnerAdapter(context: Context, list: List<Language>) :
     private fun initView(position: Int, convertView: View?, parent: ViewGroup): View {
         var convertViewNew = convertView
         if (convertViewNew == null) {
-            convertViewNew = LayoutInflater.from(context)
-                .inflate(R.layout.item_language_spinner, parent, false)
+            convertViewNew =
+                LayoutInflater.from(context).inflate(R.layout.item_language_spinner, parent, false)
         }
         val textViewName = convertViewNew!!.findViewById<TextView>(R.id.tvCountries)
         val imageView: AppCompatImageView = convertViewNew.findViewById(R.id.imgFlag)

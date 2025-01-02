@@ -232,9 +232,9 @@
     <string name="tv_title_subscription">Đăng ký tự động gia hạn trừ khi tính năng tự động gia hạn được tắt ít nhất 24 giờ trước khi giai đoạn hiện tại kết thúc. khoản thanh toán được tính vào tài khoản GooglePlay của bạn. Quản lý đăng ký và tắt tự động gia hạn trong cài đặt GooglePlay.</string>
     <string name="tv_title_subscription_new">Đăng ký này sẽ tự động gia hạn trừ khi tính năng tự động gia hạn bị tắt ít nhất 24 giờ trước khi giai đoạn hiện tại kết thúc. Thanh toán được tính vào tài khoản GooglePlay của bạn. Quản lý đăng ký và tắt tự động gia hạn trong cài đặt tài khoản GooglePlay.</string>
     <string name="flash_sale_50_off">Giảm giá chớp nhoáng - GIẢM GIÁ 0,5</string>
-    <string name="tv_forgotten_password">&lt;u&gt;Quên mật khẩu?&lt;/u&gt;</string>
-    <string name="tv_link_sign_in">&lt;u&gt; Đăng nhập.&lt;/u&gt;</string>
-    <string name="tv_link_sign_up">&lt;u&gt; Đăng ký.&lt;/u&gt;</string>
+    <string name="tv_forgotten_password">Quên mật khẩu?</string>
+    <string name="tv_link_sign_in">&lt;u&gt; Đăng Nhập.&lt;/u&gt;</string>
+    <string name="tv_link_sign_up">&lt;u&gt; Đăng Ký.&lt;/u&gt;</string>
     <string name="tv_signUp">Bạn chưa có tài khoản?</string>
     <string name="tv_signIn">Đã có tài khoản?</string>
     <string name="tv_not_worry">Đừng lo lắng! \nChỉ cần nhập địa chỉ email đã đăng ký của bạn bên dưới và chúng tôi sẽ gửi cho bạn email kèm theo hướng dẫn về cách đặt lại mật khẩu của bạn.</string>

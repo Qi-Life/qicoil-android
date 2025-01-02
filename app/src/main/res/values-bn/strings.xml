@@ -225,7 +225,7 @@
     <string name="tv_title_subscription">বর্তমান মেয়াদ শেষ হওয়ার কমপক্ষে 24 ঘন্টা আগে স্বয়ংক্রিয় পুনর্নবীকরণ বন্ধ না হলে সদস্যতা স্বয়ংক্রিয়ভাবে পুনর্নবীকরণ হয়। পেমেন্ট আপনার GooglePlay অ্যাকাউন্টে চার্জ করা হয়। সাবস্ক্রিপশন পরিচালনা করুন এবং GooglePlay সেটিংসে স্বয়ংক্রিয় পুনর্নবীকরণ বন্ধ করুন।</string>
     <string name="tv_title_subscription_new">এই সদস্যতা স্বয়ংক্রিয়ভাবে পুনর্নবীকরণ হয় যদি না স্বয়ংক্রিয় পুনর্নবীকরণ বর্তমান মেয়াদ শেষ হওয়ার কমপক্ষে 24-ঘণ্টা আগে বন্ধ করা হয়। পেমেন্ট আপনার GooglePlay অ্যাকাউন্টে চার্জ করা হয়। GooglePlay অ্যাকাউন্ট সেটিংসে সদস্যতা পরিচালনা করুন এবং স্বয়ংক্রিয় পুনর্নবীকরণ বন্ধ করুন।</string>
     <string name="flash_sale_50_off">ফ্ল্যাশ সেল - 0.5 ছাড়</string>
-    <string name="tv_forgotten_password">&lt;u&gt;পাসওয়ার্ড ভুলে গেছেন?&lt;/u&gt;</string>
+    <string name="tv_forgotten_password">পাসওয়ার্ড ভুলে গেছেন?</string>
     <string name="tv_link_sign_in">&lt;u&gt; সাইন ইন করুন৷&lt;/u&gt;</string>
     <string name="tv_link_sign_up">&lt;u&gt; সাইন আপ করুন৷&lt;/u&gt;</string>
     <string name="tv_signUp">একটি অ্যাকাউন্ট নেই?</string>

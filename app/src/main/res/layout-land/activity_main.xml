@@ -250,7 +250,7 @@
                             android:layout_height="wrap_content"
                             android:text="00:00"
                             android:textColor="#fff"
-                            android:textSize="@dimen/text_size_nomarl"
+                            android:textSize="@dimen/text_size_normal"
                             app:fontText="fonts/BebasNeue_Book.otf" />
 
                         <com.Meditation.Sounds.frequencies.views.CustomSeekBar
@@ -271,7 +271,7 @@
                             android:layout_height="wrap_content"
                             android:text="00:00"
                             android:textColor="#fff"
-                            android:textSize="@dimen/text_size_nomarl"
+                            android:textSize="@dimen/text_size_normal"
                             app:fontText="fonts/BebasNeue_Book.otf" />
                     </LinearLayout>
 

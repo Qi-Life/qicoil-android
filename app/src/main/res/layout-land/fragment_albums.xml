@@ -156,7 +156,7 @@
                 android:singleLine="true"
                 android:textColor="#000000"
                 android:textColorHint="#000000"
-                android:textSize="@dimen/text_size_nomarl"
+                android:textSize="@dimen/text_size_normal"
                 app:fontText="fonts/HelveticaNeue_Thin.otf" />
 
             <ImageView
@@ -231,7 +231,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/tv_albums"
                         android:textColor="#000000"
-                        android:textSize="@dimen/text_size_nomarl"
+                        android:textSize="@dimen/text_size_normal"
                         app:fontText="fonts/HelveticaNeue_Bold.otf" />
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -246,7 +246,7 @@
                         android:layout_marginTop="@dimen/padding_left_right_item"
                         android:text="@string/tv_frequencies"
                         android:textColor="#000000"
-                        android:textSize="@dimen/text_size_nomarl"
+                        android:textSize="@dimen/text_size_normal"
                         app:fontText="fonts/HelveticaNeue_Bold.otf" />
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -261,7 +261,7 @@
                         android:layout_marginTop="@dimen/padding_left_right_item"
                         android:text="@string/tv_programs"
                         android:textColor="#000000"
-                        android:textSize="@dimen/text_size_nomarl"
+                        android:textSize="@dimen/text_size_normal"
                         app:fontText="fonts/HelveticaNeue_Bold.otf" />
 
                     <androidx.recyclerview.widget.RecyclerView

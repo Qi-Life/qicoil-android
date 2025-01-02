@@ -230,7 +230,7 @@
     <string name="tv_title_subscription">सदस्यता स्वतः नवीनीकृत हो जाती है जब तक कि वर्तमान अवधि समाप्त होने से कम से कम 24 घंटे पहले स्वतः नवीनीकरण बंद न हो जाए। भुगतान आपके GooglePlay खाते से लिया जाता है. सदस्यताएँ प्रबंधित करें और GooglePlay सेटिंग में स्वतः नवीनीकरण बंद करें।</string>
     <string name="tv_title_subscription_new">यह सदस्यता स्वचालित रूप से नवीनीकृत हो जाती है जब तक कि वर्तमान अवधि समाप्त होने से कम से कम 24 घंटे पहले ऑटो-नवीनीकरण बंद न हो जाए। भुगतान आपके GooglePlay खाते से लिया जाता है. सदस्यताएँ प्रबंधित करें और GooglePlay खाता सेटिंग में स्वतः नवीनीकरण बंद करें।</string>
     <string name="flash_sale_50_off">फ्लैश सेल - 0.5 की छूट</string>
-    <string name="tv_forgotten_password">&lt;u&gt;पासवर्ड भूल गए?&lt;/u&gt;</string>
+    <string name="tv_forgotten_password">पासवर्ड भूल गए?</string>
     <string name="tv_link_sign_in">&lt;u&gt; साइन इन करें.&lt;/u&gt;</string>
     <string name="tv_link_sign_up">&lt;u&gt; साइन अप करें.&lt;/u&gt;</string>
     <string name="tv_signUp">क्या आपके पास खाता नहीं है?</string>

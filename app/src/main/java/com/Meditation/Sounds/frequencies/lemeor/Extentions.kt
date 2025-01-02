@@ -24,6 +24,7 @@ import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.MusicRepository
 import com.Meditation.Sounds.frequencies.utils.Constants
 import com.Meditation.Sounds.frequencies.utils.Utils
+import com.Meditation.Sounds.frequencies.views.AlertMessageDialog
 import com.Meditation.Sounds.frequencies.views.CustomFontEditText
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -239,10 +240,11 @@ fun getConvertedTime(millis: Long): String {
 }
 
 fun showAlert(context: Context, content: String) {
-    AlertDialog.Builder(context)
-        .setMessage(content)
-        .setPositiveButton(R.string.txt_ok, null)
-        .show()
+//    AlertDialog.Builder(context)
+//        .setMessage(content)
+//        .setPositiveButton(R.string.txt_ok, null)
+//        .show()
+    AlertMessageDialog(context, content, isHideBtnNo = true).show()
 }
 
 fun showAlertInfo(context: Context, e: Exception) {

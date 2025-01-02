@@ -128,7 +128,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/tv_signIn"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/text_size_nomarl"
+                            android:textSize="@dimen/text_size_normal"
                             font:fontText="fonts/MyriadPro_Semibold.otf" />
 
                         <com.Meditation.Sounds.frequencies.views.CustomFontTextView
@@ -139,7 +139,7 @@
                             android:layout_marginLeft="2dp"
                             android:text="@string/tv_link_sign_in"
                             android:textColor="@color/text_title_profile"
-                            android:textSize="@dimen/text_size_nomarl"
+                            android:textSize="@dimen/text_size_normal"
                             font:fontText="fonts/MyriadPro_Semibold.otf" />
                     </LinearLayout>
                 </LinearLayout>

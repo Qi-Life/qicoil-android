@@ -247,9 +247,9 @@
     <string name="tv_title_subscription">Subscription automatically renews unless auto-renew is turned off at least 24 hours before current period ends. payment is charged to your GooglePlay account. Manage subscriptions and turn off auto-renewal in GooglePlay settings.</string>
     <string name="tv_title_subscription_new">This subscription automatically renews unless auto-renew is turned off at least 24-hours before current period ends. Payment is charged to your GooglePlay account. Manage subscriptions and turn off auto renewal in GooglePlay account settings.</string>
     <string name="flash_sale_50_off">Flash Sale - 50% OFF</string>
-    <string name="tv_forgotten_password">&lt;u&gt;Forgotten password?&lt;/u&gt;</string>
-    <string name="tv_link_sign_in">&lt;u&gt; Sign in.&lt;/u&gt;</string>
-    <string name="tv_link_sign_up">&lt;u&gt; Sign up.&lt;/u&gt;</string>
+    <string name="tv_forgotten_password">Forgot Password?</string>
+    <string name="tv_link_sign_in">&lt;u&gt; Sign In.&lt;/u&gt;</string>
+    <string name="tv_link_sign_up">&lt;u&gt; Sign Up.&lt;/u&gt;</string>
     <string name="tv_signUp">Don\'t have an account?</string>
     <string name="tv_signIn">Already has an account?</string>
     <string name="tv_not_worry">Not to worry! \nJust enter your registered email address below and we’ll send you an email with instructions on how to reset your password.</string>
@@ -258,7 +258,7 @@
     <string name="tv_password">Password</string>
     <string name="tv_confirm_password">Confirm Password</string>
     <string name="tv_get_started">Get Started</string>
-    <string name="tv_sign_in">Sign In</string>
+    <string name="tv_sign_in">Login</string>
     <string name="tv_google">Continue with Google</string>
     <string name="tv_facebook">Continue with Facebook</string>
     <string name="tv_guest">Continue as Guest</string>

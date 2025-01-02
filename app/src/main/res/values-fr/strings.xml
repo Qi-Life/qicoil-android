@@ -260,7 +260,7 @@
     <string name="tv_hours">HEURES</string>
     <string name="tv_offer_expires_in">L\'offre expire dans:</string>
     <string name="tv__50_off">Économisez 50%</string>
-    <string name="tv_forgotten_password">&lt;u&gt;Mot de passe oublié?&lt;/u&gt;</string>
+    <string name="tv_forgotten_password">Mot de passe oublié?</string>
     <string name="tv_unlock_all_34_basic_frequencies">Déverrouiller les 34 fréquences essentielles</string>
     <string name="tv_unlock_all_150_advanced_frequencies_one_time">Déverrouiller les 189 &lt;br/&gt;Fréquences abondantes &lt;u&gt;POUR TOUJOURS&lt;/u&gt;</string>
     <string name="tv_unlock_all_150_advanced_frequencies_one_time_yearly">Déverrouiller les 189 \nFrecuencias de abundancia</string>

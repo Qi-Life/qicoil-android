@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/txt_disclaimer_title"
                 android:textColor="#000"
-                android:textSize="@dimen/text_size_nomarl"
+                android:textSize="@dimen/text_size_normal"
                 android:textStyle="bold"
                 app:fontText="fonts/HelveticaNeue-Light-Bold.otf" />
 

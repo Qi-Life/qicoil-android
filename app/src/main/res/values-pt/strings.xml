@@ -222,7 +222,7 @@
     <string name="tv_title_subscription">A assinatura é renovada automaticamente, a menos que a renovação automática seja desativada pelo menos 24 horas antes do término do período atual. o pagamento é cobrado em sua conta GooglePlay. Gerencie assinaturas e desative a renovação automática nas configurações do GooglePlay.</string>
     <string name="tv_title_subscription_new">Esta assinatura é renovada automaticamente, a menos que a renovação automática seja desativada pelo menos 24 horas antes do término do período atual. O pagamento é cobrado em sua conta GooglePlay. Gerencie assinaturas e desative a renovação automática nas configurações da conta do GooglePlay.</string>
     <string name="flash_sale_50_off">Promoção relâmpago - 0,5 OFF</string>
-    <string name="tv_forgotten_password">&lt;u&gt;Esqueceu a senha?&lt;/u&gt;</string>
+    <string name="tv_forgotten_password">Esqueceu a senha?</string>
     <string name="tv_link_sign_in">&lt;u&gt; Faça login.&lt;/u&gt;</string>
     <string name="tv_link_sign_up">&lt;u&gt; Inscreva-se.&lt;/u&gt;</string>
     <string name="tv_signUp">Não tem uma conta?</string>

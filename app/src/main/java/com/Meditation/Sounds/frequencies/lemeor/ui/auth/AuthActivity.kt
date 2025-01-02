@@ -22,6 +22,7 @@ import com.Meditation.Sounds.frequencies.lemeor.data.model.Program
 import com.Meditation.Sounds.frequencies.lemeor.data.remote.ApiHelper
 import com.Meditation.Sounds.frequencies.lemeor.data.utils.Resource
 import com.Meditation.Sounds.frequencies.lemeor.data.utils.ViewModelFactory
+import com.Meditation.Sounds.frequencies.lemeor.showAlert
 import com.Meditation.Sounds.frequencies.lemeor.tools.HudHelper
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper.isAppPurchased
@@ -179,11 +180,7 @@ class AuthActivity : AppCompatActivity(), OnLoginListener, OnRegistrationListene
                         }
                         Resource.Status.ERROR -> {
                             HudHelper.hide()
-                            Toast.makeText(
-                                applicationContext,
-                                it.message ?: getString(R.string.msg_error_occurred),
-                                Toast.LENGTH_LONG
-                            ).show()
+                            showAlert(this@AuthActivity, it.message ?: getString(R.string.msg_error_occurred))
                         }
                         Resource.Status.LOADING -> {
                             HudHelper.show(this)
@@ -222,11 +219,7 @@ class AuthActivity : AppCompatActivity(), OnLoginListener, OnRegistrationListene
                     }
                     Resource.Status.ERROR -> {
                         HudHelper.hide()
-                        Toast.makeText(
-                            applicationContext,
-                            it.message ?: getString(R.string.msg_error_occurred),
-                            Toast.LENGTH_LONG
-                        ).show()
+                        showAlert(this@AuthActivity, it.message ?: getString(R.string.msg_error_occurred))
                     }
                     Resource.Status.LOADING -> {
                         HudHelper.show(this)
@@ -255,11 +248,7 @@ class AuthActivity : AppCompatActivity(), OnLoginListener, OnRegistrationListene
                     }
                     Resource.Status.ERROR -> {
                         HudHelper.hide()
-                        Toast.makeText(
-                            applicationContext,
-                            it.message ?: getString(R.string.msg_error_occurred),
-                            Toast.LENGTH_LONG
-                        ).show()
+                        showAlert(this@AuthActivity, it.message ?: getString(R.string.msg_error_occurred))
                     }
                     Resource.Status.LOADING -> {
                         HudHelper.show(this)
@@ -281,11 +270,7 @@ class AuthActivity : AppCompatActivity(), OnLoginListener, OnRegistrationListene
                     }
                     Resource.Status.ERROR -> {
                         HudHelper.hide()
-                        Toast.makeText(
-                            applicationContext,
-                            it.message ?: getString(R.string.msg_error_occurred),
-                            Toast.LENGTH_LONG
-                        ).show()
+                        showAlert(this@AuthActivity, it.message ?: getString(R.string.msg_error_occurred))
                     }
                     Resource.Status.LOADING -> {
                         HudHelper.show(this)

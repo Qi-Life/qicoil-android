@@ -77,7 +77,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#FFF"
-                        android:textSize="@dimen/text_size_nomarl"
+                        android:textSize="@dimen/text_size_normal"
                         android:textStyle="bold"
                         android:visibility="gone"
                         app:fontText="fonts/BebasNeue Book.ttf"

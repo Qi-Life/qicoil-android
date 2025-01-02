@@ -43,7 +43,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/padding_left_right_item"
                     android:padding="@dimen/padding_left_right_item_title"
-                    android:textSize="@dimen/text_size_nomarl"
+                    android:textSize="@dimen/text_size_normal"
                     android:visibility="invisible"
                     font:fontText="fonts/MyriadPro_Semibold.otf" />
 
@@ -159,7 +159,7 @@
                     android:padding="@dimen/padding_left_right_item_title"
                     android:text="@string/profile_lbl_subscription"
                     android:textColor="@drawable/bg_text"
-                    android:textSize="@dimen/text_size_nomarl"
+                    android:textSize="@dimen/text_size_normal"
                     font:fontText="fonts/MyriadPro_Semibold.otf" />
 
                 <com.Meditation.Sounds.frequencies.views.CustomFontTextView
@@ -173,7 +173,7 @@
                     android:padding="@dimen/padding_left_right_item_title"
                     android:text="@string/tv_redeem"
                     android:textColor="@drawable/bg_text"
-                    android:textSize="@dimen/text_size_nomarl"
+                    android:textSize="@dimen/text_size_normal"
                     android:visibility="gone"
                     font:fontText="fonts/MyriadPro_Semibold.otf" />
 
@@ -188,7 +188,7 @@
                     android:padding="@dimen/padding_left_right_item_title"
                     android:text="@string/tv_my_custom_playlists"
                     android:textColor="@drawable/bg_text"
-                    android:textSize="@dimen/text_size_nomarl"
+                    android:textSize="@dimen/text_size_normal"
                     android:visibility="gone"
                     font:fontText="fonts/MyriadPro_Semibold.otf" />
 
@@ -203,7 +203,7 @@
                     android:padding="@dimen/padding_left_right_item_title"
                     android:text="@string/profile_lbl_instructions"
                     android:textColor="@drawable/bg_text"
-                    android:textSize="@dimen/text_size_nomarl"
+                    android:textSize="@dimen/text_size_normal"
                     font:fontText="fonts/MyriadPro_Semibold.otf" />
 
                 <com.Meditation.Sounds.frequencies.views.CustomFontTextView
@@ -217,7 +217,7 @@
                     android:padding="@dimen/padding_left_right_item_title"
                     android:text="@string/profile_lbl_disclaimer"
                     android:textColor="@drawable/bg_text"
-                    android:textSize="@dimen/text_size_nomarl"
+                    android:textSize="@dimen/text_size_normal"
                     font:fontText="fonts/MyriadPro_Semibold.otf" />
 
                 <com.Meditation.Sounds.frequencies.views.CustomFontTextView
@@ -231,7 +231,7 @@
                     android:padding="@dimen/padding_left_right_item_title"
                     android:text="@string/profile_lbl_about"
                     android:textColor="@drawable/bg_text"
-                    android:textSize="@dimen/text_size_nomarl"
+                    android:textSize="@dimen/text_size_normal"
                     font:fontText="fonts/MyriadPro_Semibold.otf" />
             </LinearLayout>
         </FrameLayout>

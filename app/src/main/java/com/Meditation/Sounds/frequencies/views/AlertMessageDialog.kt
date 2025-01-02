@@ -6,12 +6,20 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.Gravity
+import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import com.Meditation.Sounds.frequencies.R
-import kotlinx.android.synthetic.main.dialog_alert_message.*
+import kotlinx.android.synthetic.main.dialog_alert_message.btnCancel
+import kotlinx.android.synthetic.main.dialog_alert_message.btnOK
+import kotlinx.android.synthetic.main.dialog_alert_message.tvDescription
 
-class AlertMessageDialog(private val mContext: Context?, private var mOnSubmitListener: IOnSubmitListener?) : Dialog(mContext!!) {
+class AlertMessageDialog(
+    private val context: Context,
+    private val message: String? = null,
+    private val isHideBtnNo: Boolean? = false,
+    private var onOkClick: (() -> Unit)? = null
+) : Dialog(context) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,38 +31,23 @@ class AlertMessageDialog(private val mContext: Context?, private var mOnSubmitLi
         wlp.width = WindowManager.LayoutParams.MATCH_PARENT
         wlp.flags = wlp.flags and WindowManager.LayoutParams.FLAG_DIM_BEHIND
         window.attributes = wlp
-        getWindow()!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        this.window!!.attributes = wlp
+        getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        this.window?.attributes = wlp
         setCancelable(false)
         init()
     }
 
     fun init() {
+        tvDescription.text = message
+        if (isHideBtnNo == true) {
+            btnCancel.visibility = View.GONE
+        }
         btnOK.setOnClickListener {
-            if (mOnSubmitListener != null) {
-                mOnSubmitListener!!.submit()
-            }
+            onOkClick?.invoke()
             dismiss()
         }
         btnCancel.setOnClickListener {
-            if (mOnSubmitListener != null) {
-                mOnSubmitListener!!.cancel()
-            }
             dismiss()
         }
-    }
-
-    fun setWarningMessage(message: String){
-        tvDescription.setText(message)
-    }
-
-    fun setButtonText(textLeft : String, textRight : String){
-        btnCancel.setText(textLeft)
-        btnOK.setText(textRight)
-    }
-
-    interface IOnSubmitListener {
-        fun submit()
-        fun cancel()
     }
 }

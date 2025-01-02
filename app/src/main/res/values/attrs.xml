@@ -21,4 +21,15 @@
         <attr name="csb_progress" format="integer" />
         <attr name="csb_max" format="integer" />
     </declare-styleable>
+
+    <declare-styleable name="CustomEditText">
+        <attr name="iconLeft" format="reference"/>
+        <attr name="iconRight" format="reference"/>
+        <attr name="android:inputType" />
+        <attr name="android:textSize" />
+        <attr name="android:hint" />
+        <attr name="android:fontFamily" />
+        <attr name="android:textColor" />
+        <attr name="android:text" />
+    </declare-styleable>
 </resources>

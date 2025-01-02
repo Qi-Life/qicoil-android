@@ -17,7 +17,7 @@
         android:layout_marginRight="@dimen/margin_item_5"
         android:background="@color/transparent"
         android:textColor="#000000"
-        android:textSize="@dimen/text_size_nomarl"
+        android:textSize="@dimen/text_size_normal"
         tools:text="Life Force the Source of Qi"
         app:fontText="fonts/HelveticaNeue_Thin.otf" />
 </LinearLayout>

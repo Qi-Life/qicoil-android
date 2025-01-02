@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:text="@string/app_name"
             android:textColor="#000"
-            android:textSize="@dimen/text_size_nomarl"
+            android:textSize="@dimen/text_size_normal"
             android:textStyle="bold" />
 
         <TextView

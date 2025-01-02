@@ -3,8 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:paddingVertical="@dimen/margin_item_5"
-    android:orientation="horizontal">
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingVertical="@dimen/margin_item_5">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imgFlag"
@@ -17,8 +18,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:textColor="@color/white"
         android:layout_marginStart="@dimen/indent_8"
+        android:fontFamily="@font/poppins_regular"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_small_11"
         tools:text="China â" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>
