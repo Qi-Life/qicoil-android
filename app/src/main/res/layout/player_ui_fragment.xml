@@ -25,7 +25,7 @@
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginEnd="@dimen/indent_24"
             android:adjustViewBounds="true"
-            android:src="@drawable/ic_silent_scalar_off"
+            android:src="@drawable/bg_silent_scalar_off"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
