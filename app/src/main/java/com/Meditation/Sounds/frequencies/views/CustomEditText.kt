@@ -21,11 +21,12 @@ class CustomEditText @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr) {
 
-    private val editText: EditText
+    val editText: EditText
     private val errorTextView: TextView
     private val iconLeft: ImageView
     private val iconRight: ImageView
     private var isPasswordVisible = false
+
     init {
         // Inflate layout
         LayoutInflater.from(context).inflate(R.layout.view_custom_edit_text, this, true)
@@ -75,9 +76,11 @@ class CustomEditText @JvmOverloads constructor(
             iconRight.setOnClickListener {
                 if (isPasswordVisible) {
                     // Hide password
+                    iconRight.setImageResource(R.drawable.ic_show_password)
                     editText.transformationMethod = PasswordTransformationMethod.getInstance()
                 } else {
                     // Show password
+                    iconRight.setImageResource(R.drawable.ic_hide_password)
                     editText.transformationMethod = HideReturnsTransformationMethod.getInstance()
                 }
                 editText.setSelection(editText.text.length)

@@ -1,15 +1,22 @@
 package com.Meditation.Sounds.frequencies.lemeor.ui.options
 
 import android.app.Activity.RESULT_OK
+import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.Meditation.Sounds.frequencies.BuildConfig
@@ -61,7 +68,6 @@ import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper.saveUser
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper.token
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.ScalarPlayerStatus
 import com.Meditation.Sounds.frequencies.lemeor.ui.auth.AuthActivity
-import com.Meditation.Sounds.frequencies.lemeor.ui.auth.CustomSpinnerAdapter
 import com.Meditation.Sounds.frequencies.lemeor.ui.auth.updateUnlocked
 import com.Meditation.Sounds.frequencies.lemeor.ui.main.HomeViewModel
 import com.Meditation.Sounds.frequencies.lemeor.ui.main.NavigationActivity
@@ -697,6 +703,36 @@ class NewOptionsFragment : BaseFragment() {
                     initUI()
                 }
             }
+        }
+    }
+
+    class CustomSpinnerAdapter(context: Context, list: List<Language>) :
+        ArrayAdapter<Language>(context, 0, list) {
+
+        override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+            return initView(position, convertView, parent)
+        }
+
+        override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+            return initView(position, convertView, parent)
+        }
+
+        private fun initView(position: Int, convertView: View?, parent: ViewGroup): View {
+            var convertViewNew = convertView
+            if (convertViewNew == null) {
+                convertViewNew =
+                    LayoutInflater.from(context).inflate(R.layout.item_language_spinner_drop, parent, false)
+            }
+            val textViewName = convertViewNew!!.findViewById<TextView>(R.id.tvCountries)
+            val imageView: AppCompatImageView = convertViewNew.findViewById(R.id.imgFlag)
+            val currentItem = getItem(position)
+
+
+            textViewName.text = currentItem?.name ?: "English"
+            textViewName.setTextColor(Color.WHITE)
+            textViewName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13f)
+            imageView.setImageResource(currentItem?.image ?: R.drawable.ic_england_flag)
+            return convertViewNew
         }
     }
 }

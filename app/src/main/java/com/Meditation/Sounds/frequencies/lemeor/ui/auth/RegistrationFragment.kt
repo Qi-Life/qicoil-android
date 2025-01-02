@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import com.Meditation.Sounds.frequencies.R
 import com.Meditation.Sounds.frequencies.utils.StringsUtils
@@ -67,6 +68,7 @@ class RegistrationFragment : Fragment() {
 
         mTvSignIn.setOnClickListener { mListener?.onOpenLogin() }
 
+        mBtnGetStartedRegister.isEnabled = false
         mBtnGetStartedRegister.setOnClickListener {
             if (isValidRegister()) {
                 firebaseAnalytics.logEvent("Sign_Up") {
@@ -83,6 +85,23 @@ class RegistrationFragment : Fragment() {
                 )
             }
         }
+
+        mEdNameRegister.editText.doOnTextChanged { text, _, _, _ ->
+            mBtnGetStartedRegister.isEnabled = text.toString().isNotEmpty() && mEdEmailRegister.getText().isNotEmpty() && mEdPasswordRegister.getText().isNotEmpty() && mEdConfirmPasswordRegister.getText().isNotEmpty()
+        }
+
+        mEdEmailRegister.editText.doOnTextChanged { text, _, _, _ ->
+            mBtnGetStartedRegister.isEnabled = text.toString().isNotEmpty() && mEdNameRegister.getText().isNotEmpty() && mEdPasswordRegister.getText().isNotEmpty() && mEdConfirmPasswordRegister.getText().isNotEmpty()
+        }
+
+        mEdPasswordRegister.editText.doOnTextChanged { text, _, _, _ ->
+            mBtnGetStartedRegister.isEnabled = text.toString().isNotEmpty() && mEdNameRegister.getText().isNotEmpty() && mEdEmailRegister.getText().isNotEmpty() && mEdConfirmPasswordRegister.getText().isNotEmpty()
+        }
+
+        mEdConfirmPasswordRegister.editText.doOnTextChanged { text, _, _, _ ->
+            mBtnGetStartedRegister.isEnabled = text.toString().isNotEmpty() && mEdNameRegister.getText().isNotEmpty() && mEdEmailRegister.getText().isNotEmpty() && mEdPasswordRegister.getText().isNotEmpty()
+        }
+
         requireActivity().onBackPressedDispatcher.addCallback(
             viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
@@ -101,6 +120,10 @@ class RegistrationFragment : Fragment() {
             mEdEmailRegister.showError(getString(R.string.tv_please_enter_email))
             return false
         }
+        if (!mEdEmailRegister.getText().matches("[a-zA-Z0-9._-]+@[a-z]+.[a-z]+".toRegex())) {
+            mEdEmailRegister.showError(getString(R.string.tv_invalid_email_add))
+            return false
+        }
         if (mEdPasswordRegister.getText().isEmpty()) {
             mEdPasswordRegister.showError(getString(R.string.tv_please_enter_pass))
             return false
@@ -115,10 +138,6 @@ class RegistrationFragment : Fragment() {
         }
         if (mEdConfirmPasswordRegister.getText() != mEdPasswordRegister.getText()) {
             mEdConfirmPasswordRegister.showError(getString(R.string.tv_please_check_confirm_password))
-            return false
-        }
-        if (!mEdEmailRegister.getText().matches("[a-zA-Z0-9._-]+@[a-z]+.[a-z]+".toRegex())) {
-            mEdEmailRegister.showError(getString(R.string.tv_invalid_email_add))
             return false
         }
         return true

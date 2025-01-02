@@ -89,14 +89,14 @@
                 android:layout_width="@dimen/minwidth_dialog"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="@dimen/indent_40"
+                android:layout_marginTop="@dimen/indent_25"
                 android:background="@drawable/bg_button_blue"
                 android:fontFamily="@font/poppins_bold"
                 android:gravity="center"
                 android:paddingTop="@dimen/padding_top_icon"
                 android:paddingBottom="@dimen/padding_top_icon"
                 android:text="@string/tv_get_started"
-                android:textColor="@color/white"
+                android:textColor="@color/text_color_button_login"
                 android:textSize="@dimen/text_size_small_11" />
 
             <LinearLayout

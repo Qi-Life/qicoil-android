@@ -14,6 +14,8 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.content.ContextCompat
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.Meditation.Sounds.frequencies.BuildConfig
@@ -121,6 +123,7 @@ class LoginFragment : Fragment() {
         // Build a GoogleSignInClient with the options specified by gso.
         val googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
 
+        mBtnSignIn.isEnabled = false
         mBtnSignIn.setOnClickListener {
             if (Utils.isConnectedToNetwork(requireContext())) {
                 if (isValidLogin()) {
@@ -131,6 +134,14 @@ class LoginFragment : Fragment() {
             } else {
                 showAlert(requireContext(), getString(R.string.err_network_available))
             }
+        }
+
+        mEdEmailSignIn.editText.doOnTextChanged { text, _, _, _ ->
+            mBtnSignIn.isEnabled = text.toString().isNotEmpty() && mEdPasswordSignIn.getText().isNotEmpty()
+        }
+
+        mEdPasswordSignIn.editText.doOnTextChanged { text, _, _, _ ->
+            mBtnSignIn.isEnabled = text.toString().isNotEmpty() && mEdEmailSignIn.getText().isNotEmpty()
         }
 
         mTvSignUp.setOnClickListener { mListener?.onOpenRegistration() }
@@ -165,7 +176,6 @@ class LoginFragment : Fragment() {
             override fun onNothingSelected(parent: AdapterView<*>) {
             }
         }
-
         requireActivity().onBackPressedDispatcher.addCallback(
             viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
@@ -224,7 +234,7 @@ class LoginFragment : Fragment() {
             return false
         }
         if (!isValidEmail(mEdEmailSignIn.getText())) {
-            mEdEmailSignIn.showError(getString(R.string.tv_invalid_email))
+            mEdEmailSignIn.showError(getString(R.string.tv_invalid_email_add))
             return false
         }
         if (mEdPasswordSignIn.getText().trim().isEmpty()) {
@@ -286,7 +296,7 @@ class CustomSpinnerAdapter(context: Context, list: List<Language>) :
     }
 
     override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
-        return initView(position, convertView, parent)
+        return initViewDrop(position, convertView, parent)
     }
 
     private fun initView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -294,6 +304,22 @@ class CustomSpinnerAdapter(context: Context, list: List<Language>) :
         if (convertViewNew == null) {
             convertViewNew =
                 LayoutInflater.from(context).inflate(R.layout.item_language_spinner, parent, false)
+        }
+        val textViewName = convertViewNew!!.findViewById<TextView>(R.id.tvCountries)
+        val imageView: AppCompatImageView = convertViewNew.findViewById(R.id.imgFlag)
+        val currentItem = getItem(position)
+
+
+        textViewName.text = currentItem?.name ?: "English"
+        imageView.setImageResource(currentItem?.image ?: R.drawable.ic_england_flag)
+        return convertViewNew
+    }
+
+    private fun initViewDrop(position: Int, convertView: View?, parent: ViewGroup): View {
+        var convertViewNew = convertView
+        if (convertViewNew == null) {
+            convertViewNew =
+                LayoutInflater.from(context).inflate(R.layout.item_language_spinner_drop, parent, false)
         }
         val textViewName = convertViewNew!!.findViewById<TextView>(R.id.tvCountries)
         val imageView: AppCompatImageView = convertViewNew.findViewById(R.id.imgFlag)

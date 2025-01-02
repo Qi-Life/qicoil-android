@@ -45,7 +45,6 @@ class SilentQuantumInfoDialog(private val mContext: Context, private val album: 
         tvDescription.movementMethod = ScrollingMovementMethod()
         if (album.long_description?.isNotEmpty() == true) {
             tvDescriptionBenefits.text = Html.fromHtml(album.long_description)
-            tvDescriptionBenefits.movementMethod = ScrollingMovementMethod()
         }
         btnClose.setOnClickListener {
             dismiss()

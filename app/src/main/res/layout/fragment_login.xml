@@ -91,7 +91,7 @@
                         android:paddingTop="@dimen/padding_top_icon"
                         android:paddingBottom="@dimen/padding_top_icon"
                         android:text="@string/tv_sign_in"
-                        android:textColor="@color/white"
+                        android:textColor="@color/text_color_button_login"
                         android:textSize="@dimen/text_size_small_11" />
 
 
@@ -99,7 +99,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginTop="@dimen/indent_20"
+                        android:layout_marginTop="@dimen/indent_25"
                         android:orientation="horizontal"
                         android:padding="@dimen/padding_left_right_item_title">
 
@@ -115,22 +115,50 @@
                             android:id="@+id/mTvSignUp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/indent_6"
+                            android:layout_marginStart="@dimen/indent_2"
                             android:fontFamily="@font/poppins_bold"
                             android:text="@string/tv_link_sign_up"
                             android:textColor="@color/colorBlue"
                             android:textSize="@dimen/text_size_small_11" />
                     </LinearLayout>
 
-                    <androidx.appcompat.widget.AppCompatSpinner
-                        android:id="@+id/spLanguage"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:backgroundTint="@color/white"
-                        android:popupBackground="@color/color_main_activity_background"
-                        tools:listitem="@layout/item_language_spinner" />
+                        android:layout_marginTop="@dimen/indent_20"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            app:srcCompat="@drawable/ic_choose_language" />
+
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/indent_6"
+                            android:background="@drawable/bg_spinner"
+                            android:paddingHorizontal="@dimen/indent_14">
+
+                            <Spinner
+                                android:id="@+id/spLanguage"
+                                android:layout_width="250dp"
+                                android:layout_height="wrap_content"
+                                android:background="@android:color/transparent"
+                                android:backgroundTint="@color/white"
+                                android:paddingEnd="35dp"
+                                android:popupBackground="@color/color_main_activity_background"
+                                tools:listitem="@layout/item_language_spinner" />
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="25dp"
+                                android:layout_height="15dp"
+                                android:layout_gravity="center|right"
+                                app:srcCompat="@drawable/ic_arrow_down_language" />
+                        </FrameLayout>
+                    </LinearLayout>
                     <RelativeLayout
                         android:id="@+id/rlgoogle_signin"
                         android:layout_width="@dimen/width_button"

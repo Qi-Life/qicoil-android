@@ -299,6 +299,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/white"
+                    android:layout_marginStart="-6dp"
                     android:popupBackground="@color/dark_blue_background"
                     tools:listitem="@layout/item_language_spinner" />
 

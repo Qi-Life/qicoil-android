@@ -3,6 +3,7 @@ package com.Meditation.Sounds.frequencies.lemeor.ui.options.change_pass
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.Meditation.Sounds.frequencies.R
 import com.Meditation.Sounds.frequencies.lemeor.data.api.RetrofitBuilder
@@ -33,7 +34,20 @@ class ChangePassActivity : AppCompatActivity() {
             )
         )[ChangePassViewModel::class.java]
 
+        change_pass_btn.isEnabled = false
         change_pass_btn.setOnClickListener { onChange() }
+
+        change_pass_et_old_pass.editText.doOnTextChanged { text, _, _, _ ->
+            change_pass_btn.isEnabled = text.toString().isNotEmpty() && change_pass_et_new_pass.getText().isNotEmpty() && change_pass_et_confirm_new_pass.getText().isNotEmpty()
+        }
+
+        change_pass_et_new_pass.editText.doOnTextChanged { text, _, _, _ ->
+            change_pass_btn.isEnabled = text.toString().isNotEmpty() && change_pass_et_old_pass.getText().isNotEmpty() && change_pass_et_confirm_new_pass.getText().isNotEmpty()
+        }
+
+        change_pass_et_confirm_new_pass.editText.doOnTextChanged { text, _, _, _ ->
+            change_pass_btn.isEnabled = text.toString().isNotEmpty() && change_pass_et_new_pass.getText().isNotEmpty() && change_pass_et_old_pass.getText().isNotEmpty()
+        }
     }
 
     private fun onChange() {

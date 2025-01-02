@@ -74,7 +74,7 @@
                     android:singleLine="true"
                     android:text="AAAAAAAAAAAAAA"
                     android:textAllCaps="true"
-                    android:textColor="@color/back"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/text_size_small_11"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/viewImage"
@@ -87,42 +87,31 @@
                     android:layout_marginHorizontal="@dimen/indent_16"
                     android:layout_marginTop="@dimen/indent_10"
                     android:fontFamily="@font/montserrat_regular"
-                    android:overScrollMode="always"
-                    android:scrollbars="vertical"
-                    android:textColor="@color/back"
+                    android:textColor="@color/black"
+                    android:ellipsize="end"
+                    android:scrollbars="none"
+                    android:overScrollMode="ifContentScrolls"
+                    android:scrollHorizontally="false"
                     android:textSize="@dimen/text_size_small_6"
-                    app:layout_constraintBottom_toBottomOf="@+id/viewImage"
+                    android:layout_marginBottom="@dimen/indent_4"
+                    app:layout_constraintBottom_toTopOf="@+id/tvDescriptionBenefits"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/viewImage"
                     app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
 
                 <TextView
-                    android:id="@+id/tvTitleBenefits"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/indent_16"
-                    android:fontFamily="@font/montserrat_bold"
-                    android:singleLine="true"
-                    android:text="@string/benefits"
-                    android:textColor="@color/back"
-                    android:textSize="@dimen/text_size_small_11"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/viewImage" />
-
-                <TextView
                     android:id="@+id/tvDescriptionBenefits"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/indent_10"
+                    android:layout_marginTop="@dimen/indent_24"
                     android:fontFamily="@font/montserrat_regular"
                     android:overScrollMode="always"
                     android:scrollbars="vertical"
-                    android:textColor="@color/back"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/text_size_small_6"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/tvTitleBenefits"
-                    app:layout_constraintTop_toBottomOf="@+id/tvTitleBenefits" />
+                    app:layout_constraintStart_toStartOf="@+id/viewImage"
+                    app:layout_constraintTop_toBottomOf="@+id/viewImage" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -100,9 +100,10 @@
     <dimen name="indent_16">16dp</dimen>
     <dimen name="indent_18">18dp</dimen>
     <dimen name="indent_20">20dp</dimen>
+    <dimen name="indent_22">22dp</dimen>
+    <dimen name="indent_24">24dp</dimen>
     <dimen name="indent_25">25dp</dimen>
     <dimen name="indent_30">30dp</dimen>
-    <dimen name="indent_24">24dp</dimen>
     <dimen name="indent_32">32dp</dimen>
     <dimen name="indent_35">35dp</dimen>
     <dimen name="indent_40">40dp</dimen>
