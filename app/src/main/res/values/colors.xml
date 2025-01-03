@@ -32,4 +32,6 @@
     <color name="colorBlue">#0E74CC</color>
     <color name="colorBlueDisable">#500E74CC</color>
     <color name="colorRed">#FF0000</color>
+    <color name="colorTabPressed">#4976FF</color>
+    <color name="colorTabDefault">#CECECE</color>
 </resources>

@@ -14,7 +14,7 @@
         android:layout_marginBottom="-8dp"
         app:layout_constraintBottom_toTopOf="@+id/viewInfo"
         app:layout_constraintStart_toEndOf="@+id/viewInfo"
-        app:srcCompat="@drawable/ic_silent_info_close" />
+        app:srcCompat="@drawable/bg_silent_info_close" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/viewInfo"

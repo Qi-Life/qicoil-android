@@ -94,6 +94,7 @@ import com.android.billingclient.api.BillingClientStateListener
 import com.android.billingclient.api.BillingResult
 import com.android.billingclient.api.PurchasesResponseListener
 import kotlinx.android.synthetic.main.fragment_login.spLanguage
+import kotlinx.android.synthetic.main.fragment_new_options.bgAdvancedMode
 import kotlinx.android.synthetic.main.fragment_new_options.btnAdvancedMode
 import kotlinx.android.synthetic.main.fragment_new_options.btnSwitchChatbot
 import kotlinx.android.synthetic.main.fragment_new_options.options_about
@@ -547,7 +548,8 @@ class NewOptionsFragment : BaseFragment() {
     private fun updateViewAdvancedSilent() {
         val advanceMode = SharedPreferenceHelper.getInstance().getBool(PREF_SETTING_ADVANCE_SCALAR_ON_OFF)
         tvAdvancedModeTitle.text = if (advanceMode) getString(R.string.advanced_mode_on) else getString(R.string.advanced_mode_off)
-        val languageCode = PreferenceHelper.preference(requireContext()).codeLanguage
+        bgAdvancedMode.setBackgroundResource(if (advanceMode) R.drawable.bg_advance_mode_on else R.drawable.bg_advance_mode_off)
+        val languageCode = preference(requireContext()).codeLanguage
         if (languageCode == "es" || languageCode == "pt"|| languageCode == "it" || languageCode == "fr" || languageCode == "de") {
             tvAdvancedModeTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13f)
         } else {

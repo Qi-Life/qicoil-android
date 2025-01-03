@@ -41,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:adjustViewBounds="true"
-                android:src="@drawable/bg_advance_mode"
+                android:src="@drawable/bg_advance_mode_off"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -196,7 +196,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/indent_16"
                     android:text="@string/tv_restore_purchase"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/text_color_setting"
                     android:textStyle="bold" />
 
                 <TextView
@@ -205,7 +205,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/indent_16"
                     android:text="@string/profile_lbl_instructions"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/text_color_setting"
                     android:textStyle="bold" />
 
                 <TextView
@@ -214,7 +214,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/indent_16"
                     android:text="@string/profile_lbl_disclaimer"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/text_color_setting"
                     android:textStyle="bold" />
 
                 <TextView
@@ -223,7 +223,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/indent_16"
                     android:text="@string/profile_lbl_about"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/text_color_setting"
                     android:textStyle="bold" />
 
                 <TextView
@@ -232,7 +232,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/indent_16"
                     android:text="@string/tv_change_password"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/text_color_setting"
                     android:textStyle="bold" />
 
                 <LinearLayout
@@ -263,7 +263,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/indent_16"
                     android:text="@string/tv_faq"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/text_color_setting"
                     android:textStyle="bold" />
 
                 <TextView
@@ -272,7 +272,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/indent_16"
                     android:text="@string/tv_help_support"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/text_color_setting"
                     android:textStyle="bold" />
 
                 <TextView
@@ -281,7 +281,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/indent_16"
                     android:text="@string/options_log_out"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/text_color_setting"
                     android:textStyle="bold" />
 
                 <TextView
@@ -313,7 +313,7 @@
                 android:layout_marginBottom="@dimen/indent_48"
                 android:gravity="right"
                 android:text="@string/options_delete_user"
-                android:textColor="@android:color/white"
+                android:textColor="@color/text_color_setting"
                 android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>

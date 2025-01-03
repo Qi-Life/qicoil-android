@@ -77,7 +77,7 @@
                     android:layout_height="25dp"
                     android:layout_gravity="end|top"
                     android:layout_margin="8dp"
-                    app:srcCompat="@drawable/ic_silent_quantum_info"/>
+                    app:srcCompat="@drawable/bg_silent_quantum_info"/>
             </FrameLayout>
 
 
