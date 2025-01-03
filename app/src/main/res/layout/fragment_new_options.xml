@@ -34,14 +34,14 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/btnAdvancedMode"
             android:layout_width="wrap_content"
+            android:layout_marginStart="@dimen/indent_24"
             android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/bgAdvancedMode"
-                android:layout_width="wrap_content"
+                android:layout_width="245dp"
                 android:layout_height="40dp"
                 android:adjustViewBounds="true"
-                android:src="@drawable/bg_advance_mode_off"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
