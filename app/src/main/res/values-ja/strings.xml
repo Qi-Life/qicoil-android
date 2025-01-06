@@ -409,4 +409,6 @@
     <string name="add_silent_quantum_pro">サイレントクォンタムプロを追加</string>
     <string name="my_frequencies">私の周波数</string>
     <string name="benefits">利点</string>
+    <string name="error">エラー</string>
+    <string name="msg_error_password_email">パスワードまたはメールアドレスが間違っています。</string>
 </resources>

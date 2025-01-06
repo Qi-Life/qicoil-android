@@ -405,5 +405,7 @@
     <string name="navigation_lbl_silent_quantum_pro">साइलेंट क्वांटम प्रो</string>
     <string name="add_silent_quantum_pro">साइलेंट क्वांटम प्रो जोड़ें</string>
     <string name="my_frequencies">मेरी आवृत्तियाँ</string>
-    <string name="benefits">Vorteile</string>
+    <string name="benefits">लाभ</string>
+    <string name="error">गलती</string>
+    <string name="msg_error_password_email">आपका पासवर्ड या ईमेल ग़लत है.</string>
 </resources>

@@ -369,4 +369,6 @@
     <string name="add_silent_quantum_pro">Añadir silenciosa cuántica pro</string>
     <string name="my_frequencies">Mis frecuencias</string>
     <string name="benefits">Vorteile</string>
+    <string name="error">Error</string>
+    <string name="msg_error_password_email">Su contraseña o correo electrónico es incorrecto.</string>
 </resources>

@@ -6,7 +6,6 @@ import android.net.Uri
 import android.os.Environment
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
@@ -24,7 +23,7 @@ import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper
 import com.Meditation.Sounds.frequencies.lemeor.tools.player.MusicRepository
 import com.Meditation.Sounds.frequencies.utils.Constants
 import com.Meditation.Sounds.frequencies.utils.Utils
-import com.Meditation.Sounds.frequencies.views.AlertMessageDialog
+import com.Meditation.Sounds.frequencies.views.AlertMessageNotifyDialog
 import com.Meditation.Sounds.frequencies.views.CustomFontEditText
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -244,7 +243,7 @@ fun showAlert(context: Context, content: String) {
 //        .setMessage(content)
 //        .setPositiveButton(R.string.txt_ok, null)
 //        .show()
-    AlertMessageDialog(context, content, isHideBtnNo = true).show()
+    AlertMessageNotifyDialog(context, content).show()
 }
 
 fun showAlertInfo(context: Context, e: Exception) {

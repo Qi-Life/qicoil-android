@@ -408,4 +408,6 @@
     <string name="add_silent_quantum_pro">添加静音量子专业版</string>
     <string name="my_frequencies">我的频率</string>
     <string name="benefits">好处</string>
+    <string name="error">错误</string>
+    <string name="msg_error_password_email">您的密码或电子邮箱不正确。</string>
 </resources>

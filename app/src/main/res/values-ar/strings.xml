@@ -407,4 +407,6 @@
     <string name="add_silent_quantum_pro">إضافة صامت الكم برو</string>
     <string name="my_frequencies">تردداتي</string>
     <string name="benefits">فوائد</string>
+    <string name="error">خطأ</string>
+    <string name="msg_error_password_email">كلمة المرور أو البريد الإلكتروني الخاص بك غير صحيح.</string>
 </resources>

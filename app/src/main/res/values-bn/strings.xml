@@ -402,4 +402,6 @@
     <string name="add_silent_quantum_pro">সাইলেন্ট কোয়ান্টাম প্রো যোগ করুন</string>
     <string name="my_frequencies">আমার ফ্রিকোয়েন্সি</string>
     <string name="benefits">সুবিধা</string>
+    <string name="error">ত্রুটি</string>
+    <string name="msg_error_password_email">আপনার পাসওয়ার্ড বা ইমেল ভুল.</string>
 </resources>

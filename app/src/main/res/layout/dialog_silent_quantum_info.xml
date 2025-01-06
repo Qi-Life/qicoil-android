@@ -72,7 +72,6 @@
                     android:layout_marginHorizontal="@dimen/indent_16"
                     android:fontFamily="@font/montserrat_bold"
                     android:singleLine="true"
-                    android:text="AAAAAAAAAAAAAA"
                     android:textAllCaps="true"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_size_small_11"

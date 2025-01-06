@@ -130,6 +130,8 @@ class LoginFragment : Fragment() {
                     mListener?.onLoginInteraction(
                         mEdEmailSignIn.getText(), mEdPasswordSignIn.getText()
                     )
+                } else {
+                    showAlert(requireContext(), getString(R.string.msg_error_password_email))
                 }
             } else {
                 showAlert(requireContext(), getString(R.string.err_network_available))
@@ -230,15 +232,12 @@ class LoginFragment : Fragment() {
 
     private fun isValidLogin(): Boolean {
         if (mEdEmailSignIn.getText().trim().isEmpty()) {
-            mEdEmailSignIn.showError(getString(R.string.tv_please_enter_email))
             return false
         }
         if (!isValidEmail(mEdEmailSignIn.getText())) {
-            mEdEmailSignIn.showError(getString(R.string.tv_invalid_email_add))
             return false
         }
         if (mEdPasswordSignIn.getText().trim().isEmpty()) {
-            mEdPasswordSignIn.showError(getString(R.string.tv_please_enter_pass))
             return false
         }
         return true

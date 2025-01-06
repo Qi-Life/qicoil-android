@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    android:gravity="center">
+
+    <LinearLayout
+        android:layout_width="@dimen/minwidth_dialog"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_disclaimer"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/indent_20"
+        android:paddingVertical="@dimen/indent_25">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="33dp"
+                android:layout_height="33dp"
+                app:srcCompat="@drawable/ic_error_notify" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/indent_15"
+                android:fontFamily="@font/poppins_regular"
+                android:text="@string/error"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_large" />
+        </LinearLayout>
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvMessgae"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/indent_20"
+            android:fontFamily="@font/poppins_regular"
+            android:text="@string/txt_warning_delete_playlist"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_small" />
+
+        <com.Meditation.Sounds.frequencies.views.CustomFontTextView
+            android:id="@+id/btnOk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/indent_20"
+            android:background="@drawable/bg_button_blue_dialog"
+            android:fontFamily="@font/poppins_regular"
+            android:gravity="center"
+            android:paddingHorizontal="@dimen/indent_40"
+            android:paddingTop="@dimen/indent_2"
+            android:text="@string/txt_ok"
+            android:textAllCaps="true"
+            android:textColor="@color/text_color_button_login"
+            android:textSize="@dimen/text_size_large" />
+    </LinearLayout>
+</LinearLayout>

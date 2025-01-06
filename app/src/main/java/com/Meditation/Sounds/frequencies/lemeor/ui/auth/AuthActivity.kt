@@ -180,7 +180,7 @@ class AuthActivity : AppCompatActivity(), OnLoginListener, OnRegistrationListene
                         }
                         Resource.Status.ERROR -> {
                             HudHelper.hide()
-                            showAlert(this@AuthActivity, it.message ?: getString(R.string.msg_error_occurred))
+                            showAlert(this@AuthActivity, getString(R.string.msg_error_password_email))
                         }
                         Resource.Status.LOADING -> {
                             HudHelper.show(this)

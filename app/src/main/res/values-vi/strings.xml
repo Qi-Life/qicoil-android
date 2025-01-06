@@ -407,4 +407,6 @@
     <string name="add_silent_quantum_pro">Thêm lượng tử im lặng pro</string>
     <string name="my_frequencies">Tần suất của tôi</string>
     <string name="benefits">Những lợi ích</string>
+    <string name="error">Lỗi</string>
+    <string name="msg_error_password_email">Mật khẩu hoặc email của bạn không đúng.</string>
 </resources>

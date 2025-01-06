@@ -51,6 +51,7 @@ import com.jaygoo.widget.OnRangeChangedListener
 import com.jaygoo.widget.RangeSeekBar
 import com.tonyodev.fetch2core.isNetworkAvailable
 import kotlinx.android.synthetic.main.fragment_new_program.btnDeleteProgramName
+import kotlinx.android.synthetic.main.fragment_new_program.btnSaveSchedule
 import kotlinx.android.synthetic.main.fragment_new_program.btnSwitchSchedule
 import kotlinx.android.synthetic.main.fragment_new_program.imvSaveSchedule
 import kotlinx.android.synthetic.main.fragment_new_program.program_back
@@ -246,7 +247,9 @@ class NewProgramFragment : BaseFragment() {
             }
 
             override fun onDeleteItem(program: Program, i: Int) {
-                val alertDialog = AlertMessageDialog(requireContext(), message = getString(R.string.txt_warning_delete_playlist)) {
+                val alertDialog = AlertMessageDialog(
+                    requireContext(), message = getString(R.string.txt_warning_delete_playlist)
+                ) {
                     CoroutineScope(Dispatchers.IO).launch {
                         //call api delete program
                         try {
@@ -317,13 +320,11 @@ class NewProgramFragment : BaseFragment() {
                         R.anim.trans_left_to_right_in,
                         R.anim.trans_left_to_right_out
                     ).replace(
-                        R.id.nav_host_fragment,
-                        ProgramDetailFragment.newInstance(
+                        R.id.nav_host_fragment, ProgramDetailFragment.newInstance(
                             PreferenceHelper.getScheduleProgram(
                                 requireContext()
                             )?.id ?: 0
-                        ),
-                        ProgramDetailFragment().javaClass.simpleName
+                        ), ProgramDetailFragment().javaClass.simpleName
                     ).commit()
                 } else {
                     var album: Album? = null
@@ -495,22 +496,17 @@ class NewProgramFragment : BaseFragment() {
             updateViewProgram()
         }
 
-        imvSaveSchedule.setOnClickListener {
+        btnSaveSchedule.setOnClickListener {
             AlertDialog.Builder(mContext).setTitle(
                 if (PreferenceHelper.getScheduleProgram(requireContext()) != null) PreferenceHelper.getScheduleProgram(
                     requireContext()
                 )?.name?.uppercase() else getString(R.string.app_name)
-            )
-                .setMessage(R.string.txt_confirm_save_schedule)
+            ).setMessage(R.string.txt_confirm_save_schedule)
                 .setPositiveButton(R.string.txt_yes) { _, _ ->
                     syncScheduleTime()
                 }.setNegativeButton(R.string.txt_no) { _, _ ->
 
                 }.show()
-        }
-
-        tvSaveSchedule.setOnClickListener {
-            imvSaveSchedule.performClick()
         }
     }
 
@@ -535,8 +531,7 @@ class NewProgramFragment : BaseFragment() {
                     val input = ProgramSchedule(
                         programId = if (PreferenceHelper.getScheduleProgram(requireContext()) != null) PreferenceHelper.getScheduleProgram(
                             requireContext()
-                        )?.id else -1,
-                        startTimeAm = Math.round(
+                        )?.id else -1, startTimeAm = Math.round(
                             SharedPreferenceHelper.getInstance()
                                 .getFloat(Constants.PREF_SCHEDULE_START_TIME_AM, 0f) * 10
                         ) / 10.0f, stopTimeAm = Math.round(
@@ -614,19 +609,18 @@ class NewProgramFragment : BaseFragment() {
     }
 
     private fun updateViewSaveSchedule() {
-        val isSaveEnable = SharedPreferenceHelper.getInstance()
+        val isSaveEnable = (SharedPreferenceHelper.getInstance()
             .getInt(Constants.PREF_SCHEDULE_PROGRAM_ID_API) != PreferenceHelper.getScheduleProgram(
             requireContext()
-        )?.id || SharedPreferenceHelper.getInstance().getFloat(
+        )?.id && PreferenceHelper.getScheduleProgram(requireContext()) != null)
+                || SharedPreferenceHelper.getInstance().getFloat(
             Constants.PREF_SCHEDULE_START_TIME_AM, 0f
         ) != SharedPreferenceHelper.getInstance().getFloat(
-            Constants.PREF_SCHEDULE_START_TIME_AM_API,
-            0f
+            Constants.PREF_SCHEDULE_START_TIME_AM_API, 0f
         ) || SharedPreferenceHelper.getInstance().getFloat(
             Constants.PREF_SCHEDULE_END_TIME_AM, 180f
         ) != SharedPreferenceHelper.getInstance().getFloat(
-            Constants.PREF_SCHEDULE_END_TIME_AM_API,
-            0f
+            Constants.PREF_SCHEDULE_END_TIME_AM_API, 0f
         ) || SharedPreferenceHelper.getInstance().getFloat(
             Constants.PREF_SCHEDULE_START_TIME_PM, 540f
         ) != SharedPreferenceHelper.getInstance().getFloat(
@@ -636,6 +630,7 @@ class NewProgramFragment : BaseFragment() {
         ) != SharedPreferenceHelper.getInstance()
             .getFloat(Constants.PREF_SCHEDULE_END_TIME_PM_API, 0f)
 
+        btnSaveSchedule?.isEnabled = isSaveEnable
         tvSaveSchedule?.isEnabled = isSaveEnable
         imvSaveSchedule?.isEnabled = isSaveEnable
     }

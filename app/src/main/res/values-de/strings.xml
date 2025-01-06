@@ -407,4 +407,6 @@
     <string name="add_silent_quantum_pro">Hinzufügen sie schweigen ebenso</string>
     <string name="my_frequencies">Meine Frequenzen</string>
     <string name="benefits">Vorteile</string>
+    <string name="error">Fehler</string>
+    <string name="msg_error_password_email">Ihr Passwort oder Ihre E-Mail-Adresse ist falsch.</string>
 </resources>

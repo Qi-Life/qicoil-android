@@ -443,6 +443,8 @@
     <string name="add_silent_quantum_pro">Add Silent Quantum Pro</string>
     <string name="my_frequencies">My Frequencies</string>
     <string name="benefits">Benefits</string>
+    <string name="error">Error</string>
+    <string name="msg_error_password_email">Your password or email is incorrect.</string>
 
     <string name="msg_say_hi_chat" translatable="false">Hi, My name is Dr.Qi, I\'m an AI assistant. How can I help you today? How have you been feeling lately?</string>
     <string name="msg_error_network_chat" translatable="false">Connect Lost. Please check your internet connection.</string>
