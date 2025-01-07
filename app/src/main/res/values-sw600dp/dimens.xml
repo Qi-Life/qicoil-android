@@ -93,4 +93,5 @@
     <dimen name="radius_recent_albums">10dp</dimen>
 
     <dimen name="height_button_player_default">50dp</dimen>
+    <dimen name="width_button_advanced_mode">245dp</dimen>
 </resources>

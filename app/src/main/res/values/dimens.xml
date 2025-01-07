@@ -95,6 +95,7 @@
     <dimen name="indent_4">4dp</dimen>
     <dimen name="indent_8">8dp</dimen>
     <dimen name="indent_10">10dp</dimen>
+    <dimen name="indent_12">12dp</dimen>
     <dimen name="indent_14">14dp</dimen>
     <dimen name="indent_15">15dp</dimen>
     <dimen name="indent_16">16dp</dimen>
@@ -130,4 +131,5 @@
     <dimen name="height_recent_albums">80dp</dimen>
     <dimen name="radius_recent_albums">10dp</dimen>
     <dimen name="height_button_player_default">32dp</dimen>
+    <dimen name="width_button_advanced_mode">245dp</dimen>
 </resources>

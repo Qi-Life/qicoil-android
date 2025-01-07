@@ -83,6 +83,6 @@
     <dimen name="height_calander_icon">30dp</dimen>
     <dimen name="dp_90">120dp</dimen>
     <dimen name="no_radius_album">0dp</dimen>
-
     <dimen name="radius_recent_albums">10dp</dimen>
+    <dimen name="width_button_advanced_mode">247dp</dimen>
 </resources>

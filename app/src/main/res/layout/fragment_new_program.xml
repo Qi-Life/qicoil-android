@@ -12,77 +12,94 @@
         android:layout_height="match_parent"
         android:layout_margin="@dimen/indent_8"
         android:background="@drawable/rounded_dark_blue_background"
-        android:orientation="vertical"
-        android:padding="@dimen/indent_8">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
-            <com.Meditation.Sounds.frequencies.views.CustomFontTextView
-                android:id="@+id/program_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/padding_left_right_item_title"
-                android:layout_marginRight="@dimen/padding_left_right_item_title"
-                android:gravity="center"
-                android:text="@string/navigation_lbl_programs"
-                android:textColor="#FFF"
-                android:textSize="@dimen/text_size_25"
-                app:fontText="fonts/BebasNeue_Bold.otf" />
-
-            <FrameLayout
-                android:id="@+id/program_back"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:visibility="invisible">
-
-                <ImageView
-                    android:layout_width="@dimen/height_button_cancel_dialog"
-                    android:layout_height="@dimen/height_button_cancel_dialog"
-                    android:layout_gravity="top|end"
-                    android:layout_margin="@dimen/margin_item_5"
-                    android:contentDescription="@null"
-                    android:padding="5dp"
-                    android:src="@drawable/ic_close"
-                    android:visibility="visible" />
-            </FrameLayout>
-        </LinearLayout>
+        android:orientation="vertical">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="#801868AD"
+            android:paddingHorizontal="@dimen/indent_25"
+            android:paddingBottom="@dimen/indent_10">
 
-            <com.Meditation.Sounds.frequencies.views.CustomFontTextView
-                android:id="@+id/tvProgramName"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/view_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <com.Meditation.Sounds.frequencies.views.CustomFontTextView
+                    android:id="@+id/program_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/padding_left_right_item_title"
+                    android:layout_marginRight="@dimen/padding_left_right_item_title"
+                    android:gravity="center"
+                    android:text="@string/navigation_lbl_programs"
+                    android:textColor="#FFF"
+                    android:textSize="@dimen/text_size_25"
+                    app:fontText="fonts/BebasNeue_Bold.otf" />
+
+                <FrameLayout
+                    android:id="@+id/program_back"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:visibility="invisible">
+
+                    <ImageView
+                        android:layout_width="@dimen/height_button_cancel_dialog"
+                        android:layout_height="@dimen/height_button_cancel_dialog"
+                        android:layout_gravity="top|end"
+                        android:layout_margin="@dimen/margin_item_5"
+                        android:contentDescription="@null"
+                        android:padding="5dp"
+                        android:src="@drawable/ic_close"
+                        android:visibility="visible" />
+                </FrameLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/view_programs"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:text="@string/you_have_no_program_selected"
-                android:textAllCaps="true"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_small"
-                app:fontText="fonts/HelveticaNeue_Bold.otf"
+                android:gravity="center_vertical"
+                android:layout_marginEnd="@dimen/indent_10"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toStartOf="@+id/tvSwitchSchedule"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/view_title">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/btnDeleteProgramName"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginStart="10dp"
-                app:layout_constraintBottom_toBottomOf="@+id/tvProgramName"
-                app:layout_constraintStart_toEndOf="@+id/tvProgramName"
-                app:layout_constraintTop_toTopOf="@+id/tvProgramName"
-                app:srcCompat="@drawable/ic_remove_schedule" />
+                <com.Meditation.Sounds.frequencies.views.CustomFontTextView
+                    android:id="@+id/tvProgramName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/you_have_no_program_selected"
+                    android:textAllCaps="true"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_size_small"
+                    app:fontText="fonts/HelveticaNeue_Bold.otf"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view_title" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/btnDeleteProgramName"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvProgramName"
+                    app:layout_constraintStart_toEndOf="@+id/tvProgramName"
+                    app:layout_constraintTop_toTopOf="@+id/tvProgramName"
+                    app:srcCompat="@drawable/ic_remove_schedule" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/btnSaveSchedule"
@@ -90,9 +107,9 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                app:layout_constraintBottom_toBottomOf="@+id/tvProgramName"
+                app:layout_constraintBottom_toBottomOf="@+id/view_programs"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tvProgramName">
+                app:layout_constraintTop_toTopOf="@+id/view_programs">
 
                 <com.Meditation.Sounds.frequencies.views.CustomFontTextView
                     android:id="@+id/tvSaveSchedule"
@@ -125,9 +142,9 @@
                 android:layout_width="60dp"
                 android:layout_height="25dp"
                 android:layout_marginEnd="20dp"
-                app:layout_constraintBottom_toBottomOf="@+id/tvProgramName"
+                app:layout_constraintBottom_toBottomOf="@+id/view_programs"
                 app:layout_constraintEnd_toStartOf="@+id/btnSaveSchedule"
-                app:layout_constraintTop_toTopOf="@+id/tvProgramName"
+                app:layout_constraintTop_toTopOf="@+id/view_programs"
                 app:srcCompat="@drawable/bg_switch_schedule" />
 
             <com.Meditation.Sounds.frequencies.views.CustomFontTextView
@@ -140,9 +157,9 @@
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/text_size_small"
                 app:fontText="fonts/HelveticaNeue_Bold.otf"
-                app:layout_constraintBottom_toBottomOf="@+id/tvProgramName"
+                app:layout_constraintBottom_toBottomOf="@+id/view_programs"
                 app:layout_constraintEnd_toStartOf="@+id/btnSwitchSchedule"
-                app:layout_constraintTop_toTopOf="@+id/tvProgramName" />
+                app:layout_constraintTop_toTopOf="@+id/view_programs" />
 
 
             <com.Meditation.Sounds.frequencies.views.CustomFontTextView
@@ -155,7 +172,7 @@
                 android:textSize="@dimen/text_size_small_11"
                 app:fontText="fonts/HelveticaNeue_Regular.otf"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvProgramName" />
+                app:layout_constraintTop_toBottomOf="@+id/view_programs" />
 
             <com.jaygoo.widget.RangeSeekBar
                 android:id="@+id/sbRangeScheduleTimeAm"
@@ -205,6 +222,7 @@
             android:id="@+id/program_create_new"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/indent_4"
             android:layout_marginTop="10dp"
             android:orientation="horizontal"
             android:padding="@dimen/indent_8"
@@ -232,14 +250,14 @@
             android:id="@+id/program_divider_create"
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:layout_marginLeft="@dimen/indent_8"
-            android:layout_marginRight="@dimen/indent_8"
+            android:layout_marginHorizontal="@dimen/indent_12"
             android:background="@android:color/white" />
 
         <FrameLayout
             android:id="@+id/loadingFrame"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginHorizontal="@dimen/indent_4"
             android:background="@color/dark_blue_background"
             android:clickable="true"
             android:elevation="2dp"
@@ -259,6 +277,7 @@
             android:id="@+id/programs_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/indent_4"
             android:clipToPadding="false"
             android:nestedScrollingEnabled="false"
             android:paddingBottom="@dimen/padding_bottom_list"
