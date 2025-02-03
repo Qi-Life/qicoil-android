@@ -4,10 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_main_activity_background"
+    android:background="@color/bg_color_app"
     android:focusableInTouchMode="true"
     android:layoutDirection="ltr"
     tools:context=".lemeor.ui.main.NavigationActivity">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.25" />
 
     <LinearLayout
         android:id="@+id/nav_layout"
@@ -25,7 +32,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:background="@color/color_main_activity_navigation"
+            android:background="@color/bg_color_app"
             android:baselineAligned="false"
             android:orientation="horizontal"
             app:elevation="0dp"
@@ -33,183 +40,66 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/navigation_home"
-                android:layout_width="0dp"
-                android:paddingBottom="@dimen/indent_4"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/search_layout"
+                android:layout_width="300dp"
+                android:layout_height="match_parent"
+                android:background="@color/color_main_activity_navigation"
+                android:clickable="true"
+                android:focusable="true"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/nav_layout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline"
+                app:layout_constraintTop_toTopOf="@+id/nav_layout">
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/indent_16"
+                    android:layout_marginRight="@dimen/indent_16"
+                    android:background="@drawable/bg_search_home"
+                    android:orientation="horizontal"
+                    android:padding="7dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <ImageView
-                        android:layout_width="@dimen/bottom_bar_icon_size"
-                        android:layout_height="@dimen/bottom_bar_icon_size"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
                         android:layout_gravity="center"
-                        android:contentDescription="@string/navigation_lbl_home"
-                        android:padding="@dimen/bottom_bar_icon_padding"
-                        android:src="@drawable/ic_home"
-                        app:tint="@color/color_gray_white_selected" />
+                        android:contentDescription="@null"
+                        android:src="@drawable/ic_search_black" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <com.Meditation.Sounds.frequencies.views.CustomFontEditText
+                        android:id="@+id/album_search"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:ellipsize="end"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/margin_item_5"
+                        android:layout_marginRight="@dimen/margin_item_5"
+                        android:layout_weight="1"
+                        android:background="@color/transparent"
+                        android:hint="@string/search_hint"
+                        android:imeOptions="actionDone"
+                        android:inputType="text"
                         android:singleLine="true"
-                        android:text="@string/navigation_lbl_home"
-                        android:textColor="@color/color_gray_white_selected"
-                        android:textSize="@dimen/text_size_small"
-                        android:visibility="visible" />
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/navigation_albums"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal">
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
+                        android:textColor="@android:color/black"
+                        android:textColorHint="@android:color/black"
+                        android:textSize="14sp"
+                        app:fontText="fonts/HelveticaNeue_Thin.otf" />
 
                     <ImageView
-                        android:layout_width="@dimen/bottom_bar_icon_size"
-                        android:layout_height="@dimen/bottom_bar_icon_size"
+                        android:id="@+id/album_search_clear"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:layout_gravity="center"
-                        android:contentDescription="@string/navigation_lbl_quantum"
-                        android:padding="@dimen/bottom_bar_icon_padding"
-                        android:src="@drawable/ic_navigation_quantum"
-                        app:tint="@color/color_gray_white_selected" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:singleLine="true"
-                        android:text="@string/navigation_lbl_quantum"
-                        android:textColor="@color/color_gray_white_selected"
-                        android:textSize="@dimen/text_size_small"
-                        android:visibility="visible" />
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/navigation_rife"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal">
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="@dimen/bottom_bar_icon_size"
-                        android:layout_height="@dimen/bottom_bar_icon_size"
-                        android:layout_gravity="center"
-                        android:contentDescription="@string/navigation_lbl_rife"
-                        android:src="@drawable/ic_navigation_rife"
-                        app:tint="@color/color_gray_white_selected" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:singleLine="true"
-                        android:text="@string/navigation_lbl_rife"
-                        android:textColor="@color/color_gray_white_selected"
-                        android:textSize="@dimen/text_size_small"
-                        android:visibility="visible" />
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/navigation_silent_quantum"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1.2"
-                android:gravity="center_horizontal">
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="@dimen/bottom_bar_icon_size"
-                        android:layout_height="@dimen/bottom_bar_icon_size"
-                        android:layout_gravity="center"
-                        android:contentDescription="@string/navigation_lbl_quantum"
-                        android:padding="@dimen/bottom_bar_icon_padding"
-                        android:src="@drawable/ic_navigation_scalar"
-                        app:tint="@color/color_gray_white_selected" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:text="@string/navigation_lbl_silent_quantum"
-                        android:textColor="@color/color_gray_white_selected"
-                        android:textSize="@dimen/text_size_small_11"
-                        android:visibility="visible" />
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/navigation_programs"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal">
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="@dimen/bottom_bar_icon_size"
-                        android:layout_height="@dimen/bottom_bar_icon_size"
-                        android:layout_gravity="center"
-                        android:contentDescription="@string/navigation_lbl_programs"
-                        android:padding="@dimen/bottom_bar_icon_padding"
-                        android:src="@drawable/ic_navigation_playlist"
-                        app:tint="@color/color_gray_white_selected" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:singleLine="true"
-                        android:text="@string/navigation_lbl_programs"
-                        android:textColor="@color/color_gray_white_selected"
-                        android:textSize="@dimen/text_size_small"
-                        android:visibility="visible" />
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
-            </androidx.appcompat.widget.LinearLayoutCompat>
+                        android:contentDescription="@null"
+                        android:src="@drawable/ic_cancel_new"
+                        android:visibility="gone" />
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/navigation_videos"
@@ -266,7 +156,7 @@
                         android:layout_gravity="center"
                         android:contentDescription="@string/navigation_lbl_shop"
                         android:padding="@dimen/bottom_bar_icon_padding"
-                        android:src="@drawable/ic_shop"
+                        android:src="@drawable/ic_explore"
                         app:tint="@color/color_gray_white_selected" />
 
                     <TextView
@@ -321,8 +211,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center_horizontal">
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="@dimen/bottom_bar_icon_size"
@@ -347,81 +237,228 @@
         </LinearLayout>
     </LinearLayout>
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.5" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/search_layout"
+    <ScrollView
+        android:id="@+id/tab_vertical"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/color_main_activity_navigation"
-        android:clickable="true"
-        android:focusable="true"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/nav_layout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="@+id/nav_layout">
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginHorizontal="10dp"
+        app:layout_constraintEnd_toStartOf="@+id/linearLayout"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/bg_advanced_in_app"
+        android:backgroundTint="@color/color_main_navigation"
+        app:layout_constraintTop_toTopOf="@+id/nav_host_fragment">
 
         <LinearLayout
+            android:id="@+id/nav_layout2"
             android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/indent_16"
-            android:layout_marginRight="@dimen/indent_16"
-            android:background="@drawable/bg_search_home"
-            android:orientation="horizontal"
-            android:padding="7dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintEnd_toStartOf="@+id/linearLayout"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/nav_host_fragment">
 
-            <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_gravity="center"
-                android:contentDescription="@null"
-                android:src="@drawable/ic_search_black" />
-
-            <com.Meditation.Sounds.frequencies.views.CustomFontEditText
-                android:id="@+id/album_search"
-                android:layout_width="0dp"
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/navigation_home"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/margin_item_5"
-                android:layout_marginRight="@dimen/margin_item_5"
-                android:layout_weight="1"
-                android:background="@color/transparent"
-                android:hint="@string/search_hint"
-                android:imeOptions="actionDone"
-                android:inputType="text"
-                android:singleLine="true"
-                android:textColor="@android:color/black"
-                android:textColorHint="@android:color/black"
-                android:textSize="14sp"
-                app:fontText="fonts/HelveticaNeue_Thin.otf" />
+                android:gravity="center_vertical"
+                android:minHeight="60dp">
 
-            <ImageView
-                android:id="@+id/album_search_clear"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center"
-                android:contentDescription="@null"
-                android:src="@drawable/ic_cancel_new"
-                android:visibility="gone" />
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/bottom_bar_icon_size"
+                        android:layout_height="@dimen/bottom_bar_icon_size"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/navigation_lbl_home"
+                        android:padding="@dimen/bottom_bar_icon_padding"
+                        android:src="@drawable/ic_home"
+                        app:tint="@color/color_gray_white_selected" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:text="@string/navigation_lbl_home"
+                        android:textColor="@color/color_gray_white_selected"
+                        android:textSize="@dimen/text_size_21"
+                        android:visibility="visible" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/navigation_albums"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:minHeight="60dp">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/bottom_bar_icon_size"
+                        android:layout_height="@dimen/bottom_bar_icon_size"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/navigation_lbl_quantum"
+                        android:padding="@dimen/bottom_bar_icon_padding"
+                        android:src="@drawable/ic_navigation_quantum"
+                        app:tint="@color/color_gray_white_selected" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:layout_marginStart="10dp"
+                        android:text="@string/navigation_lbl_quantum"
+                        android:textColor="@color/color_gray_white_selected"
+                        android:textSize="@dimen/text_size_21"
+                        android:visibility="visible" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/navigation_rife"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="60dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/bottom_bar_icon_size"
+                        android:layout_height="@dimen/bottom_bar_icon_size"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/navigation_lbl_rife"
+                        android:src="@drawable/ic_navigation_rife"
+                        app:tint="@color/color_gray_white_selected" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:text="@string/navigation_lbl_rife"
+                        android:layout_marginStart="10dp"
+                        android:textColor="@color/color_gray_white_selected"
+                        android:textSize="@dimen/text_size_21"
+                        android:visibility="visible" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/navigation_silent_quantum"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="60dp"
+                android:layout_weight="1.2"
+                android:gravity="center_vertical">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/bottom_bar_icon_size"
+                        android:layout_height="@dimen/bottom_bar_icon_size"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/navigation_lbl_quantum"
+                        android:padding="@dimen/bottom_bar_icon_padding"
+                        android:src="@drawable/ic_navigation_scalar"
+                        app:tint="@color/color_gray_white_selected" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:layout_marginStart="10dp"
+                        android:maxLines="1"
+                        android:text="@string/navigation_lbl_silent_quantum"
+                        android:textColor="@color/color_gray_white_selected"
+                        android:textSize="@dimen/text_size_21"
+                        android:visibility="visible" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/navigation_programs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="60dp"
+                android:gravity="center_vertical">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/bottom_bar_icon_size"
+                        android:layout_height="@dimen/bottom_bar_icon_size"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/navigation_lbl_programs"
+                        android:padding="@dimen/bottom_bar_icon_padding"
+                        android:src="@drawable/ic_navigation_playlist"
+                        app:tint="@color/color_gray_white_selected" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:layout_marginStart="10dp"
+                        android:text="@string/navigation_lbl_programs"
+                        android:textColor="@color/color_gray_white_selected"
+                        android:textSize="@dimen/text_size_21"
+                        android:visibility="visible" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="300dp"/>
         </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
     <FrameLayout
         android:id="@+id/nav_host_fragment"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:background="@drawable/bg_advanced_in_app"
+        android:backgroundTint="@color/color_main_navigation"
         app:layout_constraintBottom_toTopOf="@+id/player_ui_container"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tab_vertical"
         app:layout_constraintTop_toBottomOf="@+id/nav_layout" />
 
     <!-- Flash sale -->
@@ -592,6 +629,7 @@
 
     <!-- Search list -->
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="horizontal"
@@ -607,10 +645,10 @@
             android:layout_marginLeft="@dimen/indent_16"
             android:layout_marginRight="@dimen/indent_16"
             android:layout_marginBottom="@dimen/indent_8"
-            android:visibility="gone"
             android:background="@drawable/bg_search_home"
             android:orientation="vertical"
             android:paddingHorizontal="@dimen/margin_left_top_icon"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/search_layout">
 

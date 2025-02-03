@@ -153,7 +153,7 @@ class AddProgramsFragment : BaseFragment() {
         val isSilentEnable =
             SharedPreferenceHelper.getInstance().getBool(PREF_SETTING_ADVANCE_SCALAR_ON_OFF)
         if (!isSilentEnable) {
-            list = list.dropLast(3) as ArrayList<Triple<String, List<Search>, Boolean>>
+            list = list.dropLast(2) as ArrayList<Triple<String, List<Search>, Boolean>>
         }
         adapter.setListContents(list)
         TabLayoutMediator(tabs, viewPager) { tab, position ->

@@ -13,6 +13,8 @@
 
     <color name="color_main_activity_background">#283266</color>
     <color name="color_main_activity_navigation">#3A426C</color>
+    <color name="bg_color_app">#020620</color>
+    <color name="color_main_navigation">#33565861</color>
 
     <color name="dark_blue_background">#1C1E31</color>
     <color name="dark_blue_background_v2">#363959</color>

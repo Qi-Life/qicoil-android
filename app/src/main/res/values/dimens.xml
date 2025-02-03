@@ -124,7 +124,7 @@
     <dimen name="text_size_17">17sp</dimen>
     <dimen name="indent_6">6dp</dimen>
     <dimen name="text_size_24">24sp</dimen>
-    <dimen name="bottom_bar_icon_size">30sp</dimen>
+    <dimen name="bottom_bar_icon_size">32sp</dimen>
     <dimen name="bottom_bar_icon_padding">3sp</dimen>
     <dimen name="height_repeat_button">30dp</dimen>
     <dimen name="height_silent_button">35dp</dimen>
