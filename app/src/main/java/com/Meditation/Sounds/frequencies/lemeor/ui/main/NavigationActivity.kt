@@ -6,6 +6,7 @@ import android.Manifest.permission.READ_MEDIA_AUDIO
 import android.Manifest.permission.READ_MEDIA_IMAGES
 import android.Manifest.permission.READ_MEDIA_VIDEO
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.DownloadManager
@@ -161,10 +162,12 @@ import kotlinx.android.synthetic.main.activity_navigation.album_search_clear
 import kotlinx.android.synthetic.main.activity_navigation.bg_mode
 import kotlinx.android.synthetic.main.activity_navigation.btnHideChatBot
 import kotlinx.android.synthetic.main.activity_navigation.btnStartChatBot
+import kotlinx.android.synthetic.main.activity_navigation.btnToggleMenu
 import kotlinx.android.synthetic.main.activity_navigation.flash_sale
 import kotlinx.android.synthetic.main.activity_navigation.flash_sale_hours
 import kotlinx.android.synthetic.main.activity_navigation.flash_sale_minutes
 import kotlinx.android.synthetic.main.activity_navigation.flash_sale_seconds
+import kotlinx.android.synthetic.main.activity_navigation.hi_name
 import kotlinx.android.synthetic.main.activity_navigation.lblnoresult
 import kotlinx.android.synthetic.main.activity_navigation.mTvDownloadPercent
 import kotlinx.android.synthetic.main.activity_navigation.navigation_albums
@@ -173,11 +176,11 @@ import kotlinx.android.synthetic.main.activity_navigation.navigation_home
 import kotlinx.android.synthetic.main.activity_navigation.navigation_options
 import kotlinx.android.synthetic.main.activity_navigation.navigation_programs
 import kotlinx.android.synthetic.main.activity_navigation.navigation_rife
-import kotlinx.android.synthetic.main.activity_navigation.navigation_search
 import kotlinx.android.synthetic.main.activity_navigation.navigation_silent_quantum
 import kotlinx.android.synthetic.main.activity_navigation.navigation_videos
 import kotlinx.android.synthetic.main.activity_navigation.search_categories_recycler
 import kotlinx.android.synthetic.main.activity_navigation.search_layout
+import kotlinx.android.synthetic.main.activity_navigation.tab_vertical
 import kotlinx.android.synthetic.main.activity_navigation.view.txt_mode
 import kotlinx.android.synthetic.main.activity_navigation.viewGroupDownload
 import kotlinx.android.synthetic.main.activity_navigation.viewIntroChatBot
@@ -224,6 +227,9 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
     private var edtMessageChat: AppCompatEditText? = null
     private var btnSendChat: AppCompatImageView? = null
     private var isStartedChat = false
+    private var isMenuOpen = true
+    private var widthDefault: Int? = null;
+
 
     //alarm play programs
     private var isStartScheduleProgram = true
@@ -233,7 +239,6 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         SearchAdapter { item, i ->
             hideKeyboard(this@NavigationActivity, album_search)
             view_data.visibility = View.GONE
-            search_layout.visibility = View.GONE
             updateViewSearch()
             if (item.obj is Album) {
                 val album = item.obj as Album
@@ -244,7 +249,6 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                     val album = mViewModel.getAlbumById(track.albumId, track.category_id)
                     withContext(Dispatchers.Main) {
                         view_data.visibility = View.GONE
-                        search_layout.visibility = View.GONE
                         updateViewSearch()
                         album?.let { startAlbumDetails(it) }
                     }
@@ -747,6 +751,18 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
             SharedPreferenceHelper.getInstance().setBool(PREF_SETTING_CHATBOT_ON_OFF, false)
         }
 
+        btnToggleMenu.setOnClickListener {
+            if (widthDefault == null) {
+                widthDefault = tab_vertical.width
+            }
+            if (isMenuOpen) {
+                animateWidth(tab_vertical, widthDefault ?: 350, 160)
+            } else {
+                animateWidth(tab_vertical, 160, widthDefault ?: 350)
+            }
+            isMenuOpen = !isMenuOpen
+        }
+
         orientationChangesUI(resources.configuration.orientation)
 
         mNewProgramViewModel.getPrograms().observe(this@NavigationActivity) {
@@ -759,6 +775,18 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         }
 
         scheduleDailyWork()
+    }
+
+    private fun animateWidth(view: View, fromWidth: Int, toWidth: Int) {
+        val animator = ValueAnimator.ofInt(fromWidth, toWidth)
+        animator.setDuration(300)
+        animator.addUpdateListener { animation: ValueAnimator ->
+            val animatedValue = animation.animatedValue as Int
+            val params = view.layoutParams
+            params.width = animatedValue
+            view.layoutParams = params
+        }
+        animator.start()
     }
 
     private fun copyAssetsFiles() {
@@ -795,7 +823,6 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
             search_layout.getGlobalVisibleRect(rect)
             if (!rect.contains(x, y)) {
                 if (search_layout.visibility == View.VISIBLE && view_data.visibility == View.GONE) {
-                    search_layout.visibility = View.GONE
                     updateViewSearch()
                 }
             }
@@ -997,26 +1024,23 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                 setFragment(NewOptionsFragment())
             }
         }
-        navigation_search.setOnClickListener {
-            search_layout.visibility = View.VISIBLE
-            updateViewSearch()
-        }
+
     }
 
     private fun updateViewSearch() {
-        if (search_layout.visibility == View.VISIBLE) {
-            navigation_programs.visibility = View.INVISIBLE
-            navigation_videos.visibility = View.INVISIBLE
-            navigation_discover.visibility = View.INVISIBLE
-            navigation_options.visibility = View.INVISIBLE
-            navigation_search.visibility = View.INVISIBLE
-        } else {
-            navigation_programs.visibility = View.VISIBLE
-            navigation_videos.visibility = View.VISIBLE
-            navigation_discover.visibility = View.VISIBLE
-            navigation_options.visibility = View.VISIBLE
-            navigation_search.visibility = View.VISIBLE
-        }
+//        if (search_layout.visibility == View.VISIBLE) {
+//            navigation_programs.visibility = View.INVISIBLE
+//            navigation_videos.visibility = View.INVISIBLE
+//            navigation_discover.visibility = View.INVISIBLE
+//            navigation_options.visibility = View.INVISIBLE
+//            navigation_search.visibility = View.INVISIBLE
+//        } else {
+//            navigation_programs.visibility = View.VISIBLE
+//            navigation_videos.visibility = View.VISIBLE
+//            navigation_discover.visibility = View.VISIBLE
+//            navigation_options.visibility = View.VISIBLE
+//            navigation_search.visibility = View.VISIBLE
+//        }
     }
 
     fun showPlayerUI() {
@@ -1249,7 +1273,6 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         album_search.text.clear()
         album_search.clearFocus()
         Handler().postDelayed({
-            search_layout.visibility = View.GONE
             updateViewSearch()
         }, 500)
         hideKeyboard(applicationContext, album_search)

@@ -4,73 +4,317 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_color_app"
+    android:background="@drawable/bg_main"
     android:focusableInTouchMode="true"
     android:layoutDirection="ltr"
     tools:context=".lemeor.ui.main.NavigationActivity">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.25" />
 
-    <LinearLayout
-        android:id="@+id/nav_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/color_main_activity_navigation"
-        android:gravity="center"
-        android:orientation="horizontal"
+    <ScrollView
+        android:id="@+id/tab_vertical"
+        android:layout_width="300dp"
+        android:layout_height="0dp"
+        android:background="@drawable/bg_left_main"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="RtlSymmetry">
 
         <LinearLayout
-            android:id="@+id/nav_view"
+            android:id="@+id/nav_layout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingVertical="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/linearLayout"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/nav_host_fragment">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="10dp">
+
+                <ImageView
+                    android:id="@+id/btnToggleMenu"
+                    android:src="@drawable/ic_drawer"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/navigation_lbl_home"
+                    app:tint="@color/white" />
+
+                <TextView
+                    android:id="@+id/hi_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:singleLine="true"
+                    android:text="Hi, Marvin!"
+                    android:textColor="@color/white"
+                    android:textSize="25sp" />
+
+            </LinearLayout>
+
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/navigation_home"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_border_12dp"
+                android:backgroundTint="@color/color_tranparent_grey_selected"
+                android:gravity="center_vertical"
+                android:minHeight="60dp"
+                android:paddingHorizontal="16dp">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/bottom_bar_icon_size"
+                        android:layout_height="@dimen/bottom_bar_icon_size"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/navigation_lbl_home"
+                        android:padding="@dimen/bottom_bar_icon_padding"
+                        android:src="@drawable/ic_home"
+                        app:tint="@color/white" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:text="@string/navigation_lbl_home"
+                        android:textColor="@color/white"
+                        android:textSize="25sp"
+                        android:visibility="visible" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/navigation_albums"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_border_12dp"
+                android:backgroundTint="@color/color_tranparent_grey_selected"
+                android:gravity="center_vertical"
+                android:minHeight="60dp"
+                android:paddingHorizontal="16dp">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/bottom_bar_icon_size"
+                        android:layout_height="@dimen/bottom_bar_icon_size"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/navigation_lbl_quantum"
+                        android:padding="@dimen/bottom_bar_icon_padding"
+                        android:src="@drawable/ic_navigation_quantum"
+                        app:tint="@color/white" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:text="@string/navigation_lbl_quantum"
+                        android:textColor="@color/white"
+                        android:textSize="25sp"
+                        android:visibility="visible" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/navigation_rife"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/bg_border_12dp"
+                android:backgroundTint="@color/color_tranparent_grey_selected"
+                android:gravity="center_vertical"
+                android:minHeight="60dp"
+                android:paddingHorizontal="16dp">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/bottom_bar_icon_size"
+                        android:layout_height="@dimen/bottom_bar_icon_size"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/navigation_lbl_rife"
+                        android:src="@drawable/ic_navigation_rife"
+                        app:tint="@color/white" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:singleLine="true"
+                        android:text="@string/navigation_lbl_rife"
+                        android:textColor="@color/white"
+                        android:textSize="25sp"
+                        android:visibility="visible" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/navigation_silent_quantum"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.2"
+                android:background="@drawable/bg_border_12dp"
+                android:backgroundTint="@color/color_tranparent_grey_selected"
+                android:gravity="center_vertical"
+                android:minHeight="60dp"
+                android:paddingHorizontal="16dp">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/bottom_bar_icon_size"
+                        android:layout_height="@dimen/bottom_bar_icon_size"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/navigation_lbl_quantum"
+                        android:padding="@dimen/bottom_bar_icon_padding"
+                        android:src="@drawable/ic_navigation_scalar"
+                        app:tint="@color/white" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="@string/navigation_lbl_silent_quantum"
+                        android:textColor="@color/white"
+                        android:textSize="25sp"
+                        android:visibility="visible" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/navigation_programs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_border_12dp"
+                android:backgroundTint="@color/color_tranparent_grey_selected"
+                android:gravity="center_vertical"
+                android:minHeight="60dp"
+                android:paddingHorizontal="16dp">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/bottom_bar_icon_size"
+                        android:layout_height="@dimen/bottom_bar_icon_size"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/navigation_lbl_programs"
+                        android:padding="@dimen/bottom_bar_icon_padding"
+                        android:src="@drawable/ic_navigation_playlist"
+                        app:tint="@color/white" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:singleLine="true"
+                        android:text="@string/navigation_lbl_programs"
+                        android:textColor="@color/white"
+                        android:textSize="25sp"
+                        android:visibility="visible" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </LinearLayout>
+    </ScrollView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/bg_right_main"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tab_vertical"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/nav_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:background="@color/bg_color_app"
+            android:layout_gravity="end"
             android:baselineAligned="false"
             android:orientation="horizontal"
-            app:elevation="0dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/search_layout"
-                android:layout_width="300dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@color/color_main_activity_navigation"
+                android:background="@color/transparent"
                 android:clickable="true"
                 android:focusable="true"
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="@+id/nav_layout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/guideline"
-                app:layout_constraintTop_toTopOf="@+id/nav_layout">
+                app:layout_constraintEnd_toStartOf="@+id/navigation_videos"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/nav_layout"
+                app:layout_constraintWidth_percent="0.6">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="35dp"
+                    android:layout_height="40dp"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/indent_16"
-                    android:layout_marginRight="@dimen/indent_16"
                     android:background="@drawable/bg_search_home"
+                    android:backgroundTint="#000000"
                     android:orientation="horizontal"
-                    android:padding="7dp"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <ImageView
                         android:layout_width="16dp"
                         android:layout_height="16dp"
                         android:layout_gravity="center"
+                        android:layout_marginStart="16dp"
                         android:contentDescription="@null"
-                        android:src="@drawable/ic_search_black" />
+                        android:src="@drawable/ic_search_black"
+                        app:tint="@color/white" />
 
                     <com.Meditation.Sounds.frequencies.views.CustomFontEditText
                         android:id="@+id/album_search"
@@ -85,8 +329,8 @@
                         android:imeOptions="actionDone"
                         android:inputType="text"
                         android:singleLine="true"
-                        android:textColor="@android:color/black"
-                        android:textColorHint="@android:color/black"
+                        android:textColor="@android:color/white"
+                        android:textColorHint="@android:color/white"
                         android:textSize="14sp"
                         app:fontText="fonts/HelveticaNeue_Thin.otf" />
 
@@ -103,87 +347,82 @@
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/navigation_videos"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal">
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="16dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/navigation_discover"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <androidx.appcompat.widget.LinearLayoutCompat
+                <ImageView
+                    android:layout_width="@dimen/bottom_bar_icon_size"
+                    android:layout_height="@dimen/bottom_bar_icon_size"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/navigation_lbl_videos"
+                    android:padding="@dimen/bottom_bar_icon_padding"
+                    android:src="@drawable/ic_navigation_video"
+                    app:tint="@color/white" />
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="@dimen/bottom_bar_icon_size"
-                        android:layout_height="@dimen/bottom_bar_icon_size"
-                        android:layout_gravity="center"
-                        android:contentDescription="@string/navigation_lbl_videos"
-                        android:padding="@dimen/bottom_bar_icon_padding"
-                        android:src="@drawable/ic_navigation_video"
-                        app:tint="@color/color_gray_white_selected" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:singleLine="true"
-                        android:text="@string/navigation_lbl_videos"
-                        android:textColor="@color/color_gray_white_selected"
-                        android:textSize="@dimen/text_size_small"
-                        android:visibility="visible" />
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                    android:layout_marginStart="10dp"
+                    android:singleLine="true"
+                    android:text="@string/navigation_lbl_videos"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_small"
+                    android:visibility="visible" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/navigation_discover"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal">
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="16dp"
+                android:gravity="center_vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/imgAvatar"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <androidx.appcompat.widget.LinearLayoutCompat
+                <ImageView
+                    android:layout_width="@dimen/bottom_bar_icon_size"
+                    android:layout_height="@dimen/bottom_bar_icon_size"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/navigation_lbl_shop"
+                    android:padding="@dimen/bottom_bar_icon_padding"
+                    android:src="@drawable/ic_explore"
+                    app:tint="@color/white" />
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
+                    android:layout_marginStart="10dp"
+                    android:singleLine="true"
+                    android:text="@string/navigation_lbl_shop"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_small"
+                    android:visibility="visible" />
 
-                    <ImageView
-                        android:layout_width="@dimen/bottom_bar_icon_size"
-                        android:layout_height="@dimen/bottom_bar_icon_size"
-                        android:layout_gravity="center"
-                        android:contentDescription="@string/navigation_lbl_shop"
-                        android:padding="@dimen/bottom_bar_icon_padding"
-                        android:src="@drawable/ic_explore"
-                        app:tint="@color/color_gray_white_selected" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:singleLine="true"
-                        android:text="@string/navigation_lbl_shop"
-                        android:textColor="@color/color_gray_white_selected"
-                        android:textSize="@dimen/text_size_small"
-                        android:visibility="visible" />
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/navigation_options"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal">
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="@dimen/bottom_bar_icon_size"
@@ -192,274 +431,91 @@
                         android:contentDescription="@string/navigation_lbl_options"
                         android:padding="@dimen/bottom_bar_icon_padding"
                         android:src="@drawable/ic_navigation_option"
-                        app:tint="@color/color_gray_white_selected" />
+                        app:tint="@color/white" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:singleLine="true"
                         android:text="@string/navigation_lbl_options"
-                        android:textColor="@color/color_gray_white_selected"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/text_size_small"
                         android:visibility="visible" />
-
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/navigation_search"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
+            <ImageView
+                android:id="@+id/imgAvatar"
+                android:layout_width="@dimen/image_size_20"
+                android:layout_height="@dimen/image_size_20"
+                android:layout_gravity="start"
+                android:contentDescription="image_avatar"
+                android:src="@drawable/ic_navigation_quantum"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="HardcodedText" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <ImageView
-                    android:layout_width="@dimen/bottom_bar_icon_size"
-                    android:layout_height="@dimen/bottom_bar_icon_size"
-                    android:layout_gravity="center"
-                    android:contentDescription="@string/navigation_lbl_options"
-                    android:padding="@dimen/bottom_bar_icon_padding"
-                    android:src="@drawable/ic_search"
-                    app:tint="@color/color_gray_white_selected" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    android:text="@string/search_hint"
-                    android:textColor="@color/color_gray_white_selected"
-                    android:textSize="@dimen/text_size_small"
-                    android:visibility="visible" />
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-        </LinearLayout>
-    </LinearLayout>
-
-    <ScrollView
-        android:id="@+id/tab_vertical"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginHorizontal="10dp"
-        app:layout_constraintEnd_toStartOf="@+id/linearLayout"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:background="@drawable/bg_advanced_in_app"
-        android:backgroundTint="@color/color_main_navigation"
-        app:layout_constraintTop_toTopOf="@+id/nav_host_fragment">
-
-        <LinearLayout
-            android:id="@+id/nav_layout2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="16dp"
+        <FrameLayout
+            android:id="@+id/nav_host_fragment"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/linearLayout"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/nav_host_fragment">
+            app:layout_constraintTop_toBottomOf="@+id/nav_layout" />
 
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/navigation_home"
+        <!-- Search list -->
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="500dp"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/nav_host_fragment"
+            app:layout_constraintTop_toBottomOf="@+id/nav_layout">
+
+            <LinearLayout
+                android:id="@+id/view_data"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:minHeight="60dp">
+                android:layout_marginLeft="@dimen/indent_16"
+                android:layout_marginRight="@dimen/indent_16"
+                android:layout_marginBottom="@dimen/indent_8"
+                android:background="@drawable/bg_search_home"
+                android:orientation="vertical"
+                android:paddingHorizontal="@dimen/margin_left_top_icon"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/search_layout">
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="@dimen/bottom_bar_icon_size"
-                        android:layout_height="@dimen/bottom_bar_icon_size"
-                        android:layout_gravity="center"
-                        android:contentDescription="@string/navigation_lbl_home"
-                        android:padding="@dimen/bottom_bar_icon_padding"
-                        android:src="@drawable/ic_home"
-                        app:tint="@color/color_gray_white_selected" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:ellipsize="end"
-                        android:singleLine="true"
-                        android:text="@string/navigation_lbl_home"
-                        android:textColor="@color/color_gray_white_selected"
-                        android:textSize="@dimen/text_size_21"
-                        android:visibility="visible" />
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/navigation_albums"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:minHeight="60dp">
-
-                <androidx.appcompat.widget.LinearLayoutCompat
+                <com.Meditation.Sounds.frequencies.views.CustomFontTextView
+                    android:id="@+id/lblnoresult"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginVertical="@dimen/indent_35"
+                    android:text="@string/txt_no_result"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/text_size_normal"
+                    android:visibility="gone"
+                    app:fontText="fonts/HelveticaNeue_Bold.otf" />
 
-                    <ImageView
-                        android:layout_width="@dimen/bottom_bar_icon_size"
-                        android:layout_height="@dimen/bottom_bar_icon_size"
-                        android:layout_gravity="center"
-                        android:contentDescription="@string/navigation_lbl_quantum"
-                        android:padding="@dimen/bottom_bar_icon_padding"
-                        android:src="@drawable/ic_navigation_quantum"
-                        app:tint="@color/color_gray_white_selected" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:singleLine="true"
-                        android:layout_marginStart="10dp"
-                        android:text="@string/navigation_lbl_quantum"
-                        android:textColor="@color/color_gray_white_selected"
-                        android:textSize="@dimen/text_size_21"
-                        android:visibility="visible" />
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/navigation_rife"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="60dp"
-                android:layout_weight="1"
-                android:gravity="center_vertical">
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="wrap_content"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/search_categories_recycler"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="@dimen/bottom_bar_icon_size"
-                        android:layout_height="@dimen/bottom_bar_icon_size"
-                        android:layout_gravity="center"
-                        android:contentDescription="@string/navigation_lbl_rife"
-                        android:src="@drawable/ic_navigation_rife"
-                        app:tint="@color/color_gray_white_selected" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:singleLine="true"
-                        android:text="@string/navigation_lbl_rife"
-                        android:layout_marginStart="10dp"
-                        android:textColor="@color/color_gray_white_selected"
-                        android:textSize="@dimen/text_size_21"
-                        android:visibility="visible" />
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/navigation_silent_quantum"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="60dp"
-                android:layout_weight="1.2"
-                android:gravity="center_vertical">
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="@dimen/bottom_bar_icon_size"
-                        android:layout_height="@dimen/bottom_bar_icon_size"
-                        android:layout_gravity="center"
-                        android:contentDescription="@string/navigation_lbl_quantum"
-                        android:padding="@dimen/bottom_bar_icon_padding"
-                        android:src="@drawable/ic_navigation_scalar"
-                        app:tint="@color/color_gray_white_selected" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:layout_marginStart="10dp"
-                        android:maxLines="1"
-                        android:text="@string/navigation_lbl_silent_quantum"
-                        android:textColor="@color/color_gray_white_selected"
-                        android:textSize="@dimen/text_size_21"
-                        android:visibility="visible" />
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/navigation_programs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="60dp"
-                android:gravity="center_vertical">
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="@dimen/bottom_bar_icon_size"
-                        android:layout_height="@dimen/bottom_bar_icon_size"
-                        android:layout_gravity="center"
-                        android:contentDescription="@string/navigation_lbl_programs"
-                        android:padding="@dimen/bottom_bar_icon_padding"
-                        android:src="@drawable/ic_navigation_playlist"
-                        app:tint="@color/color_gray_white_selected" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:singleLine="true"
-                        android:layout_marginStart="10dp"
-                        android:text="@string/navigation_lbl_programs"
-                        android:textColor="@color/color_gray_white_selected"
-                        android:textSize="@dimen/text_size_21"
-                        android:visibility="visible" />
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
-            </androidx.appcompat.widget.LinearLayoutCompat>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="300dp"/>
+                    android:overScrollMode="never"
+                    android:visibility="visible"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            </LinearLayout>
         </LinearLayout>
-    </ScrollView>
 
-    <FrameLayout
-        android:id="@+id/nav_host_fragment"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:background="@drawable/bg_advanced_in_app"
-        android:backgroundTint="@color/color_main_navigation"
-        app:layout_constraintBottom_toTopOf="@+id/player_ui_container"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tab_vertical"
-        app:layout_constraintTop_toBottomOf="@+id/nav_layout" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <!-- Flash sale -->
     <RelativeLayout
@@ -627,60 +683,15 @@
         app:layout_constraintEnd_toEndOf="@+id/btnStartChatBot"
         app:srcCompat="@drawable/ic_close" />
 
-    <!-- Search list -->
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/player_ui_container"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/nav_layout">
-
-        <LinearLayout
-            android:id="@+id/view_data"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/indent_16"
-            android:layout_marginRight="@dimen/indent_16"
-            android:layout_marginBottom="@dimen/indent_8"
-            android:background="@drawable/bg_search_home"
-            android:orientation="vertical"
-            android:paddingHorizontal="@dimen/margin_left_top_icon"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/search_layout">
-
-            <com.Meditation.Sounds.frequencies.views.CustomFontTextView
-                android:id="@+id/lblnoresult"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginVertical="@dimen/indent_35"
-                android:text="@string/txt_no_result"
-                android:textColor="#000000"
-                android:textSize="@dimen/text_size_normal"
-                android:visibility="gone"
-                app:fontText="fonts/HelveticaNeue_Bold.otf" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/search_categories_recycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:overScrollMode="never"
-                android:visibility="visible"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-        </LinearLayout>
-
-    </LinearLayout>
-
     <LinearLayout
         android:id="@+id/player_ui_container"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_percent="0.8" />
 
     <LinearLayout
         android:id="@+id/bg_mode"
