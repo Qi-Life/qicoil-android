@@ -16,8 +16,10 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.content.res.Configuration
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Rect
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
@@ -27,6 +29,7 @@ import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
+import android.renderscript.RenderScript
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -36,6 +39,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.Toast
@@ -44,6 +48,7 @@ import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
@@ -80,6 +85,7 @@ import com.Meditation.Sounds.frequencies.lemeor.data.remote.ApiHelper
 import com.Meditation.Sounds.frequencies.lemeor.data.utils.Resource
 import com.Meditation.Sounds.frequencies.lemeor.data.utils.ViewModelFactory
 import com.Meditation.Sounds.frequencies.lemeor.duration
+import com.Meditation.Sounds.frequencies.lemeor.getImageUrl
 import com.Meditation.Sounds.frequencies.lemeor.getPreloadedSaveDir
 import com.Meditation.Sounds.frequencies.lemeor.getSaveDir
 import com.Meditation.Sounds.frequencies.lemeor.hideKeyboard
@@ -87,6 +93,7 @@ import com.Meditation.Sounds.frequencies.lemeor.isPlayAlbum
 import com.Meditation.Sounds.frequencies.lemeor.isPlayProgram
 import com.Meditation.Sounds.frequencies.lemeor.isTrackAdd
 import com.Meditation.Sounds.frequencies.lemeor.isUserPaused
+import com.Meditation.Sounds.frequencies.lemeor.loadImage
 import com.Meditation.Sounds.frequencies.lemeor.max
 import com.Meditation.Sounds.frequencies.lemeor.playAlbumId
 import com.Meditation.Sounds.frequencies.lemeor.playListScalar
@@ -143,6 +150,7 @@ import com.Meditation.Sounds.frequencies.models.event.UpdateViewSilentQuantumEve
 import com.Meditation.Sounds.frequencies.services.worker.DailyWorker
 import com.Meditation.Sounds.frequencies.tasks.BaseTask
 import com.Meditation.Sounds.frequencies.tasks.GetFlashSaleTask
+import com.Meditation.Sounds.frequencies.utils.AnimateUtils
 import com.Meditation.Sounds.frequencies.utils.Combined5LiveData
 import com.Meditation.Sounds.frequencies.utils.Constants
 import com.Meditation.Sounds.frequencies.utils.Constants.Companion.PREF_SETTING_ADVANCE_SCALAR_ON_OFF
@@ -155,10 +163,15 @@ import com.Meditation.Sounds.frequencies.utils.SharedPreferenceHelper
 import com.Meditation.Sounds.frequencies.utils.Utils
 import com.Meditation.Sounds.frequencies.utils.extensions.showViewWithFadeIn
 import com.Meditation.Sounds.frequencies.views.DisclaimerDialog
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.MultiTransformation
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.google.gson.Gson
 import com.tonyodev.fetch2core.isNetworkAvailable
+import jp.wasabeef.glide.transformations.BlurTransformation
 import kotlinx.android.synthetic.main.activity_navigation.album_search
 import kotlinx.android.synthetic.main.activity_navigation.album_search_clear
+import kotlinx.android.synthetic.main.activity_navigation.bg_img
 import kotlinx.android.synthetic.main.activity_navigation.bg_mode
 import kotlinx.android.synthetic.main.activity_navigation.btnHideChatBot
 import kotlinx.android.synthetic.main.activity_navigation.btnStartChatBot
@@ -181,10 +194,17 @@ import kotlinx.android.synthetic.main.activity_navigation.navigation_videos
 import kotlinx.android.synthetic.main.activity_navigation.search_categories_recycler
 import kotlinx.android.synthetic.main.activity_navigation.search_layout
 import kotlinx.android.synthetic.main.activity_navigation.tab_vertical
+import kotlinx.android.synthetic.main.activity_navigation.tvHome
+import kotlinx.android.synthetic.main.activity_navigation.tvPrograms
+import kotlinx.android.synthetic.main.activity_navigation.tvQuantum
+import kotlinx.android.synthetic.main.activity_navigation.tvRife
+import kotlinx.android.synthetic.main.activity_navigation.tvSilentQuantum
 import kotlinx.android.synthetic.main.activity_navigation.view.txt_mode
 import kotlinx.android.synthetic.main.activity_navigation.viewGroupDownload
 import kotlinx.android.synthetic.main.activity_navigation.viewIntroChatBot
 import kotlinx.android.synthetic.main.activity_navigation.view_data
+import kotlinx.android.synthetic.main.player_ui_fragment.track_image
+import kotlinx.android.synthetic.main.player_ui_fragment.track_name
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
@@ -229,6 +249,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
     private var isStartedChat = false
     private var isMenuOpen = true
     private var widthDefault: Int? = null;
+    private var minWidthDefault: Int? = null;
 
 
     //alarm play programs
@@ -752,16 +773,19 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         }
 
         btnToggleMenu.setOnClickListener {
-            if (widthDefault == null) {
-                widthDefault = tab_vertical.width
-            }
-            if (isMenuOpen) {
-                animateWidth(tab_vertical, widthDefault ?: 350, 160)
-            } else {
-                animateWidth(tab_vertical, 160, widthDefault ?: 350)
-            }
-            isMenuOpen = !isMenuOpen
+            changeStatusDrawerLeft()
         }
+
+        hi_name.setOnClickListener {
+            changeStatusDrawerLeft()
+        }
+
+        //load image background
+        Glide.with(this)
+            .load(R.drawable.bg_main)
+            .placeholder(R.drawable.bg_main)
+            .transform(BlurTransformation(25, 3))
+            .into(bg_img)
 
         orientationChangesUI(resources.configuration.orientation)
 
@@ -774,19 +798,57 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
             }
         }
 
+//        currentTrack.observe(this@NavigationActivity) { track ->
+//            track?.let {
+//                if (it is MusicRepository.Track) {
+//                    Glide.with(this)
+//                        .load(getImageUrl(it.album))
+//                        .transform(BlurTransformation(40, 3)) // 25 = độ mờ, 3 = độ lặp lại
+//                        .into(bg_img)
+//                } else if (it is MusicRepository.Frequency) {
+//                    Glide.with(this)
+//                        .load(R.drawable.bg_main)
+//                        .placeholder(R.drawable.bg_main)
+//                        .transform(BlurTransformation(25, 3)) // 25 = độ mờ, 3 = độ lặp lại
+//                        .into(bg_img)
+//                }
+//            }
+//        }
+
         scheduleDailyWork()
     }
 
-    private fun animateWidth(view: View, fromWidth: Int, toWidth: Int) {
-        val animator = ValueAnimator.ofInt(fromWidth, toWidth)
-        animator.setDuration(300)
-        animator.addUpdateListener { animation: ValueAnimator ->
-            val animatedValue = animation.animatedValue as Int
-            val params = view.layoutParams
-            params.width = animatedValue
-            view.layoutParams = params
+    private fun changeStatusDrawerLeft() {
+        if (widthDefault == null) {
+            widthDefault = tab_vertical.width
         }
-        animator.start()
+        if (isMenuOpen) {
+            AnimateUtils.animateWidth(tab_vertical, widthDefault ?: 350, 170,
+                animationDone = {
+                    //setWrap content
+                    hi_name.visibility = View.GONE
+                    tvHome.visibility = View.GONE
+                    tvQuantum.visibility = View.GONE
+                    tvRife.visibility = View.GONE
+                    tvSilentQuantum.visibility = View.GONE
+                    tvPrograms.visibility = View.GONE
+
+                    val params = tab_vertical.layoutParams
+                    params.width = ViewGroup.LayoutParams.WRAP_CONTENT
+                    tab_vertical.layoutParams = params
+                    tab_vertical.requestLayout()
+                }
+            )
+        } else {
+            hi_name.visibility = View.VISIBLE
+            tvHome.visibility = View.VISIBLE
+            tvQuantum.visibility = View.VISIBLE
+            tvRife.visibility = View.VISIBLE
+            tvSilentQuantum.visibility = View.VISIBLE
+            tvPrograms.visibility = View.VISIBLE
+            AnimateUtils.animateWidth(tab_vertical, 170, widthDefault ?: 350, animationDone = {})
+        }
+        isMenuOpen = !isMenuOpen
     }
 
     private fun copyAssetsFiles() {

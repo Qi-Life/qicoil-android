@@ -136,6 +136,8 @@ dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'com.github.siyamed:android-shape-imageview:0.9.3@aar'
     implementation 'com.github.bumptech.glide:glide:4.13.2'
+    implementation 'com.github.wasabeef:glide-transformations:4.3.0'
+
     kapt 'com.github.bumptech.glide:compiler:4.13.2'
     //    implementation 'com.android.support:support-annotations:26.1.0'
     implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'

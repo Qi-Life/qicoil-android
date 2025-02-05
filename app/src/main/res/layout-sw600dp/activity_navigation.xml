@@ -4,24 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_main"
     android:focusableInTouchMode="true"
     android:layoutDirection="ltr"
     tools:context=".lemeor.ui.main.NavigationActivity">
 
+    <ImageView
+        android:id="@+id/bg_img"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:background="@drawable/bg_main"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
         android:id="@+id/tab_vertical"
-        android:layout_width="300dp"
-        android:layout_height="0dp"
-        android:background="@drawable/bg_left_main"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
+        app:layout_constraintWidth_percent="0.2"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="RtlSymmetry">
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:id="@+id/nav_layout2"
@@ -29,12 +36,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical"
-            android:paddingVertical="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/linearLayout"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/nav_host_fragment">
+            android:paddingVertical="16dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -44,31 +46,30 @@
 
                 <ImageView
                     android:id="@+id/btnToggleMenu"
-                    android:src="@drawable/ic_drawer"
                     android:layout_width="45dp"
                     android:layout_height="45dp"
                     android:layout_gravity="center"
                     android:contentDescription="@string/navigation_lbl_home"
+                    android:src="@drawable/ic_drawer"
                     app:tint="@color/white" />
 
                 <TextView
                     android:id="@+id/hi_name"
+                    style="@style/text_tab_bar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="4dp"
                     android:singleLine="true"
-                    android:text="Hi, Marvin!"
-                    android:textColor="@color/white"
-                    android:textSize="25sp" />
+                    android:text="Hi, Kevin"
+                   />
 
             </LinearLayout>
-
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/navigation_home"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/bg_border_12dp"
                 android:backgroundTint="@color/color_tranparent_grey_selected"
                 android:gravity="center_vertical"
@@ -91,14 +92,14 @@
                         app:tint="@color/white" />
 
                     <TextView
+                        android:id="@+id/tvHome"
+                        style="@style/text_tab_bar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:ellipsize="end"
                         android:singleLine="true"
                         android:text="@string/navigation_lbl_home"
-                        android:textColor="@color/white"
-                        android:textSize="25sp"
                         android:visibility="visible" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
@@ -129,6 +130,8 @@
                         app:tint="@color/white" />
 
                     <TextView
+                        android:id="@+id/tvQuantum"
+                        style="@style/text_tab_bar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
@@ -136,7 +139,6 @@
                         android:singleLine="true"
                         android:text="@string/navigation_lbl_quantum"
                         android:textColor="@color/white"
-                        android:textSize="25sp"
                         android:visibility="visible" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
@@ -168,13 +170,14 @@
                         app:tint="@color/white" />
 
                     <TextView
+                        android:id="@+id/tvRife"
+                        style="@style/text_tab_bar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:singleLine="true"
                         android:text="@string/navigation_lbl_rife"
                         android:textColor="@color/white"
-                        android:textSize="25sp"
                         android:visibility="visible" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
@@ -207,6 +210,8 @@
                         app:tint="@color/white" />
 
                     <TextView
+                        android:id="@+id/tvSilentQuantum"
+                        style="@style/text_tab_bar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
@@ -214,7 +219,6 @@
                         android:maxLines="1"
                         android:text="@string/navigation_lbl_silent_quantum"
                         android:textColor="@color/white"
-                        android:textSize="25sp"
                         android:visibility="visible" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
@@ -246,13 +250,12 @@
                         app:tint="@color/white" />
 
                     <TextView
+                        android:id="@+id/tvPrograms"
+                        style="@style/text_tab_bar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
-                        android:singleLine="true"
                         android:text="@string/navigation_lbl_programs"
-                        android:textColor="@color/white"
-                        android:textSize="25sp"
                         android:visibility="visible" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
@@ -263,7 +266,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@drawable/bg_right_main"
+        android:background="#24FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tab_vertical"
@@ -288,13 +291,14 @@
                 android:layout_height="match_parent"
                 android:background="@color/transparent"
                 android:clickable="true"
+                android:layout_marginEnd="24dp"
                 android:focusable="true"
                 android:visibility="visible"
+                app:layout_constrainedWidth="true"
                 app:layout_constraintBottom_toBottomOf="@+id/nav_layout"
                 app:layout_constraintEnd_toStartOf="@+id/navigation_videos"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/nav_layout"
-                app:layout_constraintWidth_percent="0.6">
+                app:layout_constraintTop_toTopOf="@+id/nav_layout">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -326,6 +330,7 @@
                         android:layout_weight="1"
                         android:background="@color/transparent"
                         android:hint="@string/search_hint"
+                        android:fontFamily="@font/sf_pro_regular"
                         android:imeOptions="actionDone"
                         android:inputType="text"
                         android:singleLine="true"
@@ -474,7 +479,6 @@
             android:layout_height="0dp"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/nav_host_fragment"
             app:layout_constraintTop_toBottomOf="@+id/nav_layout">
 
@@ -515,7 +519,6 @@
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
     <!-- Flash sale -->
     <RelativeLayout
@@ -683,6 +686,7 @@
         app:layout_constraintEnd_toEndOf="@+id/btnStartChatBot"
         app:srcCompat="@drawable/ic_close" />
 
+    <!-- Player -->
     <LinearLayout
         android:id="@+id/player_ui_container"
         android:layout_width="0dp"
