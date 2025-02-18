@@ -421,7 +421,7 @@
     <string name="tv_silent_scalar_turned_off">Silent Quantum is currently turned off</string>
     <string name="tv_please_choose_a_frequency_to_play">Please choose a Frequency to play</string>
     <string name="tv_there_no_silent_energies">There are no Silent energies, please active it.</string>
-    <string name="recent">Recent:</string>
+    <string name="recent">Recent</string>
     <string name="you_have_no_program_selected">You have no program selected</string>
     <string name="save_schedule">Save schedule</string>
     <string name="schedule_on_off">Schedule ON/off</string>
@@ -450,7 +450,7 @@
     <string name="msg_error_network_chat" translatable="false">Connect Lost. Please check your internet connection.</string>
     <string name="lang_en" translatable="false">English</string>
     <string name="lang_fr" translatable="false">Français - French</string>
-<!--    <string name="lang_zh" translatable="false">China</string>-->
+    <!--    <string name="lang_zh" translatable="false">China</string>-->
     <string name="lang_es" translatable="false">Español - Spanish</string>
     <string name="lang_ja" translatable="false">日本語 - Japanese</string>
     <string name="lang_vi" translatable="false">Việt Nam - Vietnamese</string>
@@ -463,4 +463,6 @@
     <string name="lang_ko" translatable="false">한국어 - Korean</string>
     <string name="lang_it" translatable="false">Italiano - Italian</string>
     <string name="lang_bn" translatable="false">বাংলা - Bengali</string>
+    <string name="new_programs" translatable="false">New programs</string>
+
 </resources>

@@ -6,7 +6,6 @@ import android.Manifest.permission.READ_MEDIA_AUDIO
 import android.Manifest.permission.READ_MEDIA_IMAGES
 import android.Manifest.permission.READ_MEDIA_VIDEO
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.DownloadManager
@@ -16,11 +15,10 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.content.res.Configuration
-import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Rect
-import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -29,7 +27,6 @@ import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
-import android.renderscript.RenderScript
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -38,8 +35,10 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewOutlineProvider
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
-import android.widget.ImageView
+import android.widget.Button
+import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.Toast
@@ -48,14 +47,17 @@ import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.work.ExistingPeriodicWorkPolicy
@@ -85,7 +87,6 @@ import com.Meditation.Sounds.frequencies.lemeor.data.remote.ApiHelper
 import com.Meditation.Sounds.frequencies.lemeor.data.utils.Resource
 import com.Meditation.Sounds.frequencies.lemeor.data.utils.ViewModelFactory
 import com.Meditation.Sounds.frequencies.lemeor.duration
-import com.Meditation.Sounds.frequencies.lemeor.getImageUrl
 import com.Meditation.Sounds.frequencies.lemeor.getPreloadedSaveDir
 import com.Meditation.Sounds.frequencies.lemeor.getSaveDir
 import com.Meditation.Sounds.frequencies.lemeor.hideKeyboard
@@ -93,7 +94,6 @@ import com.Meditation.Sounds.frequencies.lemeor.isPlayAlbum
 import com.Meditation.Sounds.frequencies.lemeor.isPlayProgram
 import com.Meditation.Sounds.frequencies.lemeor.isTrackAdd
 import com.Meditation.Sounds.frequencies.lemeor.isUserPaused
-import com.Meditation.Sounds.frequencies.lemeor.loadImage
 import com.Meditation.Sounds.frequencies.lemeor.max
 import com.Meditation.Sounds.frequencies.lemeor.playAlbumId
 import com.Meditation.Sounds.frequencies.lemeor.playListScalar
@@ -163,16 +163,17 @@ import com.Meditation.Sounds.frequencies.utils.SharedPreferenceHelper
 import com.Meditation.Sounds.frequencies.utils.Utils
 import com.Meditation.Sounds.frequencies.utils.extensions.showViewWithFadeIn
 import com.Meditation.Sounds.frequencies.views.DisclaimerDialog
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.MultiTransformation
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.google.gson.Gson
 import com.tonyodev.fetch2core.isNetworkAvailable
-import jp.wasabeef.glide.transformations.BlurTransformation
+import eightbitlab.com.blurview.RenderEffectBlur
+import eightbitlab.com.blurview.RenderScriptBlur
+import kotlinx.android.synthetic.main.activity_navigation.add_programs
 import kotlinx.android.synthetic.main.activity_navigation.album_search
 import kotlinx.android.synthetic.main.activity_navigation.album_search_clear
 import kotlinx.android.synthetic.main.activity_navigation.bg_img
 import kotlinx.android.synthetic.main.activity_navigation.bg_mode
+import kotlinx.android.synthetic.main.activity_navigation.blurView1
+import kotlinx.android.synthetic.main.activity_navigation.blurView2
 import kotlinx.android.synthetic.main.activity_navigation.btnHideChatBot
 import kotlinx.android.synthetic.main.activity_navigation.btnStartChatBot
 import kotlinx.android.synthetic.main.activity_navigation.btnToggleMenu
@@ -191,9 +192,12 @@ import kotlinx.android.synthetic.main.activity_navigation.navigation_programs
 import kotlinx.android.synthetic.main.activity_navigation.navigation_rife
 import kotlinx.android.synthetic.main.activity_navigation.navigation_silent_quantum
 import kotlinx.android.synthetic.main.activity_navigation.navigation_videos
+import kotlinx.android.synthetic.main.activity_navigation.rcvProgram
+import kotlinx.android.synthetic.main.activity_navigation.root
 import kotlinx.android.synthetic.main.activity_navigation.search_categories_recycler
 import kotlinx.android.synthetic.main.activity_navigation.search_layout
 import kotlinx.android.synthetic.main.activity_navigation.tab_vertical
+import kotlinx.android.synthetic.main.activity_navigation.tvAddProgram
 import kotlinx.android.synthetic.main.activity_navigation.tvHome
 import kotlinx.android.synthetic.main.activity_navigation.tvPrograms
 import kotlinx.android.synthetic.main.activity_navigation.tvQuantum
@@ -203,11 +207,10 @@ import kotlinx.android.synthetic.main.activity_navigation.view.txt_mode
 import kotlinx.android.synthetic.main.activity_navigation.viewGroupDownload
 import kotlinx.android.synthetic.main.activity_navigation.viewIntroChatBot
 import kotlinx.android.synthetic.main.activity_navigation.view_data
-import kotlinx.android.synthetic.main.player_ui_fragment.track_image
-import kotlinx.android.synthetic.main.player_ui_fragment.track_name
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
@@ -219,6 +222,7 @@ import org.greenrobot.eventbus.ThreadMode
 import retrofit2.HttpException
 import java.io.File
 import java.util.Calendar
+import java.util.Date
 import java.util.concurrent.TimeUnit
 
 
@@ -247,10 +251,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
     private var edtMessageChat: AppCompatEditText? = null
     private var btnSendChat: AppCompatImageView? = null
     private var isStartedChat = false
-    private var isMenuOpen = true
-    private var widthDefault: Int? = null;
-    private var minWidthDefault: Int? = null;
-
+    private var widthDefault: Int? = null
 
     //alarm play programs
     private var isStartScheduleProgram = true
@@ -341,6 +342,21 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
             .setPositiveButton(R.string.txt_agree) { _, _ ->
                 downloadAPK(apkUrlDialog)
             }.setNegativeButton(R.string.txt_disagree) { _, _ -> }.create()
+    }
+
+    private val _navigatorProgramsAdapter by lazy {
+        NavigatorProgramsAdapter {
+            closeSearch()
+            setFragment(ProgramDetailFragment.newInstance(it?.id ?: -1))
+        }
+    }
+
+    private val navigationViewModel by lazy {
+        ViewModelProvider(
+            this, ViewModelFactory(
+                ApiHelper(RetrofitBuilder(this).apiService), DataBase.getInstance(this)
+            )
+        )[NavigationViewModel::class.java]
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN_ORDERED)
@@ -695,11 +711,25 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_navigation)
 
+        blurView1.setupWith(
+            bg_img as ViewGroup
+        ).setBlurRadius(15f) // Độ mờ
+            .setBlurAutoUpdate(true)
+
+        blurView2.setupWith(
+            bg_img as ViewGroup
+        )
+            .setBlurRadius(15f)
+            .setBlurAutoUpdate(true)
+
+
         EventBus.getDefault().register(this)
 
         checkPermissions()
 
         init()
+
+        observerValue()
 
         syncData()
 
@@ -773,19 +803,19 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         }
 
         btnToggleMenu.setOnClickListener {
-            changeStatusDrawerLeft()
+            navigationViewModel.onTabNavigationCollapse()
         }
 
         hi_name.setOnClickListener {
-            changeStatusDrawerLeft()
+            navigationViewModel.onTabNavigationCollapse()
         }
 
-        //load image background
-        Glide.with(this)
-            .load(R.drawable.bg_main)
-            .placeholder(R.drawable.bg_main)
-            .transform(BlurTransformation(25, 3))
-            .into(bg_img)
+//        //load image background
+//        Glide.with(this)
+//            .load(R.drawable.bg_main)
+//            .placeholder(R.drawable.bg_main)
+//            .transform(BlurTransformation(25, 3))
+//            .into(bg_img)
 
         orientationChangesUI(resources.configuration.orientation)
 
@@ -796,6 +826,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                     this@NavigationActivity
                 )
             }
+            _navigatorProgramsAdapter.data = it.toMutableList()
         }
 
 //        currentTrack.observe(this@NavigationActivity) { track ->
@@ -816,39 +847,6 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
 //        }
 
         scheduleDailyWork()
-    }
-
-    private fun changeStatusDrawerLeft() {
-        if (widthDefault == null) {
-            widthDefault = tab_vertical.width
-        }
-        if (isMenuOpen) {
-            AnimateUtils.animateWidth(tab_vertical, widthDefault ?: 350, 170,
-                animationDone = {
-                    //setWrap content
-                    hi_name.visibility = View.GONE
-                    tvHome.visibility = View.GONE
-                    tvQuantum.visibility = View.GONE
-                    tvRife.visibility = View.GONE
-                    tvSilentQuantum.visibility = View.GONE
-                    tvPrograms.visibility = View.GONE
-
-                    val params = tab_vertical.layoutParams
-                    params.width = ViewGroup.LayoutParams.WRAP_CONTENT
-                    tab_vertical.layoutParams = params
-                    tab_vertical.requestLayout()
-                }
-            )
-        } else {
-            hi_name.visibility = View.VISIBLE
-            tvHome.visibility = View.VISIBLE
-            tvQuantum.visibility = View.VISIBLE
-            tvRife.visibility = View.VISIBLE
-            tvSilentQuantum.visibility = View.VISIBLE
-            tvPrograms.visibility = View.VISIBLE
-            AnimateUtils.animateWidth(tab_vertical, 170, widthDefault ?: 350, animationDone = {})
-        }
-        isMenuOpen = !isMenuOpen
     }
 
     private fun copyAssetsFiles() {
@@ -904,6 +902,55 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
         WorkManager.getInstance(this).cancelUniqueWork("DailyWorker")
     }
 
+    @OptIn(FlowPreview::class)
+    private fun observerValue() {
+        lifecycleScope.launch {
+            navigationViewModel.navigationIsCollapse
+                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED).debounce(100)
+                .distinctUntilChanged()
+                .collectLatest { isCollapse ->
+                    if (widthDefault == null) {
+                        widthDefault = tab_vertical.width
+                    }
+                    if (isCollapse) {
+                        AnimateUtils.animateWidth(tab_vertical, widthDefault ?: 350, 140,
+                            animationDone = {
+                                //setWrap content
+                                hi_name.visibility = View.GONE
+                                tvHome.visibility = View.GONE
+                                tvQuantum.visibility = View.GONE
+                                tvRife.visibility = View.GONE
+                                tvSilentQuantum.visibility = View.GONE
+                                tvPrograms.visibility = View.GONE
+                                tvAddProgram.visibility = View.GONE
+                                _navigatorProgramsAdapter.isCollapse = true
+
+                                val params = tab_vertical.layoutParams
+                                params.width = ViewGroup.LayoutParams.WRAP_CONTENT
+                                tab_vertical.layoutParams = params
+                                tab_vertical.requestLayout()
+                            }
+                        )
+                    } else {
+                        hi_name.visibility = View.VISIBLE
+                        tvHome.visibility = View.VISIBLE
+                        tvQuantum.visibility = View.VISIBLE
+                        tvRife.visibility = View.VISIBLE
+                        tvSilentQuantum.visibility = View.VISIBLE
+                        tvPrograms.visibility = View.VISIBLE
+                        tvAddProgram.visibility = View.VISIBLE
+                        _navigatorProgramsAdapter.isCollapse = false
+
+                        AnimateUtils.animateWidth(
+                            tab_vertical,
+                            tab_vertical.width,
+                            widthDefault ?: 350,
+                            animationDone = {})
+                    }
+                }
+        }
+    }
+
     private fun init() {
         mViewModel = ViewModelProvider(
             this, ViewModelFactory(
@@ -952,9 +999,74 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                 )
             )
         }
+
         onButtonNavigationSelected()
+
+        rcvProgram.adapter = _navigatorProgramsAdapter
+
+        val user = PreferenceHelper.getUser(this)
+
+        hi_name.text = "Hi, " + user?.name
+
+        add_programs.setOnClickListener {
+            openNewProgramDialog()
+        }
+
     }
 
+
+    /** this func copy from NewProgramFragment*/
+    private fun openNewProgramDialog() {
+        val dialogBuilder = AlertDialog.Builder(this).create()
+        val inflater = this.layoutInflater
+        val dialogView: View = inflater.inflate(R.layout.dialog_add_edit_playlist, null)
+        dialogBuilder.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val programName = dialogView.findViewById<View>(R.id.edtPlayListName) as EditText
+        val btnAdd: Button = dialogView.findViewById<View>(R.id.btnSubmit) as Button
+
+        btnAdd.setOnClickListener {
+            val name = programName.text.trim()
+            if (name.isNotEmpty()) {
+                CoroutineScope(Dispatchers.IO).launch {
+                    //call api createProgram
+                    try {
+                        val result = withContext(Dispatchers.Default) {
+                            mNewProgramViewModel.createProgram(name.toString())
+                        }
+                        val program = result.data
+                        mNewProgramViewModel.insert(program)
+                        Toast.makeText(applicationContext, getString(R.string.txt_create_playlist_success), Toast.LENGTH_SHORT).show()
+                    } catch (_: Exception) {
+                        mNewProgramViewModel.insert(
+                            Program(
+                                0,
+                                name.toString(),
+                                "",
+                                0,
+                                Date().time,
+                                ArrayList(),
+                                isMy = true,
+                                false,
+                                is_dirty = false
+                            )
+                        )
+                    }
+                }
+                dialogBuilder.dismiss()
+            } else {
+                Toast.makeText(
+                    this,
+                    getString(R.string.tv_error_playlist_name),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+
+        dialogBuilder.setView(dialogView)
+        dialogBuilder.show()
+
+    }
 
     private fun syncData() {
         if (isNetworkAvailable()) {

@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="100dp"
+    app:cardCornerRadius="@dimen/desktop_16"
     app:cardElevation="0dp"
     app:cardBackgroundColor="#24FFFFFF"
     tools:context=".lemeor.tools.player.PlayerUIFragment">

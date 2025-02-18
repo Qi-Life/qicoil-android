@@ -1,5 +1,6 @@
 package com.Meditation.Sounds.frequencies.lemeor.ui.home
 
+import GridSpacingItemDecoration2
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,9 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
 import com.Meditation.Sounds.frequencies.R
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Album
 import com.Meditation.Sounds.frequencies.utils.SharedPreferenceHelper
+import com.hieupt.android.standalonescrollbar.StandaloneScrollBar
 import com.hieupt.android.standalonescrollbar.attachTo
 import kotlinx.android.synthetic.main.home_my_frequency_item.view.rcMyFrequencies
 import kotlinx.android.synthetic.main.home_recent_item.view.rcAlbumRecent
@@ -70,11 +73,11 @@ class HomeAdapter(val onClickItem: (Album) -> Unit) :
 
             if (SharedPreferenceHelper.getInstance().recentAlbums.isNotEmpty()) {
                 itemView.rcAlbumRecent.visibility = View.VISIBLE
-                itemView.scrollbar.visibility = View.VISIBLE
+//                itemView.scrollbar.visibility = View.VISIBLE
                 itemView.tvNoDataRecent.visibility = View.GONE
             } else {
                 itemView.rcAlbumRecent.visibility = View.GONE
-                itemView.scrollbar.visibility = View.GONE
+//                itemView.scrollbar.visibility = View.GONE
                 itemView.tvNoDataRecent.visibility = View.VISIBLE
             }
         }
@@ -103,16 +106,16 @@ class HomeAdapter(val onClickItem: (Album) -> Unit) :
 
     fun changeLayoutManager(context: Context, isPortrait: Boolean, spacing: Int) {
         if (isPortrait) {
-            itemDecoration = GridSpacingItemDecoration(5, spacing, true)
-            layoutManagerGrid = GridLayoutManager(context, 5)
+            itemDecoration = GridSpacingItemDecoration2(1, spacing, false)
+            layoutManagerGrid = GridLayoutManager(context, 1, HORIZONTAL, false)
         } else {
-            itemDecoration = GridSpacingItemDecoration(8, spacing, true)
-            layoutManagerGrid = GridLayoutManager(context, 8)
+            itemDecoration = GridSpacingItemDecoration2(1, spacing, false)
+            layoutManagerGrid = GridLayoutManager(context, 1, HORIZONTAL, false)
         }
     }
 
     companion object {
-        lateinit var itemDecoration: GridSpacingItemDecoration
+        lateinit var itemDecoration: RecyclerView.ItemDecoration
         lateinit var layoutManagerGrid: GridLayoutManager
     }
 }

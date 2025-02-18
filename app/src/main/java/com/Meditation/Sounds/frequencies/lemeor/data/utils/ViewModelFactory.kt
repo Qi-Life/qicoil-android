@@ -15,6 +15,7 @@ import com.Meditation.Sounds.frequencies.lemeor.ui.auth.AuthRepository
 import com.Meditation.Sounds.frequencies.lemeor.ui.auth.AuthViewModel
 import com.Meditation.Sounds.frequencies.lemeor.ui.main.HomeRepository
 import com.Meditation.Sounds.frequencies.lemeor.ui.main.HomeViewModel
+import com.Meditation.Sounds.frequencies.lemeor.ui.main.NavigationViewModel
 import com.Meditation.Sounds.frequencies.lemeor.ui.options.NewOptionsRepository
 import com.Meditation.Sounds.frequencies.lemeor.ui.options.NewOptionsViewModel
 import com.Meditation.Sounds.frequencies.lemeor.ui.options.change_pass.ChangePassRepository
@@ -90,6 +91,9 @@ class ViewModelFactory(private val apiHelper: ApiHelper, private val localData: 
         }
         if (modelClass.isAssignableFrom(SilentQuantumViewModel::class.java)) {
             return SilentQuantumViewModel(SilentQuantumRepository(apiHelper, localData)) as T
+        }
+        if (modelClass.isAssignableFrom(NavigationViewModel::class.java)) {
+            return NavigationViewModel() as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

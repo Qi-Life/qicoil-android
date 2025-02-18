@@ -69,7 +69,9 @@ class ProgramTrackAdapter(
                 if (item.obj !is Scalar) {
                     setSelectedItem(item)
                 }
-                if ((item.obj is Scalar && SharedPreferenceHelper.getInstance().getBool(PREF_SETTING_ADVANCE_SCALAR_ON_OFF) && (item.obj as Scalar).is_free == 1) || item.obj !is Scalar) {
+                if ((item.obj is Scalar && SharedPreferenceHelper.getInstance()
+                        .getBool(PREF_SETTING_ADVANCE_SCALAR_ON_OFF) && (item.obj as Scalar).is_free == 1) || item.obj !is Scalar
+                ) {
                     onClickItem.invoke(item, layoutPosition)
                 } else if ((item.obj as Scalar).is_free == 0) {
                     onClickSubscriptionItem.invoke(item)
@@ -138,15 +140,18 @@ class ProgramTrackAdapter(
     }
 
     private fun View.updateUIForScalar(scalar: Scalar) {
-        val isSilentEnable = SharedPreferenceHelper.getInstance().getBool(PREF_SETTING_ADVANCE_SCALAR_ON_OFF)
+        val isSilentEnable =
+            SharedPreferenceHelper.getInstance().getBool(PREF_SETTING_ADVANCE_SCALAR_ON_OFF)
         item_track_name.setTextColor(
             ContextCompat.getColor(
-                context, if (!isSilentEnable || scalar.is_free == 0) R.color.item_selected else android.R.color.white
+                context,
+                if (!isSilentEnable || scalar.is_free == 0) R.color.item_selected else android.R.color.white
             )
         )
         item_album_name.setTextColor(
             ContextCompat.getColor(
-                context, if (!isSilentEnable || scalar.is_free == 0) R.color.item_selected else android.R.color.white
+                context,
+                if (!isSilentEnable || scalar.is_free == 0) R.color.item_selected else android.R.color.white
             )
         )
         if (isSilentEnable || scalar.is_free == 0) {
@@ -175,7 +180,7 @@ class ProgramTrackAdapter(
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setProgram(pr: Program){
+    fun setProgram(pr: Program) {
         program = pr
         notifyDataSetChanged()
     }

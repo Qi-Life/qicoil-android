@@ -237,4 +237,6 @@ dependencies {
     implementation 'androidx.work:work-runtime-ktx:2.7.1'
     implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0'
     implementation 'com.github.Jay-Goo:RangeSeekBar:v3.0.0'
+
+    implementation 'com.github.Dimezis:BlurView:version-2.0.6'
 }

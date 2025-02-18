@@ -13,6 +13,8 @@ import com.Meditation.Sounds.frequencies.lemeor.data.model.Album
 import com.Meditation.Sounds.frequencies.lemeor.loadImage
 import kotlinx.android.synthetic.main.my_frequencies_item.view.image
 import kotlinx.android.synthetic.main.my_frequencies_item.view.image_lock
+import kotlinx.android.synthetic.main.my_frequencies_item.view.tvName
+import kotlinx.android.synthetic.main.my_frequencies_item.view.tvTitle
 import kotlinx.android.synthetic.main.my_frequencies_item.view.view_album_info
 
 class NewMyFrequenciesAdapter(
@@ -34,7 +36,7 @@ class NewMyFrequenciesAdapter(
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         @SuppressLint("SetTextI18n", "UseCompatLoadingForDrawables")
         fun bind(album: Album, position: Int) {
-            itemView.view_album_info.visibility = View.GONE
+//            itemView.view_album_info.visibility = View.GONE
             if (album.id != -1) {
                 itemView.view_album_info.visibility = View.VISIBLE
                 itemView.image.radius =
@@ -50,6 +52,9 @@ class NewMyFrequenciesAdapter(
                     onClickItem.invoke(album)
                 }
             }
+
+//            itemView.tvTitle.text = album.name
+            itemView.tvName.text = album.name
         }
     }
 

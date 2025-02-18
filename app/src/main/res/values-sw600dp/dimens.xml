@@ -89,7 +89,8 @@
     <dimen name="height_repeat_button">42dp</dimen>
     <dimen name="height_silent_button">55dp</dimen>
 
-    <dimen name="height_recent_albums">230dp</dimen>
+    <dimen name="height_recent_albums">80dp</dimen>
+    <dimen name="width_recent_albums">330dp</dimen>
     <dimen name="radius_recent_albums">10dp</dimen>
 
     <dimen name="height_button_player_default">50dp</dimen>

@@ -1,6 +1,7 @@
 package com.Meditation.Sounds.frequencies.lemeor.ui.programs
 
 import androidx.lifecycle.LiveData
+import com.Meditation.Sounds.frequencies.lemeor.FAVORITES
 import com.Meditation.Sounds.frequencies.lemeor.data.database.DataBase
 import com.Meditation.Sounds.frequencies.lemeor.data.model.*
 import com.Meditation.Sounds.frequencies.lemeor.data.remote.ApiHelper
@@ -31,6 +32,10 @@ class ProgramRepository(private val localData: DataBase, private val apiHelper: 
 
     suspend fun getAlbumById(id: Int, category_id: Int): Album? {
         return localData.albumDao().getAlbumById(id, category_id)
+    }
+
+    suspend fun getProgramFavorites(): Program? {
+        return localData.programDao().getProgramByName(FAVORITES)
     }
 
     suspend fun createProgram(name: String) = apiHelper.createPrograms(name)
