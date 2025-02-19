@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="30dp">
+
+    <TextView
+        android:id="@+id/tvMyFrequencies"
+        style="@style/AppTheme.Text.sf_32_semibold"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/tv_favorites"
+        android:textAllCaps="false"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvShowAll"
+        style="@style/AppTheme.Text.sf_20_reg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Show all"
+        app:layout_constraintBottom_toBottomOf="@id/tvMyFrequencies"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvMyFrequencies" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcvFavorites"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/desktop_8"
+        android:clipToPadding="false"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvMyFrequencies"
+        tools:listitem="@layout/my_frequencies_item" />
+</androidx.constraintlayout.widget.ConstraintLayout>

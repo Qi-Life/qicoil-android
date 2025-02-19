@@ -82,7 +82,6 @@
                     android:layout_height="@dimen/bottom_bar_icon_size"
                     android:layout_gravity="center"
                     android:contentDescription="@string/navigation_lbl_home"
-                    android:padding="@dimen/bottom_bar_icon_padding"
                     android:src="@drawable/ic_left_panel_open"
                     app:tint="@color/white" />
 

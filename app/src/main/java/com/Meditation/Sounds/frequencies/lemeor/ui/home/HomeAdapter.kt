@@ -14,6 +14,7 @@ import com.Meditation.Sounds.frequencies.lemeor.data.model.Album
 import com.Meditation.Sounds.frequencies.utils.SharedPreferenceHelper
 import com.hieupt.android.standalonescrollbar.StandaloneScrollBar
 import com.hieupt.android.standalonescrollbar.attachTo
+import kotlinx.android.synthetic.main.home_my_favorites.view.rcvFavorites
 import kotlinx.android.synthetic.main.home_my_frequency_item.view.rcMyFrequencies
 import kotlinx.android.synthetic.main.home_recent_item.view.rcAlbumRecent
 import kotlinx.android.synthetic.main.home_recent_item.view.scrollbar
@@ -42,10 +43,16 @@ class HomeAdapter(val onClickItem: (Album) -> Unit) :
                 RecentViewHolder(view, onClickItem)
             }
 
-            1 -> {
+            2 -> {
                 val view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.home_my_frequency_item, parent, false)
                 MyFrequencyViewHolder(view, onClickItem)
+            }
+
+            1 -> {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.home_my_favorites, parent, false)
+                FavoriteViewHolder(view, onClickItem)
             }
 
             else -> throw IllegalArgumentException("Invalid view type")
@@ -56,10 +63,11 @@ class HomeAdapter(val onClickItem: (Album) -> Unit) :
         when (holder) {
             is RecentViewHolder -> holder.bind()
             is MyFrequencyViewHolder -> holder.bind(albumsData)
+            is FavoriteViewHolder -> holder.bind(albumsData)
         }
     }
 
-    override fun getItemCount(): Int = 2
+    override fun getItemCount(): Int = 3
 
     class RecentViewHolder(itemView: View, val onClickItem: (Album) -> Unit) :
         RecyclerView.ViewHolder(itemView) {
@@ -102,6 +110,22 @@ class HomeAdapter(val onClickItem: (Album) -> Unit) :
                 recyclerView.removeItemDecorationAt(0)
             }
         }
+    }
+
+    inner class FavoriteViewHolder(itemView: View, val onClickItem: (Album) -> Unit) :
+        RecyclerView.ViewHolder(itemView) {
+        fun bind(list: List<Album>) {
+            val myFrequenciesAdapter = NewMyFrequenciesAdapter(itemView.context) {
+                onClickItem.invoke(it)
+            }
+//            itemView.rcvFavorites.layoutManager = layoutManagerGrid
+            itemView.rcvFavorites.layoutManager =
+                GridLayoutManager(itemView.context, 1, HORIZONTAL, false)
+            itemView.rcvFavorites.addItemDecoration(GridSpacingItemDecoration2(1, 16, false))
+            itemView.rcvFavorites.adapter = myFrequenciesAdapter
+            myFrequenciesAdapter.submitList(list)
+        }
+
     }
 
     fun changeLayoutManager(context: Context, isPortrait: Boolean, spacing: Int) {

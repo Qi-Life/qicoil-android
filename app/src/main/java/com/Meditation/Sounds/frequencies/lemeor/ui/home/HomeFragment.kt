@@ -15,27 +15,31 @@ import com.Meditation.Sounds.frequencies.lemeor.data.utils.ViewModelFactory
 import com.Meditation.Sounds.frequencies.lemeor.observeOnce
 import com.Meditation.Sounds.frequencies.lemeor.ui.main.HomeViewModel
 import com.Meditation.Sounds.frequencies.lemeor.ui.main.NavigationActivity
+import com.Meditation.Sounds.frequencies.lemeor.ui.programs.NewProgramViewModel
+import com.Meditation.Sounds.frequencies.lemeor.ui.programs.detail.ProgramDetailViewModel
 import kotlinx.android.synthetic.main.fragment_home.rvHome
 
 class HomeFragment : BaseFragment() {
-    private lateinit var mViewModel: HomeViewModel
-    private var homeAdapter: HomeAdapter? = null
+    private val homeAdapter: HomeAdapter by lazy {
+        HomeAdapter {
+            (requireActivity() as NavigationActivity).onAlbumDetails(it)
+        }
+    }
     private var allAlbums = arrayListOf<Album>()
 
-    override fun initLayout(): Int = R.layout.fragment_home
-
-    @SuppressLint("ClickableViewAccessibility")
-    override fun initComponents() {
-        mViewModel = ViewModelProvider(
+    private val homeViewModel by lazy {
+        ViewModelProvider(
             this, ViewModelFactory(
                 ApiHelper(RetrofitBuilder(requireContext()).apiService),
                 DataBase.getInstance(requireContext())
             )
         )[HomeViewModel::class.java]
+    }
 
-        homeAdapter = HomeAdapter {
-            (requireActivity() as NavigationActivity).onAlbumDetails(it)
-        }
+    override fun initLayout(): Int = R.layout.fragment_home
+
+    @SuppressLint("ClickableViewAccessibility")
+    override fun initComponents() {
 
         if (activity?.resources?.configuration?.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             homeAdapter?.changeLayoutManager(requireContext(), false, dpToPx(16))
@@ -46,20 +50,22 @@ class HomeFragment : BaseFragment() {
         rvHome.adapter = homeAdapter
 
         adjustDataForFullRows(arrayListOf())
-        mViewModel.get48AlbumUnlockedLiveData().observeOnce(viewLifecycleOwner) {
+        homeViewModel.get48AlbumUnlockedLiveData().observeOnce(viewLifecycleOwner) {
             if (it.isNotEmpty()) {
                 homeAdapter?.setData(it as ArrayList<Album>)
             }
         }
-        mViewModel.getAlbumsUnlockedLiveData().observe(viewLifecycleOwner) {
+        homeViewModel.getAlbumsUnlockedLiveData().observe(viewLifecycleOwner) {
             allAlbums.clear()
             allAlbums.addAll(it)
             adjustDataForFullRows(allAlbums)
         }
+
     }
 
-    private fun adjustDataForFullRows(albums: ArrayList<Album>){
-        val isLandscape = activity?.resources?.configuration?.orientation == Configuration.ORIENTATION_LANDSCAPE
+    private fun adjustDataForFullRows(albums: ArrayList<Album>) {
+        val isLandscape =
+            activity?.resources?.configuration?.orientation == Configuration.ORIENTATION_LANDSCAPE
 
         val columns = if (isLandscape) 8 else 5
 
@@ -72,16 +78,37 @@ class HomeFragment : BaseFragment() {
         if (remainingItems != 0) {
             val emptyItemsToAdd = columns - remainingItems
             for (i in 0 until emptyItemsToAdd) {
-                albumList.add(Album(id = -1, audio_folder = "", unlock_url = "", benefits_text = ""))
+                albumList.add(
+                    Album(
+                        id = -1,
+                        audio_folder = "",
+                        unlock_url = "",
+                        benefits_text = ""
+                    )
+                )
             }
         }
         if (columns == 8) {
             for (i in 1..8) {
-                albumList.add(Album(id = -1, audio_folder = "", unlock_url = "", benefits_text = ""))
+                albumList.add(
+                    Album(
+                        id = -1,
+                        audio_folder = "",
+                        unlock_url = "",
+                        benefits_text = ""
+                    )
+                )
             }
         } else {
             for (i in 1..5) {
-                albumList.add(Album(id = -1, audio_folder = "", unlock_url = "", benefits_text = ""))
+                albumList.add(
+                    Album(
+                        id = -1,
+                        audio_folder = "",
+                        unlock_url = "",
+                        benefits_text = ""
+                    )
+                )
             }
         }
 
@@ -98,9 +125,9 @@ class HomeFragment : BaseFragment() {
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         if (activity?.resources?.configuration?.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            homeAdapter?.changeLayoutManager(requireContext(), false, dpToPx(16))
+            homeAdapter.changeLayoutManager(requireContext(), false, dpToPx(16))
         } else if (activity?.resources?.configuration?.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            homeAdapter?.changeLayoutManager(requireContext(), true, dpToPx(16))
+            homeAdapter.changeLayoutManager(requireContext(), true, dpToPx(16))
         }
         adjustDataForFullRows(allAlbums)
     }

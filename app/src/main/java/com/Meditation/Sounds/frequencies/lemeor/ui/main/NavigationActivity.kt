@@ -18,7 +18,6 @@ import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -35,7 +34,6 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewOutlineProvider
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.widget.Button
 import android.widget.EditText
@@ -57,7 +55,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.work.ExistingPeriodicWorkPolicy
@@ -165,8 +162,6 @@ import com.Meditation.Sounds.frequencies.utils.extensions.showViewWithFadeIn
 import com.Meditation.Sounds.frequencies.views.DisclaimerDialog
 import com.google.gson.Gson
 import com.tonyodev.fetch2core.isNetworkAvailable
-import eightbitlab.com.blurview.RenderEffectBlur
-import eightbitlab.com.blurview.RenderScriptBlur
 import kotlinx.android.synthetic.main.activity_navigation.add_programs
 import kotlinx.android.synthetic.main.activity_navigation.album_search
 import kotlinx.android.synthetic.main.activity_navigation.album_search_clear
@@ -193,7 +188,6 @@ import kotlinx.android.synthetic.main.activity_navigation.navigation_rife
 import kotlinx.android.synthetic.main.activity_navigation.navigation_silent_quantum
 import kotlinx.android.synthetic.main.activity_navigation.navigation_videos
 import kotlinx.android.synthetic.main.activity_navigation.rcvProgram
-import kotlinx.android.synthetic.main.activity_navigation.root
 import kotlinx.android.synthetic.main.activity_navigation.search_categories_recycler
 import kotlinx.android.synthetic.main.activity_navigation.search_layout
 import kotlinx.android.synthetic.main.activity_navigation.tab_vertical
@@ -913,6 +907,8 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                         widthDefault = tab_vertical.width
                     }
                     if (isCollapse) {
+                        btnToggleMenu.setImageResource(R.drawable.ic_left_panel_open)
+
                         AnimateUtils.animateWidth(tab_vertical, widthDefault ?: 350, 140,
                             animationDone = {
                                 //setWrap content
@@ -932,6 +928,8 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                             }
                         )
                     } else {
+                        btnToggleMenu.setImageResource(R.drawable.ic_left_panel_close)
+
                         hi_name.visibility = View.VISIBLE
                         tvHome.visibility = View.VISIBLE
                         tvQuantum.visibility = View.VISIBLE
@@ -1036,7 +1034,11 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
                         }
                         val program = result.data
                         mNewProgramViewModel.insert(program)
-                        Toast.makeText(applicationContext, getString(R.string.txt_create_playlist_success), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            applicationContext,
+                            getString(R.string.txt_create_playlist_success),
+                            Toast.LENGTH_SHORT
+                        ).show()
                     } catch (_: Exception) {
                         mNewProgramViewModel.insert(
                             Program(
