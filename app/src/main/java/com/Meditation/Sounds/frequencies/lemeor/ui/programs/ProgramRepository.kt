@@ -6,6 +6,7 @@ import com.Meditation.Sounds.frequencies.lemeor.data.database.DataBase
 import com.Meditation.Sounds.frequencies.lemeor.data.model.*
 import com.Meditation.Sounds.frequencies.lemeor.data.remote.ApiHelper
 import com.Meditation.Sounds.frequencies.lemeor.ui.main.UpdateTrack
+import kotlinx.coroutines.flow.Flow
 import java.util.Date
 
 class ProgramRepository(private val localData: DataBase, private val apiHelper: ApiHelper) {
@@ -36,6 +37,10 @@ class ProgramRepository(private val localData: DataBase, private val apiHelper: 
 
     suspend fun getProgramFavorites(): Program? {
         return localData.programDao().getProgramByName(FAVORITES)
+    }
+
+     fun getProgramFavoritesFlow(): Flow<Program?> {
+        return localData.programDao().getProgramByNameFlow(FAVORITES)
     }
 
     suspend fun createProgram(name: String) = apiHelper.createPrograms(name)

@@ -28,6 +28,9 @@ abstract class BaseFragment : Fragment() {
 
     protected abstract fun addListener()
 
+    protected open fun observerValue(){}
+
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mContext = context
@@ -52,7 +55,10 @@ abstract class BaseFragment : Fragment() {
 
         initComponents()
         addListener()
+        observerValue()
     }
+
+
 
     override fun onResume() {
         super.onResume()

@@ -34,15 +34,21 @@ import com.Meditation.Sounds.frequencies.lemeor.ui.videos.NewVideosViewModel
 import com.Meditation.Sounds.frequencies.lemeor.ui.videos.VideoRepository
 
 @Suppress("UNCHECKED_CAST")
-class ViewModelFactory(private val apiHelper: ApiHelper, private val localData: DataBase) : ViewModelProvider.Factory {
+class ViewModelFactory(private val apiHelper: ApiHelper, private val localData: DataBase) :
+    ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {
-            return HomeViewModel(HomeRepository(apiHelper, localData),localData) as T
+            return HomeViewModel(
+                HomeRepository(apiHelper, localData),
+                ProgramRepository(localData, apiHelper),
+                ProgramDetailRepository(localData),
+                localData
+            ) as T
         }
 
         if (modelClass.isAssignableFrom(AlbumsViewModel::class.java)) {
-            return AlbumsViewModel(AlbumsRepository(apiHelper,localData)) as T
+            return AlbumsViewModel(AlbumsRepository(apiHelper, localData)) as T
         }
 
         if (modelClass.isAssignableFrom(NewAlbumDetailViewModel::class.java)) {
@@ -58,7 +64,7 @@ class ViewModelFactory(private val apiHelper: ApiHelper, private val localData: 
         }
 
         if (modelClass.isAssignableFrom(NewProgramViewModel::class.java)) {
-            return NewProgramViewModel(ProgramRepository(localData,apiHelper)) as T
+            return NewProgramViewModel(ProgramRepository(localData, apiHelper)) as T
         }
 
         if (modelClass.isAssignableFrom(ProgramDetailViewModel::class.java)) {

@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.my_frequencies_item.view.tvTitle
 import kotlinx.android.synthetic.main.my_frequencies_item.view.view_album_info
 
 class NewMyFrequenciesAdapter(
-    private val mContext: Context, private val onClickItem: (Album) -> Unit
+    private val onClickItem: (Album) -> Unit
 ) : ListAdapter<Album, NewMyFrequenciesAdapter.ViewHolder>(TrackDiffCallback()) {
 
     override fun onCreateViewHolder(
@@ -30,31 +30,30 @@ class NewMyFrequenciesAdapter(
     }
 
     override fun onBindViewHolder(holder: NewMyFrequenciesAdapter.ViewHolder, position: Int) {
-        holder.bind(getItem(position), position)
+        holder.bind(getItem(position))
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         @SuppressLint("SetTextI18n", "UseCompatLoadingForDrawables")
-        fun bind(album: Album, position: Int) {
+        fun bind(album: Album) {
 //            itemView.view_album_info.visibility = View.GONE
             if (album.id != -1) {
                 itemView.view_album_info.visibility = View.VISIBLE
                 itemView.image.radius =
-                    mContext.resources.getDimensionPixelOffset(R.dimen.radius_recent_albums)
+                    itemView.context.resources.getDimensionPixelOffset(R.dimen.radius_recent_albums)
                 if (album.isUnlocked) {
                     itemView.image_lock.visibility = View.GONE
                 } else {
                     itemView.image_lock.visibility = View.VISIBLE
                 }
-                loadImage(mContext, itemView.image, album)
+                loadImage(itemView.context, itemView.image, album)
 
                 itemView.setOnClickListener {
                     onClickItem.invoke(album)
                 }
             }
-
-//            itemView.tvTitle.text = album.name
-            itemView.tvName.text = album.name
+            itemView.tvTitle.text = album.name
+            itemView.tvName.text = album.descriptions?.firstOrNull() ?: ""
         }
     }
 

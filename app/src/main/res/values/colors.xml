@@ -37,5 +37,6 @@
     <color name="colorTabPressed">#4976FF</color>
     <color name="colorTabDefault">#888888</color>
     <color name="bg_item">#24000000</color>
+    <color name="black_30">#4D000000</color>
 
 </resources>

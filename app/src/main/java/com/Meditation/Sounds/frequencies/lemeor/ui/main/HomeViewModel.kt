@@ -26,17 +26,33 @@ import com.Meditation.Sounds.frequencies.lemeor.fourOrNull
 import com.Meditation.Sounds.frequencies.lemeor.secondOrNull
 import com.Meditation.Sounds.frequencies.lemeor.threeOrNull
 import com.Meditation.Sounds.frequencies.lemeor.tools.PreferenceHelper
+import com.Meditation.Sounds.frequencies.lemeor.tools.player.MusicRepository
+import com.Meditation.Sounds.frequencies.lemeor.ui.programs.ProgramRepository
+import com.Meditation.Sounds.frequencies.lemeor.ui.programs.detail.ProgramDetailRepository
 import com.Meditation.Sounds.frequencies.models.ProgramSchedule
 import com.Meditation.Sounds.frequencies.models.SilentQuantumType
+import com.Meditation.Sounds.frequencies.utils.doubleOrString
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.util.Date
+import kotlin.math.abs
 
-class HomeViewModel(private val repository: HomeRepository, private val db: DataBase) :
+class HomeViewModel(
+    private val repository: HomeRepository,
+    private val programRepository: ProgramRepository,
+    private val programDetailRepository: ProgramDetailRepository,
+    private val db: DataBase
+) :
     ViewModel() {
     //val home = repository.getHome(user_id)
     private var _pairData = MutableLiveData<List<Triple<String, List<Search>, Boolean>>>()
@@ -47,6 +63,16 @@ class HomeViewModel(private val repository: HomeRepository, private val db: Data
 
     private var _albumsLiveData = MutableLiveData<List<Album>>()
     val albumsLiveData: LiveData<List<Album>> get() = _albumsLiveData
+
+    private var _listSearchFlow = MutableStateFlow<List<Search>>(emptyList())
+    val listSearchFlow: StateFlow<List<Search>> get() = _listSearchFlow.asStateFlow()
+
+    private var _programFavorites = MutableStateFlow<Program?>(null)
+    val programFavorites: StateFlow<Program?> get() = _programFavorites.asStateFlow()
+
+    init {
+        getProgramsFavorites()
+    }
 
     fun getHome(id: String): LiveData<Resource<HomeResponse>> {
         return repository.getHome(id)
@@ -69,6 +95,21 @@ class HomeViewModel(private val repository: HomeRepository, private val db: Data
     fun get48AlbumUnlockedLiveData() = repository.get48AlbumUnlockedLiveData()
 
     fun getAlbumsUnlockedLiveData() = repository.getAlbumsUnlockedLiveData()
+
+
+    private var jobProgram: Job? = null
+    private fun getProgramsFavorites() {
+        jobProgram?.cancel()
+        jobProgram = viewModelScope.launch(Dispatchers.IO) {
+            programRepository.getProgramFavoritesFlow().collectLatest { program ->
+                _programFavorites.update { program }
+                if (program != null) {
+                    val listSearch = convertData(program)
+                    _listSearchFlow.update { listSearch }
+                }
+            }
+        }
+    }
 
 
     fun setSearchKeyword(
@@ -391,6 +432,87 @@ class HomeViewModel(private val repository: HomeRepository, private val db: Data
         val homeResponse = PreferenceHelper.getLastHomeResponse(context)
         if (homeResponse?.tiers != null && homeResponse.tiers.isNotEmpty()) {
             CoroutineScope(Dispatchers.IO).launch { repository.localSave(homeResponse) }
+        }
+    }
+
+    private suspend fun getScalarById(id: Int): Scalar? {
+        return programDetailRepository.getScalarById(id)
+    }
+
+    suspend fun getTrackById(id: Int): Track? {
+        return programDetailRepository.getTrackById(id)
+    }
+
+    private suspend fun convertData(program: Program): List<Search> {
+        val searchResults = program.records.mapIndexedNotNull { index, s ->
+            when (val value = s.doubleOrString()) {
+                is Double -> createSearchFromDouble(value, index)
+                is String -> createSearchFromString(value, index)
+                else -> null
+            }
+        }
+        searchResults.forEachIndexed { index, item ->
+            item.id = index
+        }
+        return searchResults
+    }
+
+    private suspend fun createSearchFromDouble(num: Double, index: Int): Search? {
+        return if (num >= 0) {
+            withContext(Dispatchers.IO) {
+                val track = getTrackById(num.toInt())
+                track?.let {
+                    val album = getAlbumById(it.albumId, it.category_id)
+                    it.album = album
+                    Search(index, it)
+                }
+            }
+        } else {
+            Search(
+                index, MusicRepository.Frequency(
+                    index,
+                    "",
+                    (abs(num)).toFloat(),
+                    -index,
+                    index,
+                    false,
+                    0,
+                    0,
+                )
+            )
+
+        }
+
+    }
+
+    private suspend fun createSearchFromString(s: String, index: Int): Search? {
+        return if (s.contains("-scalar")) {
+            withContext(Dispatchers.IO) {
+                val scalar = getScalarById(s.replace("-scalar", "").toInt())
+                scalar?.let {
+                    Search(index, it)
+                }
+            }
+        } else {
+            try {
+                val listNum = s.split("|")
+                val id = listNum.first().toDouble()
+                val num = listNum.last().toDouble()
+                Search(
+                    index, MusicRepository.Frequency(
+                        index,
+                        "",
+                        (abs(num)).toFloat(),
+                        -index,
+                        index,
+                        false,
+                        0,
+                        0,
+                    )
+                )
+            } catch (_: Exception) {
+                null
+            }
         }
     }
 

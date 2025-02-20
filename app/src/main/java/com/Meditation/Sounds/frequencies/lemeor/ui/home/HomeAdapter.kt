@@ -11,7 +11,9 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
 import com.Meditation.Sounds.frequencies.R
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Album
+import com.Meditation.Sounds.frequencies.lemeor.data.model.Search
 import com.Meditation.Sounds.frequencies.utils.SharedPreferenceHelper
+import com.Meditation.Sounds.frequencies.utils.extensions.dpToPx
 import com.hieupt.android.standalonescrollbar.StandaloneScrollBar
 import com.hieupt.android.standalonescrollbar.attachTo
 import kotlinx.android.synthetic.main.home_my_favorites.view.rcvFavorites
@@ -20,10 +22,19 @@ import kotlinx.android.synthetic.main.home_recent_item.view.rcAlbumRecent
 import kotlinx.android.synthetic.main.home_recent_item.view.scrollbar
 import kotlinx.android.synthetic.main.home_recent_item.view.tvNoDataRecent
 
-class HomeAdapter(val onClickItem: (Album) -> Unit) :
+class HomeAdapter(val onClickItem: (Album) -> Unit, val onClickFavorites: (Search) -> Unit) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var albumsData = arrayListOf<Album>()
+
+
+    @SuppressLint("NotifyDataSetChanged")
+    var favoritesData = listOf<Search>()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
+
 
     @SuppressLint("NotifyDataSetChanged")
     fun setData(albums: ArrayList<Album>) {
@@ -52,7 +63,7 @@ class HomeAdapter(val onClickItem: (Album) -> Unit) :
             1 -> {
                 val view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.home_my_favorites, parent, false)
-                FavoriteViewHolder(view, onClickItem)
+                FavoriteViewHolder(view, onClickFavorites)
             }
 
             else -> throw IllegalArgumentException("Invalid view type")
@@ -63,20 +74,31 @@ class HomeAdapter(val onClickItem: (Album) -> Unit) :
         when (holder) {
             is RecentViewHolder -> holder.bind()
             is MyFrequencyViewHolder -> holder.bind(albumsData)
-            is FavoriteViewHolder -> holder.bind(albumsData)
+            is FavoriteViewHolder -> holder.bind(favoritesData)
         }
     }
 
     override fun getItemCount(): Int = 3
 
-    class RecentViewHolder(itemView: View, val onClickItem: (Album) -> Unit) :
+    val recentAlbumsAdapter = RecentAlbumsAdapter() {
+        onClickItem.invoke(it)
+    }
+
+    inner class RecentViewHolder(itemView: View, val onClickItem: (Album) -> Unit) :
         RecyclerView.ViewHolder(itemView) {
         fun bind() {
-            val recentAlbumsAdapter = RecentAlbumsAdapter(itemView.context) {
-                onClickItem.invoke(it)
+            if (itemView.rcAlbumRecent.adapter == null) {
+                itemView.rcAlbumRecent.adapter = recentAlbumsAdapter
             }
-            itemView.rcAlbumRecent.adapter = recentAlbumsAdapter
-            recentAlbumsAdapter.setData(SharedPreferenceHelper.getInstance().recentAlbums)
+
+            val recentAlbums = SharedPreferenceHelper.getInstance().recentAlbums
+            recentAlbumsAdapter.setData(recentAlbums)
+            var spanCount = 1
+            if (recentAlbums.size > 4) {
+                spanCount = 2
+            }
+            itemView.rcAlbumRecent.layoutManager =
+                GridLayoutManager(itemView.context, spanCount, HORIZONTAL, false)
             itemView.scrollbar.attachTo(itemView.rcAlbumRecent)
 
             if (SharedPreferenceHelper.getInstance().recentAlbums.isNotEmpty()) {
@@ -91,41 +113,50 @@ class HomeAdapter(val onClickItem: (Album) -> Unit) :
         }
     }
 
-    class MyFrequencyViewHolder(itemView: View, val onClickItem: (Album) -> Unit) :
+
+    inner class MyFrequencyViewHolder(itemView: View, val onClickItem: (Album) -> Unit) :
         RecyclerView.ViewHolder(itemView) {
         fun bind(list: List<Album>) {
-            val myFrequenciesAdapter = NewMyFrequenciesAdapter(itemView.context) {
+            val myFrequenciesAdapter = NewMyFrequenciesAdapter {
                 onClickItem.invoke(it)
             }
+            itemView.rcMyFrequencies.adapter = myFrequenciesAdapter
+
             clearAllItemDecorations(itemView.rcMyFrequencies)
             itemView.rcMyFrequencies.layoutManager = layoutManagerGrid
             itemView.rcMyFrequencies.addItemDecoration(itemDecoration)
-            itemView.rcMyFrequencies.adapter = myFrequenciesAdapter
             myFrequenciesAdapter.submitList(list)
-        }
-
-        private fun clearAllItemDecorations(recyclerView: RecyclerView) {
-            val itemDecorations = recyclerView.itemDecorationCount
-            for (i in 0 until itemDecorations) {
-                recyclerView.removeItemDecorationAt(0)
-            }
         }
     }
 
-    inner class FavoriteViewHolder(itemView: View, val onClickItem: (Album) -> Unit) :
+    inner class FavoriteViewHolder(itemView: View, val onClickItem: (Search) -> Unit) :
         RecyclerView.ViewHolder(itemView) {
-        fun bind(list: List<Album>) {
-            val myFrequenciesAdapter = NewMyFrequenciesAdapter(itemView.context) {
+        fun bind(list: List<Search>) {
+            val favoritesAdapter = FavoritesAdapter(itemView.context) {
                 onClickItem.invoke(it)
             }
 //            itemView.rcvFavorites.layoutManager = layoutManagerGrid
+            clearAllItemDecorations(itemView.rcvFavorites)
             itemView.rcvFavorites.layoutManager =
                 GridLayoutManager(itemView.context, 1, HORIZONTAL, false)
-            itemView.rcvFavorites.addItemDecoration(GridSpacingItemDecoration2(1, 16, false))
-            itemView.rcvFavorites.adapter = myFrequenciesAdapter
-            myFrequenciesAdapter.submitList(list)
+            itemView.rcvFavorites.adapter = favoritesAdapter
+            itemView.rcvFavorites.addItemDecoration(
+                GridSpacingItemDecoration2(
+                    1,
+                    itemView.context.dpToPx(16),
+                    false
+                )
+            )
+            favoritesAdapter.submitList(list)
         }
 
+    }
+
+    fun clearAllItemDecorations(recyclerView: RecyclerView) {
+        val itemDecorations = recyclerView.itemDecorationCount
+        for (i in 0 until itemDecorations) {
+            recyclerView.removeItemDecorationAt(0)
+        }
     }
 
     fun changeLayoutManager(context: Context, isPortrait: Boolean, spacing: Int) {

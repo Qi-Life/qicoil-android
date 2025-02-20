@@ -15,7 +15,6 @@ import kotlinx.android.synthetic.main.recent_album_item.view.image_lock
 import kotlinx.android.synthetic.main.recent_album_item.view.title
 
 class RecentAlbumsAdapter(
-    private val mContext: Context,
     private val onClickItem:(Album) -> Unit
 ) : RecyclerView.Adapter<RecentAlbumsAdapter.ViewHolder>() {
     private var mData: ArrayList<Album> = arrayListOf()
@@ -39,8 +38,7 @@ class RecentAlbumsAdapter(
             holder.itemView.image_lock.visibility = View.VISIBLE
         }
         holder.itemView.title.text = album.name
-        loadImage(mContext, holder.itemView.image, album)
-
+        loadImage(holder.itemView.context, holder.itemView.image, album)
         holder.itemView.setOnClickListener { onClickItem.invoke(album) }
     }
 

@@ -3,6 +3,7 @@ package com.Meditation.Sounds.frequencies.lemeor.data.database.dao
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Program
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ProgramDao {
@@ -38,6 +39,9 @@ interface ProgramDao {
 
     @Query("SELECT * FROM program WHERE name=:name")
     suspend fun getProgramByName(name: String): Program?
+
+    @Query("SELECT * FROM program WHERE name=:name")
+    fun getProgramByNameFlow(name: String): Flow<Program?>
 
     @Update
     suspend fun updateProgram(program: Program)

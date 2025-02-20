@@ -13,3 +13,7 @@ fun View.showViewWithFadeIn() {
     }
     this.startAnimation(fadeIn)
 }
+
+fun View.shouldShow(value: Boolean) {
+    if (value) this.visibility = View.VISIBLE else this.visibility = View.GONE
+}
