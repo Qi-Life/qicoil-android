@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="30dp"
-        android:background="@color/track_name_background"
+        android:background="@drawable/bg_player_gradient"
         android:backgroundTint="#24FFFFFF"
         android:paddingVertical="10dp"
         android:gravity="center_vertical"

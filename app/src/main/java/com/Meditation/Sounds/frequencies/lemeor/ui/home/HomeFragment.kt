@@ -56,6 +56,7 @@ class HomeFragment : BaseFragment() {
 
         })
     }
+
     private var allAlbums = arrayListOf<Album>()
 
     private val homeViewModel by lazy {
