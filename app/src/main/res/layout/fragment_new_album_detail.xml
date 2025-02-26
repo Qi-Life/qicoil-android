@@ -157,6 +157,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         android:layout_marginStart="@dimen/indent_10"
                         android:layout_marginEnd="@dimen/indent_60"
                         android:text="@string/tv_duration"

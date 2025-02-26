@@ -160,6 +160,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/indent_10"
                         android:layout_marginEnd="@dimen/indent_60"
+                        android:visibility="gone"
                         android:text="@string/tv_duration"
                         android:textColor="@color/item_selected" />
                 </LinearLayout>

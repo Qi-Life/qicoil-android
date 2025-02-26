@@ -18,6 +18,10 @@ import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.asFlow
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import com.Meditation.Sounds.frequencies.R
 import com.Meditation.Sounds.frequencies.lemeor.currentPosition
 import com.Meditation.Sounds.frequencies.lemeor.currentTrack
@@ -65,6 +69,17 @@ import kotlinx.android.synthetic.main.player_ui_fragment.view_album_scalar
 import kotlinx.android.synthetic.main.player_ui_fragment.view_scalar_status_playing
 import kotlinx.android.synthetic.main.player_ui_fragment.view_scalar_status_stoping
 import kotlinx.android.synthetic.main.player_ui_fragment.view_space_when_slient_quantum_gone
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.flatMapConcat
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.runningFold
+import kotlinx.coroutines.flow.scan
+import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -302,9 +317,9 @@ class PlayerUIFragment : NewBaseFragment() {
         }
 
         if (event is PlayerStatus) {
-           if (event.isPause && mediaController != null) {
-               isUserPaused = true
-               mediaController?.transportControls?.pause()
+            if (event.isPause && mediaController != null) {
+                isUserPaused = true
+                mediaController?.transportControls?.pause()
             }
         }
     }
@@ -319,10 +334,10 @@ class PlayerUIFragment : NewBaseFragment() {
     fun onUpdatePlayerPlayEvent(event: PlayerPlayAction) {
         musicRepository?.getCurrent()
 //        if (event.isLastPlaying) {
-            if (playing) {
-                playing = false
-                player_play.performClick()
-            }
+        if (playing) {
+            playing = false
+            player_play.performClick()
+        }
 //        }
     }
 
@@ -343,6 +358,7 @@ class PlayerUIFragment : NewBaseFragment() {
         }
     }
 
+    @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
     private fun setListeners() {
         currentTrack.observe(viewLifecycleOwner) { track ->
             track?.let {
@@ -368,13 +384,23 @@ class PlayerUIFragment : NewBaseFragment() {
                 seekBar.progress = it.toInt()
             }
         }
+
         max.observe(viewLifecycleOwner) {
-            seekBar.max = it.toInt()
+            if (it != null) {
+                seekBar.max = it.toInt()
+            }
         }
 
-        duration.observe(viewLifecycleOwner) {
-            seekBar.isEnabled = it > 0
-            track_duration.text = getConvertedTime(it)
+
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            delay(1000)
+            duration.asFlow()
+                .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.RESUMED)
+                .collectLatest {
+                    seekBar.isEnabled = it > 0
+                    track_duration.text = getConvertedTime(it)
+                }
         }
 
         seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {

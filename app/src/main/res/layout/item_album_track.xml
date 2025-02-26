@@ -60,6 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/indent_20"
         android:text="1:11"
+        android:visibility="gone"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="@+id/item_track_options"
         app:layout_constraintEnd_toStartOf="@+id/item_track_options"
