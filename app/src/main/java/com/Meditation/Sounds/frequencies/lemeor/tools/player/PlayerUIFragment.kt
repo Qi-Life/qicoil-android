@@ -73,6 +73,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.flatMapLatest
@@ -378,29 +379,27 @@ class PlayerUIFragment : NewBaseFragment() {
             }
         }
 
-        currentPosition.observe(viewLifecycleOwner) {
-            track_position.text = getConvertedTime(it)
-            if (!isSeeking) {
-                seekBar.progress = it.toInt()
-            }
-        }
-
-        max.observe(viewLifecycleOwner) {
-            if (it != null) {
-                seekBar.max = it.toInt()
-            }
-        }
-
-
-
         viewLifecycleOwner.lifecycleScope.launch {
             delay(1000)
-            duration.asFlow()
-                .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.RESUMED)
-                .collectLatest {
-                    seekBar.isEnabled = it > 0
-                    track_duration.text = getConvertedTime(it)
+            combine(
+                currentPosition.asFlow(),
+                max.asFlow()
+            ) { a, b -> (Pair(a, b)) }.flowWithLifecycle(
+                viewLifecycleOwner.lifecycle,
+                Lifecycle.State.RESUMED
+            ).collectLatest {
+                val currentPosition = ((it.first / 1000).toInt() * 1000).toLong()
+                val max = ((it.second / 1000).toInt() * 1000).toLong()
+
+                track_position.text = getConvertedTime(currentPosition)
+                if (!isSeeking) {
+                    seekBar.progress = currentPosition.toInt()
                 }
+                seekBar.max = max.toInt()
+                val duration = max - currentPosition
+                seekBar.isEnabled = duration > 0
+                track_duration.text = getConvertedTime(duration)
+            }
         }
 
         seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
