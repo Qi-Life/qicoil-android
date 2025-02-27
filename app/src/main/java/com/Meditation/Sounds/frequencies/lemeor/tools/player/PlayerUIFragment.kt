@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.ComponentName
 import android.content.Intent
 import android.content.ServiceConnection
+import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
@@ -18,6 +19,7 @@ import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
+import androidx.core.content.ContextCompat
 import com.Meditation.Sounds.frequencies.R
 import com.Meditation.Sounds.frequencies.lemeor.currentPosition
 import com.Meditation.Sounds.frequencies.lemeor.currentTrack
@@ -85,50 +87,20 @@ class PlayerUIFragment : NewBaseFragment() {
                         player_play.setImageDrawable(
                             getDrawable(
                                 requireActivity().applicationContext,
-                                R.drawable.bg_pause_song
+                                R.drawable.ic_music_pause
                             )
                         )
                     } else {
                         player_play.setImageDrawable(
                             getDrawable(
                                 requireActivity().applicationContext,
-                                R.drawable.bg_play_song
+                                R.drawable.ic_music_play
                             )
                         )
                     }
-                    player_next?.setImageResource(R.drawable.bg_next_song_new)
-
-                    val orientation = resources.configuration.orientation
-                    when (repeat) {
-                        Player.REPEAT_MODE_OFF -> {
-                            if (Utils.isTablet(requireContext()) && orientation == Configuration.ORIENTATION_LANDSCAPE && viewPlayerScalar.visibility == View.VISIBLE) {
-                                player_repeat.setImageResource(R.drawable.bg_repeat_land_off)
-                            } else {
-                                player_repeat.setImageResource(R.drawable.bg_repeat_off)
-                            }
-                        }
-
-                        Player.REPEAT_MODE_ONE -> {
-                            if (Utils.isTablet(requireContext()) && orientation == Configuration.ORIENTATION_LANDSCAPE && viewPlayerScalar.visibility == View.VISIBLE) {
-                                player_repeat.setImageResource(R.drawable.bg_repeat_land_one)
-                            } else {
-                                player_repeat.setImageResource(R.drawable.bg_repeat_one)
-                            }
-                        }
-
-                        Player.REPEAT_MODE_ALL -> {
-                            if (Utils.isTablet(requireContext()) && orientation == Configuration.ORIENTATION_LANDSCAPE && viewPlayerScalar.visibility == View.VISIBLE) {
-                                player_repeat.setImageResource(R.drawable.bg_repeat_land_all)
-                            } else {
-                                player_repeat.setImageResource(R.drawable.bg_repeat_all)
-                            }
-                        }
-                    }
-                    if (!shuffle) {
-                        player_shuffle.setImageResource(R.drawable.bg_shuffle_new_off)
-                    } else {
-                        player_shuffle.setImageResource(R.drawable.bg_shuffle_new_on)
-                    }
+                    player_next?.setImageResource(R.drawable.ic_music_next)
+                    updateUIButtonRepeat()
+                    updateUIButtonShuffle()
                 }
             }
         }
@@ -572,13 +544,8 @@ class PlayerUIFragment : NewBaseFragment() {
 
         player_shuffle.setOnClickListener {
             if (trackList?.isNotEmpty() == true) {
-                if (!shuffle) {
-                    shuffle = true
-                    player_shuffle.setImageResource(R.drawable.bg_shuffle_new_on)
-                } else {
-                    shuffle = false
-                    player_shuffle.setImageResource(R.drawable.bg_shuffle_new_off)
-                }
+                shuffle = !shuffle
+                updateUIButtonShuffle()
                 EventBus.getDefault().post(PlayerShuffle(shuffle))
             }
         }
@@ -590,18 +557,18 @@ class PlayerUIFragment : NewBaseFragment() {
                     Player.REPEAT_MODE_OFF -> {
                         repeat = Player.REPEAT_MODE_ONE
                         if (Utils.isTablet(requireContext()) && orientation == Configuration.ORIENTATION_LANDSCAPE && viewPlayerScalar.visibility == View.VISIBLE) {
-                            player_repeat.setImageResource(R.drawable.bg_repeat_land_one)
+                            player_repeat.setImageResource(R.drawable.ic_music_repeat_one)
                         } else {
-                            player_repeat.setImageResource(R.drawable.bg_repeat_one)
+                            player_repeat.setImageResource(R.drawable.ic_music_repeat_one)
                         }
                     }
 
                     Player.REPEAT_MODE_ONE -> {
                         repeat = Player.REPEAT_MODE_ALL
                         if (Utils.isTablet(requireContext()) && orientation == Configuration.ORIENTATION_LANDSCAPE && viewPlayerScalar.visibility == View.VISIBLE) {
-                            player_repeat.setImageResource(R.drawable.bg_repeat_land_all)
+                            player_repeat.setImageResource(R.drawable.ic_music_repeat_one)
                         } else {
-                            player_repeat.setImageResource(R.drawable.bg_repeat_all)
+                            player_repeat.setImageResource(R.drawable.ic_music_repeat_one)
                         }
                     }
 
@@ -614,6 +581,7 @@ class PlayerUIFragment : NewBaseFragment() {
                         }
                     }
                 }
+                updateUIButtonRepeat()
                 EventBus.getDefault().post(PlayerRepeat(repeat))
             }
         }
@@ -638,53 +606,24 @@ class PlayerUIFragment : NewBaseFragment() {
     private fun updateViewWhenRotation() {
         isScreenRotation = false
         if (trackList?.isNotEmpty() == true) {
-            val orientation = resources.configuration.orientation
-            when (repeat) {
-                Player.REPEAT_MODE_OFF -> {
-                    if (Utils.isTablet(requireContext()) && orientation == Configuration.ORIENTATION_LANDSCAPE && viewPlayerScalar.visibility == View.VISIBLE) {
-                        player_repeat.setImageResource(R.drawable.bg_repeat_land_off)
-                    } else {
-                        player_repeat.setImageResource(R.drawable.bg_repeat_off)
-                    }
-                }
-
-                Player.REPEAT_MODE_ONE -> {
-                    if (Utils.isTablet(requireContext()) && orientation == Configuration.ORIENTATION_LANDSCAPE && viewPlayerScalar.visibility == View.VISIBLE) {
-                        player_repeat.setImageResource(R.drawable.bg_repeat_land_one)
-                    } else {
-                        player_repeat.setImageResource(R.drawable.bg_repeat_one)
-                    }
-                }
-
-                Player.REPEAT_MODE_ALL -> {
-                    if (Utils.isTablet(requireContext()) && orientation == Configuration.ORIENTATION_LANDSCAPE && viewPlayerScalar.visibility == View.VISIBLE) {
-                        player_repeat.setImageResource(R.drawable.bg_repeat_land_all)
-                    } else {
-                        player_repeat.setImageResource(R.drawable.bg_repeat_all)
-                    }
-                }
-            }
-            player_next?.setImageResource(R.drawable.bg_next_song_new)
+            updateUIButtonRepeat()
+            player_next?.setImageResource(R.drawable.ic_music_next)
             if (playing) {
                 player_play.setImageDrawable(
                     getDrawable(
                         requireActivity().applicationContext,
-                        R.drawable.bg_pause_song
+                        R.drawable.ic_music_pause
                     )
                 )
             } else {
                 player_play.setImageDrawable(
                     getDrawable(
                         requireActivity().applicationContext,
-                        R.drawable.bg_play_song
+                        R.drawable.ic_music_play
                     )
                 )
             }
-            if (!shuffle) {
-                player_shuffle.setImageResource(R.drawable.bg_shuffle_new_off)
-            } else {
-                player_shuffle.setImageResource(R.drawable.bg_shuffle_new_on)
-            }
+            updateUIButtonShuffle()
         }
 
         if (playingScalar) {
@@ -715,14 +654,14 @@ class PlayerUIFragment : NewBaseFragment() {
         track_image.setImageResource(R.drawable.ic_album_default_small)
         track_name.text = getString(R.string.tv_please_choose_a_frequency_to_play)
         track_title.visibility = View.GONE
-        player_play.setImageResource(R.drawable.ic_play_song_disable)
-        player_next.setImageResource(R.drawable.ic_next_song_new_disable)
-        player_shuffle.setImageResource(R.drawable.ic_shuffle_new_off_disbale)
+        player_play.setImageResource(R.drawable.ic_music_play)
+        player_next.setImageResource(R.drawable.ic_music_next)
+        player_shuffle.setImageResource(R.drawable.ic_music_shuffe)
         val orientation = resources.configuration.orientation
         if (Utils.isTablet(requireContext()) && orientation == Configuration.ORIENTATION_LANDSCAPE && viewPlayerScalar.visibility == View.VISIBLE) {
-            player_repeat.setImageResource(R.drawable.ic_repeat_land_all_disable)
+            player_repeat.setImageResource(R.drawable.ic_music_repeat)
         } else {
-            player_repeat.setImageResource(R.drawable.ic_repeat_all_disable)
+            player_repeat.setImageResource(R.drawable.ic_music_repeat)
         }
         track_position.text = "00:00"
         track_duration.text = "00:00"
@@ -730,6 +669,7 @@ class PlayerUIFragment : NewBaseFragment() {
     }
 
     private fun updateViewPlayerScalar() {
+        return;
         if (isAdded) {
             if (playingScalar) {
                 tv_scalar_play_status.text = getString(R.string.tv_silent_scalar_turned_on)
@@ -805,5 +745,47 @@ class PlayerUIFragment : NewBaseFragment() {
         mediaScalarController = null
         serviceConnection.let { requireContext().unbindService(it) }
         serviceConnectionScalar.let { requireContext().unbindService(it) }
+    }
+
+    private fun updateUIButtonRepeat(){
+        val orientation = resources.configuration.orientation
+        player_repeat.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.white))
+        when (repeat) {
+            Player.REPEAT_MODE_OFF -> {
+                player_repeat.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.kprogresshud_grey_color))
+                if (Utils.isTablet(requireContext()) && orientation == Configuration.ORIENTATION_LANDSCAPE && viewPlayerScalar.visibility == View.VISIBLE) {
+                    player_repeat.setImageResource(R.drawable.ic_music_repeat)
+                } else {
+                    player_repeat.setImageResource(R.drawable.ic_music_repeat)
+                }
+            }
+
+            Player.REPEAT_MODE_ONE -> {
+                if (Utils.isTablet(requireContext()) && orientation == Configuration.ORIENTATION_LANDSCAPE && viewPlayerScalar.visibility == View.VISIBLE) {
+                    player_repeat.setImageResource(R.drawable.ic_music_repeat_one)
+                } else {
+                    player_repeat.setImageResource(R.drawable.ic_music_repeat_one)
+                }
+            }
+
+            Player.REPEAT_MODE_ALL -> {
+                if (Utils.isTablet(requireContext()) && orientation == Configuration.ORIENTATION_LANDSCAPE && viewPlayerScalar.visibility == View.VISIBLE) {
+                    player_repeat.setImageResource(R.drawable.ic_music_repeat)
+                } else {
+                    player_repeat.setImageResource(R.drawable.ic_music_repeat)
+                }
+            }
+        }
+
+    }
+
+    private fun updateUIButtonShuffle(){
+        player_shuffle.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.white))
+        if (!shuffle) {
+            player_shuffle.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.kprogresshud_grey_color))
+            player_shuffle.setImageResource(R.drawable.ic_music_shuffe)
+        } else {
+            player_shuffle.setImageResource(R.drawable.ic_music_shuffe)
+        }
     }
 }

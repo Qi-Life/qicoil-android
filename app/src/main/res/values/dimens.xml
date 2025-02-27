@@ -142,6 +142,7 @@
     <dimen name="desktop_56">37dp</dimen>
     <dimen name="desktop_60">40dp</dimen>
     <dimen name="desktop_80">53dp</dimen>
+    <dimen name="desktop_144">96dp</dimen>
     <dimen name="desktop_330">220dp</dimen>
 
 </resources>
