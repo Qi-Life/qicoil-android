@@ -669,7 +669,9 @@ class PlayerUIFragment : NewBaseFragment() {
     }
 
     private fun updateViewPlayerScalar() {
+
         return;
+
         if (isAdded) {
             if (playingScalar) {
                 tv_scalar_play_status.text = getString(R.string.tv_silent_scalar_turned_on)

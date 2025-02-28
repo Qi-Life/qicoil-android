@@ -61,7 +61,7 @@ class AlbumsRecyclerFragment : BaseFragment() {
 
         albums_recycler_view.setHasFixedSize(true)
         if (activity?.resources?.configuration?.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            albums_recycler_view.layoutManager = GridLayoutManager(context, 3)
+            albums_recycler_view.layoutManager = GridLayoutManager(context, 4)
         } else if (activity?.resources?.configuration?.orientation == Configuration.ORIENTATION_PORTRAIT) {
             albums_recycler_view.layoutManager = GridLayoutManager(context, 2)
         }
@@ -77,7 +77,7 @@ class AlbumsRecyclerFragment : BaseFragment() {
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            albums_recycler_view.layoutManager = GridLayoutManager(context, 3)
+            albums_recycler_view.layoutManager = GridLayoutManager(context, 4)
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             albums_recycler_view.layoutManager = GridLayoutManager(context, 2)
         }

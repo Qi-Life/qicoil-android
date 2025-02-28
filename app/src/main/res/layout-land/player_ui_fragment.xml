@@ -5,9 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_player_gradient"
     android:paddingTop="20dp"
     app:cardCornerRadius="@dimen/desktop_16"
+    android:background="@drawable/bg_player_gradient"
     app:cardElevation="0dp"
     tools:context=".lemeor.tools.player.PlayerUIFragment">
 
@@ -16,22 +16,25 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="100dp"
         android:minHeight="@dimen/desktop_144"
-        app:cardBackgroundColor="#00FFFFFF"
-        app:cardCornerRadius="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="-10dp"
+        app:cardBackgroundColor="@color/transparent"
         app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_shadow_gradient">
+            android:background="@drawable/bg_music_bar">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:visibility="visible"
-                app:cardBackgroundColor="@color/black"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="@color/transparent"
                 app:cardCornerRadius="@dimen/desktop_16"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -55,8 +58,9 @@
                             android:id="@+id/cardViewTrackImage"
                             android:layout_width="0dp"
                             android:layout_height="0dp"
+                            android:layout_marginVertical="@dimen/desktop_16"
                             android:layout_weight="1"
-                            app:cardBackgroundColor="#66FFFFFF"
+                            app:cardBackgroundColor="@color/color_gray"
                             app:cardCornerRadius="@dimen/desktop_16"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@id/layoutPlayerController"
@@ -67,6 +71,7 @@
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
+                                android:background="@drawable/bg_card_music_bar"
                                 android:padding="@dimen/desktop_16">
 
                                 <com.github.siyamed.shapeimageview.RoundedImageView
@@ -79,7 +84,7 @@
                                     app:layout_constraintTop_toTopOf="parent"
                                     app:siBorderColor="@color/track_name_background"
                                     app:siBorderWidth="0dp"
-                                    app:siRadius="5dp" />
+                                    app:siRadius="4dp" />
 
                                 <LinearLayout
                                     android:id="@+id/view_album_info"
@@ -100,16 +105,15 @@
                                         android:ellipsize="marquee"
                                         android:paddingStart="@dimen/indent_8"
                                         android:paddingEnd="@dimen/indent_8"
+                                        style="@style/AppTheme.Text.sf_24_reg"
                                         android:singleLine="true"
                                         android:textAllCaps="true"
                                         android:textColor="@android:color/white"
-                                        android:textSize="16sp"
-                                        android:visibility="invisible"
-                                        font:fontText="fonts/BebasNeue_Bold.otf"
                                         tools:text="Track name" />
 
                                     <TextView
                                         android:id="@+id/track_name"
+                                        style="@style/AppTheme.Text.sf_20_reg"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginEnd="@dimen/activity_horizontal_margin"
@@ -302,9 +306,11 @@
                         <androidx.cardview.widget.CardView
                             android:layout_width="0dp"
                             android:layout_height="0dp"
+                            android:layout_marginVertical="@dimen/desktop_16"
                             android:visibility="visible"
-                            app:cardBackgroundColor="#66FFFFFF"
+                            android:layout_marginEnd="@dimen/desktop_16"
                             app:cardCornerRadius="@dimen/desktop_16"
+                            app:cardBackgroundColor="@color/color_gray"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/layoutPlayerController"
@@ -312,6 +318,7 @@
 
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"
+                                android:background="@drawable/bg_card_music_bar"
                                 android:layout_height="match_parent">
 
                                 <ImageView

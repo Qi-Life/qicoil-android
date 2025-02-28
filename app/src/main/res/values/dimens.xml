@@ -136,9 +136,12 @@
 
     <dimen name="desktop_4">2.5dp</dimen>
     <dimen name="desktop_8">5dp</dimen>
+    <dimen name="desktop_12">8dp</dimen>
+    <dimen name="desktop_14">9.3dp</dimen>
     <dimen name="desktop_16">10dp</dimen>
     <dimen name="desktop_24">16dp</dimen>
     <dimen name="desktop_32">20dp</dimen>
+    <dimen name="desktop_45">30dp</dimen>
     <dimen name="desktop_56">37dp</dimen>
     <dimen name="desktop_60">40dp</dimen>
     <dimen name="desktop_80">53dp</dimen>

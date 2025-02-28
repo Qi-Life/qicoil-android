@@ -18,13 +18,16 @@ import com.Meditation.Sounds.frequencies.lemeor.data.remote.ApiHelper
 import com.Meditation.Sounds.frequencies.lemeor.data.utils.ViewModelFactory
 import com.Meditation.Sounds.frequencies.lemeor.tierPosition
 import com.Meditation.Sounds.frequencies.lemeor.tierPositionSelected
+import com.Meditation.Sounds.frequencies.lemeor.ui.adapter_tab_layout.TabLayoutAdapter
 import com.Meditation.Sounds.frequencies.lemeor.ui.main.NavigationActivity
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import kotlinx.android.synthetic.main.fragment_albums_pager.*
 
 class TiersPagerFragment : BaseFragment() {
-    var tiersPagerAdapter: TiersPagerAdapter? = null
+    private var tiersPagerAdapter: TiersPagerAdapter? = null
+
+    private val tabAdapter by lazy { TabLayoutAdapter() }
 
     interface OnTiersFragmentListener {
         fun onRefreshTiers()
@@ -45,13 +48,6 @@ class TiersPagerFragment : BaseFragment() {
     }
 
     override fun addListener() {
-        tiers_tabs.addOnTabSelectedListener(object : OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                tierPosition = tab.position
-            }
-            override fun onTabUnselected(tab: TabLayout.Tab) {}
-            override fun onTabReselected(tab: TabLayout.Tab) {}
-        })
     }
 
     override fun onAttach(context: Context) {
@@ -70,23 +66,22 @@ class TiersPagerFragment : BaseFragment() {
 
     private fun initUI() {
         mViewModel = ViewModelProvider(this,
-                ViewModelFactory(
-                        ApiHelper(RetrofitBuilder(requireContext()).apiService),
-                        DataBase.getInstance(requireContext()))
-        ).get(AlbumsViewModel::class.java)
+            ViewModelFactory(
+                ApiHelper(RetrofitBuilder(requireContext()).apiService),
+                DataBase.getInstance(requireContext()))
+        )[AlbumsViewModel::class.java]
 
         tiersPagerAdapter = TiersPagerAdapter(
             activity as NavigationActivity,
             childFragmentManager
         )
         tiers_view_pager.adapter = tiersPagerAdapter
-        tiers_tabs.setupWithViewPager(tiers_view_pager)
+        rvTabLayout.adapter = tabAdapter
+//        tiers_tabs.setupWithViewPager(tiers_view_pager)
 
         mViewModel.tiers?.observe(viewLifecycleOwner) {
             tiersPagerAdapter?.setData(it as ArrayList<Tier>)
-            if (tierPositionSelected != 0) {
-                tiers_view_pager.setCurrentItem(tierPositionSelected, false)
-            }
+            tabAdapter.setUpWithViewPager(tiers_view_pager)
         }
     }
 }

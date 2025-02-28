@@ -7,7 +7,7 @@
     android:layout_marginEnd="@dimen/desktop_24"
     android:layout_marginBottom="@dimen/desktop_24"
     app:cardBackgroundColor="#24000000"
-    app:cardCornerRadius="10dp"
+    app:cardCornerRadius="@dimen/desktop_14"
     app:cardElevation="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,6 +21,7 @@
             android:scaleType="centerCrop"
             android:src="@drawable/ic_album_placeholder"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:siBorderColor="@color/transparent"
@@ -35,6 +36,7 @@
             android:src="@drawable/ic_album_lock_2"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/image"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:siBorderColor="@color/transparent"
@@ -48,10 +50,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:paddingHorizontal="@dimen/desktop_32"
+            android:paddingHorizontal="@dimen/desktop_12"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/image"
+            app:layout_constraintEnd_toStartOf="@+id/image"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Infinities Plus" />
 

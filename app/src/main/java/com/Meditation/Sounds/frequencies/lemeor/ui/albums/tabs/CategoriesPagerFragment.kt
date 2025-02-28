@@ -14,12 +14,15 @@ import com.Meditation.Sounds.frequencies.lemeor.data.model.Category
 import com.Meditation.Sounds.frequencies.lemeor.data.remote.ApiHelper
 import com.Meditation.Sounds.frequencies.lemeor.data.utils.ViewModelFactory
 import com.Meditation.Sounds.frequencies.lemeor.hashMapTiers
+import com.Meditation.Sounds.frequencies.lemeor.ui.adapter_tab_layout.TabLayoutAdapter
 import com.Meditation.Sounds.frequencies.lemeor.ui.albums.tabs.AlbumsRecyclerFragment.AlbumsRecyclerListener
 import com.google.android.material.tabs.TabLayout
-import kotlinx.android.synthetic.main.fragment_categories_pager.categories_tabs
+import kotlinx.android.synthetic.main.fragment_albums_pager.rvTabLayout
 import kotlinx.android.synthetic.main.fragment_categories_pager.categories_view_pager
 
 class CategoriesPagerFragment : Fragment(), AlbumsRecyclerListener {
+
+    private val tabAdapter by lazy { TabLayoutAdapter() }
 
     interface CategoriesPagerListener {
         fun onAlbumDetails(album: Album)
@@ -64,19 +67,11 @@ class CategoriesPagerFragment : Fragment(), AlbumsRecyclerListener {
                 categories_view_pager.adapter = categoriesPagerAdapter
 
                 categories_view_pager.setCurrentItem(hashMapTiers[tierId] ?: 0, true)
-                categories_tabs.setupWithViewPager(categories_view_pager)
+                rvTabLayout.adapter = tabAdapter
+                tabAdapter.setUpWithViewPager(categories_view_pager)
             }
         }
 
-        categories_tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                tierId?.let { hashMapTiers.put(it, tab.position) }
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab) {}
-
-            override fun onTabReselected(tab: TabLayout.Tab) {}
-        })
     }
 
     companion object {

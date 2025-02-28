@@ -7,22 +7,17 @@
     android:orientation="vertical"
     tools:context=".lemeor.ui.albums.tabs.TiersPagerFragment">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvTabLayout"
         android:layout_width="match_parent"
+        android:paddingHorizontal="@dimen/desktop_80"
+        android:clipToPadding="false"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:layout_height="wrap_content"
-        android:background="@color/subs_buy_now_color"
-        android:theme="@style/AppTheme.AppBarOverlay">
-
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tiers_tabs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:tabGravity="center"
-            app:tabSelectedTextColor="@android:color/white"
-            app:tabTextColor="@android:color/darker_gray"
-            app:tabMode="scrollable"
-            app:tabIndicatorHeight="0dp" />
-    </com.google.android.material.appbar.AppBarLayout>
+        tools:itemCount="3"
+        tools:listitem="@layout/item_tab_layout_custom"
+        />
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/tiers_view_pager"
