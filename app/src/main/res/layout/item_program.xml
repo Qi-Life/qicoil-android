@@ -49,13 +49,19 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintVertical_bias="0.297"
         tools:ignore="ContentDescription" />
-
+    <View
+        android:id="@+id/program_space_view_lock"
+        app:layout_constraintEnd_toStartOf="@id/item_program_delete"
+        app:layout_constraintTop_toTopOf="@id/item_program_delete"
+        app:layout_constraintBottom_toBottomOf="@id/item_program_delete"
+        android:layout_width="@dimen/margin_item_5"
+        android:layout_height="1dp" />
     <ImageView
         android:id="@+id/item_program_lock"
         android:layout_width="@dimen/margin_left_right_container"
         android:layout_height="@dimen/margin_left_right_container"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/program_space_view_lock"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.297"
         app:srcCompat="@drawable/ic_lock"

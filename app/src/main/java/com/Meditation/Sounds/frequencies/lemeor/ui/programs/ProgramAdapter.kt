@@ -14,6 +14,7 @@ import kotlinx.android.synthetic.main.item_program.view.item_program_duration
 import kotlinx.android.synthetic.main.item_program.view.item_program_lock
 import kotlinx.android.synthetic.main.item_program.view.item_program_name
 import kotlinx.android.synthetic.main.item_program.view.program_divider_favorites
+import kotlinx.android.synthetic.main.item_program.view.program_space_view_lock
 
 class ProgramAdapter(
     private var mData: List<Program> = listOf()
@@ -51,17 +52,21 @@ class ProgramAdapter(
             R.string.total_time,
             getConvertedTime((countProgram * 300000 + countTrack * 180000).toLong())
         )
+        holder.itemView.program_space_view_lock.visibility = View.VISIBLE
         if (program.name.uppercase() == FAVORITES.uppercase() && program.favorited) {
             holder.itemView.item_program_delete.visibility = View.INVISIBLE
             holder.itemView.item_program_lock.visibility = View.INVISIBLE
             if (!program.isUnlocked) {
                 holder.itemView.item_program_lock.visibility = View.VISIBLE
+                holder.itemView.item_program_delete.visibility = View.GONE
+                holder.itemView.program_space_view_lock.visibility = View.GONE
             }
         } else if (program.isUnlocked) {
             holder.itemView.item_program_lock.visibility = View.INVISIBLE
             holder.itemView.item_program_delete.visibility = View.VISIBLE
         } else {
-            holder.itemView.item_program_delete.visibility = View.INVISIBLE
+            // the delete option is always visible even when it's locked
+            holder.itemView.item_program_delete.visibility = View.VISIBLE
             holder.itemView.item_program_lock.visibility = View.VISIBLE
         }
 //        if (program.isMy) {
