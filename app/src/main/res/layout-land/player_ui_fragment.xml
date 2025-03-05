@@ -33,6 +33,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:visibility="visible"
+                android:minHeight="100dp"
                 app:cardElevation="0dp"
                 app:cardBackgroundColor="@color/transparent"
                 app:cardCornerRadius="@dimen/desktop_16"
@@ -150,7 +151,7 @@
                                 android:layout_marginEnd="@dimen/indent_20"
                                 android:adjustViewBounds="true"
                                 android:scaleType="centerInside"
-                                android:src="@drawable/ic_music_repeat_one"
+                                android:src="@drawable/ic_music_repeat"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
@@ -203,6 +204,7 @@
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toStartOf="@+id/player_repeat"
                                 app:layout_constraintTop_toTopOf="parent"
+                                app:tint="@color/kprogresshud_grey_color"
                                 tools:ignore="ContentDescription" />
                         </LinearLayout>
 

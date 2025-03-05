@@ -1228,6 +1228,12 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
             if (playerUIFragment == null) {
                 playerUI = PlayerUIFragment()
                 supportFragmentManager.beginTransaction()
+                    .setCustomAnimations(
+                        R.anim.slide_in_from_bottom,
+                        R.anim.slide_out_to_bottom,
+                        R.anim.slide_in_from_bottom,
+                        R.anim.slide_out_to_bottom,
+                    )
                     .add(R.id.player_ui_container, playerUI!!, playerUI!!.javaClass.simpleName)
                     .commitNow()
             } else {
@@ -1241,7 +1247,9 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
             val fragmentList = supportFragmentManager.fragments
             fragmentList.forEach { fragment ->
                 if (fragment is PlayerUIFragment) {
-                    supportFragmentManager.beginTransaction().remove(fragment).commitNow()
+                    supportFragmentManager.beginTransaction()
+                        .remove(fragment)
+                        .commitNow()
                 }
             }
             null

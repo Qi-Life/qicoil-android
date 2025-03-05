@@ -60,12 +60,13 @@ class TabLayoutAdapter : RecyclerView.Adapter<TabLayoutAdapter.ViewHolder>() {
     override fun getItemCount(): Int {
         when (viewPager?.adapter) {
             is TiersPagerAdapter -> {
-              return viewPager?.adapter?.count ?: 0
+                return viewPager?.adapter?.count ?: 0
             }
 
             is CategoriesPagerAdapter -> {
                 return viewPager?.adapter?.count ?: 0
             }
+
             null -> return 0
         }
         throw Exception("getItemCount error")
