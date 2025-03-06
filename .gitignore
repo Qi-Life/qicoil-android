@@ -4,3 +4,5 @@
 /release
 /app/build
 local.properties
+local.properties
+*.apk
