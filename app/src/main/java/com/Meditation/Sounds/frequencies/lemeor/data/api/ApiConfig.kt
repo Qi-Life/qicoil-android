@@ -8,6 +8,9 @@ object ApiConfig {
     private const val qi_coil_storage = "www.qicoilapi.ingeniusstudios.com"
     private const val quantum_api = "combined-quantum.ingeniusstudios.com"
     private const val quantum_storage = "quantumapi.ingeniusstudios.com"
+    //DEV
+//    private const val quantum_api = "rc.qicoil.com"
+//    private const val quantum_storage = "rc-store.qicoil.com"
     private const val api = "api/"
     private const val public = "/public/"
     private const val storage = "/storage/app/public/uploads"
