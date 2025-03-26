@@ -14,6 +14,13 @@ android {
             keyAlias var1
             keyPassword var
         }
+
+       quantumrelease {
+            storeFile file( '../keystore/quantum.jks')
+            storePassword var2
+            keyAlias "quantumfrequencies"
+            keyPassword var
+        }
     }
     compileSdkVersion 34
 
@@ -35,7 +42,7 @@ android {
                                      "$projectDir/schemas".toString()]
             }
         }
-        signingConfig signingConfigs.qicoilrelease
+        signingConfig signingConfigs.quantumrelease
         resourceConfigurations += ['en', 'es', 'fr', 'zh', 'ja', 'vi', 'de', 'zh-rTW', 'zh-rCN', 'hi', 'ar', 'pt', 'ko', 'it', 'bn']
     }
 
@@ -56,8 +63,8 @@ android {
         }
         quantum {
             applicationId "com.quantumfrequencies"
-            versionCode 2263
-            versionName "2.2.63"
+            versionCode 2264
+            versionName "2.2.64"
 
             buildConfigField "String", "PREF_TITLE", '"quantum_cache"'
             buildConfigField "String", "DB_NAME", '"quantum"'

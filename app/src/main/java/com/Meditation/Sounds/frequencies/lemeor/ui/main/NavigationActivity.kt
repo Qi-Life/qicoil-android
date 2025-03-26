@@ -1736,8 +1736,7 @@ class NavigationActivity : AppCompatActivity(), CategoriesPagerListener, OnTiers
 
             edtMessageChat?.addTextChangedListener(object : TextWatcher {
                 override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                    btnSendChat?.isEnabled = s.toString().trim { it <= ' ' }
-                        .isNotEmpty() && chatMessages.last().message != "Typing" && chatMessages.last().statusTyping == false
+                    btnSendChat?.isEnabled = s.toString().trim ().isNotEmpty() && chatMessages.lastOrNull()?.message != "Typing" && chatMessages.lastOrNull()?.statusTyping == false
                 }
 
                 override fun beforeTextChanged(
