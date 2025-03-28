@@ -1,16 +1,23 @@
 package com.Meditation.Sounds.frequencies.lemeor.ui.albums.detail
 
+import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
+import android.app.Dialog
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.asFlow
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.lifecycleScope
+import com.Meditation.Sounds.frequencies.QApplication
 import com.Meditation.Sounds.frequencies.R
 import com.Meditation.Sounds.frequencies.feature.base.BaseFragment
 import com.Meditation.Sounds.frequencies.lemeor.albumIdBackProgram
@@ -39,6 +46,7 @@ import com.Meditation.Sounds.frequencies.lemeor.playRife
 import com.Meditation.Sounds.frequencies.lemeor.playtimeRife
 import com.Meditation.Sounds.frequencies.lemeor.rifeBackProgram
 import com.Meditation.Sounds.frequencies.lemeor.selectedNaviFragment
+import com.Meditation.Sounds.frequencies.lemeor.showAlert
 import com.Meditation.Sounds.frequencies.lemeor.tierPosition
 import com.Meditation.Sounds.frequencies.lemeor.tierPositionSelected
 import com.Meditation.Sounds.frequencies.lemeor.tools.downloader.DownloaderActivity
@@ -72,8 +80,14 @@ import kotlinx.android.synthetic.main.fragment_new_album_detail.programName
 import kotlinx.android.synthetic.main.fragment_new_album_detail.program_time
 import kotlinx.android.synthetic.main.fragment_new_album_detail.tvDescription
 import kotlinx.android.synthetic.main.fragment_new_album_detail.view_space_silent_quantum
+import kotlinx.android.synthetic.main.player_ui_fragment.track_image
+import kotlinx.android.synthetic.main.player_ui_fragment.track_name
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.observeOn
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -111,13 +125,28 @@ class NewAlbumDetailFragment : BaseFragment() {
     private var isPlaying = false
 
     private val trackAdapter by lazy {
-        AlbumTrackAdapter(onClickItem = { _, pos, _ ->
-            isMultiPlay = false
-            mAlbum?.play()
-            Handler(Looper.getMainLooper()).postDelayed({
-                EventBus.getDefault().post(PlayerSelected(pos))
-                timeDelay = 200L
-            }, timeDelay)
+        AlbumTrackAdapter(onClickItem = { track, pos, _ ->
+            Log.d("download", "${track.isDownloaded}")
+//            isMultiPlay = false
+//            mAlbum?.play()
+//            Handler(Looper.getMainLooper()).postDelayed({
+//                EventBus.getDefault().post(PlayerSelected(pos))
+//                timeDelay = 200L
+//            }, timeDelay)
+
+            if (track.isDownloaded){
+                isMultiPlay = false
+                mAlbum?.play()
+                Handler(Looper.getMainLooper()).postDelayed({
+                    EventBus.getDefault().post(PlayerSelected(pos))
+                    timeDelay = 200L
+                }, timeDelay)
+
+            }else{
+                showAlert(requireContext(),
+                    getString(R.string.only_downloaded_frequencies_can_be_played))
+                downloadAlbum(album = mAlbum!!)
+            }
         }, onClickOptions = { t, _ ->
             startActivityForResult(
                 TrackOptionsPopUpActivity.newIntent(
@@ -183,15 +212,52 @@ class NewAlbumDetailFragment : BaseFragment() {
         }
     }
 
+    @OptIn(FlowPreview::class)
+    @SuppressLint("NotifyDataSetChanged")
     private fun reloadAlbumUI() {
         album_tracks_recycler.adapter = trackAdapter
-        mViewModel.album(albumId, categoryId)?.observe(viewLifecycleOwner) { a ->
-            if (a != null) {
+//        mViewModel.album(albumId, categoryId)?.observe(viewLifecycleOwner) { a ->
+//            if (a != null) {
+//                mAlbum = a
+//                programName.text = a.name
+//                a.initView()
+//            }
+//        }
+//
+//        mViewModel.getTrackByAlbumId(albumId, categoryId).debounce(300).asLiveData()
+//            .observe(viewLifecycleOwner) {
+//                Log.d("log", "notifyDataSetChanged")
+//                trackAdapter.notifyDataSetChanged()
+//                viewLifecycleOwner.lifecycleScope.launch {
+//                    val newsTracks = trackAdapter.currentList.map {
+//                        val itemTrack =
+//                            DataBase.getInstance(QApplication.getInstance().applicationContext)
+//                                .trackDao().getTrackById(it.id)
+//                        it.apply { isDownloaded = itemTrack?.isDownloaded == true }
+//                    }
+//
+//                    trackAdapter.submitList(newsTracks)
+//                }
+//            }
+        mViewModel.album(albumId, categoryId)?.asFlow()
+            ?.combine(mViewModel.getTrackByAlbumId(albumId, categoryId)) { a, t ->
+                Pair(a, t)
+            }?.debounce(100)?.asLiveData()?.observe(viewLifecycleOwner) { pair ->
+                val a = pair.first
                 mAlbum = a
                 programName.text = a.name
                 a.initView()
+                //update status
+                viewLifecycleOwner.lifecycleScope.launch {
+                    val newsTracks = pair.first.tracks.map {
+                        val itemTrack =
+                            DataBase.getInstance(QApplication.getInstance().applicationContext)
+                                .trackDao().getTrackById(it.id)
+                        it.apply { isDownloaded = itemTrack?.isDownloaded == true }
+                    }
+                    trackAdapter.submitList(newsTracks)
+                }
             }
-        }
     }
 
     private fun updateViewSilentQuantum() {
@@ -322,7 +388,13 @@ class NewAlbumDetailFragment : BaseFragment() {
                 trackAdapter.setSelectedItem(item)
             }
         }
-        trackAdapter.submitList(tracks)
+//        viewLifecycleOwner.lifecycleScope.launch {
+//             tracks.toMutableList().map {
+//                val dowloaded =  mViewModel.getTrack(it.id)?.isDownloaded
+//             }
+////            mViewModel.getTrack()
+//        }
+//        trackAdapter.submitList(tracks)
         tvDescription.text = benefits_text
         album_back.setOnClickListener { onBackPressed() }
 
@@ -431,6 +503,58 @@ class NewAlbumDetailFragment : BaseFragment() {
         }
     }
 
+
+    private fun downloadAlbum(album: Album){
+        if (Utils.isConnectedToNetwork(requireContext())) {
+            val tracks = ArrayList<Track>()
+            val trackDao = DataBase.getInstance(requireContext()).trackDao()
+            CoroutineScope(Dispatchers.IO).launch {
+                album.tracks.forEach { t ->
+                    val file = File(getSaveDir(requireContext(), t.filename, album.audio_folder))
+                    val preloaded =
+                        File(getPreloadedSaveDir(requireContext(), t.filename, album.audio_folder))
+
+                    if (!file.exists() && !preloaded.exists()) {
+                        trackDao.isTrackDownloaded(false, t.id)
+                        t.isDownloaded = false
+                        tracks.add(t)
+                    }
+                    t.album = Album(
+                        album.id,
+                        album.category_id,
+                        album.tier_id,
+                        album.name,
+                        album.image,
+                        album.audio_folder,
+                        album.is_free,
+                        album.order,
+                        album.order_by,
+                        album.updated_at,
+                        null,
+                        listOf(),
+                        null,
+                        isDownloaded = false,
+                        isUnlocked = false,
+                        album.unlock_url,
+                        album.benefits_text
+                    )
+
+                }
+
+                CoroutineScope(Dispatchers.Main).launch {
+                    activity?.let {
+                        DownloaderActivity.startDownload(it, tracks)
+                    }
+                }
+
+            }
+        } else {
+            Toast.makeText(
+                requireContext(), getString(R.string.err_network_available), Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
     private fun playAndDownload(album: Album) {
         SharedPreferenceHelper.getInstance().addRecentAlbum(album)
         playRife = null
@@ -449,7 +573,7 @@ class NewAlbumDetailFragment : BaseFragment() {
                         File(getPreloadedSaveDir(requireContext(), t.filename, album.audio_folder))
 
                     if (!file.exists() && !preloaded.exists()) {
-                        trackDao.isTrackDownloaded(true, t.id)
+                        trackDao.isTrackDownloaded(false, t.id)
                         t.isDownloaded = false
                         tracks.add(t)
                     }

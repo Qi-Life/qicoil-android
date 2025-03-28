@@ -75,6 +75,7 @@ import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
+import com.google.android.exoplayer2.util.Log
 import com.google.android.exoplayer2.util.Util
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -746,19 +747,34 @@ class PlayerService : Service() {
             }
         }
 
+
     private val audioFocusChangeListener = OnAudioFocusChangeListener { focusChange ->
+
         when (focusChange) {
             AUDIOFOCUS_GAIN -> {
-                if (!exoPlayer.playWhenReady && !isUserPaused) {
+                // Regain audio focus: Resume playback only if it was playing before losing focus
+                if (!isUserPaused) {
                     mediaSessionCallback.onPlay()
                 }
-                exoPlayer.volume = 1F
+                exoPlayer.volume = 1F // Restore full volume
             }
 
-            AUDIOFOCUS_LOSS,
-            AUDIOFOCUS_LOSS_TRANSIENT -> mediaSessionCallback.onPause()
+            AUDIOFOCUS_LOSS -> {
+                // Permanent loss of audio focus: Stop playback
+                isUserPaused = true // Mark as user paused to prevent auto-resume
+                mediaSessionCallback.onPause()
+            }
 
-            AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> exoPlayer.volume = 0.5F
+            AUDIOFOCUS_LOSS_TRANSIENT -> {
+                // Temporary loss of audio focus: Pause playback and save the state
+                mediaSessionCallback.onPause()
+            }
+
+            AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> {
+                // Temporary loss but can lower volume: Reduce volume instead of pausing
+                exoPlayer.volume = 0.5F
+            }
+
             else -> mediaSessionCallback.onPause()
         }
     }

@@ -5,6 +5,7 @@ import com.Meditation.Sounds.frequencies.lemeor.data.database.DataBase
 import com.Meditation.Sounds.frequencies.lemeor.data.model.*
 import com.Meditation.Sounds.frequencies.lemeor.data.remote.ApiHelper
 import com.Meditation.Sounds.frequencies.lemeor.ui.main.UpdateTrack
+import kotlinx.coroutines.flow.Flow
 import java.util.Date
 
 class ProgramRepository(private val localData: DataBase, private val apiHelper: ApiHelper) {
@@ -27,6 +28,10 @@ class ProgramRepository(private val localData: DataBase, private val apiHelper: 
 
     suspend fun getTrackById(id: Int): Track? {
         return localData.trackDao().getTrackById(id)
+    }
+
+     fun getTrackByAlbumId(albumId: Int, categoryId: Int): Flow<List<Track>> {
+        return localData.trackDao().getTrackByAlbumId(albumId, categoryId)
     }
 
     suspend fun getAlbumById(id: Int, category_id: Int): Album? {

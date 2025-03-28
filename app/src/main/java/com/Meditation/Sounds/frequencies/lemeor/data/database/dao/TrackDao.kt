@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Album
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Track
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TrackDao {
@@ -27,6 +28,9 @@ interface TrackDao {
 
     @Query("SELECT * FROM track WHERE id=:id")
     suspend fun getTrackById(id: Int) : Track?
+
+    @Query("SELECT * FROM track WHERE albumId=:albumId AND category_id=:categoryId")
+     fun getTrackByAlbumId(albumId: Int, categoryId: Int) : Flow<List<Track>>
 
     @Query("SELECT id FROM track WHERE name=:name")
     suspend fun getTrackIdByName(name: String) : Int

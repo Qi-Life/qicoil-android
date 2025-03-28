@@ -2,6 +2,7 @@ package com.Meditation.Sounds.frequencies.lemeor.ui.albums.detail
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +10,9 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.Meditation.Sounds.frequencies.QApplication
 import com.Meditation.Sounds.frequencies.R
+import com.Meditation.Sounds.frequencies.lemeor.data.database.DataBase
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Album
 import com.Meditation.Sounds.frequencies.lemeor.data.model.Track
 import com.Meditation.Sounds.frequencies.utils.PlayerUtils
@@ -19,6 +22,9 @@ import kotlinx.android.synthetic.main.item_album_track.view.item_track_duration
 import kotlinx.android.synthetic.main.item_album_track.view.item_track_name
 import kotlinx.android.synthetic.main.item_album_track.view.item_track_no
 import kotlinx.android.synthetic.main.item_album_track.view.item_track_options
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class AlbumTrackAdapter(
     private val onClickItem: (item: Track, pos: Int, isDownloaded: Boolean) -> Unit,
@@ -60,20 +66,47 @@ class AlbumTrackAdapter(
             }
 
             itemView.setOnClickListener {
-                PlayerUtils.checkSchedulePlaying(itemView.context) {
-                    setSelectedItem(item)
-                    onClickItem.invoke(item, position, album?.isDownloaded ?: false)
-                }
+                onClickItem.invoke(item, position, album?.isDownloaded ?: false)
+//                PlayerUtils.checkSchedulePlaying(itemView.context) {
+//                    setSelectedItem(item)
+//                }
             }
         }
     }
 
     private fun View.updateView(item: Track) {
-        item_track_name.setTextColor(
-            ContextCompat.getColor(
-                context, if (item.isSelected) R.color.colorPrimary else android.R.color.white
+//        Log.d("item_track_name", item.isDownloaded.toString())
+//        try {
+//            CoroutineScope(Dispatchers.Main).launch {
+//
+//
+//            }
+//        } catch (_: Exception) {
+//
+//        }
+
+        if (item.isDownloaded) {
+            val colors = ContextCompat.getColor(
+                context, android.R.color.white
             )
-        )
+            item_track_name.setTextColor(colors)
+            item_track_no.setTextColor(colors)
+        } else {
+            val colors = ContextCompat.getColor(
+                context, R.color.kprogresshud_grey_color
+            )
+            item_track_name.setTextColor(colors)
+            item_track_no.setTextColor(colors)
+        }
+
+        if (item.isSelected) {
+            item_track_name.setTextColor(
+                ContextCompat.getColor(
+                    context, if (item.isSelected) R.color.colorPrimary else android.R.color.white
+                )
+            )
+        }
+
         item_album_name.setTextColor(
             ContextCompat.getColor(
                 context, if (item.isSelected) R.color.colorPrimary else android.R.color.white

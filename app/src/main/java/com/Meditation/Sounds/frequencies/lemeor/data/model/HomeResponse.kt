@@ -104,6 +104,7 @@ data class Track(
     var updated_at: Long = 0L,
     var isSelected: Boolean = false,
     var isFavorite: Boolean = false,
+    @TypeConverters(BooleanConverter::class)
     var isDownloaded: Boolean = false,
     var albumId: Int = 0,
     var isUnlocked: Boolean = false,

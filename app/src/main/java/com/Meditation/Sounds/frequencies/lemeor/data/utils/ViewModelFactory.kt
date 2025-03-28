@@ -45,7 +45,7 @@ class ViewModelFactory(private val apiHelper: ApiHelper, private val localData: 
         }
 
         if (modelClass.isAssignableFrom(NewAlbumDetailViewModel::class.java)) {
-            return NewAlbumDetailViewModel(AlbumDetailRepository(localData)) as T
+            return NewAlbumDetailViewModel(AlbumDetailRepository(localData), ProgramRepository(localData,apiHelper)) as T
         }
 
         if (modelClass.isAssignableFrom(DownloaderViewModel::class.java)) {

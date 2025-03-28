@@ -269,6 +269,10 @@ class DownloadService : LifecycleService() {
                                 "$trackId", 100, getCompletedFileCount(), tracks.size
                             )
                         )
+                        //update track isDownloaded, and update track in album
+                        trackDao?.isTrackDownloaded(true, trackId)
+//                        DataBase.getInstance(applicationContext).albumDao().
+
                         downloadNext(false)
                     } else if (workInfo.state == WorkInfo.State.FAILED) {
                         workInfo.tags.firstOrNull { it.startsWith("track") }?.let { tag ->
