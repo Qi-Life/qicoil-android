@@ -58,6 +58,7 @@ import com.Meditation.Sounds.frequencies.lemeor.isMultiPlay
 import com.Meditation.Sounds.frequencies.lemeor.isNoReloadCurrentTrackIndex
 import com.Meditation.Sounds.frequencies.lemeor.isUserPaused
 import com.Meditation.Sounds.frequencies.lemeor.max
+import com.Meditation.Sounds.frequencies.lemeor.playAlbumId
 import com.Meditation.Sounds.frequencies.lemeor.playListScalar
 import com.Meditation.Sounds.frequencies.lemeor.playRife
 import com.Meditation.Sounds.frequencies.lemeor.playtimeRife
@@ -280,6 +281,8 @@ class PlayerService : Service() {
 
         exoPlayer.addListener(exoPlayerListener)
         exoPlayer.repeatMode = REPEAT_MODE_OFF
+
+        Log.d("CREATE_SERVICE","create service")
     }
 
     private fun sendData() {
@@ -746,7 +749,6 @@ class PlayerService : Service() {
 //                duration.postValue(track.duration)
             }
         }
-
 
     private val audioFocusChangeListener = OnAudioFocusChangeListener { focusChange ->
 

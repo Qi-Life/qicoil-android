@@ -12,12 +12,14 @@ import android.view.WindowManager
 import com.Meditation.Sounds.frequencies.R
 import kotlinx.android.synthetic.main.dialog_alert_message.btnCancel
 import kotlinx.android.synthetic.main.dialog_alert_message.btnOK
+import kotlinx.android.synthetic.main.dialog_alert_message.description
 import kotlinx.android.synthetic.main.dialog_alert_message.tvDescription
 
 class AlertMessageDialog(
     private val context: Context,
     private val message: String? = null,
     private val isHideBtnNo: Boolean? = false,
+    private val title: String? = null,
     private var onOkClick: (() -> Unit)? = null
 ) : Dialog(context) {
 
@@ -39,6 +41,9 @@ class AlertMessageDialog(
 
     fun init() {
         tvDescription.text = message
+        if (title != null){
+            description.text = title
+        }
         if (isHideBtnNo == true) {
             btnCancel.visibility = View.GONE
         }

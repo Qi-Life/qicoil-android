@@ -464,4 +464,5 @@
     <string name="lang_it" translatable="false">Italiano - Italian</string>
     <string name="lang_bn" translatable="false">বাংলা - Bengali</string>
     <string name="only_downloaded_frequencies_can_be_played">Only downloaded frequencies can be played.</string>
+    <string name="notice">Notice</string>
 </resources>

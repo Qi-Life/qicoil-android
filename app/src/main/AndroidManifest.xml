@@ -102,6 +102,7 @@
         <activity
             android:name=".lemeor.ui.main.NavigationActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="landscape"
             android:exported="false" />
         <activity
             android:name=".lemeor.InstructionsActivity"
