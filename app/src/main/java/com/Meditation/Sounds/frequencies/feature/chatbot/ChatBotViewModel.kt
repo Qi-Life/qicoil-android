@@ -1,13 +1,16 @@
 package com.Meditation.Sounds.frequencies.feature.chatbot
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.Meditation.Sounds.frequencies.QApplication
 import com.Meditation.Sounds.frequencies.R
 import com.Meditation.Sounds.frequencies.feature.chatbot.ChatApi.Companion
+import com.Meditation.Sounds.frequencies.lemeor.data.api.ApiConfig.TIME_OUT
 import com.Meditation.Sounds.frequencies.utils.Constants
 import com.Meditation.Sounds.frequencies.utils.SharedPreferenceHelper
+import com.chuckerteam.chucker.api.ChuckerInterceptor
 import java.io.IOException
 import okhttp3.Call
 import okhttp3.Callback
@@ -18,9 +21,14 @@ import okhttp3.RequestBody
 import okhttp3.Response
 import org.json.JSONException
 import org.json.JSONObject
+import java.util.concurrent.TimeUnit
 
-class ChatBotViewModel() : ViewModel() {
-    private var client: OkHttpClient = OkHttpClient()
+class ChatBotViewModel : ViewModel() {
+    private var client: OkHttpClient = OkHttpClient.Builder()
+        .connectTimeout(TIME_OUT, TimeUnit.SECONDS)
+        .readTimeout(TIME_OUT, TimeUnit.SECONDS)
+        .writeTimeout(TIME_OUT, TimeUnit.SECONDS)
+        .build()
     private var _typingMessage = MutableLiveData<MessageChatBot>()
     val typingMessage: LiveData<MessageChatBot> get() = _typingMessage
 
@@ -28,9 +36,14 @@ class ChatBotViewModel() : ViewModel() {
     val bodyMessage: LiveData<String> get() = _bodyMessage
 
     fun createThreadChatBot() {
-        if (SharedPreferenceHelper.getInstance().get(Constants.PREF_CHATBOT_THREAD_ID).isNullOrEmpty()) {
-            val requestBody: RequestBody = RequestBody.create("application/json; charset=utf-8".toMediaType(), "")
-            val request: Request = Request.Builder().url(ChatApi.chatUrl).header("Authorization", "Bearer " + Companion.chatApiKey).header("OpenAI-Beta", "assistants=v2").post(requestBody).build()
+        if (SharedPreferenceHelper.getInstance().get(Constants.PREF_CHATBOT_THREAD_ID)
+                .isNullOrEmpty()
+        ) {
+            val requestBody: RequestBody =
+                RequestBody.create("application/json; charset=utf-8".toMediaType(), "")
+            val request: Request = Request.Builder().url(ChatApi.chatUrl)
+                .header("Authorization", "Bearer " + Companion.chatApiKey)
+                .header("OpenAI-Beta", "assistants=v2").post(requestBody).build()
 
             client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
@@ -44,7 +57,8 @@ class ChatBotViewModel() : ViewModel() {
                             if (response.body != null) {
                                 val jsonObject = JSONObject(response.body!!.string())
                                 val threadId = jsonObject.getString("id")
-                                SharedPreferenceHelper.getInstance().set(Constants.PREF_CHATBOT_THREAD_ID, threadId)
+                                SharedPreferenceHelper.getInstance()
+                                    .set(Constants.PREF_CHATBOT_THREAD_ID, threadId)
                                 if (SharedPreferenceHelper.getInstance().chatMessages.isEmpty()) {
                                     getFirstMessageSayHi(threadId)
                                 }
@@ -57,12 +71,14 @@ class ChatBotViewModel() : ViewModel() {
             })
         } else {
             if (SharedPreferenceHelper.getInstance().chatMessages.isEmpty()) {
-                _bodyMessage.postValue(QApplication.getInstance().getString(R.string.msg_say_hi_chat))
+                _bodyMessage.postValue(
+                    QApplication.getInstance().getString(R.string.msg_say_hi_chat)
+                )
             }
         }
     }
 
-   private fun getFirstMessageSayHi(threadId: String) {
+    private fun getFirstMessageSayHi(threadId: String) {
         val jsonBody = JSONObject()
         try {
             jsonBody.put("thread_id", threadId)
@@ -70,12 +86,17 @@ class ChatBotViewModel() : ViewModel() {
         } catch (e: JSONException) {
             throw RuntimeException(e)
         }
-        val requestBody: RequestBody = RequestBody.create("application/json; charset=utf-8".toMediaType(), jsonBody.toString())
-        val request: Request = Request.Builder().url(Companion.quantumChatUrl).post(requestBody).build()
+        val requestBody: RequestBody =
+            RequestBody.create("application/json; charset=utf-8".toMediaType(), jsonBody.toString())
+        val request: Request =
+            Request.Builder().url(Companion.quantumChatUrl).post(requestBody).build()
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                    _bodyMessage.postValue(QApplication.getInstance().getString(R.string.msg_say_hi_chat))
+                _bodyMessage.postValue(
+                    QApplication.getInstance().getString(R.string.msg_say_hi_chat)
+                )
             }
+
             @Throws(IOException::class)
             override fun onResponse(call: Call, response: Response) {
                 if (response.isSuccessful) {
@@ -85,11 +106,15 @@ class ChatBotViewModel() : ViewModel() {
                             _bodyMessage.postValue(jsonObject?.getString("message"))
                         }
                     } catch (e: JSONException) {
-                        _bodyMessage.postValue(QApplication.getInstance().getString(R.string.msg_say_hi_chat))
+                        _bodyMessage.postValue(
+                            QApplication.getInstance().getString(R.string.msg_say_hi_chat)
+                        )
                         throw RuntimeException(e)
                     }
                 } else {
-                    _bodyMessage.postValue(QApplication.getInstance().getString(R.string.msg_say_hi_chat))
+                    _bodyMessage.postValue(
+                        QApplication.getInstance().getString(R.string.msg_say_hi_chat)
+                    )
                 }
             }
         })
@@ -105,12 +130,18 @@ class ChatBotViewModel() : ViewModel() {
         } catch (e: JSONException) {
             throw RuntimeException(e)
         }
-        val requestBody: RequestBody = RequestBody.create("application/json; charset=utf-8".toMediaType(), jsonBody.toString())
-        val request: Request = Request.Builder().url(Companion.quantumChatUrl).post(requestBody).build()
+        val requestBody: RequestBody =
+            RequestBody.create("application/json; charset=utf-8".toMediaType(), jsonBody.toString())
+        val request: Request =
+            Request.Builder().url(Companion.quantumChatUrl).post(requestBody).build()
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                _bodyMessage.postValue(QApplication.getInstance().getString(R.string.msg_error_network_chat))
+                _bodyMessage.postValue(
+                    QApplication.getInstance().getString(R.string.msg_error_network_chat)
+                )
+                e.printStackTrace()
+                Log.d("CHATLOG", e.toString())
             }
 
             @Throws(IOException::class)

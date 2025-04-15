@@ -426,7 +426,7 @@
     <string name="save_schedule">Save schedule</string>
     <string name="schedule_on_off">Schedule ON/off</string>
     <string name="the_schedule_frequency_is_coming_up">The scheduled frequency is coming up. Would you like to switch to it?</string>
-    <string name="chat_bot_on_off">Chatbot ON/OFF</string>
+    <string name="chat_bot_on_off">Chatvolt ON/OFF</string>
     <string name="frequency">Frequency</string>
     <string name="add_silent_quantum">Add Silent Quantum</string>
     <string name="tv_from_silent_quantum">From Silent Quantum</string>

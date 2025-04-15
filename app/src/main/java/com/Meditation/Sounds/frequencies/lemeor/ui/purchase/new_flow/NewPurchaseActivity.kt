@@ -18,6 +18,7 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import com.Meditation.Sounds.frequencies.BuildConfig
 import com.Meditation.Sounds.frequencies.R
 import com.Meditation.Sounds.frequencies.lemeor.InappPurchase
@@ -169,8 +170,6 @@ class NewPurchaseActivity : AppCompatActivity() {
                     it.id == Id
                 }
                 purchase_container.currentItem = index
-
-
             }
         }
         purchase_container.clipToPadding = false
@@ -178,21 +177,33 @@ class NewPurchaseActivity : AppCompatActivity() {
         orientationChangesUI(resources.configuration.orientation)
 
         purchase_continue.setOnClickListener {
+
+
             if (BuildConfig.IS_FREE) {
                 val bottomSheetWebView = BottomSheetWebView(this@NewPurchaseActivity)
-                // 1 quantum, 2 rife, higher 3, inner 4, special 8
+                // 1 quantum, 2 rife, higher 3, inner 4, special 8,  advanded quantum 10
+
                 when (tierId) {
-                    4 -> {
-                        bottomSheetWebView.showWithUrl("https://qilifestore.com/collections/inner-circle-members-area")
+                    10, 3, 4 -> {
+                        startActivity(
+                            PurchaseScalarWebView.newIntent(
+                                this,
+                                "https://www.qicoil.com/pricing/?q=ascension"
+                            )
+                        )
                     }
+
+//                    4 -> {
+//                        bottomSheetWebView.showWithUrl("https://qilifestore.com/collections/inner-circle-members-area")
+//                    }
 
                     1 -> {
                         bottomSheetWebView.showWithUrl("https://qilifestore.com/products/ultimate-quantum-frequency-bundle")
                     }
 
-                    3 -> {
-                        bottomSheetWebView.showWithUrl("https://qilifestore.com/products/ultimate-higher-quantum-frequencies-collection")
-                    }
+//                    3 -> {
+//                        bottomSheetWebView.showWithUrl("https://qilifestore.com/products/ultimate-higher-quantum-frequencies-collection")
+//                    }
 
                     8 -> {
                         when (categoryId) {
@@ -254,7 +265,8 @@ class NewPurchaseActivity : AppCompatActivity() {
                 val clickPrivacy = object : ClickableSpan() {
                     override fun onClick(widget: View) {
                         try {
-                            val url = "http://www.tattoobookapp.com/quantumwavebiotechnology/privacy"
+                            val url =
+                                "http://www.tattoobookapp.com/quantumwavebiotechnology/privacy"
                             val i = Intent(Intent.ACTION_VIEW)
                             i.data = Uri.parse(url)
                             startActivity(i)

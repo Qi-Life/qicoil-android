@@ -12,6 +12,8 @@ object ApiConfig {
 //    private const val quantum_api = "rc.qicoil.com"
 //    private const val quantum_storage = "rc-store.qicoil.com"
 
+    private var testFlavor = quantum_api
+
     private const val api = "api/"
     private const val public = "/public/"
     private const val storage = "/storage/app/public/uploads"

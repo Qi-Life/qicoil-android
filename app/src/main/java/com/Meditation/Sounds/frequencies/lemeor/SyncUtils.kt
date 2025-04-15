@@ -134,8 +134,7 @@ suspend fun syncAlbums(db: DataBase, response: HomeResponse?) {
                 }
             }
 
-            if (!isFind) {
-                db.albumDao().insert(Album(r.id, r.category_id, r.tier_id, r.name, r.image, r.audio_folder,
+            if (!isFind) { db.albumDao().insert(Album(r.id, r.category_id, r.tier_id, r.name, r.image, r.audio_folder,
                         r.is_free, r.order, r.order_by, r.updated_at, r.descriptions, r.tracks, r.tag, true, checkUnlocked(r.is_free),r.unlock_url,r.benefits_text))
             }
         }

@@ -41,12 +41,18 @@ class NewProgramViewModel(private val repository: ProgramRepository) : ViewModel
     }
 
     suspend fun createProgram(name: String) = repository.createProgram(name)
+
     suspend fun deleteProgram(idProgram: String) = repository.deleteProgram(idProgram)
 
     suspend fun updateTrackToProgram(track: UpdateTrack) = repository.updateTrackToProgram(track)
 
     suspend fun udpate(program: Program) {
         repository.update(program)
+    }
+
+    ///update updateProgram
+    suspend fun updateProgram(program: Program) {
+        repository.updateProgram(program)
     }
 
     fun getPrograms(): LiveData<List<Program>> {

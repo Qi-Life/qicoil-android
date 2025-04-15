@@ -11,10 +11,10 @@ import com.Meditation.Sounds.frequencies.lemeor.data.model.Program
 import com.Meditation.Sounds.frequencies.lemeor.getConvertedTime
 import kotlinx.android.synthetic.main.item_program.view.item_program_delete
 import kotlinx.android.synthetic.main.item_program.view.item_program_duration
+import kotlinx.android.synthetic.main.item_program.view.item_program_edit
 import kotlinx.android.synthetic.main.item_program.view.item_program_lock
 import kotlinx.android.synthetic.main.item_program.view.item_program_name
 import kotlinx.android.synthetic.main.item_program.view.program_divider_favorites
-import kotlinx.android.synthetic.main.item_program.view.program_space_view_lock
 
 class ProgramAdapter(
     private var mData: List<Program> = listOf()
@@ -23,6 +23,7 @@ class ProgramAdapter(
     interface Listener {
         fun onClickItem(program: Program, i: Int)
         fun onDeleteItem(program: Program, i: Int)
+        fun onEditItem(program: Program, i: Int)
     }
 
     private var mListener: Listener? = null
@@ -52,22 +53,23 @@ class ProgramAdapter(
             R.string.total_time,
             getConvertedTime((countProgram * 300000 + countTrack * 180000).toLong())
         )
-        holder.itemView.program_space_view_lock.visibility = View.VISIBLE
+//        holder.itemView.program_space_view_lock.visibility = View.VISIBLE
         if (program.name.uppercase() == FAVORITES.uppercase() && program.favorited) {
             holder.itemView.item_program_delete.visibility = View.INVISIBLE
-            holder.itemView.item_program_lock.visibility = View.INVISIBLE
+            holder.itemView.item_program_lock.visibility = View.GONE
+            holder.itemView.item_program_edit.visibility = View.GONE
             if (!program.isUnlocked) {
-                holder.itemView.item_program_lock.visibility = View.VISIBLE
-                holder.itemView.item_program_delete.visibility = View.GONE
-                holder.itemView.program_space_view_lock.visibility = View.GONE
+                holder.itemView.item_program_lock.visibility = View.GONE
+                holder.itemView.item_program_delete.visibility = View.INVISIBLE
+//                holder.itemView.program_space_view_lock.visibility = View.GONE
             }
         } else if (program.isUnlocked) {
-            holder.itemView.item_program_lock.visibility = View.INVISIBLE
+            holder.itemView.item_program_lock.visibility = View.GONE
             holder.itemView.item_program_delete.visibility = View.VISIBLE
         } else {
             // the delete option is always visible even when it's locked
             holder.itemView.item_program_delete.visibility = View.VISIBLE
-            holder.itemView.item_program_lock.visibility = View.VISIBLE
+            holder.itemView.item_program_lock.visibility = View.GONE
         }
 //        if (program.isMy) {
 //            if (program.name == FAVORITES) {
@@ -85,6 +87,13 @@ class ProgramAdapter(
 //                holder.itemView.item_program_lock.visibility = View.VISIBLE
 //            }
 //        }
+
+        holder.itemView.item_program_edit.setOnClickListener {
+            mListener?.onEditItem(
+                program,
+                position
+            )
+        }
 
         holder.itemView.item_program_delete.setOnClickListener {
             mListener?.onDeleteItem(

@@ -36,7 +36,9 @@ import com.Meditation.Sounds.frequencies.lemeor.ui.albums.detail.NewAlbumDetailF
 import com.Meditation.Sounds.frequencies.lemeor.ui.main.HomeViewModel
 import com.Meditation.Sounds.frequencies.lemeor.ui.main.UpdateTrack
 import com.Meditation.Sounds.frequencies.lemeor.ui.programs.detail.ProgramDetailFragment
+import com.Meditation.Sounds.frequencies.lemeor.ui.programs.dialog.EditProgramsDialogFragment
 import com.Meditation.Sounds.frequencies.lemeor.ui.purchase.new_flow.NewPurchaseActivity
+import com.Meditation.Sounds.frequencies.models.Playlist
 import com.Meditation.Sounds.frequencies.models.ProgramSchedule
 import com.Meditation.Sounds.frequencies.models.event.ScheduleProgramProgressEvent
 import com.Meditation.Sounds.frequencies.models.event.ScheduleProgramStatusEvent
@@ -46,6 +48,7 @@ import com.Meditation.Sounds.frequencies.utils.QcAlarmManager
 import com.Meditation.Sounds.frequencies.utils.SharedPreferenceHelper
 import com.Meditation.Sounds.frequencies.utils.isNotString
 import com.Meditation.Sounds.frequencies.utils.loadImageWithGif
+import com.Meditation.Sounds.frequencies.views.AddEditPlaylistDialog
 import com.Meditation.Sounds.frequencies.views.AlertMessageDialog
 import com.jaygoo.widget.OnRangeChangedListener
 import com.jaygoo.widget.RangeSeekBar
@@ -69,6 +72,7 @@ import kotlinx.android.synthetic.main.fragment_program_page.ivImage
 import kotlinx.android.synthetic.main.fragment_program_page.loadingFrame
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.greenrobot.eventbus.EventBus
@@ -84,6 +88,8 @@ class NewProgramFragment : BaseFragment() {
     private var stopTimeAm = 0f
     private var startTimePm = 0f
     private var stopTimePm = 0f
+
+    private val supervisorScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
     @Suppress("DEPRECATION")
     private var handlerProgress = Handler()
@@ -286,6 +292,25 @@ class NewProgramFragment : BaseFragment() {
                     ).show()
                 }
                 alertDialog.show()
+            }
+
+            override fun onEditItem(program: Program, i: Int) {
+                EditProgramsDialogFragment(oldProgram = program) { newName ->
+                    if (program.name != newName) {
+                        supervisorScope.launch {
+                            mViewModel.updateProgram(
+                                program.copy(
+                                    name = newName, updated_at = Date().time
+                                )
+                            )
+                        }
+                        Toast.makeText(
+                            requireContext(),
+                            requireContext().getString(R.string.txt_edit_playlist_name_success),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }.show(childFragmentManager, null)
             }
         })
 
